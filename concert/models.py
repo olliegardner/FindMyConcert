@@ -13,9 +13,20 @@ class UserProfile(models.Model):
 
 	# attributes for user
 	venue = models.BooleanField(default=False)
-	picture = models.ImageField(upload_to='profile_images', blank=True) 
+	picture = models.ImageField(upload_to='profileImages', blank=True) 
 
 	def __str__(self):
 		return self.user.username
 
 
+class Venue(models.Model):
+	name = models.CharField(max_length=128) 
+	location = models.CharField(max_length=128) 
+	url = models.URLField()
+	description = models.CharField(max_length=560) 
+	phone_number = models.CharField(max_length=560) 
+	photo = models.ImageField(upload_to='venueImages', blank=True, null=True)
+
+	views = models.IntegerField(default=0)
+	def __str__(self): 
+		return self.name
