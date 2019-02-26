@@ -1,12 +1,19 @@
 {% extends 'concert/base.html' %}
 {% load staticfiles %}
 
+{% block title_block %}
+	{{ block.super }}
+{% endblock %}
+
 {% block header_block %}
 
 {% endblock %}
 
 {% block body_block %}
-	<div>
-		<h1>Register Here</h1>
-	</div>
+	<h1>Register</h1>
+
+	{% if registered %}
+		<h4>You are registered!</h4>
+	{% else %}
+	{% endif %}
 {% endblock %}
