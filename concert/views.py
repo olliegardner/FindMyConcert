@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from concert.forms import UserForm, UserProfileForm
+from registration.backends.simple.views import RegistrationView
 
 def index(request):
 	return render(request, 'concert/index.html')
@@ -47,6 +48,6 @@ def contact(request):
 
 
 def my_events(request):
-	return render(request, 'concert/my_events.html')
+	return render(request, 'concert/my-events.html')
 
 

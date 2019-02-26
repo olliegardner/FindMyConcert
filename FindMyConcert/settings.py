@@ -138,10 +138,11 @@ STATIC_URL = '/static/'
 
 
 # Django reigstration redux options
+# https://django-registration-redux.readthedocs.io/en/latest/quickstart.html
 
 REGISTRATION_OPEN = True
 ACCOUNT_ACTIVATION_DAYS = 3
 REGISTRATION_AUTO_LOGIN = True
 LOGIN_REDIRECT_URL = '/concert/'
-LOGIN_URL = '/concert/'
+LOGIN_URL = '/accounts/login/'
 

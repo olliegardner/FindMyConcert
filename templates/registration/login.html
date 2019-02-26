@@ -1,0 +1,24 @@
+{% extends 'concert/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+	{{ block.super }}
+{% endblock %}
+
+{% block header_block %}
+
+{% endblock %}
+
+{% block body_block %}
+	<h1>Login</h1>
+
+	<form method="post" action=".">
+		{% csrf_token %}
+		{{ form.as_p }}
+
+		<input type="submit" value="Log in">
+		<input type="hidden" name="next" value="{{ next }}">
+	</form>
+
+	<p>Don't have an account?<a href="{% registration_register %}">Register</a></p>
+{% endblock %}
