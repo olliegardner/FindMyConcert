@@ -1,25 +1,15 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+
+from django.http import HttpResponse 
 
 def index(request):
 	return render(request, 'concert/index.html')
 
 
-def register(request):
-	'''registered = False
+def contacts(request):
+	return render(request, 'concert/contacts.html')
 
-	if request.method == 'POST':
-		user_form = UserForm(data=request.POST)
-		profile_form = UserProfileForm(data=request.POST)
-
-		if user_form.is_valid() and profile_form.is_valid():
-			user = user_form.save()
-			user.set_password(user.password)
-			user.save()
-
-			profile = profile_form.save(commit=False)
-			profile.user = user
-
+<<<<<<< HEAD
 			if 'picture' in request.FILES:
 				profile.picture = request.FILES['picture']
 
@@ -51,3 +41,7 @@ def contact(request):
 def my_events(request):
 	return render(request, 'concert/my_events.html')
 
+=======
+def register(request):
+	return render(request, 'concert/register.html')
+>>>>>>> f2fc27dbac3433501ebc7f5d2f78de5f9128a123
