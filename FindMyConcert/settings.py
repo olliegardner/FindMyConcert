@@ -14,6 +14,11 @@ import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
+STATIC_DIR = os.path.join(BASE_DIR, 'static')
+
+MEDIA_DIR = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = MEDIA_DIR
 
 
 # Quick-start development settings - unsuitable for production
@@ -38,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'concert',
+    'registration',
 ]
 
 MIDDLEWARE = [
@@ -53,9 +59,6 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'FindMyConcert.urls'
 
 
-
-
-TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
 
 TEMPLATES = [
     {
@@ -132,3 +135,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+# Django reigstration redux options
+
+REGISTRATION_OPEN = True
+ACCOUNT_ACTIVATION_DAYS = 3
+REGISTRATION_AUTO_LOGIN = True
+LOGIN_REDIRECT_URL = '/concert/'
+LOGIN_URL = '/concert/'
+

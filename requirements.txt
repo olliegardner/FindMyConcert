@@ -1,1 +1,2 @@
 bcrypt
+django-registration-redux==1.4
