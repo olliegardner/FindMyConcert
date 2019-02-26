@@ -1,12 +1,22 @@
 <!DOCTYPE html>
 {% load staticfiles %}
 
+
+
+
 <html> 
 	<head lang="en">
-		<title> {% block title_block %}FindMyConcert  {% endblock %}
-		</title>
+		<title>{% block title %}FindMyConcert {% endblock %}</title>
+		<h1>FindMyConcert</h1>
+
+		<a href="{% url 'index'%}">Home</a>
+		<a href="https://www.w3schools.com/html/">My Event</a>
+		<a href="https://www.w3schools.com/html/">About</a>
+		<a href="https://www.w3schools.com/html/">Contact</a>
+		<a href="https://www.w3schools.com/html/">FAQ</a>
 	</head> 
-	
+	<hr>
+
 	<body> 
 		{% block body_block %} {% endblock %}
 	</body> 
