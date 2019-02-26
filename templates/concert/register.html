@@ -13,7 +13,15 @@
 	<h1>Register</h1>
 
 	{% if registered %}
-		<h4>You are registered!</h4>
+		<strong>You are already registered!</strong>
 	{% else %}
+		<form id="user_form" method="post" action="{% url 'register' %}" enctype="multipart/form-data">
+			{% csrf_token %}
+
+			{{ user_form.as_p }}
+			{{ profile_form.as_p }}
+
+			<input type="submit" name="submit" value="Register">
+		</form>
 	{% endif %}
 {% endblock %}
