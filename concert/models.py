@@ -1,3 +1,11 @@
 from django.db import models
 
-# Create your models here.
+class UserProfile(models.Model):
+	user = models.OneToOneField(User)
+
+	# attributes for user
+	email = models.EmailField(max_length=70, unique=True)
+	picture = models.ImageField(upload_to='profile_images', blank=True) 
+
+	def __str__(self):
+		return self.user.username
