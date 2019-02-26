@@ -34,3 +34,20 @@ def register(request):
 	return render(request, 'concert/register.html', {'user_form': user_form, 'profile_form': profile_form, 'registered': registered})'''
 
 	return render(request, 'concert/register.html')
+
+
+def about(request):
+	return render(request, 'concert/about.html')
+
+
+def faq(request):
+	return render(request, 'concert/faq.html')
+
+
+def contact(request):
+	return render(request, 'concert/contact.html')
+
+
+def my_events(request):
+	return render(request, 'concert/my_events.html')
+
