@@ -1,17 +1,10 @@
 from django.shortcuts import render
-<<<<<<< HEAD
 from django.http import HttpResponse
 from concert.forms import UserForm, UserProfileForm
-=======
-
-from django.http import HttpResponse 
->>>>>>> f2fc27dbac3433501ebc7f5d2f78de5f9128a123
 
 def index(request):
 	return render(request, 'concert/index.html')
 
-
-<<<<<<< HEAD
 def register(request):
 	registered = False
 
@@ -40,27 +33,6 @@ def register(request):
 
 	return render(request, 'concert/register.html', {'user_form': user_form, 'profile_form': profile_form, 'registered': registered})
 
-	#return render(request, 'concert/register.html')
-=======
-def contacts(request):
-	return render(request, 'concert/contacts.html')
-
-<<<<<<< HEAD
-			if 'picture' in request.FILES:
-				profile.picture = request.FILES['picture']
-
-			profile.save()
-			registered = True
-		else:
-			print(user_form.errors, profile_form.errors)
-	else:
-		user_form = UserForm()
-		profile_form = UserProfileForm()
-
-	return render(request, 'concert/register.html', {'user_form': user_form, 'profile_form': profile_form, 'registered': registered})'''
-
-	return render(request, 'concert/register.html')
-
 
 def about(request):
 	return render(request, 'concert/about.html')
@@ -77,7 +49,4 @@ def contact(request):
 def my_events(request):
 	return render(request, 'concert/my_events.html')
 
-=======
-def register(request):
-	return render(request, 'concert/register.html')
->>>>>>> f2fc27dbac3433501ebc7f5d2f78de5f9128a123
+
