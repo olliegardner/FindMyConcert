@@ -46,8 +46,7 @@ def faq(request):
 def contact(request):
 	return render(request, 'concert/contact.html')
 
-
-def my_events(request):
+def myEvents(request):
 	return render(request, 'concert/myEvents.html')
 
 
