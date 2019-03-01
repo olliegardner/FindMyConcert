@@ -11,7 +11,7 @@ urlpatterns = [
     url(r'^faq/$', views.faq, name='faq'),
     url(r'^about/$', views.about, name='about'),
     url(r'^contact/$', views.contact, name='contact'),
-    url(r'^myEvents/$', views.my_events, name='myEvents'),
+    url(r'^myEvents/$', views.myEvents, name='myEvents'),
     url(r'^contact/$', views.register, name='contact'),
 
     url(r'^accounts/register/$', MyRegistrationView.as_view(), name='registration_register'),

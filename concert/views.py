@@ -47,7 +47,7 @@ def contact(request):
 	return render(request, 'concert/contact.html')
 
 
-def my_events(request):
-	return render(request, 'concert/my-events.html')
+def myEvents(request):
+	return render(request, 'concert/myEvents.html')
 
 
