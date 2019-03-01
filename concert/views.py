@@ -1,13 +1,12 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from concert.forms import UserForm, UserProfileForm
-from registration.backends.simple.views import RegistrationView
+from concert.forms import RegistrationForm
 
 def index(request):
 	return render(request, 'concert/index.html')
 
 def register(request):
-	registered = False
+	'''registered = False
 
 	if request.method == 'POST':
 		user_form = UserForm(data=request.POST)
@@ -32,7 +31,19 @@ def register(request):
 		user_form = UserForm()
 		profile_form = UserProfileForm()
 
-	return render(request, 'concert/register.html', {'user_form': user_form, 'profile_form': profile_form, 'registered': registered})
+	return render(request, 'concert/register.html', {'user_form': user_form, 'profile_form': profile_form, 'registered': registered})'''
+
+	if request.method == 'POST':
+		form = RegistrationForm(request.POST)
+
+		if form.is_valid():
+			form.save()
+			return redirect('concert/account')
+		else:
+			form = RegistrationForm()
+
+			args = {'form': form}
+			return render(request, 'concert/accounts/registration_form.html', args)
 
 
 def about(request):

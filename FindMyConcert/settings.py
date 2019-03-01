@@ -145,5 +145,4 @@ ACCOUNT_ACTIVATION_DAYS = 3
 REGISTRATION_AUTO_LOGIN = True
 LOGIN_REDIRECT_URL = '/concert/'
 LOGIN_URL = '/accounts/login/'
-#REGISTRATION_FORM = 'concert.forms.UserProfileForm'
-
+REGISTRATION_FORM = 'concert.forms.RegistrationForm'

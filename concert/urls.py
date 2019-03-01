@@ -1,7 +1,8 @@
 from django.conf.urls import url, include
-from concert import views
+from concert import views, forms
 from registration.backends.simple.views import RegistrationView
 
+# redirects the user to the index page, if successful at logging
 class MyRegistrationView(RegistrationView):
     def get_success_url(self, user):
         return '/concert/'
@@ -15,5 +16,5 @@ urlpatterns = [
     url(r'^contact/$', views.register, name='contact'),
 
     url(r'^accounts/register/$', MyRegistrationView.as_view(), name='registration_register'),
-    url(r'^accounts/', include('registration.backends.simple.urls')),
+    url(r'^accounts/', include('registration.backends.default.urls')),
 ]

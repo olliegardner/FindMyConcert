@@ -1,20 +1,12 @@
 from django import forms
-from django.contrib.auth.models import User
 from concert.models import UserProfile
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
 
-class UserForm(forms.ModelForm):
-	password = forms.CharField(widget=forms.PasswordInput())
+class RegistrationForm(UserCreationForm):
+	venue = forms.BooleanField(required=False)
+	picture = forms.ImageField(required=False) 
 
 	class Meta:
 		model = User
-		fields = ('username', 'email', 'password')
-	
-class UserProfileForm(forms.ModelForm):
-	class Meta:
-		model = UserProfile
-		fields = ('venue', 'picture')
-
-'''
-class CustomForm(RegistrationFormTermsOfService, RegistrationFormUniqueEmail):
-  pass
-'''  
+		fields = ('username', 'email', 'password1', 'password2', 'venue', 'picture')

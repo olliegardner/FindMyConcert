@@ -6,9 +6,10 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.utils import timezone
 
 class UserProfile(models.Model):
+	# links UserProfile to a User model instance
 	user = models.OneToOneField(User)
 
-	# attributes for user
+	# additional attributes for user
 	venue = models.BooleanField(default=False)
 	picture = models.ImageField(upload_to='profileImages', blank=True) 
 
