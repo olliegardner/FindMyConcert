@@ -1,24 +1,30 @@
 <!DOCTYPE html>
 {% load staticfiles %}
 
-
-
-
 <html> 
 	<head lang="en">
-		<title>{% block title %}FindMyConcert {% endblock %}</title>
-		<h1>FindMyConcert</h1>
-
-		<a href="{% url 'index'%}">Home</a>
-		<a href="{% url 'myEvents'%}">My Events</a>
-		<a href="{% url 'about'%}">About</a>
-		<a href="{% url 'contact'%}">Contact</a>
-		<a href="{% url 'faq'%}">FAQ</a>
+		<title>{% block title %}FindMyConcert{% endblock %}</title>
 	</head> 
-	<hr>
 
-	<body> 
-		{% block body_block %} {% endblock %}
+	<body>
+		<div>
+			<h1>FindMyConcert</h1>
+
+			<a href="{% url 'index'%}">Home</a>
+			<a href="{% url 'myEvents'%}">My Events</a>
+			<a href="{% url 'about'%}">About</a>
+			<a href="{% url 'contact'%}">Contact</a>
+			<a href="{% url 'faq'%}">FAQ</a>
+
+			<hr>
+		</div>
+
+		<div>
+			{% block body_block %}
+
+			{% endblock %}
+		</div>
+
 	</body> 
 
 </html>

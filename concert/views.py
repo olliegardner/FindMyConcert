@@ -48,6 +48,6 @@ def contact(request):
 
 
 def my_events(request):
-	return render(request, 'concert/my-events.html')
+	return render(request, 'concert/myEvents.html')
 
 

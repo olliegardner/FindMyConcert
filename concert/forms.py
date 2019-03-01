@@ -13,3 +13,8 @@ class UserProfileForm(forms.ModelForm):
 	class Meta:
 		model = UserProfile
 		fields = ('venue', 'picture')
+
+'''
+class CustomForm(RegistrationFormTermsOfService, RegistrationFormUniqueEmail):
+  pass
+'''  
