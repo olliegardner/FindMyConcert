@@ -5,19 +5,43 @@
 	<head lang="en">
 		<title>{% block title %}FindMyConcert{% endblock %}</title>
 		<link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+
+		<style>
+
+			ul {
+ 				list-style-type: none;
+  				margin: 0;
+  				padding: 0;
+  				overflow: hidden;
+  				background-color: #99ccff;
+			}
+
+			li {
+  				float: left;
+			}
+
+			li a {
+  				display: inline-block;
+ 			 	color: black;
+  				text-align: center;
+  				padding: 14px 16px;
+  				text-decoration: none;
+			}
+
+			li a:hover {
+  				background-color: #0080ff;
+			}
+
+			.active {
+  				background-color: red;
+}
+</style>
+
 	</head> 
 
 	<body>
-		<div>
-			<h1>FindMyConcert</h1>
-
-			<a href="{% url 'index'%}">Home</a>
-			<a href="{% url 'myEvents'%}">My Events</a>
-			<a href="{% url 'about'%}">About</a>
-			<a href="{% url 'contact'%}">Contact</a>
-			<a href="{% url 'faq'%}">FAQ</a>
-
-			<div style="text-align: right">
+		<br>
+		<div style="text-align: right">
 				{% if user.is_authenticated %}
 					Welcome {{ user.username }}
 
@@ -29,8 +53,20 @@
 					<a href="{% url 'auth_login' %}">Login</a>
 					<a href="{% url 'registration_register' %}">Register</a>
 				{% endif %}
+			
 
 			</div>
+		<div>
+			<h1>FindMyConcert</h1>
+			<ul>
+			<li><a href="{% url 'index'%}">Home</a></li>
+			<li><a href="{% url 'myEvents'%}">My Events</a></li>
+			<li><a href="{% url 'about'%}">About</a></li>
+			<li><a href="{% url 'contact'%}">Contact</a></li>
+			<li><a href="{% url 'faq'%}">FAQ</a></li>
+			</ul>
+			
+			
 
 			<hr>
 		</div>
