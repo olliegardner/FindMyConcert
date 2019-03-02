@@ -5,7 +5,7 @@ from registration.backends.simple.views import RegistrationView
 # redirects the user to the index page, if successful at login
 class MyRegistrationView(RegistrationView):
     def get_success_url(self, user):
-        return '/concert/add_profile/'
+        return '/registration/registration_complete'
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
