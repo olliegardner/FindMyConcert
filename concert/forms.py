@@ -10,6 +10,9 @@ class UserForm(forms.ModelForm):
 		fields = ('username', 'email', 'password')
 
 class UserProfileForm(forms.ModelForm):
+	venue = forms.BooleanField(required=False)
+	image = forms.ImageField(required=False)
+
 	class Meta:
 		model = UserProfile
-		fields = ('venue', 'image')
+		exclude = ('user', )
