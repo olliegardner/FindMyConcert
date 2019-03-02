@@ -7,11 +7,10 @@ from django.utils import timezone
 
 class UserProfile(models.Model):
 	# links UserProfile to a User model instance
-	user = models.OneToOneField(User)
-
+	user = models.OneToOneField(User, primary_key=True)
 	# additional attributes for user
 	venue = models.BooleanField(default=False)
-	picture = models.ImageField(upload_to='profileImages', blank=True) 
+	image = models.ImageField(upload_to='profile_images', blank=True) 
 
 	def __str__(self):
 		return self.user.username
@@ -25,7 +24,7 @@ class Venue(models.Model):
 	description  = models.CharField(max_length=560) 
 	phone_number = models.CharField(max_length=15) 
 	capacity     = models.IntegerField(default=0)
-	photo        = models.ImageField(upload_to='venueImages', blank=True, null=True)
+	image        = models.ImageField(upload_to='venue_images', blank=True, null=True)
 
 	def __str__(self): 
 		return self.name
@@ -38,7 +37,7 @@ class Concert(models.Model):
 	Date        = models.DateField(_("Date"))
 	StartTime   = models.DateTimeField(_("Start Time"))
 	EndTime     = models.DateTimeField(_(u"End Time"))
-	photo       = models.ImageField(upload_to='venueImages', blank=True, null=True)
+	image       = models.ImageField(upload_to='venue_images', blank=True, null=True)
 	url         = models.URLField()
 	description = models.CharField(max_length=560) 
 

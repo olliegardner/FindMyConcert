@@ -14,16 +14,13 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.contrib import admin
-#from django.conf import settings
+from django.conf import settings
 from django.conf.urls import url, include
-#from django.conf.urls.static import static
+from django.conf.urls.static import static
 from concert import views
 
 urlpatterns = [
 	url(r'^$', views.index, name='index'),
 	url(r'^concert/', include('concert.urls')),
     url(r'^admin/', admin.site.urls),
-] 
-
-
-#+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

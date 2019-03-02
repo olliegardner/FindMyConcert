@@ -16,9 +16,7 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
 STATIC_DIR = os.path.join(BASE_DIR, 'static')
-
 MEDIA_DIR = os.path.join(BASE_DIR, 'media')
-MEDIA_ROOT = MEDIA_DIR
 
 
 # Quick-start development settings - unsuitable for production
@@ -71,6 +69,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media'
             ],
         },
     },
@@ -134,7 +133,15 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
+STATICFILES_DIRS = [STATIC_DIR]
 STATIC_URL = '/static/'
+
+
+# Media files
+
+MEDIA_ROOT = MEDIA_DIR
+MEDIA_URL = '/media/'
+
 
 
 # Django reigstration redux options
@@ -145,4 +152,11 @@ ACCOUNT_ACTIVATION_DAYS = 3
 REGISTRATION_AUTO_LOGIN = True
 LOGIN_REDIRECT_URL = '/concert/'
 LOGIN_URL = '/accounts/login/'
-REGISTRATION_FORM = 'concert.forms.RegistrationForm'
+
+'''EMAIL_USE_TLS = True
+EMAIL_USE_SSL = True
+EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'                                                                             
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'findmyconcertproject@gmail.com'
+EMAIL_HOST_PASSWORD = 'Findmyconcert123'
+EMAIL_PORT = 587'''
