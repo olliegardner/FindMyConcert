@@ -42,20 +42,19 @@
 	<body>
 		<br>
 		<div style="text-align: right">
-				{% if user.is_authenticated %}
-					Welcome {{ user.username }}
+			{% if user.is_authenticated %}
+				Welcome {{ user.username }}
 
-					<img id="avatar" src="{{ MEDIA_URL }}{{ userprofile.image }}" alt="avatar">
+				<img id="avatar" src="{{ MEDIA_URL }}{{ userprofile.image }}" alt="avatar">
 
-					<a href="{% url 'profile' user.username %}">View Profile</a>
-					<a href="{% url 'auth_logout' %}?next=/concert/accounts/logout">Logout</a>
-				{% else %}
-					<a href="{% url 'auth_login' %}">Login</a>
-					<a href="{% url 'registration_register' %}">Register</a>
-				{% endif %}
-			
+				<a href="{% url 'profile' user.username %}">View Profile</a>
+				<a href="{% url 'auth_logout' %}?next=/concert/accounts/logout">Logout</a>
+			{% else %}
+				<a href="{% url 'auth_login' %}">Login</a>
+				<a href="{% url 'registration_register' %}">Register</a>
+			{% endif %}
+		</div>
 
-			</div>
 		<div>
 			<h1>FindMyConcert</h1>
 			<ul>
@@ -66,8 +65,6 @@
 			<li><a href="{% url 'faq'%}">FAQ</a></li>
 			</ul>
 			
-			
-
 			<hr>
 		</div>
 
