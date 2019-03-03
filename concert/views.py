@@ -8,36 +8,36 @@ from concert.forms import UserProfileForm
 
 @login_required
 def profile(request, username):
-	try:
-		user = User.objects.get(username=username)
-	except:
-		return redirect('index')
+    try:
+        user = User.objects.get(username=username)
+    except:
+        return redirect('index')
 
-	userprofile = UserProfile.objects.get_or_create(user=user)[0]
-	form = UserProfileForm({'venue': userprofile.venue, 'image': userprofile.image})
+    userprofile = UserProfile.objects.get_or_create(user=user)[0]
+    form = UserProfileForm({'venue': userprofile.venue, 'image': userprofile.image})
 
-	if request.method == 'POST':
-		form = UserProfileForm(request.POST, request.FILES, instance=userprofile)
-		if form.is_valid():
-			form.save(commit=True)
-			return redirect('profile', user.username)
-		else:
-			print(form.errors)
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, request.FILES, instance=userprofile)
+        if form.is_valid():
+            form.save(commit=True)
+            return redirect('profile', user.username)
+        else:
+            print(form.errors)
 
-	return render(request, 'concert/profile.html', {'userprofile': userprofile, 'selecteduser': user, 'form': form})
+    return render(request, 'concert/profile.html', {'userprofile': userprofile, 'selecteduser': user, 'form': form})
 
 
 def index(request):
-	return render(request, 'concert/index.html')
+    return render(request, 'concert/index.html')
 
 def about(request):
-	return render(request, 'concert/about.html')
+    return render(request, 'concert/about.html')
 
 def faq(request):
-	return render(request, 'concert/faq.html')
+    return render(request, 'concert/faq.html')
 
 def contact(request):
-	return render(request, 'concert/contact.html')
+    return render(request, 'concert/contact.html')
 
 def myEvents(request):
-	return render(request, 'concert/myEvents.html')
+    return render(request, 'concert/myEvents.html')

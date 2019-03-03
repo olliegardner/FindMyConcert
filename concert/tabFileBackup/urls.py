@@ -13,7 +13,7 @@ urlpatterns = [
     url(r'^about/$', views.about, name='about'),
     url(r'^myEvents/$', views.myEvents, name='myEvents'),
     url(r'^contact/$', views.contact, name='contact'),
-    url(r'^profile/(?P<username>[\w\-]+)/$', views.profile, name='profile'),
+	url(r'^profile/(?P<username>[\w\-]+)/$', views.profile, name='profile'),
     url(r'^accounts/register/$', MyRegistrationView.as_view(), name='registration_register'),
     url(r'^accounts/', include('registration.backends.simple.urls')),
 ]
