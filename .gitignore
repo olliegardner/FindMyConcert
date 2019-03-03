@@ -1,3 +1,4 @@
 db.sqlite3
 *.pyc
 .DS_Store
+media/profile_images/*
