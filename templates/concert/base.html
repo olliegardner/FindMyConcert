@@ -7,66 +7,43 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
 
-        <style>
-
-            ul {
-                list-style-type: none;
-                margin: 0;
-                padding: 0;
-                overflow: hidden;
-                background-color: #99ccff;
-            }
-
-            li {
-                float: left;
-            }
-
-            li a {
-                display: inline-block;
-                color: black;
-                text-align: center;
-                padding: 14px 16px;
-                text-decoration: none;
-            }
-
-            li a:hover {
-                background-color: #0080ff;
-            }
-
-            .active {
-                background-color: #99ccff;
-}
-</style>
 
     </head> 
 
     <body>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#">FindMyConcert</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+        <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
+  <a class="navbar-brand" href="{% url 'index'%}""><h2><b>FindMyConcert</h2></b></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <div class="collapse navbar-collapse" id="navbarText">
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'index'%}">Home </a>
+        <a class="nav-link" href="{% url 'index'%}"">Home</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="{% url 'myEvents'%} id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          My Events
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="#">Upcoming Events</a>
+          <a class="dropdown-item" href="#">Past Events</a>
+        </div>
       </li>
       <li class="nav-item">
-        <a class="My Events" href="{% url 'myEvents'%}">My Events</a>
+        <a class="nav-link" href="{% url 'about'%}">About</a>
       </li>
       <li class="nav-item">
-        <a class="About" href="{% url 'about'%}">About</a>
+        <a class="nav-link" href="{% url 'contact'%}">Contact</a>
       </li>
       <li class="nav-item">
-        <a class="Contact" href="{% url 'contact'%}">Contact</a>
+        <a class="nav-link" href="{% url 'faq'%}">FAQ</a>
       </li>
       <li class="nav-item">
-        <a class="FAQ" href="{% url 'faq'%}">FAQ</a>
+        <a class="nav-link disabled" href="#">*Insert motto here*</a>
       </li>
     </ul>
-    <span class="**Should we put like a website motto in here?**">
-      Navbar text with an inline element
-    </span>
+    
   </div>
 </nav>
         
