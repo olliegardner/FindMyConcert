@@ -39,6 +39,7 @@ class Comment(models.Model):
     def __str__(self): 
         return self.name
 
+
 class GigGoer(models.Model):
     user      = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     interests = models.ManyToManyField(Comment, related_name='comments')

@@ -2,17 +2,17 @@ from django.shortcuts import render
 from django.shortcuts import redirect
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
-from concert.models import User,GigGoer
+from concert.models import User
 from concert.forms import UserProfileForm
 
 @login_required
-def profile(request, username):
+def gigGoerProfile(request, username):
     try:
         user = User.objects.get(username=username)
     except:
         return redirect('index')
 
-    userprofile = GigGoer.objects.get_or_create(user=user)[0]
+    userprofile = User.objects.get_or_create(user=user)[0]
     form = UserProfileForm({'venue': userprofile.venue, 'image': userprofile.image})
 
     if request.method == 'POST':
@@ -24,6 +24,28 @@ def profile(request, username):
             print(form.errors)
 
     return render(request, 'concert/profile.html', {'userprofile': userprofile, 'selecteduser': user, 'form': form})
+
+@login_requiredx 
+def venueProfile(request, username):
+    try:
+        user = User.objects.get(username=username)
+    except:
+        return redirect('index')
+
+    userprofile = User.objects.get_or_create(user=user)[0]
+    form = UserProfileForm({'venue': userprofile.venue, 'image': userprofile.image})
+
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, request.FILES, instance=userprofile)
+        if form.is_valid():
+            form.save(commit=True)
+            return redirect('profile', user.username)
+        else:
+            print(form.errors)
+
+    return render(request, 'concert/profile.html', {'userprofile': userprofile, 'selecteduser': user, 'form': form})
+
+
 
 
 def index(request):

@@ -1,17 +1,34 @@
 from django import forms
-from concert.models import User
+from django.contrib.auth.forms import UserCreationForm
+from concert.models import User, GigGoer
+from django.db import transaction
 
-class UserForm(forms.ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput())
+class GigGoerSignUpForm(UserCreationForm):
 
-    class Meta:
+    class Meta(UserCreationForm.Meta):
         model = User
-        fields = ('username', 'email', 'password')
 
-class UserProfileForm(forms.ModelForm):
-    venue = forms.BooleanField(required=False)
-    image = forms.ImageField(required=False)
+    @transaction.atomic
+    def save(self):
+        user = super().save(commit=False)
+        user.user_type = 1
+        user.save()
+        gigGoer = GigGoer.objects.create(user=user)
+        gigGoer.interests.add(*self.cleaned_data.get('interests'))
+        return user
 
-    class Meta:
+class VenueSignUpForm(UserCreationForm):
+
+    class Meta(UserCreationForm.Meta):
         model = User
-        exclude = ('user', )
+    
+    @transaction.atomic
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.user_type = 2
+        if commit:
+            user.save()
+        return user
+
+
+
