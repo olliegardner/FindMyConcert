@@ -1,9 +1,8 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.http import HttpResponse
-from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from concert.models import UserProfile
+from concert.models import User,GigGoer
 from concert.forms import UserProfileForm
 
 @login_required
@@ -13,7 +12,7 @@ def profile(request, username):
     except:
         return redirect('index')
 
-    userprofile = UserProfile.objects.get_or_create(user=user)[0]
+    userprofile = GigGoer.objects.get_or_create(user=user)[0]
     form = UserProfileForm({'venue': userprofile.venue, 'image': userprofile.image})
 
     if request.method == 'POST':

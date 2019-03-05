@@ -1,6 +1,5 @@
 from django import forms
-from django.contrib.auth.models import User
-from concert.models import UserProfile
+from concert.models import User
 
 class UserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
@@ -14,5 +13,5 @@ class UserProfileForm(forms.ModelForm):
     image = forms.ImageField(required=False)
 
     class Meta:
-        model = UserProfile
+        model = User
         exclude = ('user', )
