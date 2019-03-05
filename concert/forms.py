@@ -1,8 +1,11 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from concert.models import User, GigGoer
+from concert.models import User, GigGoer, Venue
 from django.db import transaction
 
+
+
+#SIGNUP FORMS
 class GigGoerSignUpForm(UserCreationForm):
 
     class Meta(UserCreationForm.Meta):
@@ -17,20 +20,6 @@ class GigGoerSignUpForm(UserCreationForm):
         gigGoer.interests.add(*self.cleaned_data.get('interests'))
         return user
 
-
-class EditGigGoerProfileForm(forms.ModelForm):
-    image = forms.ImageField(required=False)
-	class Meta:
-        model = UserProfile
-        exclude = ('user', )
-
-class EditVenueSignUpForm(forms.ModelForm):
-
-     class Meta:
-        model = UserProfile
-        exclude = ('user', )
-
-
 class VenueSignUpForm(UserCreationForm):
 
     class Meta(UserCreationForm.Meta):
@@ -43,6 +32,23 @@ class VenueSignUpForm(UserCreationForm):
         if commit:
             user.save()
         return user
+
+
+#EDIT FORMS
+class EditGigGoerForm(forms.ModelForm):
+    image = forms.ImageField(required=False)
+    class Meta:
+        model = GigGoer
+        exclude = ('user', )
+
+class EditVenueForm(forms.ModelForm):
+    #CREATE THIS STUFF
+    class Meta:
+        model = Venue
+        exclude = ('user', )
+
+
+
 
 
 

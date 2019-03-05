@@ -3,17 +3,21 @@ from django.shortcuts import redirect
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from concert.models import User
-from concert.forms import EditGigGoerProfileForm
+from concert.forms import EditGigGoerForm
 
 @login_required
-def gigGoerProfile(request, username):
+def profile(request, username):
+
+    """
+    TODO - add code to check whether user is a Venue or GigGoer 
+    """
     try:
         user = User.objects.get(username=username)
     except:
         return redirect('index')
 
     userprofile = User.objects.get_or_create(user=user)[0]
-    form = EditGigGoerProfileForm({'image': userprofile.image})
+    form = EditGigGoerForm({'image': userprofile.image})
 
     if request.method == 'POST':
         form = UserProfileForm(request.POST, request.FILES, instance=userprofile)
@@ -24,31 +28,6 @@ def gigGoerProfile(request, username):
             print(form.errors)
 
     return render(request, 'concert/profile.html', {'userprofile': userprofile, 'selecteduser': user, 'form': form})
-
-
-#TODO - implement venueProfilePage
-"""
-@login_required
-def venueProfile(request, username):
-    try:
-        user = User.objects.get(username=username)
-    except:
-        return redirect('index')
-
-    userprofile = User.objects.get_or_create(user=user)[0]
-    form = UserProfileForm({'venue': userprofile.venue, 'image': userprofile.image})
-
-    if request.method == 'POST':
-        form = UserProfileForm(request.POST, request.FILES, instance=userprofile)
-        if form.is_valid():
-            form.save(commit=True)
-            return redirect('profile', user.username)
-        else:
-            print(form.errors)
-
-    return render(request, 'concert/profile.html', {'userprofile': userprofile, 'selecteduser': user, 'form': form})
-"""
-
 
 
 def index(request):
