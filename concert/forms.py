@@ -3,6 +3,10 @@ from django.contrib.auth.forms import UserCreationForm
 from concert.models import User, GigGoer, Venue
 from django.db import transaction
 
+class RegistrationForm(UserCreationForm):
+
+    class Meta:
+        pass
 
 
 

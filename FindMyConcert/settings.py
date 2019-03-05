@@ -36,12 +36,15 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
+    'django.contrib.sites',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'concert',
-    'registration',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
 ]
 
 MIDDLEWARE = [
@@ -146,11 +149,9 @@ MEDIA_URL = '/media/'
 # Django reigstration redux options
 # https://django-registration-redux.readthedocs.io/en/latest/quickstart.html
 AUTH_USER_MODEL = "concert.User" 
-REGISTRATION_OPEN = True
-ACCOUNT_ACTIVATION_DAYS = 3
-REGISTRATION_AUTO_LOGIN = True
-LOGIN_REDIRECT_URL = '/concert/'
-LOGIN_URL = '/accounts/login/'
+
+#ALLAUTH options
+SITE_ID = 1
 
 '''EMAIL_USE_TLS = True
 EMAIL_USE_SSL = True
