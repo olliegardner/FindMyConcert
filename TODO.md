@@ -1,7 +1,7 @@
 TODO:
 
 * Finish new User models and merge
-  ** Confirmation email
+  *  Confirmation email
 
 
 * Create modal page for concerts
