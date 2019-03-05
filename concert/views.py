@@ -1,20 +1,23 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.http import HttpResponse
-from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from concert.models import UserProfile
-from concert.forms import UserProfileForm
+from concert.models import User
+from concert.forms import EditGigGoerForm
 
 @login_required
 def profile(request, username):
+
+    """
+    TODO - add code to check whether user is a Venue or GigGoer 
+    """
     try:
         user = User.objects.get(username=username)
     except:
         return redirect('index')
 
-    userprofile = UserProfile.objects.get_or_create(user=user)[0]
-    form = UserProfileForm({'venue': userprofile.venue, 'image': userprofile.image})
+    userprofile = User.objects.get_or_create(user=user)[0]
+    form = EditGigGoerForm({'image': userprofile.image})
 
     if request.method == 'POST':
         form = UserProfileForm(request.POST, request.FILES, instance=userprofile)

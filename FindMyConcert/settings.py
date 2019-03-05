@@ -143,10 +143,9 @@ MEDIA_ROOT = MEDIA_DIR
 MEDIA_URL = '/media/'
 
 
-
 # Django reigstration redux options
 # https://django-registration-redux.readthedocs.io/en/latest/quickstart.html
-
+AUTH_USER_MODEL = "concert.User" 
 REGISTRATION_OPEN = True
 ACCOUNT_ACTIVATION_DAYS = 3
 REGISTRATION_AUTO_LOGIN = True
