@@ -17,6 +17,20 @@ class GigGoerSignUpForm(UserCreationForm):
         gigGoer.interests.add(*self.cleaned_data.get('interests'))
         return user
 
+
+class EditGigGoerProfileForm(forms.ModelForm):
+    image = forms.ImageField(required=False)
+	class Meta:
+        model = UserProfile
+        exclude = ('user', )
+
+class EditVenueSignUpForm(forms.ModelForm):
+
+     class Meta:
+        model = UserProfile
+        exclude = ('user', )
+
+
 class VenueSignUpForm(UserCreationForm):
 
     class Meta(UserCreationForm.Meta):

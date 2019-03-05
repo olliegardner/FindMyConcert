@@ -3,7 +3,7 @@ from django.shortcuts import redirect
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from concert.models import User
-from concert.forms import UserProfileForm
+from concert.forms import EditGigGoerProfileForm
 
 @login_required
 def gigGoerProfile(request, username):
@@ -13,7 +13,7 @@ def gigGoerProfile(request, username):
         return redirect('index')
 
     userprofile = User.objects.get_or_create(user=user)[0]
-    form = UserProfileForm({'venue': userprofile.venue, 'image': userprofile.image})
+    form = EditGigGoerProfileForm({'image': userprofile.image})
 
     if request.method == 'POST':
         form = UserProfileForm(request.POST, request.FILES, instance=userprofile)
@@ -25,7 +25,10 @@ def gigGoerProfile(request, username):
 
     return render(request, 'concert/profile.html', {'userprofile': userprofile, 'selecteduser': user, 'form': form})
 
-@login_requiredx 
+
+#TODO - implement venueProfilePage
+"""
+@login_required
 def venueProfile(request, username):
     try:
         user = User.objects.get(username=username)
@@ -44,7 +47,7 @@ def venueProfile(request, username):
             print(form.errors)
 
     return render(request, 'concert/profile.html', {'userprofile': userprofile, 'selecteduser': user, 'form': form})
-
+"""
 
 
 
