@@ -52,9 +52,9 @@
                     Welcome {{ user.username }}
 
                     {% if user.userprofile.image != "" %}
-                        <img id="avatar" src="{{ user.userprofile.image.url }}" alt="avatar">
+                        <img src="{{ user.userprofile.image.url }}" id="avatar" alt="avatar">
                     {% else %}
-                        <!-- add standard profile image here -->
+                        <img src="{% static 'images/no-profile-image.png' %}" id="avatar">
                     {% endif %}
 
                     <a href="{% url 'profile' user.username %}">View Profile</a>
