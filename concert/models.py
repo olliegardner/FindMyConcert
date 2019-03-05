@@ -6,11 +6,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.utils import timezone
 
 class User(AbstractUser):
-    USER_TYPE_CHOICES = (
-        (1, 'GigGoer'),
-        (2, 'Venue'))
-    
-    user_type = models.PositiveSmallIntegerField(choices=USER_TYPE_CHOICES)
+    user_type = models.BooleanField('isVenue', default=False)
 
 class Concert(models.Model):
     concertID   = models.AutoField(primary_key=True)
