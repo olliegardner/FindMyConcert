@@ -8,5 +8,4 @@ urlpatterns = [
     url(r'^myEvents/$', views.myEvents, name='myEvents'),
     url(r'^contact/$', views.contact, name='contact'),
     url(r'^profile/(?P<username>[\w\-]+)/$', views.profile, name='profile'),
-
 ]

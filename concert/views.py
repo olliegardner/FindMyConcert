@@ -3,7 +3,9 @@ from django.shortcuts import redirect
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from concert.models import User
-from concert.forms import EditGigGoerForm
+from concert.forms import EditGigGoerForm, VenueSignupForm
+from allauth.account.views import SignupView
+
 
 @login_required
 def profile(request, username):
@@ -44,3 +46,38 @@ def contact(request):
 
 def myEvents(request):
     return render(request, 'concert/myEvents.html')
+
+def chooseSignUp(request):
+    return render(request, 'concert/index.html')
+
+class venueSignUp(SignupView):
+    # The referenced HTML content can be copied from the signup.html
+    # in the django-allauth template folder
+    template_name = 'account/signup_company.html'
+    # the previously created form class
+    form_class = VenueSignupForm
+
+    # the view is created just a few lines below
+    # N.B: use the same name or it will blow up
+    view_name = 'company_signup'
+
+    # success_url = None
+    # redirect_field_name = 'next'
+
+class gigGoerSignUp(SignupView):
+    pass
+    # The referenced HTML content can be copied from the signup.html
+    # in the django-allauth template folder
+    template_name = 'account/signup_venue.html'
+    # the previously created form class
+    form_class = VenueSignupForm
+
+    # the view is created just a few lines below
+    # N.B: use the same name or it will blow up
+    view_name = 'company_signup'
+
+    # success_url = None
+    # redirect_field_name = 'next'
+
+
+venue_signup = venueSignUp.as_view()

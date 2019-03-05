@@ -4,9 +4,25 @@ from datetime import datetime
 from django.utils.translation import gettext as _
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.utils import timezone
+from enum import Enum
+
+class USERTYPE(Enum):
+    VENUE   = 1
+    GIGGOER = 2
 
 class User(AbstractUser):
-    user_type = models.BooleanField('isVenue', default=False)
+    user_type = USERTYPE.VENUE #default value
+
+    def isVenue():
+        if user_type == USERTYPE.VENUE:
+            return True
+        return False
+
+    def isGigGoer():
+        if user_type == USERTYPE.GIGGOER:
+            return True
+        return False       
+        
 
 class Concert(models.Model):
     concertID   = models.AutoField(primary_key=True)
@@ -47,7 +63,7 @@ class GigGoer(models.Model):
 
 class Venue(models.Model):
     user         = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    concerts     = models.ManyToManyField(Concert, related_name='comments')
+    concerts     = models.ManyToManyField(Concert, related_name='concerts')
     name         = models.CharField(max_length=128) 
     location     = models.CharField(max_length=128) 
     url          = models.URLField()
