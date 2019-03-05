@@ -13,7 +13,7 @@ class Concert(models.Model):
     artist      = models.CharField(max_length=128) 
     Date        = models.DateField(_("Date"))
     StartTime   = models.DateTimeField(_("Start Time"))
-    EndTime     = models.DateTimeField(_(u"End Time"))
+    EndTime     = models.DateTimeField(_("End Time"))
     image       = models.ImageField(upload_to='venue_images', blank=True, null=True)
     url         = models.URLField()
     description = models.CharField(max_length=560) 
@@ -30,7 +30,7 @@ class Comment(models.Model):
     commentID   = models.AutoField(primary_key=True)
     concert     = models.ForeignKey(Concert)
     date        = models.DateField(_("Date"),default=timezone.now)
-    time        = models.DateTimeField(_(u"Comment Time"), default=timezone.now)
+    time        = models.DateTimeField(_("Comment Time"), default=timezone.now)
 
     def __str__(self): 
         return self.name
