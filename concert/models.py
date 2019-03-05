@@ -54,7 +54,8 @@ class Comment(models.Model):
 
 class GigGoer(models.Model):
     user      = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    interests = models.ManyToManyField(Comment, related_name='comments')
+    name      = models.CharField(max_length=128) 
+    comments  = models.ManyToManyField(Comment, related_name='comments')
     image     = models.ImageField(upload_to='profile_images', blank=True) 
     #bookmarks = models.ManyToManyField(Concert, related_name='bookmarks')
 

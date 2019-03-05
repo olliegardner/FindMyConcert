@@ -3,7 +3,7 @@ from django.shortcuts import redirect
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from concert.models import User
-from concert.forms import EditGigGoerForm, VenueSignupForm
+from concert.forms import GigGoerSignUpForm, VenueSignUpForm
 from allauth.account.views import SignupView
 
 
@@ -51,33 +51,24 @@ def chooseSignUp(request):
     return render(request, 'concert/index.html')
 
 class venueSignUp(SignupView):
-    # The referenced HTML content can be copied from the signup.html
-    # in the django-allauth template folder
-    template_name = 'account/signup_company.html'
-    # the previously created form class
-    form_class = VenueSignupForm
+    template_name = 'account/signup_venue.html'
 
-    # the view is created just a few lines below
-    # N.B: use the same name or it will blow up
-    view_name = 'company_signup'
+    form_class = VenueSignUpForm
+    view_name = 'company_signup' 
+    # user the same name for the view_name variable and the name of
+    # form variable, it will blow up otherwise
 
     # success_url = None
     # redirect_field_name = 'next'
 
 class gigGoerSignUp(SignupView):
-    pass
-    # The referenced HTML content can be copied from the signup.html
-    # in the django-allauth template folder
-    template_name = 'account/signup_venue.html'
-    # the previously created form class
-    form_class = VenueSignupForm
-
-    # the view is created just a few lines below
-    # N.B: use the same name or it will blow up
-    view_name = 'company_signup'
+    template_name = 'account/signup_giggoer.html'
+    form_class = GigGoerSignUpForm
+    view_name = 'giggoer_signup'
 
     # success_url = None
     # redirect_field_name = 'next'
 
 
-venue_signup = venueSignUp.as_view()
+venue_signup   = venueSignUp.as_view()
+giggoer_signup = gigGoerSignUp.as_view()

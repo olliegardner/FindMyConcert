@@ -26,5 +26,5 @@ urlpatterns = [
     url(r'^accounts/signup/$', views.chooseSignUp,name='signup-choose'),   #Override AllAuth form
     url(r'^accounts/', include('allauth.urls')),
     url(r'^accounts/signup/venue/$', views.venue_signup,name='signup-venue'),
-    url(r'^accounts/signup/private/$', views.gigGoerSignUp,name='signup-private'),
+    url(r'^accounts/signup/private/$', views.giggoer_signup,name='signup-private'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

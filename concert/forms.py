@@ -5,7 +5,7 @@ from django.db import transaction
 from allauth.account.forms import SignupForm
 from concert.models import USERTYPE
 
-class VenueSignupForm(SignupForm):
+class VenueSignUpForm(SignupForm):
     name         = forms.CharField(max_length=128) 
     location     = forms.CharField(max_length=128) 
     url          = forms.URLField()
@@ -35,34 +35,21 @@ class VenueSignupForm(SignupForm):
 
         return venue.name
 
-class GigGoerForm(SignupForm):
-    pass
-
-    name         = forms.CharField(max_length=128) 
-    location     = forms.CharField(max_length=128) 
-    url          = forms.URLField()
-    description  = forms.CharField(max_length=560) 
-    phone_number = forms.CharField(max_length=15) 
-    capacity     = forms.IntegerField()
+class GigGoerSignUpForm(SignupForm):
+    name         = forms.CharField(max_length=128)
     image        = forms.ImageField()
 
     def save(self, request):
         # Save the User instance and get a reference to it
-        user = super(VenueSignupForm, self).save(request)
+        user = super(GigGoerForm, self).save(request)
         # Create an instance of the model with the extra fields
         # then save it.
         venue = Venue(
             user           = user,
             name           = self.get(name),
-            location       = self.get(location),
-            url            = self.get(url),
-            description    = self.get(description),
-            phone_number   = self.get(phone_number),
-            capacity       = self.get(capacity),
             image          = self.get(image),
         )
         venue.save()
-
         return venue.name
 
 
