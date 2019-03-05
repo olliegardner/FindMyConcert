@@ -45,6 +45,31 @@
             
                     <div class="col-2">
                         <div style="text-align: right">
+                            {% if user.is_authenticated %}
+                                <div class="dropdown">
+                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                        {% if user.userprofile.image != "" %}
+                                            <img src="{{ user.userprofile.image.url }}" id="avatar" alt="avatar">
+                                        {% else %}
+                                            <img src="{% static 'images/no-profile-image.png' %}" id="avatar">
+                                        {% endif %}
+                                    
+                                        <span class="caret"></span>
+                                    </button>
+
+                                    <div class="dropdown-menu">
+                                        <span class="dropdown-item-text">Signed in as</span>
+                                        <b><span class="dropdown-item-text">{{ user.username }}</span></b>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="{% url 'profile' user.username %}">Your profile</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="{% url 'account_logout' %}">Sign out</a>
+                                    </div>
+                                </div>
+                            {% else %}
+                            <a href="{% url 'account_login' %}" class="btn btn-light" role="button">Sign in</a>
+                                <a href="{% url 'account_signup' %}" class="btn btn-outline-dark" role="button">Sign up</a> 
+                            {% endif %}
                         
                         </div>
                     </div>

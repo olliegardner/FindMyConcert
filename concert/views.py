@@ -48,7 +48,7 @@ def myEvents(request):
     return render(request, 'concert/myEvents.html')
 
 def chooseSignUp(request):
-    return render(request, 'concert/index.html')
+    return render(request, 'concert/chooseSignUp.html')
 
 class venueSignUp(SignupView):
     template_name = 'account/signup_venue.html'

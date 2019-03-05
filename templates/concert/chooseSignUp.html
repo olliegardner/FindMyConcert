@@ -1,0 +1,14 @@
+{% extends 'concert/base.html' %}
+{% load staticfiles %}
+
+{% block title %} {{ block.super }} {% endblock %}
+
+{% block body_block %}
+    <div>
+    <h1>Sign up to access all features of FindMyConcert</h1>
+    <p>Select below which type of account you want to create</p>
+    <a href="private">Press here if you want to GO to gigs</a>
+    <br>
+    <a href="venue">Press here if you want to ORGANISE gigs</a>
+    </div>
+{% endblock %}
