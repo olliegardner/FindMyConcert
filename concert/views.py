@@ -1,11 +1,12 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
-from django.http import HttpResponse
-from django.contrib.auth import login
+from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from concert.models import User
 from concert.forms import GigGoerSignUpForm, VenueSignUpForm
 from django.views.generic import CreateView
+from django.core.urlresolvers import reverse
 
 @login_required
 def profile(request, username):
@@ -31,6 +32,13 @@ def profile(request, username):
 
     return render(request, 'concert/profile.html', {'userprofile': userprofile, 'selecteduser': user, 'form': form})
 
+
+@login_required
+def user_logout(request):
+    # Since we know the user is logged in, we can now just log them out.
+    logout(request)
+    # Take the user back to the homepage.
+    return HttpResponseRedirect(reverse('login'))
 
 def index(request):
     return render(request, 'concert/index.html')

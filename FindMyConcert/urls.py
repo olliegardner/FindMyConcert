@@ -27,6 +27,7 @@ urlpatterns = [
     url(r'^venues/' , include('venues.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/$', views.index),  #Override accounts
+    url(r'^accounts/logout/$', views.user_logout, name='logout'),
     url('accounts/', include('django.contrib.auth.urls')),
     url(r'^accounts/signup/$', views.chooseSignUp, name='signup-choose'),   #Override AllAuth form
     url(r'^accounts/signup/venue/$', VenueSignUp.as_view(), name='signup-venue'),
