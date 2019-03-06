@@ -24,6 +24,7 @@ from concert.views import GigGoerSignUp, VenueSignUp
 urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^concert/', include('concert.urls')),
+    url(r'^venues/' , include('venues.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/$', views.index),  #Override accounts
     url('accounts/', include('django.contrib.auth.urls')),
