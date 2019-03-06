@@ -19,7 +19,6 @@ from django.conf import settings
 from django.conf.urls import url, include
 from django.conf.urls.static import static
 from concert import views
-import path
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
