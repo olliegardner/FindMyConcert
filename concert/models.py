@@ -10,48 +10,11 @@ class User(AbstractUser):
 
     def isVenue():
         return is_venue    
-        
-
-class Concert(models.Model):
-    concertID   = models.AutoField(primary_key=True)
-    artist      = models.CharField(max_length=128) 
-    Date        = models.DateField(_("Date"))
-    StartTime   = models.DateTimeField(_("Start Time"))
-    EndTime     = models.DateTimeField(_("End Time"))
-    image       = models.ImageField(upload_to='venue_images', blank=True, null=True)
-    url         = models.URLField()
-    description = models.CharField(max_length=560) 
-
-    def __str__(self): 
-        return self.name
-
-class Comment(models.Model):
-    rating = models.IntegerField( default=5,
-    validators=[
-        MaxValueValidator(5),
-        MinValueValidator(1)
-        ])
-    commentID   = models.AutoField(primary_key=True)
-    concert     = models.ForeignKey(Concert, on_delete=models.CASCADE)
-    date        = models.DateField(_("Date"),default=timezone.now)
-    time        = models.DateTimeField(_("Comment Time"), default=timezone.now)
-
-    def __str__(self): 
-        return self.name
-
-
-class GigGoer(models.Model):
-    user      = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    comments  = models.ManyToManyField(Comment, related_name='comments')
-    image     = models.ImageField(upload_to='profile_images', blank=True) 
-    #bookmarks = models.ManyToManyField(Concert, related_name='bookmarks')
-
-    def __str__(self):
-        return self.user.username
+    
 
 class Venue(models.Model):
     user         = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    concerts     = models.ManyToManyField(Concert, related_name='concerts')
+    #concerts     = models.ForeignKey(Concert, related_name='concerts')
     name         = models.CharField(max_length=128) 
     location     = models.CharField(max_length=128) 
     url          = models.URLField()
@@ -64,4 +27,42 @@ class Venue(models.Model):
         return self.user.username
 
 
+class Concert(models.Model):
+    concertID   = models.AutoField(primary_key=True)
+    artist      = models.CharField(max_length=128) 
+    date        = models.DateField(_("Date"))
+    start_time   = models.TimeField(_("Start Time"))
+    end_time     = models.TimeField(_("End Time"))
+    image       = models.ImageField(upload_to='venue_images', blank=True, null=True)
+    url         = models.URLField()
+    description = models.CharField(max_length=560)
+    #venue       = models.CharField(max_length=128)
+    venue = models.ForeignKey(Venue, related_name='venue')
 
+    def __str__(self): 
+        return str(self.concertID)
+
+
+class Comment(models.Model):
+    rating = models.IntegerField(default=5,
+    validators=[
+        MaxValueValidator(5),
+        MinValueValidator(1)
+        ])
+    commentID   = models.AutoField(primary_key=True)
+    concert     = models.ForeignKey(Concert, on_delete=models.CASCADE)
+    date        = models.DateField(_("Date"),default=timezone.now)
+    time        = models.DateTimeField(_("Comment Time"), default=timezone.now)
+
+    def __str__(self): 
+        return str(self.commentID)
+
+
+class GigGoer(models.Model):
+    user      = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    comments  = models.ManyToManyField(Comment, related_name='comments')
+    image     = models.ImageField(upload_to='profile_images', blank=True) 
+    #bookmarks = models.ManyToManyField(Concert, related_name='bookmarks')
+
+    def __str__(self):
+        return self.user.username

@@ -13,6 +13,7 @@ class GigGoerSignUpForm(UserCreationForm):
         user.is_venue = False
         user.save()
         gigGoer = GigGoer.objects.create(user=user)
+        #gigGoer.image = self.cleaned_data.get('image')
         #gigGoer.image.add(*self.cleaned_data.get('image'))
         return user
 
@@ -33,8 +34,8 @@ class VenueSignUpForm(UserCreationForm):
         user.is_venue = False
         user.save()
         venue = Venue.objects.create(user=user)
-        #venue.image.add(*self.cleaned_data.get('image'))
-        venue.name.add(*self.cleaned_data.get('venue_name'))
+        venue.image.add(*self.cleaned_data.get('image'))
+        venue.venue_name.add(*self.cleaned_data.get('venue_name'))
         venue.location.add(*self.cleaned_data.get('location'))
         venue.url.add(*self.cleaned_data.get('url'))
         venue.description.add(*self.cleaned_data.get('description'))

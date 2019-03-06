@@ -5,26 +5,25 @@
 
 {% block body_block %}
     <div class="container">
-		<table class="table table-hover">
-  			<tbody>
-    			<tr>
-      				<th scope="row">1</th>
-      				<td>Mark</td>
-      				<td>Otto</td>
-      				<td>@mdo</td>
-    			</tr>
-    			<tr>
-      				<th scope="row">2</th>
-				    <td>Jacob</td>
-				    <td>Thornton</td>
-				    <td>@fat</td>
-    			</tr>
-    			<tr>
-      				<th scope="row">3</th>
-      				<td colspan="2">Larry the Bird</td>
-      				<td>@twitter</td>
-    			</tr>
-  			</tbody>
-		</table>
+        {% if concerts %}
+            <table class="table table-hover">
+                <tbody>
+                    {% for concert in concerts %}
+                        <tr>
+                            <td>{{ concert.artist }}</td>
+                            <td>{{ concert.user.venue.name }}, {{ concert.user.venue.location }}</td>
+                            <td>{{ concert.date }}</td>
+                            <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
+                            <td>{{ concert.url }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <ul>
+
+            </ul>
+        {% else %}
+            <strong>There are no concerts present</strong>
+        {% endif %}
     </div>
 {% endblock %}
