@@ -1,3 +1,2 @@
 bcrypt
-pip install django-allauth
 pillow
