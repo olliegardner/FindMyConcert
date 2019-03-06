@@ -4,9 +4,9 @@
 {% block title_block %} {{ block.super }} {% endblock %}
 
 {% block body_block %}
-	<h1>Register</h1>
+	<h1>Sign up</h1>
 
-	<form method="post" action=".">
+	<form method="post" novalidate>
 		{% csrf_token %}
 		{{ form.as_p }}
 		<input type="submit" value="Submit">

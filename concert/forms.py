@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from concert.models import GigGoer, User, Venue
 
 class GigGoerSignUpForm(UserCreationForm):
-    image = forms.ImageField()
+    image = forms.ImageField(required=False)
 
     class Meta(UserCreationForm.Meta):
         model = User
@@ -13,11 +13,11 @@ class GigGoerSignUpForm(UserCreationForm):
         user.is_venue = False
         user.save()
         gigGoer = GigGoer.objects.create(user=user)
-        gigGoer.image.add(*self.cleaned_data.get('image'))
+        #gigGoer.image.add(*self.cleaned_data.get('image'))
         return user
 
 class VenueSignUpForm(UserCreationForm):
-    image        = forms.ImageField()
+    image        = forms.ImageField(required=False)
     venue_name   = forms.CharField(max_length=128) 
     location     = forms.CharField(max_length=128) 
     url          = forms.URLField()
