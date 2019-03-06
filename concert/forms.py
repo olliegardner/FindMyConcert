@@ -1,6 +1,5 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from django.db import transaction
 from concert.models import GigGoer, User, Venue
 
 class GigGoerSignUpForm(UserCreationForm):
@@ -9,7 +8,6 @@ class GigGoerSignUpForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = User
 
-    @transaction.atomic
     def save(self):
         user = super().save(commit=False)
         user.is_venue = False
@@ -30,7 +28,6 @@ class VenueSignUpForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = User
 
-    @transaction.atomic
     def save(self):
         user = super().save(commit=False)
         user.is_venue = False
