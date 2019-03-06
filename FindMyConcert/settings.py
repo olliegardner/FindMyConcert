@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'concert',
-    'registration',
 ]
 
 MIDDLEWARE = [
@@ -143,15 +142,7 @@ MEDIA_ROOT = MEDIA_DIR
 MEDIA_URL = '/media/'
 
 
-
-# Django reigstration redux options
-# https://django-registration-redux.readthedocs.io/en/latest/quickstart.html
-
-REGISTRATION_OPEN = True
-ACCOUNT_ACTIVATION_DAYS = 3
-REGISTRATION_AUTO_LOGIN = True
-LOGIN_REDIRECT_URL = '/concert/'
-LOGIN_URL = '/accounts/login/'
+AUTH_USER_MODEL = "concert.User" 
 
 '''EMAIL_USE_TLS = True
 EMAIL_USE_SSL = True

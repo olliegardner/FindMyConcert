@@ -13,14 +13,21 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.contrib import admin
+from django.contrib import admin, auth
+from django.contrib.auth import views as auth_views
 from django.conf import settings
 from django.conf.urls import url, include
 from django.conf.urls.static import static
 from concert import views
+from concert.views import GigGoerSignUp, VenueSignUp
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^concert/', include('concert.urls')),
     url(r'^admin/', admin.site.urls),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    url(r'^accounts/$', views.index),  #Override accounts
+    url('accounts/', include('django.contrib.auth.urls')),
+    url(r'^accounts/signup/$', views.chooseSignUp, name='signup-choose'),   #Override AllAuth form
+    url(r'^accounts/signup/venue/$', VenueSignUp.as_view(), name='signup-venue'),
+    url(r'^accounts/signup/private/$', GigGoerSignUp.as_view(), name='signup-private'),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) 

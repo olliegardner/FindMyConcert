@@ -1,4 +1,6 @@
 from django.contrib import admin
-from concert.models import UserProfile
+from concert.models import User, Concert, Comment
 
-admin.site.register(UserProfile)
+admin.site.register(User)
+admin.site.register(Concert)
+admin.site.register(Comment)
