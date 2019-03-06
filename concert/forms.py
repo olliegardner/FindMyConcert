@@ -33,7 +33,7 @@ class VenueSignUpForm(UserCreationForm):
         user.is_venue = False
         user.save()
         venue = Venue.objects.create(user=user)
-        venue.image.add(*self.cleaned_data.get('image'))
+        #venue.image.add(*self.cleaned_data.get('image'))
         venue.name.add(*self.cleaned_data.get('venue_name'))
         venue.location.add(*self.cleaned_data.get('location'))
         venue.url.add(*self.cleaned_data.get('url'))
