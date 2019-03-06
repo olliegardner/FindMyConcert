@@ -43,7 +43,6 @@ def user_logout(request):
 def index(request):
     concert_list = Concert.objects.order_by('-artist')
     context_dict = {'concerts': concert_list}
-    # Render the response and send it back!
     return render(request, 'concert/index.html', context_dict)
 
 def about(request):
