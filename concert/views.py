@@ -4,8 +4,7 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from concert.models import User
 from concert.forms import GigGoerSignUpForm, VenueSignUpForm
-from allauth.account.views import SignupView
-
+from django.views.generic import CreateView
 
 @login_required
 def profile(request, username):
@@ -50,25 +49,30 @@ def myEvents(request):
 def chooseSignUp(request):
     return render(request, 'concert/chooseSignUp.html')
 
-class venueSignUp(SignupView):
-    template_name = 'account/signup_venue.html'
-
-    form_class = VenueSignUpForm
-    view_name = 'company_signup' 
-    # user the same name for the view_name variable and the name of
-    # form variable, it will blow up otherwise
-
-    # success_url = None
-    # redirect_field_name = 'next'
-
-class gigGoerSignUp(SignupView):
-    template_name = 'account/signup_giggoer.html'
+class gigGoerSignUp(CreateView):
+    model = User
     form_class = GigGoerSignUpForm
-    view_name = 'giggoer_signup'
+    template_name = 'registration/signup_form.html'
 
-    # success_url = None
-    # redirect_field_name = 'next'
+    def get_context_data(self, **kwargs):
+        kwargs['user_type'] = 'student'
+        return super().get_context_data(**kwargs)
 
+    def form_valid(self, form):
+        user = form.save()
+        login(self.request, user)
+        return redirect('index')
 
-venue_signup   = venueSignUp.as_view()
-giggoer_signup = gigGoerSignUp.as_view()
+class VenueSignUp(CreateView):
+    model = User
+    form_class = GigGoerSignUpForm
+    template_name = 'registration/signup_form.html'
+
+    def get_context_data(self, **kwargs):
+        kwargs['user_type'] = 'student'
+        return super().get_context_data(**kwargs)
+
+    def form_valid(self, form):
+        user = form.save()
+        login(self.request, user)
+        return redirect('index')

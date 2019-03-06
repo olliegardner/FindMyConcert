@@ -4,24 +4,12 @@ from datetime import datetime
 from django.utils.translation import gettext as _
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.utils import timezone
-from enum import Enum
-
-class USERTYPE(Enum):
-    VENUE   = 1
-    GIGGOER = 2
 
 class User(AbstractUser):
-    user_type = USERTYPE.VENUE #default value
+    is_venue = models.BooleanField(default = False)
 
     def isVenue():
-        if user_type == USERTYPE.VENUE:
-            return True
-        return False
-
-    def isGigGoer():
-        if user_type == USERTYPE.GIGGOER:
-            return True
-        return False       
+        return is_venue    
         
 
 class Concert(models.Model):
@@ -44,7 +32,7 @@ class Comment(models.Model):
         MinValueValidator(1)
         ])
     commentID   = models.AutoField(primary_key=True)
-    concert     = models.ForeignKey(Concert)
+    concert     = models.ForeignKey(Concert, on_delete=models.CASCADE)
     date        = models.DateField(_("Date"),default=timezone.now)
     time        = models.DateTimeField(_("Comment Time"), default=timezone.now)
 
@@ -54,7 +42,6 @@ class Comment(models.Model):
 
 class GigGoer(models.Model):
     user      = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    name      = models.CharField(max_length=128) 
     comments  = models.ManyToManyField(Comment, related_name='comments')
     image     = models.ImageField(upload_to='profile_images', blank=True) 
     #bookmarks = models.ManyToManyField(Concert, related_name='bookmarks')
