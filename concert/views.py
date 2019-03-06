@@ -49,13 +49,13 @@ def myEvents(request):
 def chooseSignUp(request):
     return render(request, 'concert/chooseSignUp.html')
 
-class gigGoerSignUp(CreateView):
+class GigGoerSignUp(CreateView):
     model = User
     form_class = GigGoerSignUpForm
-    template_name = 'registration/signup_form.html'
+    template_name = 'registration/signup.html'
 
     def get_context_data(self, **kwargs):
-        kwargs['user_type'] = 'student'
+        kwargs['is_venue'] = False
         return super().get_context_data(**kwargs)
 
     def form_valid(self, form):
@@ -65,11 +65,11 @@ class gigGoerSignUp(CreateView):
 
 class VenueSignUp(CreateView):
     model = User
-    form_class = GigGoerSignUpForm
-    template_name = 'registration/signup_form.html'
+    form_class = VenueSignUpForm
+    template_name = 'registration/signup.html'
 
     def get_context_data(self, **kwargs):
-        kwargs['user_type'] = 'student'
+        kwargs['is_venue'] = True
         return super().get_context_data(**kwargs)
 
     def form_valid(self, form):

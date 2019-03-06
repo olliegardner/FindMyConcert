@@ -47,7 +47,7 @@ class GigGoer(models.Model):
     #bookmarks = models.ManyToManyField(Concert, related_name='bookmarks')
 
     def __str__(self):
-        return self.user.username
+        return self.user
 
 class Venue(models.Model):
     user         = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)

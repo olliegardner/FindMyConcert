@@ -19,13 +19,15 @@ from django.conf import settings
 from django.conf.urls import url, include
 from django.conf.urls.static import static
 from concert import views
+from concert.views import GigGoerSignUp, VenueSignUp
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^concert/', include('concert.urls')),
     url(r'^admin/', admin.site.urls),
+    url(r'^accounts/$', views.index),  #Override accounts
     url('accounts/', include('django.contrib.auth.urls')),
-    url(r'^accounts/signup/$', views.chooseSignUp,name='signup-choose'),   #Override AllAuth form
-    url(r'^accounts/signup/venue/$', views.VenueSignUp,name='signup-venue'),
-    url(r'^accounts/signup/private/$', views.gigGoerSignUp,name='signup-private'),
+    url(r'^accounts/signup/$', views.chooseSignUp, name='signup-choose'),   #Override AllAuth form
+    url(r'^accounts/signup/venue/$', VenueSignUp.as_view(), name='signup-venue'),
+    url(r'^accounts/signup/private/$', GigGoerSignUp.as_view(), name='signup-private'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) 
