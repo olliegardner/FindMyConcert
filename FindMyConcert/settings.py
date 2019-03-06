@@ -143,12 +143,7 @@ MEDIA_ROOT = MEDIA_DIR
 MEDIA_URL = '/media/'
 
 
-# Django reigstration redux options
-# https://django-registration-redux.readthedocs.io/en/latest/quickstart.html
 AUTH_USER_MODEL = "concert.User" 
-
-#ALLAUTH options
-SITE_ID = 1
 
 '''EMAIL_USE_TLS = True
 EMAIL_USE_SSL = True
