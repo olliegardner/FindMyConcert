@@ -1,7 +1,7 @@
 TODO:
 
-* Finish new User models and merge
-  *  Confirmation email
+
+*  Confirmation email
 
 
 * Create modal page for concerts
@@ -11,3 +11,8 @@ TODO:
 * FAQ
 * About
 * Contact information
+* Rgeistration form bugs for venues/private
+	* images
+	* 
+* Venue app
+* Colour scheme change
