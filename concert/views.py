@@ -60,6 +60,12 @@ def myEvents(request):
 def chooseSignUp(request):
     return render(request, 'concert/chooseSignUp.html')
 
+def upcomingEvents(request):
+    return render(request, 'concert/upcomingEvents.html')
+
+def pastEvents(request):
+    return render(request, 'concert/pastEvents.html')
+
 class GigGoerSignUp(CreateView):
     model = User
     form_class = GigGoerSignUpForm
