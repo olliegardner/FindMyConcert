@@ -1,10 +1,36 @@
 {% extends 'concert/base.html' %}
 {% load staticfiles %}
 
-{% block title %} {{ block.super }} - Events {% endblock %}
+{% block title %} {{ block.super }} {% endblock %}
 
 {% block body_block %}
-    <div>
-        <h1>Events</h1>
+    <div class="container">
+    	<h1>Sign up to access all features of FindMyConcert</h1>
+    	<p>Select below which type of account you want to create</p>
+
+    	<ul class="nav nav-tabs">
+    		<li class="nav-item">
+    			<a class="nav-link active" data-toggle="tab" href="#private" role="tab" aria-selected="true">User Account</a>
+    		</li>
+
+    		<li class="nav-item">
+    			<a class="nav-link" data-toggle="tab" href="#venue" role="tab" aria-selected="true">Venue Account</a>
+    		</li>
+    	</ul>
+
+		<div class="tab-content">
+    		<div id="private" class="tab-pane fade show active">
+    			<br>
+				<h3>TODO: make forms appear in-line instead of separate web pages</h3>
+				<a href="private">Sign up for user account here</a>
+    		</div>
+
+    		<div id="venue" class="tab-pane fade">
+      			<h3>hi</h3>
+      			<p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+      			<br>
+      			<a href="venue">Sign up for venue account here</a>
+    		</div>
+  		</div>
     </div>
 {% endblock %}
