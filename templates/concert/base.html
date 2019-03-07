@@ -14,14 +14,13 @@
         <div class="navbar-container">
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="col-md-2">
-                    <i class="fas fa-music" style="padding-right:4%"> </i>
+                    <i class="fas fa-music" style="padding-right: 3%"></i>
 
                     {% if user.is_authenticated and user.is_venue %}
                         <a class="navbar-brand" href="{% url 'index'%}"><b>  AddMyConcert</b></a>
                     {% else %}
                         <a class="navbar-brand" href="{% url 'index'%}"><b>  FindMyConcert</b></a>  
                     {% endif %}
-                     
                 </div>
 
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -30,12 +29,12 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav col-md-8">
-                        <a class="nav-link" href="{% url 'index'%}">Home</a>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'index'%}">Home</a></li>
+
                         {% if user.is_authenticated and user.is_venue %}
-                        <a class="nav-link" href="{% url 'add-concert'%}">Add Concert</a>
+                            <li class="nav-item"><a class="nav-link" href="{% url 'add-concert'%}">Add Concert</a></li>
                         {% endif %}
 
-                        
                         <li class="nav-item"><a class="nav-link" href="{% url 'myEvents'%}">My Events</a></li>
 
                         <li class="nav-item"><a class="nav-link" href="{% url 'about'%}">About</a></li>
@@ -47,13 +46,16 @@
                         {% if user.is_authenticated %}
                             <div class="dropdown navbar-right">
                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                                    {% if user.giggoer.image != "" %}
-                                        <img src="{{ user.gigoer.image.url }}" id="avatar" alt="avatar">
+
+                                    {% if user.is_venue and user.venue.image != "" %}
+                                         <img src="{{ user.venue.image.url }}" alt="Avatar" class="avatar">
+                                    {% elif not user.is_venue and user.giggoer.image != "" %}
+                                        <img src="{{ user.giggoer.image.url }}" alt="Avatar" class="avatar">
                                     {% else %}
                                         <i class="far fa-user fa-lg"></i>
                                     {% endif %}
                                 
-                                    <span class="caret white"></span>
+                                    <span class="caret"></span>
                                 </button>
 
                                 <div class="dropdown-menu dropdown-menu-right">
@@ -73,11 +75,15 @@
                 </div>
             </nav>
         </div>
+
         <hr>
         <div>
             {% block body_block %}
+
             {% endblock %}
         </div>
+
+
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>

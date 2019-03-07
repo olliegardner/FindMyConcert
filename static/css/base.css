@@ -1,7 +1,8 @@
 .avatar {
-    border-radius: 50%;
-    width: auto;
-    height: auto;
+  vertical-align: middle;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
 }
 
 .navbar-right {

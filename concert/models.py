@@ -6,7 +6,8 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.utils import timezone
 
 class User(AbstractUser):
-    is_venue = models.BooleanField(default = False)
+    email = models.EmailField(max_length=70)
+    is_venue = models.BooleanField(default=False)
 
     def isVenue():
         return is_venue    
@@ -14,10 +15,9 @@ class User(AbstractUser):
 
 class Venue(models.Model):
     user         = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    #concerts     = models.ForeignKey(Concert, related_name='concerts')
     name         = models.CharField(max_length=128) 
     location     = models.CharField(max_length=128) 
-    url          = models.URLField()
+    website          = models.URLField()
     description  = models.CharField(max_length=560) 
     phone_number = models.CharField(max_length=15) 
     capacity     = models.IntegerField(default=0)
@@ -31,13 +31,12 @@ class Concert(models.Model):
     concertID   = models.AutoField(primary_key=True)
     artist      = models.CharField(max_length=128) 
     date        = models.DateField(_("Date"))
-    start_time   = models.TimeField(_("Start Time"))
-    end_time     = models.TimeField(_("End Time"))
+    start_time  = models.TimeField(_("Start Time"))
+    end_time    = models.TimeField(_("End Time"))
     image       = models.ImageField(upload_to='venue_images', blank=True, null=True)
     url         = models.URLField()
     description = models.CharField(max_length=560)
-    #venue       = models.CharField(max_length=128)
-    venue = models.ForeignKey(Venue, related_name='venue', on_delete=models.CASCADE )
+    venue       = models.ForeignKey(Venue, related_name='venue', on_delete=models.CASCADE )
 
     def __str__(self): 
         return str(self.concertID)
