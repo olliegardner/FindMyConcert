@@ -8,6 +8,9 @@ from concert.forms import GigGoerSignUpForm, VenueSignUpForm
 from django.views.generic import CreateView
 from django.core.urlresolvers import reverse
 
+import urllib.request
+import json
+
 @login_required
 def profile(request, username):
     # this is edit profile
@@ -37,12 +40,16 @@ def profile(request, username):
 @login_required
 def user_logout(request):
     logout(request)
-    # take user back to the homepage
-    return HttpResponseRedirect(reverse('login'))
+    return HttpResponseRedirect(reverse('login')) # take user back to the sign-in page
+
 
 def index(request):
     concert_list = Concert.objects.order_by('-artist')
-    context_dict = {'concerts': concert_list}
+
+    location = urllib.request.urlopen("http://ip-api.com/json/")
+    data = json.load(location)
+
+    context_dict = {'concerts': concert_list, 'location': data}
     return render(request, 'concert/index.html', context_dict)
 
 def about(request):

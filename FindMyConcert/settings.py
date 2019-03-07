@@ -143,7 +143,9 @@ MEDIA_ROOT = MEDIA_DIR
 MEDIA_URL = '/media/'
 
 
-AUTH_USER_MODEL = "concert.User" 
+AUTH_USER_MODEL = "concert.User"
+LOGIN_REDIRECT_URL = "/concert/"
+
 
 '''EMAIL_USE_TLS = True
 EMAIL_USE_SSL = True
