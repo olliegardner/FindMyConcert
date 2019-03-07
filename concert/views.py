@@ -47,9 +47,9 @@ def index(request):
     concert_list = Concert.objects.order_by('-artist')
 
     location = urllib.request.urlopen("http://ip-api.com/json/")
-    data = json.load(location)
+    location_json = json.load(location)
 
-    context_dict = {'concerts': concert_list, 'location': data}
+    context_dict = {'concerts': concert_list, 'location': location_json}
     return render(request, 'concert/index.html', context_dict)
 
 def about(request):

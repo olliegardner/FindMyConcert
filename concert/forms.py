@@ -42,7 +42,7 @@ class VenueSignUpForm(UserCreationForm):
         venue.image = self.cleaned_data.get('image')
         venue.venue_name = self.cleaned_data.get('venue_name')
         venue.location = self.cleaned_data.get('location')
-        venue.url = self.cleaned_data.get('url')
+        venue.website = self.cleaned_data.get('website')
         venue.description = self.cleaned_data.get('description')
         venue.phone_number = self.cleaned_data.get('phone_number')
         venue.capacity = self.cleaned_data.get('capacity')
