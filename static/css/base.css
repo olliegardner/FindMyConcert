@@ -3,3 +3,7 @@
     width: auto;
     height: auto;
 }
+
+.navbar-right {
+	float: right;
+}
