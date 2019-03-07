@@ -30,6 +30,4 @@ urlpatterns = [
     url(r'^accounts/logout/$', views.user_logout, name='logout'),
     url('accounts/', include('django.contrib.auth.urls')),
     url(r'^accounts/signup/$', views.chooseSignUp, name='signup-choose'),   #Override AllAuth form
-    url(r'^accounts/signup/venue/$', VenueSignUp.as_view(), name='signup-venue'),
-    url(r'^accounts/signup/private/$', GigGoerSignUp.as_view(), name='signup-private'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) 

@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'concert',
     'venues',
+    'bootstrap_toolkit',
 ]
 
 MIDDLEWARE = [
