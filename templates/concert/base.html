@@ -13,17 +13,20 @@
     <body>
         <div class="navbar-container">
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                {% if user.is_authenticated and user.is_venue %}
-                    <a class="navbar-brand col-2" href="{% url 'index'%}"><b>FindMyConcert <span style="color:red;">Venue</span></b></a>
-                {% else %}
-                    <a class="navbar-brand" href="{% url 'index'%}"><b>FindMyConcert</b></a>  
-                {% endif %}  
+                <div class="col-md-2">
+                    {% if user.is_authenticated and user.is_venue %}
+                        <a class="navbar-brand" href="{% url 'index'%}"><b>FindMyConcert <span style="color:red;">Venue</span></b></a>
+                    {% else %}
+                        <a class="navbar-brand" href="{% url 'index'%}"><b>FindMyConcert</b></a>  
+                    {% endif %}
+                </div>
+
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav col-9">
+                    <ul class="navbar-nav col-md-8">
                         <a class="nav-link" href="{% url 'index'%}">Home</a>
 
                         <li class="nav-item dropdown">
@@ -40,7 +43,7 @@
                         <li class="nav-item"><a class="nav-link" href="{% url 'faq'%}">FAQ</a></li>
                     </ul>
 
-                    <div class="col-1">
+                    <div class="col-md-4">
                         {% if user.is_authenticated %}
                             <div class="dropdown">
                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
@@ -64,7 +67,7 @@
                             </div>
                         {% else %}
                             <a href="{% url 'login' %}" class="btn btn-light" role="button">Sign in</a>
-                            <a href="{% url 'signup-choose' %}" class="btn btn-outline-light" role="button">Sign up</a> 
+                            <a href="{% url 'signup-choose' %}" class="btn btn-light" role="button">Sign up</a> 
                         {% endif %}
                     </div>
                 </div>
@@ -78,6 +81,7 @@
 
             {% endblock %}
         </div>
+
 
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
