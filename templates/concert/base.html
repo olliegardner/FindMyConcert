@@ -14,11 +14,14 @@
         <div class="navbar-container">
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="col-md-2">
+                    <i class="fas fa-music" style="padding-right:4%"> </i>
+
                     {% if user.is_authenticated and user.is_venue %}
-                        <a class="navbar-brand" href="{% url 'index'%}"><b>FindMyConcert <span style="color:red;">Venue</span></b></a>
+                        <a class="navbar-brand" href="{% url 'index'%}"><b>  FindMyConcert <span style="color:red;">Venue</span></b></a>
                     {% else %}
-                        <a class="navbar-brand" href="{% url 'index'%}"><b>FindMyConcert</b></a>  
+                        <a class="navbar-brand" href="{% url 'index'%}"><b>  FindMyConcert</b></a>  
                     {% endif %}
+                     
                 </div>
 
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -29,14 +32,8 @@
                     <ul class="navbar-nav col-md-8">
                         <a class="nav-link" href="{% url 'index'%}">Home</a>
 
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="{% url 'myEvents'%}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My Events</a>
-
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{% url 'upcomingEvents' %}">Upcoming Events</a>
-                                <a class="dropdown-item" href="{% url 'pastEvents' %}">Past Events</a>
-                            </div>
-                        </li>
+                        
+                        <li class="nav-item"><a class="nav-link" href="{% url 'myEvents'%}">My Events</a></li>
 
                         <li class="nav-item"><a class="nav-link" href="{% url 'about'%}">About</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'contact'%}">Contact</a></li>
@@ -73,19 +70,13 @@
                 </div>
             </nav>
         </div>
-
         <hr>
-
         <div>
             {% block body_block %}
-
             {% endblock %}
         </div>
-
-
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-
     </body> 
 </html>
