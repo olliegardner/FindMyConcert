@@ -17,7 +17,7 @@
                     <i class="fas fa-music" style="padding-right:4%"> </i>
 
                     {% if user.is_authenticated and user.is_venue %}
-                        <a class="navbar-brand" href="{% url 'index'%}"><b>  FindMyConcert <span style="color:red;">Venue</span></b></a>
+                        <a class="navbar-brand" href="{% url 'index'%}"><b>  AddMyConcert</b></a>
                     {% else %}
                         <a class="navbar-brand" href="{% url 'index'%}"><b>  FindMyConcert</b></a>  
                     {% endif %}
@@ -53,7 +53,7 @@
                                     <span class="caret white"></span>
                                 </button>
 
-                                <div class="dropdown-menu dropdown">
+                                <div class="dropdown-menu dropdown-menu-right">
                                     <span class="dropdown-item-text">Signed in as</span>
                                     <b><span class="dropdown-item-text">{{ user.username }}</span></b>
                                     <div class="dropdown-divider"></div>
