@@ -31,6 +31,9 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav col-md-8">
                         <a class="nav-link" href="{% url 'index'%}">Home</a>
+                        {% if user.is_authenticated and user.is_venue %}
+                        <a class="nav-link" href="{% url 'add-concert'%}">Add Concert</a>
+                        {% endif %}
 
                         
                         <li class="nav-item"><a class="nav-link" href="{% url 'myEvents'%}">My Events</a></li>
