@@ -13,14 +13,14 @@
     <body>
         <div class="navbar-container">
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <a class="navbar-brand" href="{% url 'index'%}"><b>FindMyConcert</b></a>
+                <a class="navbar-brand col-2" href="{% url 'index' %}"><b>FindMyConcert</b></a>
 
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav mr-auto">
+                    <ul class="navbar-nav col-9">
                         <a class="nav-link" href="{% url 'index'%}">Home</a>
 
                         <li class="nav-item dropdown">
@@ -37,34 +37,34 @@
                         <li class="nav-item"><a class="nav-link" href="{% url 'faq'%}">FAQ</a></li>
                     </ul>
 
-                    <div>
-                    {% if user.is_authenticated %}
-                        <div class="dropdown">
-                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                                {% if user.giggoer.image != "" %}
-                                    <img src="{{ user.gigoer.image.url }}" id="avatar" alt="avatar">
-                                {% else %}
-                                    <i class="far fa-user fa-lg"></i>
-                                {% endif %}
-                            
-                                <span class="caret white"></span>
-                            </button>
+                    <div class="col-1">
+                        {% if user.is_authenticated %}
+                            <div class="dropdown">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                    {% if user.giggoer.image != "" %}
+                                        <img src="{{ user.gigoer.image.url }}" id="avatar" alt="avatar">
+                                    {% else %}
+                                        <i class="far fa-user fa-lg"></i>
+                                    {% endif %}
+                                
+                                    <span class="caret white"></span>
+                                </button>
 
-                            <div class="dropdown-menu">
-                                <span class="dropdown-item-text">Signed in as</span>
-                                <b><span class="dropdown-item-text">{{ user.username }}</span></b>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="{% url 'profile' user.username %}">Your profile</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="{% url 'logout' %}">Sign out</a>
+                                <div class="dropdown-menu">
+                                    <span class="dropdown-item-text">Signed in as</span>
+                                    <b><span class="dropdown-item-text">{{ user.username }}</span></b>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="{% url 'profile' user.username %}">Your profile</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="{% url 'logout' %}">Sign out</a>
+                                </div>
                             </div>
-                        </div>
-                    {% else %}
-                        <a href="{% url 'login' %}" class="btn btn-light" role="button">Sign in</a>
-                        <a href="{% url 'signup-choose' %}" class="btn btn-outline-light" role="button">Sign up</a> 
-                    {% endif %}
+                        {% else %}
+                            <a href="{% url 'login' %}" class="btn btn-light" role="button">Sign in</a>
+                            <a href="{% url 'signup-choose' %}" class="btn btn-outline-light" role="button">Sign up</a> 
+                        {% endif %}
                     </div>
-                </div>    
+                </div>
             </nav>
         </div>
 
