@@ -8,6 +8,7 @@ from concert.forms import GigGoerSignUpForm, VenueSignUpForm
 from django.views.generic import CreateView
 from django.core.urlresolvers import reverse
 
+
 import urllib.request
 import json
 
@@ -65,32 +66,27 @@ def myEvents(request):
     return render(request, 'concert/myEvents.html')
 
 def chooseSignUp(request):
-    return render(request, 'concert/chooseSignUp.html')
+    gigForm = GigGoerSignUpForm()
+    venueForm = VenueSignUpForm()
 
-class GigGoerSignUp(CreateView):
-    model = User
-    form_class = GigGoerSignUpForm
-    template_name = 'registration/signup.html'
+    if request.method == 'POST':
+        gigForm = GigGoerSignUpForm(request.POST)
+        venueForm = VenueSignUpForm(request.POST)
 
-    def get_context_data(self, **kwargs):
-        kwargs['is_venue'] = False
-        return super().get_context_data(**kwargs)
+        if gigForm.is_valid():
+            user = gigForm.save()
+            login(request, user)
+            return render(request, 'concert/index.html')
+        if venueForm.is_valid():
+            user = venueForm.save()
+            login(request, user)
+            return render(request, 'concert/index.html')
+        
+    return render(request, 'concert/chooseSignUp.html', {'gigform': gigForm, 'venueform':venueForm})
 
-    def form_valid(self, form):
-        user = form.save()
-        login(self.request, user)
-        return redirect('index')
 
-class VenueSignUp(CreateView):
-    model = User
-    form_class = VenueSignUpForm
-    template_name = 'registration/signup.html'
 
-    def get_context_data(self, **kwargs):
-        kwargs['is_venue'] = True
-        return super().get_context_data(**kwargs)
 
-    def form_valid(self, form):
-        user = form.save()
-        login(self.request, user)
-        return redirect('index')
+
+
+

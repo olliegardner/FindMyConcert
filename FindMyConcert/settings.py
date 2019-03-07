@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'concert',
     'venues',
-    'bootstrap_toolkit',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -146,6 +146,8 @@ MEDIA_URL = '/media/'
 
 AUTH_USER_MODEL = "concert.User"
 LOGIN_REDIRECT_URL = "/concert/"
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 
 '''EMAIL_USE_TLS = True

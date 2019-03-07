@@ -15,6 +15,7 @@ class GigGoerSignUpForm(UserCreationForm):
         user.save()
 
         gigGoer = GigGoer.objects.create(user=user)
+        gigGoer.email = self.cleaned_data.get('email')
         gigGoer.image = self.cleaned_data.get('image')
         gigGoer.save()
 

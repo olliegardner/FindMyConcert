@@ -1,5 +1,6 @@
 {% extends 'concert/base.html' %}
 {% load staticfiles %}
+{% load crispy_forms_tags %}
 
 {% block title %} {{ block.super }} {% endblock %}
 
@@ -21,9 +22,8 @@
 		<div class="tab-content">
     		<div id="private" class="tab-pane fade show active">
     			<br>
-    			<form method="post" novalidate enctype="multipart/form-data">
-					{% csrf_token %}
-					<div class="form-group" >
+
+					<!--<div class="form-group" >
 						<p class="required">
 							<label class="required" for="id_username">Username:</label>
         					<input class="form-control" id="id_username" maxlength="30" name="username" type="text">
@@ -49,25 +49,30 @@
 						<p>
 							<label for="id_image">Profile Picture:</label>
 							<br>
-							<input class="btn btn-outline-dark" type="file" id="id_image" name="image" accept="image/*">
-
-							<div class="file btn btn-outline-dark">
-							Upload
-							<input type="file" accept="image/*">
+							<div class="file btn btn-outline-dark image-upload">
+								Upload
+								<input class="image-upload" type="file" accept="image/*">
 							</div>
 						</p>
 					</div>
 
 					<br>
-					<input class="btn btn-success" type="submit" value="Submit" role="button">
+					<input class="btn btn-success" type="submit" value="Submit" role="button">-->
+
+				<form method="post" novalidate enctype="multipart/form-data">
+					{% csrf_token %}
+					{{ gigform|crispy }}
+					<input type="submit" name="submit" value="Submit">
 				</form>
     		</div>
 
+
     		<div id="venue" class="tab-pane fade">
-      			<h3>hi</h3>
-      			<p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-      			<br>
-      			<a href="venue">Sign up for venue account here</a>
+      			<form method="post" novalidate enctype="multipart/form-data">
+					{% csrf_token %}
+					{{ venueform|crispy }}
+					<input type="submit" name="submit" value="Submit">
+				</form>
     		</div>
   		</div>
     </div>

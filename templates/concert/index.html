@@ -11,7 +11,7 @@
                     {% for concert in concerts %}
                         <tr>
                             <td>{{ concert.artist }}</td>
-                            <td>{{ concert.venue.name }}, {{ concert.venue.location }}</td>
+                            <td>{{ concert.venue.venue_name }}, {{ concert.venue.location }}</td>
                             <td>{{ concert.date }}</td>
                             <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
                             <td>{{ concert.url }}</td>
