@@ -2,5 +2,6 @@ from django.conf.urls import url, include
 from venues import views, forms
 
 urlpatterns = [
-    url(r'^$', views.index, name='index'),
+    url(r'^$', views.venueIndex, name='venue_index'),
+    url(r'^addconcert/$', views.addConcert, name='add_concert'),
 ]

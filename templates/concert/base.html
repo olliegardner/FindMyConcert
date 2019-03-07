@@ -13,8 +13,11 @@
     <body>
         <div class="navbar-container">
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <a class="navbar-brand col-2" href="{% url 'index' %}"><b>FindMyConcert</b></a>
-
+                {% if user.is_authenticated and user.is_venue %}
+                    <a class="navbar-brand col-2" href="{% url 'index'%}"><b>FindMyConcert <span style="color:red;">Venue</span></b></a>
+                {% else %}
+                    <a class="navbar-brand" href="{% url 'index'%}"><b>FindMyConcert</b></a>  
+                {% endif %}  
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
                 </button>
