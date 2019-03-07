@@ -14,7 +14,6 @@ class User(AbstractUser):
 
 class Venue(models.Model):
     user         = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    #concerts     = models.ForeignKey(Concert, related_name='concerts')
     name         = models.CharField(max_length=128) 
     location     = models.CharField(max_length=128) 
     url          = models.URLField()
@@ -36,7 +35,6 @@ class Concert(models.Model):
     image       = models.ImageField(upload_to='venue_images', blank=True, null=True)
     url         = models.URLField()
     description = models.CharField(max_length=560)
-    #venue       = models.CharField(max_length=128)
     venue = models.ForeignKey(Venue, related_name='venue', on_delete=models.CASCADE )
 
     def __str__(self): 
