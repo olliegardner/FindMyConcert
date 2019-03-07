@@ -37,7 +37,7 @@ class Concert(models.Model):
     url         = models.URLField()
     description = models.CharField(max_length=560)
     #venue       = models.CharField(max_length=128)
-    venue = models.ForeignKey(Venue, related_name='venue', on_delete=models.CASCADE)
+    venue = models.ForeignKey(Venue, related_name='venue', on_delete=models.CASCADE )
 
     def __str__(self): 
         return str(self.concertID)
