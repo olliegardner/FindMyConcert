@@ -15,6 +15,9 @@ class GigGoerSignUpForm(UserCreationForm):
 
         gigGoer = GigGoer.objects.create(user=user)
         #gigGoer.add(*self.cleaned_data.get('image'))
+
+        gigGoer.image = self.cleaned_data.get('image')
+
         return user
 
 class VenueSignUpForm(UserCreationForm):
