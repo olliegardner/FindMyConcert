@@ -4,15 +4,14 @@
 {% block title %} {{ block.super }} {% endblock %}
 
 {% block body_block %}
-    <div class="container">
-        <h1>TEST</h1>
-        {% if concerts %}
-            <table class="table table-hover">
+    {% if concerts %}
+        <div class="table-responsive">
+            <table class="table table-hover" align="center" style="width: 90%">
                 <tbody>
                     {% for concert in concerts %}
                         <tr>
                             <td>{{ concert.artist }}</td>
-                            <td>{{ concert.user.venue.name }}, {{ concert.user.venue.location }}</td>
+                            <td>{{ concert.venue.name }}, {{ concert.venue.location }}</td>
                             <td>{{ concert.date }}</td>
                             <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
                             <td>{{ concert.url }}</td>
@@ -20,11 +19,12 @@
                     {% endfor %}
                 </tbody>
             </table>
-            <ul>
+        </div>
+    {% else %}
+        <strong>There are currently no concerts with those search fields</strong>
+    {% endif %}
 
-            </ul>
-        {% else %}
-            <strong>There are no concerts present</strong>
-        {% endif %}
-    </div>
+    {% if location %}
+        Your current city: {{ location.city }}
+    {% endif %}
 {% endblock %}
