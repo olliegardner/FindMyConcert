@@ -52,11 +52,11 @@
     {% endif %}
     {% else %}
 
-    {% if user.giggoer.concert %}
+    {% if user.giggoer.bookmarks %}
     <div class="table-responsive">
         <table class="table table-hover" align="center" style="width: 90%">
             <tbody>
-                {% for concert in user.giggoer.concert.all %}
+                {% for concert in user.giggoer.bookmarks.all %}
                 {% if concert.is_future %}
                 <tr>
                     <td>{{ concert.artist }}</td>

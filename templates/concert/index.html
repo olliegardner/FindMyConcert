@@ -4,28 +4,34 @@
 {% block title %} {{ block.super }} {% endblock %}
 
 {% block body_block %}
-    {% if concerts %}
-        <div class="table-responsive">
-            <table class="table table-hover" align="center" style="width: 90%">
-                <tbody>
-                    {% for concert in concerts %}
-                        <tr>
-                            <td>{{ concert.artist }}</td>
-                            <td>{{ concert.venue.venue_name }}, {{ concert.venue.location }}</td>
-                            <td>{{ concert.date }}</td>
-                            <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
-                            <td>{{ concert.url }}</td>
-                            <td><button >Bookmark</button></td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    {% else %}
-        <strong>There are currently no concerts with those search fields</strong>
-    {% endif %}
+{% if concerts %}
+<div class="table-responsive">
+    <table class="table table-hover" align="center" style="width: 90%">
+        <tbody>
+            {% for concert in concerts %}
+            <tr>
+                <td>{{ concert.artist }}</td>
+                <td>{{ concert.venue.venue_name }}, {{ concert.venue.location }}</td>
+                <td>{{ concert.date }}</td>
+                <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
+                <td>{{ concert.url }}</td>
+                {% if user.is_authenticated and not user.is_venue %}
+                <td><a href="{% url 'bookmark' concert.concertID%}">
+                  <button class="button button-blue button-bordered">
+                    <span class="button--inner">Bookmark</span>
+                </button>
+                </a></td>
+                {% endif %}
+            </tr>
+             {% endfor %}
+    </tbody>
+</table>
+</div>
+{% else %}
+<strong>There are currently no concerts with those search fields</strong>
+{% endif %}
 
-    {% if location %}
-        Your current city: {{ location.city }}
-    {% endif %}
+{% if location %}
+Your current city: {{ location.city }}
+{% endif %}
 {% endblock %}

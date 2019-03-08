@@ -9,6 +9,7 @@ from django.views.generic import CreateView
 from django.core.urlresolvers import reverse
 from FindMyConcert.custom_decorators import giggoer_required
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404
 import urllib.request
 import json
 
@@ -78,11 +79,11 @@ def chooseSignUp(request):
 @giggoer_required
 def bookmark(request, id):
     concert = get_object_or_404(Concert, concertID=id)
-    if (concert in user.giggoer.bookmarks_set.all()):
-        return HttpResponseRedirect(reverse('/')) 
+    if (concert in request.user.giggoer.bookmarks.all()):
+        return HttpResponseRedirect(reverse(index)) 
     else:
-        user.giggoer.bookmarks_set.add(concert)
-        return HttpResponseRedirect(reverse('/')) 
+        request.user.giggoer.bookmarks.add(concert)
+        return HttpResponseRedirect(reverse(index)) 
         
 
 
