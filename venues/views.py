@@ -2,9 +2,16 @@ from django.shortcuts import render
 from concert.models import Concert
 from venues.forms import ConcertForm
 from django.http import HttpResponse, HttpResponseRedirect
+from FindMyConcert.custom_decorators import venue_required
+from django.contrib.auth.decorators import login_required
+
+@login_required
+@venue_required
 def venueIndex(request):
     return render(request, 'venues/index.html')
 
+@login_required
+@venue_required
 def addConcert(request):
     form = ConcertForm()
 

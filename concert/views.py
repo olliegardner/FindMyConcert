@@ -7,6 +7,8 @@ from concert.models import User, Concert
 from concert.forms import GigGoerSignUpForm, VenueSignUpForm
 from django.views.generic import CreateView
 from django.core.urlresolvers import reverse
+from FindMyConcert.custom_decorators import giggoer_required
+from django.contrib.auth.decorators import login_required
 
 
 import urllib.request
@@ -62,6 +64,7 @@ def faq(request):
 def contact(request):
     return render(request, 'concert/contact.html')
 
+@login_required
 def myEvents(request):
     return render(request, 'concert/myEvents.html')
 
