@@ -9,7 +9,7 @@ def addConcert(request):
     form = ConcertForm()
 
     if request.method == 'POST':
-        form = ConcertForm(request.POST)
+        form = ConcertForm(request.POST, request.FILES)
 
         if form.is_valid():
             concert = Concert()
