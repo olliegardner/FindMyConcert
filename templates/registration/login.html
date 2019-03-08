@@ -6,11 +6,10 @@
 {% block body_block %}
 	<h1>Sign in</h1>
 
-	<form method="post" action=".">
+	<form method="post" novalidate enctype="multipart/form-data">
 		{% csrf_token %}
 		{{ form.as_p }}
-
-		<input type="submit" value="Sign in">
+		<input type="submit" name="login" value="Sign in">
 		<input type="hidden" name="next" value="{{ next }}">
-	</form> 
+	</form>
 {% endblock %}
