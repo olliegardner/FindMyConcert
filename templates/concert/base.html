@@ -34,9 +34,11 @@
                         {% if user.is_authenticated and user.is_venue %}
                             <li class="nav-item"><a class="nav-link" href="{% url 'add-concert'%}">Add Concert</a></li>
                         {% endif %}
+
                         {% if user.is_authenticated %}
-                        <li class="nav-item"><a class="nav-link" href="{% url 'myEvents'%}">My Events</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url 'myEvents'%}">My Events</a></li>
                         {% endif %}
+
                         <li class="nav-item"><a class="nav-link" href="{% url 'about'%}">About</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'contact'%}">Contact</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'faq'%}">FAQ</a></li>
@@ -46,7 +48,13 @@
                         {% if user.is_authenticated %}
                             <div class="dropdown navbar-right">
                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-
+                                    {% if user.is_venue and user.venue.image != "" %}
+                                         <img src="{{ user.venue.image.url }}" alt="Avatar" class="avatar">
+                                    {% elif not user.is_venue and user.giggoer.image != "" %}
+                                        <img src="{{ user.giggoer.image.url }}" alt="Avatar" class="avatar">
+                                    {% else %}
+                                        <i class="far fa-user fa-lg"></i>
+                                    {% endif %}
                                 
                                     <span class="caret"></span>
                                 </button>

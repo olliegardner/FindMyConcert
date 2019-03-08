@@ -7,7 +7,8 @@
 {% block body_block %}
 	<h1>Add a Concert</h1>
 	<div>
-		<form id="concertform" method="post" action="/venues/addconcert/" enctype="multipart/form-data "> {% csrf_token %}
+		<form id="concertform" method="post" action="/venues/addconcert/" enctype="multipart/form-data ">
+			{% csrf_token %}
 			{{ form|crispy }}
 			<input type="submit" name="submit" value="Create Concert" />
 		</form>
