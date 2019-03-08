@@ -16,28 +16,14 @@ import json
 
 @login_required
 def profile(request, username):
-    # this is edit profile
+    if (request.user.is_venue):
+        #TODO - venue profile
+        pass
+    else:
+        pass
+        #TODO - giggoer profile
 
-    """
-    TODO - add code to check whether user is a Venue or GigGoer 
-    """
-    try:
-        user = User.objects.get(username=username)
-    except:
-        return redirect('index')
-
-    userprofile = User.objects.get_or_create(user=user)[0]
-    form = EditGigGoerForm({'image': userprofile.image})
-
-    if request.method == 'POST':
-        form = UserProfileForm(request.POST, request.FILES, instance=userprofile)
-        if form.is_valid():
-            form.save(commit=True)
-            return redirect('profile', user.username)
-        else:
-            print(form.errors)
-
-    return render(request, 'concert/profile.html', {'userprofile': userprofile, 'selecteduser': user, 'form': form})
+    return render(request, 'concert/index.html')
 
 
 @login_required
@@ -89,10 +75,11 @@ def chooseSignUp(request):
                 login(request, user)
                 return render(request, 'concert/index.html')
         
-    return render(request, 'registration/signup.html', {'gigform': gigForm, 'venueform':venueForm})
+    return render(request, 'concert/chooseSignUp.html', {'gigform': gigForm, 'venueform':venueForm})
 
-
-
+@login_required
+@giggoer_required
+def bookmark(request):
 
 
 
