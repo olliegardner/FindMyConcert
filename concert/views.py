@@ -9,8 +9,6 @@ from django.views.generic import CreateView
 from django.core.urlresolvers import reverse
 from FindMyConcert.custom_decorators import giggoer_required
 from django.contrib.auth.decorators import login_required
-
-
 import urllib.request
 import json
 
@@ -79,7 +77,10 @@ def chooseSignUp(request):
 
 @login_required
 @giggoer_required
-def bookmark(request):
+def bookmark(request, id):
+    concert = get_object_or_404(Concert, concertID=id)
+    if True:
+        pass
 
 
 
