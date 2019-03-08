@@ -13,7 +13,6 @@ class GigGoerSignUpForm(UserCreationForm):
         user = super().save(commit=False)
         user.is_venue = False
         user.save()
-
         gigGoer = GigGoer.objects.create(user=user)
         gigGoer.email = self.cleaned_data.get('email')
         gigGoer.image = self.cleaned_data.get('image')

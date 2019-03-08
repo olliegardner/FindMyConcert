@@ -70,17 +70,21 @@ def chooseSignUp(request):
     venueForm = VenueSignUpForm()
 
     if request.method == 'POST':
-        gigForm = GigGoerSignUpForm(request.POST)
-        venueForm = VenueSignUpForm(request.POST)
-
-        if gigForm.is_valid():
-            user = gigForm.save()
-            login(request, user)
-            return render(request, 'concert/index.html')
-        if venueForm.is_valid():
-            user = venueForm.save()
-            login(request, user)
-            return render(request, 'concert/index.html')
+        
+        if 'submit_giggoer' in request.POST:
+            gigForm = GigGoerSignUpForm(request.POST, request.FILES)
+            if gigForm.is_valid():
+                print(gigForm.cleaned_data.get('image'))
+                user = gigForm.save()
+                login(request, user)
+                return render(request, 'concert/index.html')
+        
+        if 'submit_venue' in request.POST:
+            venueForm = VenueSignUpForm(request.POST, request.FILES)
+            if venueForm.is_valid():
+                user = venueForm.save()
+                login(request, user)
+                return render(request, 'concert/index.html')
         
     return render(request, 'concert/chooseSignUp.html', {'gigform': gigForm, 'venueform':venueForm})
 

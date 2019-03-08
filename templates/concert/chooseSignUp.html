@@ -62,7 +62,7 @@
 				<form method="post" novalidate enctype="multipart/form-data">
 					{% csrf_token %}
 					{{ gigform|crispy }}
-					<input type="submit" name="submit" value="Submit">
+					<input type="submit" name="submit_giggoer" value="Submit">
 				</form>
     		</div>
 
@@ -71,7 +71,7 @@
       			<form method="post" novalidate enctype="multipart/form-data">
 					{% csrf_token %}
 					{{ venueform|crispy }}
-					<input type="submit" name="submit" value="Submit">
+					<input type="submit" name="submit_venue" value="Submit">
 				</form>
     		</div>
   		</div>
