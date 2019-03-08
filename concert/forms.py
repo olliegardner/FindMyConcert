@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from concert.models import GigGoer, User, Venue
+from concert.models import GigGoer, User, Venue, Concert
 
 class GigGoerSignUpForm(UserCreationForm):
     email = forms.EmailField(required=True)
@@ -65,7 +65,10 @@ class EditVenueForm(forms.ModelForm):
         model = Venue
         exclude = ('user', )
 
-
+class removeBookmarkForm(forms.ModelForm):
+    class Meta:
+        model = Concert
+        fields = []
 
 
 

@@ -41,7 +41,7 @@
                     </form>
                     </div></td>
 
-                </tr><td>
+                </tr><
                 {% endif %}
                 {% endfor %}
             </tbody>
@@ -64,6 +64,11 @@
                     <td>{{ concert.date }}</td>
                     <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
                     <td>{{ concert.url }}</td>
+                    <td><form action="{% url 'removebookmark' concert.concertID%}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" >Remove Bookmark</button>
+                    </form>
+                    </div></td>
                 </tr>
                 {% endif %}
                 {% endfor %}
@@ -124,6 +129,11 @@
                     <td>{{ concert.date }}</td>
                     <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
                     <td>{{ concert.url }}</td>
+                    <td><form action="{% url 'removebookmark' concert.concertID%}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" >Remove Bookmark</button>
+                    </form>
+                    </div></td>
                 </tr>
                 {% endif %}
                 {% endfor %}

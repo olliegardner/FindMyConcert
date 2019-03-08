@@ -4,7 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from concert.models import User, Concert
-from concert.forms import GigGoerSignUpForm, VenueSignUpForm
+from concert.forms import GigGoerSignUpForm, VenueSignUpForm, removeBookmarkForm
 from django.views.generic import CreateView
 from django.core.urlresolvers import reverse
 from FindMyConcert.custom_decorators import giggoer_required
@@ -84,6 +84,30 @@ def bookmark(request, id):
     else:
         request.user.giggoer.bookmarks.add(concert)
         return HttpResponseRedirect(reverse(index)) 
+
+@login_required
+@giggoer_required
+def removeBookmark(request, id):
+    concert_to_remove = get_object_or_404(Concert, concertID=id)
+    if (concert_to_remove not in request.user.giggoer.bookmarks.all()):
+        return HttpResponseRedirect(reverse(myEvents))
+
+    if request.method == 'POST':
+        form = removeBookmarkForm(request.POST, instance=concert_to_remove)
+
+        if form.is_valid(): 
+            request.user.giggoer.bookmarks.remove(concert_to_remove)
+            return render(request, 'concert/myEvents.html') # wherever to go after deleting
+        else:
+            print(form.errors)
+
+    else:
+        print("No POST request") 
+        form = removeBookmarkForm(instance=concert_to_remove)
+
+    template_vars = {'form': form}
+    return render(request, 'concert/myEvents.html', concert_to_remove)
+
         
 
 
