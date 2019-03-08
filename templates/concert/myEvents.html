@@ -112,11 +112,11 @@
     <strong>You have no concerts, you can add one by pressing<span> <a href = "{% url 'add-concert' %}"> here </a> </span></strong>
     {% endif %}
     {% else %}
-        {% if user.giggoer.concert %}
+        {% if user.giggoer.bookmarks %}
     <div class="table-responsive">
         <table class="table table-hover" align="center" style="width: 90%">
             <tbody>
-                {% for concert in user.giggoer.concert.all %}
+                {% for concert in user.giggoer.bookmarks.all %}
                 {% if not concert.is_future %}
                 <tr>
                     <td>{{ concert.artist }}</td>

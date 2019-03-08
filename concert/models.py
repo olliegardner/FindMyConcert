@@ -68,7 +68,7 @@ class GigGoer(models.Model):
     user      = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     comments  = models.ManyToManyField(Comment, related_name='comments')
     image     = models.ImageField(upload_to='profile_images', blank=True) 
-    #bookmarks = models.ManyToManyField(Concert, related_name='bookmarks')
+    bookmarks = models.ManyToManyField(Concert, related_name='bookmarks')
 
     def __str__(self):
         return self.user.username

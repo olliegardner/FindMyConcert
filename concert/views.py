@@ -79,8 +79,12 @@ def chooseSignUp(request):
 @giggoer_required
 def bookmark(request, id):
     concert = get_object_or_404(Concert, concertID=id)
-    if True:
-        pass
+    if (concert in user.giggoer.bookmarks_set.all()):
+        return HttpResponseRedirect(reverse('/')) 
+    else:
+        user.giggoer.bookmarks_set.add(concert)
+        return HttpResponseRedirect(reverse('/')) 
+        
 
 
 
