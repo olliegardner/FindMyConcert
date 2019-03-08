@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from datetime import datetime
+import datetime
 from django.utils.translation import gettext as _
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.utils import timezone
@@ -36,7 +36,14 @@ class Concert(models.Model):
     image       = models.ImageField(upload_to='concert_images', blank=True, null=True)
     url         = models.URLField()
     description = models.CharField(max_length=560)
-    venue       = models.ForeignKey(Venue, related_name='venue', on_delete=models.CASCADE)
+    venue       = models.ForeignKey(Venue, related_name='concert', on_delete=models.CASCADE)
+
+    def is_future(self):
+        print(datetime.date.today() )
+        if self.date >= datetime.date.today():
+           return True 
+        else:
+           return False
 
     def __str__(self): 
         return str(self.concertID)

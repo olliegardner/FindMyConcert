@@ -4,29 +4,120 @@
 {% block title %} {{ block.super }} {% endblock %}
 
 {% block body_block %}
-    <div class="container">
-    	<h1>My Events</h1>
-    	
-    	<ul class="nav nav-tabs">
-    		<li class="nav-item">
-    			<a class="nav-link active" data-toggle="tab" href="#private" role="tab" aria-selected="true">Upcoming Events</a>
-    		</li>
+<div class="container">
+   <h1>My Events</h1>
 
-    		<li class="nav-item">
-    			<a class="nav-link" data-toggle="tab" href="#venue" role="tab" aria-selected="true">Past Events</a>
-    		</li>
-    	</ul>
+   <ul class="nav nav-tabs">
+      <li class="nav-item">
+       <a class="nav-link active" data-toggle="tab" href="#private" role="tab" aria-selected="true">Upcoming Events</a>
+   </li>
 
-		<div class="tab-content">
-    		<div id="private" class="tab-pane fade show active">
-    			<br>
-				<a href="private">SHOW UPCOMING EVENTS HERE</a>
-    		</div>
+   <li class="nav-item">
+       <a class="nav-link" data-toggle="tab" href="#venue" role="tab" aria-selected="true">Past Events</a>
+   </li>
+</ul>
 
-    		<div id="venue" class="tab-pane fade">
-      			<br>
-      			<a href="venue">SHOW PAST EVENTS HERE</a>
-    		</div>
-  		</div>
+<div class="tab-content">
+  <div id="private" class="tab-pane fade show active">
+    {% if user.is_venue %}
+
+    {% if user.venue.concert %}
+    <div class="table-responsive">
+        <table class="table table-hover" align="center" style="width: 90%">
+            <tbody>
+                {% for concert in user.venue.concert.all %}
+                {% if concert.is_future %}
+                <tr>
+                    <td>{{ concert.artist }}</td>
+                    <td>{{ concert.venue.venue_name }} , {{ concert.venue.location }}</td>
+                    <td>{{ concert.date }}</td>
+                    <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
+                    <td>{{ concert.url }}</td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
+    {% else %}
+    <strong>You have no concerts, you can add one by pressing<span> <a href = "{% url 'add-concert' %}"> here </a> </span></strong>
+    {% endif %}
+    {% else %}
+
+    {% if user.giggoer.concert %}
+    <div class="table-responsive">
+        <table class="table table-hover" align="center" style="width: 90%">
+            <tbody>
+                {% for concert in user.giggoer.concert.all %}
+                {% if concert.is_future %}
+                <tr>
+                    <td>{{ concert.artist }}</td>
+                    <td>{{ concert.venue.venue_name }} , {{ concert.venue.location }}</td>
+                    <td>{{ concert.date }}</td>
+                    <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
+                    <td>{{ concert.url }}</td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <strong>You have no concerts bookmarked</strong>
+    {% endif %}
+    {% endif %}
+
+</div>
+
+<div id="venue" class="tab-pane fade">
+    {% if user.is_venue %}
+
+      {% if user.venue.concert %}
+      <div class="table-responsive">
+        <table class="table table-hover" align="center" style="width: 90%">
+            <tbody>
+                {% for concert in user.venue.concert.all %}
+                {% if not concert.is_future %}
+                <tr>
+                    <td>{{ concert.artist }}</td>
+                    <td>{{ concert.venue.venue_name }} , {{ concert.venue.location }}</td>
+                    <td>{{ concert.date }}</td>
+                    <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
+                    <td>{{ concert.url }}</td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+      </div>
+
+    {% else %}
+    <strong>You have no concerts, you can add one by pressing<span> <a href = "{% url 'add-concert' %}"> here </a> </span></strong>
+    {% endif %}
+    {% else %}
+        {% if user.giggoer.concert %}
+    <div class="table-responsive">
+        <table class="table table-hover" align="center" style="width: 90%">
+            <tbody>
+                {% for concert in user.giggoer.concert.all %}
+                {% if not concert.is_future %}
+                <tr>
+                    <td>{{ concert.artist }}</td>
+                    <td>{{ concert.venue.venue_name }} , {{ concert.venue.location }}</td>
+                    <td>{{ concert.date }}</td>
+                    <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
+                    <td>{{ concert.url }}</td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <strong>You have no concerts bookmarked</strong>
+    {% endif %}
+    {% endif %}
+</div>
+</div>
+</div>
 {% endblock %}
