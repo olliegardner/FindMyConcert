@@ -29,11 +29,11 @@ class Venue(models.Model):
 
 class Concert(models.Model):
     concertID   = models.AutoField(primary_key=True)
-    artist      = models.CharField(max_length=128) 
+    artist      = models.CharField(max_length=128,) 
     date        = models.DateField(_("Date"))
     start_time  = models.TimeField(_("Start Time"))
     end_time    = models.TimeField(_("End Time"))
-    image       = models.ImageField(upload_to='concert_images', blank=True, null=True)
+    image       = models.ImageField(upload_to='concert_images', null=True)
     url         = models.URLField()
     description = models.CharField(max_length=560)
     venue       = models.ForeignKey(Venue, related_name='concert', on_delete=models.CASCADE)

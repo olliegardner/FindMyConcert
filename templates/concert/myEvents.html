@@ -33,6 +33,9 @@
                     <td>{{ concert.date }}</td>
                     <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
                     <td>{{ concert.url }}</td>
+                                        <td><a href="{% url 'edit' concert.concertID%}">
+                  <button class="button button-blue button-bordered">
+                    <span class="button--inner">Edit</span> </td>
                     <td>
 
                     <form action="{% url 'delete' concert.concertID%}" method="post">
@@ -40,6 +43,7 @@
                     <button type="submit" >Delete</button>
                     </form>
                     </div></td>
+
 
                 </tr><
                 {% endif %}
@@ -97,9 +101,11 @@
                     <td>{{ concert.date }}</td>
                     <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
                     <td>{{ concert.url }}</td>
-                    <td>
+                    <td><a href="{% url 'edit' concert.concertID%}">
+                  <button class="button button-blue button-bordered">
+                    <span class="button--inner">Edit</span></td>
 
-                    <form action="{% url 'delete' concert.concertID%}" method="post">
+                    <td><form action="{% url 'delete' concert.concertID%}" method="post">
                     {% csrf_token %}
                     <button type="submit" >Delete</button>
                     </form>

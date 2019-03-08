@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from concert.models import Concert
-from venues.forms import ConcertForm, DeleteConcertForm
+from venues.forms import ConcertForm, DeleteConcertForm, EditConcertForm
 from django.http import HttpResponse, HttpResponseRedirect
 from FindMyConcert.custom_decorators import venue_required
 from django.contrib.auth.decorators import login_required
@@ -51,7 +51,7 @@ def deleteConcert(request, id):
         if form.is_valid(): 
             print("Deleting object")
             new_to_delete.delete()
-            return render(request, 'concert/myEvents.html') # wherever to go after deleting
+            return render(request, 'concert/myEvents.html')
         else:
             print(form.errors)
 
@@ -61,3 +61,39 @@ def deleteConcert(request, id):
 
     template_vars = {'form': form}
     return render(request, 'concert/myEvents.html', template_vars)
+
+@login_required
+@venue_required
+def editConcert(request, id):
+    concert = get_object_or_404(Concert, concertID=id)
+    if (concert.venue != request.user.venue):
+        return HttpResponseRedirect(reverse('/')) 
+
+    if request.method == 'POST':
+        form = EditConcertForm(request.POST, request.FILES)
+
+        if form.is_valid(): 
+            if (form.cleaned_data.get('artist') != ""):
+                concert.artist      = form.cleaned_data['artist']
+            if (form.cleaned_data.get('date') != None):
+                concert.date        = form.cleaned_data['date']
+            if (form.cleaned_data.get('start_time') != None):
+                concert.start_time  = form.cleaned_data['start_time']
+            if (form.cleaned_data.get('end_time') != None):
+                concert.end_time    = form.cleaned_data['end_time']
+            if (form.cleaned_data.get('image') != None):
+                concert.image       = form.cleaned_data.get('image')
+            if (form.cleaned_data.get('url') != ""):
+                concert.url         = form.cleaned_data['url']
+            if (form.cleaned_data.get('description') != ""):
+                concert.description = form.cleaned_data['description']
+            concert.save()
+
+            return render(request, 'concert/myEvents.html')
+        else:
+            print(form.errors)
+    form = EditConcertForm
+    return render(request, 'venues/editConcert.html', {'form': form, 'id' : id})
+
+
+

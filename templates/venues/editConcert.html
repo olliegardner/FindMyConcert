@@ -1,0 +1,16 @@
+{% extends 'concert/base.html' %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+
+{% block title %} {{ block.super }} {% endblock %}
+
+{% block body_block %}
+	<h1>Edit a concert</h1>
+	<div>
+		<form id="concertform" method="post" action="/venues/edit/{{id}}/" enctype="multipart/form-data ">
+			{% csrf_token %}
+			{{ form|crispy }}
+			<input type="submit" name="submit" value="Edit Concert" />
+		</form>
+	</div>
+{% endblock %}
