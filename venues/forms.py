@@ -13,3 +13,8 @@ class ConcertForm(forms.ModelForm):
     class Meta(forms.ModelForm):
         model = Concert
         exclude = {'venue', 'concertID'}
+
+class DeleteConcertForm(forms.ModelForm):
+    class Meta:
+        model = Concert
+        fields = []

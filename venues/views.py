@@ -1,9 +1,11 @@
 from django.shortcuts import render
 from concert.models import Concert
-from venues.forms import ConcertForm
+from venues.forms import ConcertForm, DeleteConcertForm
 from django.http import HttpResponse, HttpResponseRedirect
 from FindMyConcert.custom_decorators import venue_required
 from django.contrib.auth.decorators import login_required
+from django.core.urlresolvers import reverse
+from django.shortcuts import get_object_or_404
 
 @login_required
 @venue_required
@@ -33,3 +35,29 @@ def addConcert(request):
 
             return render(request, 'venues/index.html')
     return render(request, 'venues/addConcert.html', {'form': form})
+
+@login_required
+@venue_required
+def deleteConcert(request, id): 
+    print("Delete concert view initalised")
+    new_to_delete = get_object_or_404(Concert, concertID=id)
+    if (new_to_delete.venue != request.user.venue):
+        return HttpResponseRedirect(reverse('/')) 
+
+
+    if request.method == 'POST':
+        form = DeleteConcertForm(request.POST, instance=new_to_delete)
+
+        if form.is_valid(): 
+            print("Deleting object")
+            new_to_delete.delete()
+            return render(request, 'concert/myEvents.html') # wherever to go after deleting
+        else:
+            print(form.errors)
+
+    else:
+        print("No POST request") 
+        form = DeleteConcertForm(instance=new_to_delete)
+
+    template_vars = {'form': form}
+    return render(request, 'concert/myEvents.html', template_vars)
