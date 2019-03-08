@@ -15,9 +15,9 @@ class User(AbstractUser):
 
 class Venue(models.Model):
     user         = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    venue_name         = models.CharField(max_length=128) 
+    venue_name   = models.CharField(max_length=128) 
     location     = models.CharField(max_length=128) 
-    website          = models.URLField()
+    website      = models.URLField()
     description  = models.CharField(max_length=560) 
     phone_number = models.CharField(max_length=15) 
     capacity     = models.IntegerField(default=0)

@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.http import HttpResponse, HttpResponseRedirect
-from django.contrib.auth import login, logout
+from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from concert.models import User, Concert
 from concert.forms import GigGoerSignUpForm, VenueSignUpForm
@@ -22,7 +22,6 @@ def profile(request, username):
         #TODO - giggoer profile
 
     return render(request, 'concert/index.html')
-
 
 @login_required
 def user_logout(request):
@@ -52,12 +51,12 @@ def contact(request):
 def myEvents(request):
     return render(request, 'concert/myEvents.html')
 
+
 def chooseSignUp(request):
     gigForm = GigGoerSignUpForm()
     venueForm = VenueSignUpForm()
 
     if request.method == 'POST':
-        
         if 'submit_giggoer' in request.POST:
             gigForm = GigGoerSignUpForm(request.POST, request.FILES)
             if gigForm.is_valid():

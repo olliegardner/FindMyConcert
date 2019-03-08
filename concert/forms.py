@@ -50,8 +50,7 @@ class VenueSignUpForm(UserCreationForm):
 
         return user
 
-
-
+        
 
 #EDIT FORMS
 class EditGigGoerForm(forms.ModelForm):
