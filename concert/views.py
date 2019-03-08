@@ -4,7 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from concert.models import User, Concert
-from concert.forms import GigGoerSignUpForm, VenueSignUpForm, removeBookmarkForm
+from concert.forms import GigGoerSignUpForm, VenueSignUpForm, removeBookmarkForm, EditGigGoerForm, EditVenueForm
 from django.views.generic import CreateView
 from django.core.urlresolvers import reverse
 from FindMyConcert.custom_decorators import giggoer_required
@@ -13,16 +13,6 @@ from django.shortcuts import get_object_or_404
 import urllib.request
 import json
 
-@login_required
-def profile(request, username):
-    if (request.user.is_venue):
-        #TODO - venue profile
-        pass
-    else:
-        pass
-        #TODO - giggoer profile
-
-    return render(request, 'concert/index.html')
 
 @login_required
 def user_logout(request):
@@ -109,6 +99,49 @@ def removeBookmark(request, id):
     return render(request, 'concert/myEvents.html', concert_to_remove)
 
         
+@login_required
+def profile(request, username):
+    if (request.user.is_venue):
+        if request.method == 'POST':
+            form = EditVenueForm(request.POST, request.FILES)
+            if form.is_valid():
+                user = request.user
+                #Would it not be nice if python had switch statements?
+                if (form.cleaned_data.get('email') != ""):
+                    user.email = form.cleaned_data.get('email')
+                if (form.cleaned_data.get('image') != None):
+                    user.venue.image = form.cleaned_data.get('image')    
+                if (form.cleaned_data.get('venue_name') != ""):
+                    user.venue.venue_name = form.cleaned_data.get('venue_name')
+                if (form.cleaned_data.get('location') != ""):
+                    user.venue.location = form.cleaned_data.get('location')
+                if (form.cleaned_data.get('website') != ""):
+                    user.venue.website = form.cleaned_data.get('website')
+                if (form.cleaned_data.get('description') != ""):
+                    user.venue.description = form.cleaned_data.get('description')
+                if (form.cleaned_data.get('capacity') != None):
+                    user.venue.capacity = form.cleaned_data.get('capacity')                  
+                user.save()
+                user.venue.save()
+                return render(request, 'concert/profile.html', {'selecteduser': request.user, 'form': EditVenueForm})
+        else:
+            form = EditVenueForm
+    else:
+        if request.method == 'POST':
+            form = EditGigGoerForm(request.POST, request.FILES)
+            if form.is_valid():
+                user = request.user
+                if (form.cleaned_data.get('email') != ""):
+                    user.email = form.cleaned_data.get('email')
+                if (form.cleaned_data.get('image') != None):
+                    user.giggoer.image = form.cleaned_data.get('image')
+                user.giggoer.save()
+                user.save()  
+                return render(request, 'concert/profile.html', {'selecteduser': request.user, 'form': EditGigGoerForm})
+        else:
+            form = EditGigGoerForm
+
+    return render(request, 'concert/profile.html', {'form': form, 'selecteduser': request.user})
 
 
 

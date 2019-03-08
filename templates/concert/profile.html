@@ -1,17 +1,20 @@
 {% extends 'concert/base.html' %}
 {% load staticfiles %}
-
-{% block title %} {{ selecteduser.username }} {% endblock %}
+{% load crispy_forms_tags %}
 
 {% block body_block %}
     <h3>{{ selecteduser.username }}'s Profile</h3>
-    <img src="{{ MEDIA_URL }}{{ userprofile.image }}" width="200" height="200" alt="{{ selecteduser.username }}">
+    {% if selecteduser.is_venue %}
+    <img src="{{ selecteduser.venue.image.url }}">
+    {% else %}
+    <img src="{{ selecteduser.giggoer.image.url }}">
+    {% endif %}
     <br>
     <div>
         {% if selecteduser.username == user.username %}
             <form method="post" action="." enctype="multipart/form-data">
                 {% csrf_token %}
-                {{ form.as_p }}
+                {{ form |crispy }}
                 <input type="submit" name="Update">
             </form>
         {% endif %}

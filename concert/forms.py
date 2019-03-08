@@ -54,16 +54,25 @@ class VenueSignUpForm(UserCreationForm):
 
 #EDIT FORMS
 class EditGigGoerForm(forms.ModelForm):
+    email = forms.EmailField(required=False)
     image = forms.ImageField(required=False)
     class Meta:
         model = GigGoer
-        exclude = ('user', )
+        fields = []
+    
 
 class EditVenueForm(forms.ModelForm):
-    #CREATE THIS STUFF
+    email        = forms.EmailField(required=False)
+    image        = forms.ImageField(required=False)
+    venue_name   = forms.CharField(max_length=128,required=False) 
+    location     = forms.CharField(max_length=128,required=False) 
+    website      = forms.URLField(required=False)
+    description  = forms.CharField(max_length=560,required=False) 
+    phone_number = forms.CharField(max_length=15,required=False) 
+    capacity     = forms.IntegerField(required=False)
     class Meta:
         model = Venue
-        exclude = ('user', )
+        fields = []
 
 class removeBookmarkForm(forms.ModelForm):
     class Meta:
