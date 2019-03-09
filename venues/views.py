@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from concert.models import Concert
+from concert.views import events
 from venues.forms import ConcertForm, DeleteConcertForm, EditConcertForm
 from django.http import HttpResponse, HttpResponseRedirect
 from FindMyConcert.custom_decorators import venue_required
@@ -51,7 +52,7 @@ def deleteConcert(request, id):
         if form.is_valid(): 
             print("Deleting object")
             new_to_delete.delete()
-            return render(request, 'concert/myEvents.html')
+            return HttpResponseRedirect(reverse(events))
         else:
             print(form.errors)
 
@@ -89,7 +90,7 @@ def editConcert(request, id):
                 concert.description = form.cleaned_data['description']
             concert.save()
 
-            return render(request, 'concert/myEvents.html')
+            return HttpResponseRedirect(reverse(events)) 
         else:
             print(form.errors)
     form = EditConcertForm

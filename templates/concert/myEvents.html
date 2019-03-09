@@ -4,12 +4,16 @@
 {% block title %} {{ block.super }} {% endblock %}
 
 {% block body_block %}
+{% if user.is_authenticated %}
 <div class="container">
    <h1>My Events</h1>
 
    <ul class="nav nav-tabs">
-      <li class="nav-item">
-       <a class="nav-link active" data-toggle="tab" href="#private" role="tab" aria-selected="true">Upcoming Events</a>
+    <li class="nav-item">
+       <a class="nav-link active" data-toggle="tab" href="#all" role="tab" aria-selected="true">All Events</a>
+   </li>
+    <li class="nav-item">
+       <a class="nav-link" data-toggle="tab" href="#private" role="tab" aria-selected="true">Upcoming Events</a>
    </li>
 
    <li class="nav-item">
@@ -18,9 +22,36 @@
 </ul>
 
 <div class="tab-content">
+  <div id="all" class="tab-pane fade show active">
+    {% if concerts %}
+    <div class="table-responsive">
+        <table class="table table-hover" align="center" style="width: 90%">
+        <tbody>
+            {% for concert in concerts %}
+            <tr>
+                <td>{{ concert.artist }}</td>
+                <td>{{ concert.venue.venue_name }}, {{ concert.venue.location }}</td>
+                <td>{{ concert.date }}</td>
+                <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
+                <td>{{ concert.url }}</td>
+                {% if user.is_authenticated and not user.is_venue %}
+                <td><a href="{% url 'bookmark' concert.concertID%}">
+                  <button class="button button-blue button-bordered">
+                    <span class="button--inner">Bookmark</span>
+                </button>
+                </a></td>
+                {% endif %}
+            </tr>
+             {% endfor %}
+    </tbody>
+</table>
+</div>
+{% else %}
+<strong>There are currently no concerts with those search fields</strong>
+{% endif %}
+  </div>
   <div id="private" class="tab-pane fade show active">
     {% if user.is_venue %}
-
     {% if user.venue.concert %}
     <div class="table-responsive">
         <table class="table table-hover" align="center" style="width: 90%">
@@ -153,4 +184,37 @@
 </div>
 </div>
 </div>
+{% else %}
+{% if concerts %}
+<div class="table-responsive">
+    <table class="table table-hover" align="center" style="width: 90%">
+        <tbody>
+            {% for concert in concerts %}
+            <tr>
+                <td>{{ concert.artist }}</td>
+                <td>{{ concert.venue.venue_name }}, {{ concert.venue.location }}</td>
+                <td>{{ concert.date }}</td>
+                <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
+                <td>{{ concert.url }}</td>
+                {% if user.is_authenticated and not user.is_venue %}
+                <td><a href="{% url 'bookmark' concert.concertID%}">
+                  <button class="button button-blue button-bordered">
+                    <span class="button--inner">Bookmark</span>
+                </button>
+                </a></td>
+                {% endif %}
+            </tr>
+             {% endfor %}
+    </tbody>
+</table>
+</div>
+{% else %}
+<strong>There are currently no concerts with those search fields</strong>
+{% endif %}
+
+{% if location %}
+Your current city: {{ location.city }}
+{% endif %}
+
+{% endif %}
 {% endblock %}

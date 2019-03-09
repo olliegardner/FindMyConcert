@@ -19,17 +19,17 @@ def user_logout(request):
     logout(request)
     return HttpResponseRedirect(reverse('login')) # take user back to the sign-in page
 
-def welcome(request):
-    return render(request, 'concert/welcome.html')
-
 def index(request):
+    return render(request, 'concert/index.html')
+
+def events(request):
     concert_list = Concert.objects.order_by('-artist')
 
     location = urllib.request.urlopen("http://ip-api.com/json/")
     location_json = json.load(location)
 
     context_dict = {'concerts': concert_list, 'location': location_json}
-    return render(request, 'concert/index.html', context_dict)
+    return render(request, 'concert/myEvents.html', context_dict)
 
 def about(request):
     return render(request, 'concert/about.html')
@@ -39,11 +39,6 @@ def faq(request):
 
 def contact(request):
     return render(request, 'concert/contact.html')
-
-@login_required
-def myEvents(request):
-    return render(request, 'concert/myEvents.html')
-
 
 def chooseSignUp(request):
     gigForm = GigGoerSignUpForm()
@@ -72,24 +67,24 @@ def chooseSignUp(request):
 def bookmark(request, id):
     concert = get_object_or_404(Concert, concertID=id)
     if (concert in request.user.giggoer.bookmarks.all()):
-        return HttpResponseRedirect(reverse(index)) 
+        return HttpResponseRedirect(reverse(events)) 
     else:
         request.user.giggoer.bookmarks.add(concert)
-        return HttpResponseRedirect(reverse(index)) 
+        return HttpResponseRedirect(reverse(events)) 
 
 @login_required
 @giggoer_required
 def removeBookmark(request, id):
     concert_to_remove = get_object_or_404(Concert, concertID=id)
     if (concert_to_remove not in request.user.giggoer.bookmarks.all()):
-        return HttpResponseRedirect(reverse(myEvents))
+        return HttpResponseRedirect(reverse(events))
 
     if request.method == 'POST':
         form = removeBookmarkForm(request.POST, instance=concert_to_remove)
 
         if form.is_valid(): 
             request.user.giggoer.bookmarks.remove(concert_to_remove)
-            return render(request, 'concert/myEvents.html') # wherever to go after deleting
+            return HttpResponseRedirect(reverse(events))  # wherever to go after deleting
         else:
             print(form.errors)
 

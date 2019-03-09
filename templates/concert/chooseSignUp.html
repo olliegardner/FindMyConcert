@@ -32,6 +32,7 @@
 
     		<div id="venue" class="tab-pane fade">
       			<form method="post" novalidate enctype="multipart/form-data">
+      				<br>
 					{% csrf_token %}
 					{{ venueform|crispy }}
 					<input type="submit" name="submit_venue" value="Submit">
