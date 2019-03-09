@@ -123,9 +123,9 @@ z-index:9;
                         {% if user.is_authenticated %}
                             <div class="dropdown navbar-right">
                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                                    {% if user.is_venue and user.venue.image != "" %}
+                                    {% if user.is_venue and user.venue.image != None %}
                                          <img src="{{ user.venue.image.url }}" alt="Avatar" class="avatar">
-                                    {% elif not user.is_venue and user.giggoer.image != "" %}
+                                    {% elif not user.is_venue and user.giggoer.image != None %}
                                         <img src="{{ user.giggoer.image.url }}" alt="Avatar" class="avatar">
                                     {% else %}
                                         <i class="far fa-user fa-lg"></i>
