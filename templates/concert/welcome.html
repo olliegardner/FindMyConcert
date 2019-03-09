@@ -41,27 +41,7 @@
     }
 
 
-    nav.navbar {
-        width: inherit;
-        left: 50%;
-        transform: translateX(-50%);
-    }
 
-    .nav> { 
-        display: inline-block;
-    }
-
-    .nav>li {
-        display: inline-block;
-        white-space: nowrap;
-    }
-
-    head-navbar {
-        width: 100%;
-        white-space: normal;
-        display: inline-block;
-        overflow: hidden;
-    }
 
     body, html {
         height: 100%;
@@ -72,9 +52,8 @@
         float: right;
     }
 
-    ul.navbar-nav{
-        display: inline-block;
-    }
+
+
 
 
     .bg {
@@ -101,44 +80,96 @@
 <body onload="fadeInBox()" > 
 
     <div class="bg">
-        <div class="navbar-container line">
+<div class="navbar-container line">
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <div class=" line .col-xs-12">
-                    <i class="fas fa-music" style="padding-right: 3%">
-                    </i>
-                    <a class="navbar-brand nav form-inline" href="{% url 'index'%}"><b>  FindMyConcert</b></a>
+                <div class="line .col-xs-12 ">
+                    <i class="fas fa-music" style="padding-right: 3%"></i>
+
+                    {% if user.is_authenticated and user.is_venue %}
+                        <a class="navbar-brand line" href="{% url 'index'%}"><b>  AddMyConcert</b></a>
+                    {% else %}
+                        <a class="navbar-brand line" href="{% url 'index'%}"><b>  FindMyConcert</b></a>  
+                    {% endif %}
                 </div>
-                <ul class="navbar-nav ml-auto .col-xs-6">
-                    <a class="dropdown-toggle btn btn-light navbar-right form-inline" href="#" data-toggle="dropdown" role="button">Sign in</a>
 
-                    <div class="dropdown-menu dropdown-menu-right">
-                        <form class="px-4 py-3">
-                            <div class="form-group">
-                                <label for="exampleDropdownFormEmail1">Email address</label>
-                                <input type="email" class="form-control" id="exampleDropdownFormEmail1" placeholder="email@example.com">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav col-md-8 mr-auto">
+                        <li class="nav-item"><a class="nav-link" href="{% url 'index'%}">All Events</a></li>
+
+                        {% if user.is_authenticated and user.is_venue %}
+                            <li class="nav-item"><a class="nav-link" href="{% url 'add-concert'%}">Add Concert</a></li>
+                        {% endif %}
+
+                        {% if user.is_authenticated %}
+                            <li class="nav-item"><a class="nav-link" href="{% url 'myEvents'%}">My Events</a></li>
+                        {% endif %}
+
+                        <li class="nav-item"><a class="nav-link" href="{% url 'about'%}">About</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'contact'%}">Contact</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'faq'%}">FAQ</a></li>
+                    </ul>
+
+                    <div class="col-md-4">
+                        {% if user.is_authenticated %}
+                            <div class="dropdown navbar-right">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                    {% if user.is_venue and user.venue.image != "" %}
+                                         <img src="{{ user.venue.image.url }}" alt="Avatar" class="avatar">
+                                    {% elif not user.is_venue and user.giggoer.image != "" %}
+                                        <img src="{{ user.giggoer.image.url }}" alt="Avatar" class="avatar">
+                                    {% else %}
+                                        <i class="far fa-user fa-lg"></i>
+                                    {% endif %}
+                                
+                                    <span class="caret"></span>
+                                </button>
+
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <span class="dropdown-item-text">Signed in as</span>
+                                    <b><span class="dropdown-item-text">{{ user.username }}</span></b>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="{% url 'profile' user.username %}">Your profile</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="{% url 'logout' %}">Sign out</a>
+                                </div>
                             </div>
 
-                            <div class="form-group">
-                                <label for="exampleDropdownFormPassword1">Password</label>
-                                <input type="password" class="form-control" id="exampleDropdownFormPassword1" placeholder="Password">
+                        {% else %}
+                            <a class="dropdown-toggle btn btn-light navbar-right" href="#" data-toggle="dropdown" role="button">Sign in</a>
+
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <form class="px-4 py-3">
+                                    <div class="form-group">
+                                        <label for="exampleDropdownFormEmail1">Email address</label>
+                                        <input type="email" class="form-control" id="exampleDropdownFormEmail1" placeholder="email@example.com">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="exampleDropdownFormPassword1">Password</label>
+                                        <input type="password" class="form-control" id="exampleDropdownFormPassword1" placeholder="Password">
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary">Sign in</button>
+                                </form>
+
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">Forgot password?</a>
                             </div>
 
-                            <button type="submit" class="btn btn-primary">Sign in</button>
-                        </form>
-
-                        <div class="dropdown-divider"></div>
-                        <br>
-                        <a class="dropdown-item" href="#">Forgot password?</a>
+                            <a href="{% url 'signup-choose' %}" class="btn btn-light navbar-right" role="button">Sign up</a>
+                        {% endif %}
                     </div>
-                    <a href="{% url 'signup-choose' %}" class="btn btn-light navbar-right" role="button">Sign up</a> 
-                </ul>
-            </div>
+                </div>
 
-            <div id="box" class = "box"> 
+            </nav>
+            <hr>
+ <div id="box" class = "box"> 
                 <h1 class="title" >FindMyConcert</h1>
             </div>
-        </nav>
-
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
