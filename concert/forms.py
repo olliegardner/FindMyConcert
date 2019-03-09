@@ -50,8 +50,6 @@ class VenueSignUpForm(UserCreationForm):
 
         return user
 
-        
-
 #EDIT FORMS
 class EditGigGoerForm(forms.ModelForm):
     email = forms.EmailField(required=False)
@@ -60,7 +58,6 @@ class EditGigGoerForm(forms.ModelForm):
         model = GigGoer
         fields = []
     
-
 class EditVenueForm(forms.ModelForm):
     email        = forms.EmailField(required=False)
     image        = forms.ImageField(required=False)

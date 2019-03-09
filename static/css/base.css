@@ -8,3 +8,17 @@
 .navbar-right {
 	float: right;
 }
+
+
+.bg { 
+  /* The image used */
+  background-image: url('../../static/images/concert.jpg');
+
+  /* Full height */
+  height: 80%; 
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}

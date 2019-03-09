@@ -1,0 +1,145 @@
+{% load staticfiles %} 
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+<script>
+function fadeInBox() {
+
+    $("#box").fadeIn(3000);
+}
+</script>
+
+
+<style>
+
+.title {
+	opacity: 1;
+
+  color:  white;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  word-wrap: break-word;
+  font-size: 5.9vw;
+}
+
+.box {
+	width:50%;height:30%;display:none;background-color:black;
+	opacity: 0.92;
+	  position: fixed;
+  top: 50%;
+  left: 50%;
+  /* bring your own prefixes */
+  transform: translate(-50%, -50%);
+}
+.container {
+padding: 0px;
+}
+
+nav.navbar {
+width: inherit;
+left: 50%;
+transform: translateX(-50%);
+}
+
+.nav> { 
+  display: inline-block;
+}
+
+.nav>li {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+head-navbar {
+  width: 100%;
+  white-space: normal;
+  display: inline-block;
+  overflow: hidden;
+}
+
+body, html {
+  height: 100%;
+  margin: 0;
+}
+
+.navbar-right {
+	float: right;
+}
+
+ul.navbar-nav{
+  display: inline-block;
+}
+
+
+.bg {
+  /* The image used */
+  background-image: url("../../static/images/concert.jpg");
+
+  /* Full height */
+  height: 100%; 
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+</style>
+
+
+</head>
+<body onload="fadeInBox()" > 
+
+<div class="bg">
+	<div class="navbar-containe containerr">
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<div class="col-md-2">
+	<i class="fas fa-music" style="padding-right: 3%"></i><a class="navbar-brand nav form-inline" href="{% url 'index'%}"><b>  FindMyConcert</b></a>
+</div>
+<ul class="navbar-nav ml-auto">
+                        <a class="dropdown-toggle btn btn-light navbar-right form-inline" href="#" data-toggle="dropdown" role="button">Sign in</a>
+
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <form class="px-4 py-3">
+                                    <div class="form-group">
+                                        <label for="exampleDropdownFormEmail1">Email address</label>
+                                        <input type="email" class="form-control" id="exampleDropdownFormEmail1" placeholder="email@example.com">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="exampleDropdownFormPassword1">Password</label>
+                                        <input type="password" class="form-control" id="exampleDropdownFormPassword1" placeholder="Password">
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary">Sign in</button>
+                                </form>
+
+                                <div class="dropdown-divider"></div>
+                                <br>
+                                <a class="dropdown-item" href="#">Forgot password?</a>
+                            </div>
+                            <a href="{% url 'signup-choose' %}" class="btn btn-light navbar-right" role="button">Sign up</a> 
+</ul>
+</div>
+<div id="box" class = "box"> 
+<h1 class="title" ><span style="white-space:nowrap">Find</span><!----><span style="white-space:nowrap">My</span><!--
+--><span style="white-space:nowrap">Concert</span></h1>
+</div>
+</nav>
+	 
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+        	</script>
+
+        	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
+        </script>
+
+</body>
+</html>
+

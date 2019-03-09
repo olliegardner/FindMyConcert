@@ -19,6 +19,8 @@ def user_logout(request):
     logout(request)
     return HttpResponseRedirect(reverse('login')) # take user back to the sign-in page
 
+def welcome(request):
+    return render(request, 'concert/welcome.html')
 
 def index(request):
     concert_list = Concert.objects.order_by('-artist')
@@ -142,7 +144,6 @@ def profile(request, username):
             form = EditGigGoerForm
 
     return render(request, 'concert/profile.html', {'form': form, 'selecteduser': request.user})
-
 
 
 
