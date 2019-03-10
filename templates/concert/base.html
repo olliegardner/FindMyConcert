@@ -5,10 +5,14 @@
     <head lang="en">
         <title>{% block title %}FindMyConcert{% endblock %}</title>
 
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
         <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
-    </head> 
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    </head>
 
     <body>
         <div class="navbar-container line">
@@ -29,10 +33,9 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav col-md-8">
+                        <li class="nav-item"><a class="nav-link" href="{% url 'events'%}">Events</a></li>
 
-
-                            <li class="nav-item"><a class="nav-link" href="{% url 'events'%}">Events</a></li>
-                             {% if user.is_authenticated and user.is_venue %}
+                        {% if user.is_authenticated and user.is_venue %}
                             <li class="nav-item"><a class="nav-link" href="{% url 'add-concert'%}">Add Concert</a></li>
                         {% endif %}
 
@@ -72,13 +75,13 @@
                             <div class="dropdown-menu dropdown-menu-right">
                                 <form class="px-4 py-3">
                                     <div class="form-group">
-                                        <label for="exampleDropdownFormEmail1">Email address</label>
-                                        <input type="email" class="form-control" id="exampleDropdownFormEmail1" placeholder="email@example.com">
+                                        <label for="login-username">Username</label>
+                                        <input type="email" class="form-control" id="login-username" placeholder="username">
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="exampleDropdownFormPassword1">Password</label>
-                                        <input type="password" class="form-control" id="exampleDropdownFormPassword1" placeholder="Password">
+                                        <label for="login-password">Password</label>
+                                        <input type="password" class="form-control" id="login-password" placeholder="password">
                                     </div>
 
                                     <button type="submit" class="btn btn-primary">Sign in</button>
@@ -95,7 +98,6 @@
             </nav>
         </div>
 
-        <hr>
         <div>
             {% block body_block %}
 
@@ -103,7 +105,6 @@
         </div>
 
 
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     </body> 

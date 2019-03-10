@@ -60,7 +60,7 @@ def chooseSignUp(request):
                 login(request, user)
                 return render(request, 'concert/index.html')
         
-    return render(request, 'concert/chooseSignUp.html', {'gigform': gigForm, 'venueform':venueForm})
+    return render(request, 'registration/signup.html', {'gigform': gigForm, 'venueform':venueForm})
 
 @login_required
 @giggoer_required

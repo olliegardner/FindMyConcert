@@ -1,3 +1,8 @@
+body, html {
+    height: 100%;
+    margin: 0;
+}
+
 .avatar {
   vertical-align: middle;
   width: 35px;
@@ -42,3 +47,46 @@
         opacity: 1;
     }
 }
+
+.background {
+    width: 100%; 
+    height: 100%; 
+    position: fixed; 
+    left: 0px; 
+    top: 0px; 
+    z-index: -1;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.background-cover {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+.title {
+    opacity: 1;
+    z-index: 5;
+    color: white;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    word-wrap: break-word;
+    font-size: 5.9vw;
+}
+
+#box {
+    width: 50%;
+    height: 25%;
+    display: none;
+    background-color: black;
+    opacity: 0.92;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
