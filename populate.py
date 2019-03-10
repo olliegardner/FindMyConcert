@@ -9,6 +9,10 @@ import shutil
 from concert.models import GigGoer, User, Venue, Concert
 from django.db import models 
 from django.contrib.auth.hashers import make_password
+from django.core.files import File
+
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 class Populate():
     def __init__(self):
@@ -21,8 +25,9 @@ class Populate():
         data = pd.read_csv(path)
         print(data)
         for ir in data.itertuples():
+
+
             imgpath = os.path.join(os.getcwd(), 'population_files', 'images', str(ir[4]) + ".jpg")
-            shutil.copyfile(imgpath, os.path.join(os.getcwd(), 'media', 'profile_images', str(ir[4]) + ".jpg"))
             print(ir)
             print(ir[1])
             user = User.objects.create(
@@ -32,7 +37,8 @@ class Populate():
             is_venue = False,
             )
             giggoer = GigGoer.objects.create(user = user)
-            giggoer.image = os.path.join(os.getcwd(), 'media', 'profile_images', str(ir[4]) + ".jpg")
+            giggoer.image.save(str(ir[4]), File(open(imgpath, 'rb')))
+
             user.save()
             giggoer.save()
 
@@ -42,7 +48,6 @@ class Populate():
         print(data)
         for ir in data.itertuples():
             imgpath = os.path.join(os.getcwd(), 'population_files', 'images', str(ir[4]) + ".jpg")
-            shutil.copyfile(imgpath, os.path.join(os.getcwd(), 'media', 'venue_images', str(ir[4]) + ".jpg"))
             print(ir)
             print(ir[1])
             
@@ -53,7 +58,7 @@ class Populate():
             is_venue = True,
             )
             venue = Venue.objects.create(user = user)
-            venue.image       = os.path.join(os.getcwd(), 'media', 'venue_images', str(ir[4]) + ".jpg")
+            venue.image.save(str(ir[4]), File(open(imgpath, 'rb')))
             venue.venue_name  = ir[5]
             venue.location    = ir[6]
             venue.website     = ir[7]
@@ -72,19 +77,17 @@ class Populate():
         for ir in data.itertuples():
             print(ir)
             imgpath = os.path.join(os.getcwd(), 'population_files', 'images', str(ir[5]) + ".jpg")
-            shutil.copyfile(imgpath, os.path.join(os.getcwd(), 'media', 'concert_images', str(ir[5]) + ".jpg"))
-
-
             concert = Concert.objects.create(
             artist = ir[1],
             date   = ir[2],
             start_time = ir[3],
             end_time = ir[4],
-            image = os.path.join(os.getcwd(), 'media', 'concert_images', str(ir[5]) + ".jpg"),
             url = ir[6],
             description = ir[7],
             venue = User.objects.get(username=ir[8]).venue
             )
+
+            concert.image.save(str(ir[5]), File(open(imgpath, 'rb')))
             concert.save()
 
 if __name__ == "__main__":
