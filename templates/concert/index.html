@@ -7,22 +7,27 @@
     <div class="background">
         <img src="{% static 'images/concert.jpg' %}" class="background-cover">
 
-        {% if user.is_authenticated and user.is_venue %}
-                <a href="{% url 'events' %}" id="box" class="link" style="background-color: white"> 
-                    <h1 class="title" style="color: black">AddMyConcert</h1>
-                </a>
-        {% else %}
-                <a href="{% url 'events' %}" id="box" class="link"> 
-                    <h1 class="title">FindMyConcert</h1>
-                </a>
-        {% endif %}
+
+        <a href="{% url 'events' %}" id="box"> 
+            
+        </a>
+
+        <a href="{% url 'events' %}" id="title"> 
+        <h1 id ="title">FindMyConcert</h1>
+        </a>
     </div>
 
 
     <script>
+        $("#title").hide()
         $(document).ready(function() {
+<<<<<<< HEAD
+=======
+            console.log("hi!");
+             $("#title").hide().fadeIn(4000);
+>>>>>>> 3483d956fb17acd495eb32a2500bd06ce8d2112c
             $("#box").fadeIn(4000);
-        });
+     });
     </script>
 
 {% endblock %}
