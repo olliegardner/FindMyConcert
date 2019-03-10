@@ -39,6 +39,8 @@
 </style>
 
 <div class="container">
+    <p>{{ location_json.city }}</p>
+
     <ul id="tabs" class="nav nav-tabs" role="tablist">
         <li class="nav-item">
             <a id="tab-A" href="#pane-A" class="nav-link active" data-toggle="tab" role="tab">All Events</a>
@@ -63,31 +65,32 @@
             </div>
             <div id="collapse-A" class="collapse show" data-parent="#content" role="tabpanel" aria-labelledby="heading-A">
                 <div class="card-body">
+
                  {% if concerts %}
-                 <div class="table-responsive">
-                    <table class="table table-hover" align="center" style="width: 90%">
-                        <tbody>
-                            {% for concert in concerts %}
-                            <tr>
-                                <td>{{ concert.artist }}</td>
-                                <td>{{ concert.venue.venue_name }}, {{ concert.venue.location }}</td>
-                                <td>{{ concert.date }}</td>
-                                <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
-                                <td><a href="{{ concert.url}}">Tickets</a></td>
-                                {% if user.is_authenticated and not user.is_venue %}
-                                <td><a href="{% url 'bookmark' concert.concertID%}">
-                                  <button class="button button-blue button-bordered">
-                                    <span class="button--inner">Bookmark</span>
-                                </button>
-                            </a></td>
-                            {% endif %}
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+                     <div class="table-responsive">
+                        <table class="table table-hover" align="center" style="width: 90%">
+                            <tbody>
+                                {% for concert in concerts %}
+                                <tr>
+                                    <td>{{ concert.artist }}</td>
+                                    <td>{{ concert.venue.venue_name }}, {{ concert.venue.location }}</td>
+                                    <td>{{ concert.date }}</td>
+                                    <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
+                                    <td>{{ concert.url }}</td>
+                                    {% if user.is_authenticated and not user.is_venue %}
+                                    <td><a href="{% url 'bookmark' concert.concertID%}">
+                                      <button class="button button-blue button-bordered">
+                                        <span class="button--inner">Bookmark</span>
+                                    </button>
+                                </a></td>
+                                {% endif %}
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             {% else %}
-            <strong>There are currently no concerts with those search fields</strong>
+                <strong>There are currently no concerts with those search fields</strong>
             {% endif %}
         </div>
     </div>
