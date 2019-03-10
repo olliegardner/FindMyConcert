@@ -4,7 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from concert.models import User, Concert
-from concert.forms import GigGoerSignUpForm, VenueSignUpForm, removeBookmarkForm, EditGigGoerForm, EditVenueForm
+from concert.forms import GigGoerSignUpForm, VenueSignUpForm, removeBookmarkForm, EditGigGoerForm, EditVenueForm, LoginForm
 from django.views.generic import CreateView
 from django.core.urlresolvers import reverse
 from FindMyConcert.custom_decorators import giggoer_required
@@ -17,30 +17,57 @@ import json
 @login_required
 def user_logout(request):
     logout(request)
-    return HttpResponseRedirect(reverse('login')) # take user back to the sign-in page
+    return HttpResponseRedirect(reverse('index')) # take user back to the index page
+
+def user_login(request):
+    loginForm = LoginForm
+
+    if request.method == 'POST':
+        loginForm = LoginForm(request.POST)
+        if loginForm.is_valid():
+            username = loginForm.cleaned_data['username']
+            password = loginForm.cleaned_data['password']
+            user = authenticate(username=username, password=password)
+
+            if user:
+                if user.is_active:
+                    login(request, user)
+                    return render(request, 'concert/index.html')
+                else:
+                    print("disabled")
+            else:
+                print("Invalid login details: {0}, {1}".format(username, password))
+    return loginForm
+
 
 def index(request):
-    return render(request, 'concert/index.html')
+    loginForm = user_login(request)
+    return render(request, 'concert/index.html', {'loginform': loginForm})
 
 def events(request):
+    loginForm = user_login(request)
     concert_list = Concert.objects.order_by('-artist')
 
     location = urllib.request.urlopen("http://ip-api.com/json/")
     location_json = json.load(location)
 
-    context_dict = {'concerts': concert_list, 'location': location_json}
+    context_dict = {'concerts': concert_list, 'location': location_json, 'loginform': loginForm}
     return render(request, 'concert/myEvents.html', context_dict)
 
 def about(request):
-    return render(request, 'concert/about.html')
+    loginForm = user_login(request)
+    return render(request, 'concert/about.html', {'loginform': loginForm})
 
 def faq(request):
-    return render(request, 'concert/faq.html')
+    loginForm = user_login(request)
+    return render(request, 'concert/faq.html', {'loginform': loginForm})
 
 def contact(request):
-    return render(request, 'concert/contact.html')
+    loginForm = user_login(request)
+    return render(request, 'concert/contact.html', {'loginform': loginForm})
 
 def chooseSignUp(request):
+    loginForm = user_login(request)
     gigForm = GigGoerSignUpForm()
     venueForm = VenueSignUpForm()
 
@@ -48,7 +75,6 @@ def chooseSignUp(request):
         if 'submit_giggoer' in request.POST:
             gigForm = GigGoerSignUpForm(request.POST, request.FILES)
             if gigForm.is_valid():
-                print(gigForm.cleaned_data.get('image'))
                 user = gigForm.save()
                 login(request, user)
                 return render(request, 'concert/index.html')
@@ -60,7 +86,7 @@ def chooseSignUp(request):
                 login(request, user)
                 return render(request, 'concert/index.html')
         
-    return render(request, 'registration/signup.html', {'gigform': gigForm, 'venueform':venueForm})
+    return render(request, 'registration/signup.html', {'gigform': gigForm, 'venueform':venueForm, 'loginform': loginForm})
 
 @login_required
 @giggoer_required
@@ -98,6 +124,7 @@ def removeBookmark(request, id):
         
 @login_required
 def profile(request, username):
+    loginForm = user_login(request)
     if (request.user.is_venue):
         if request.method == 'POST':
             form = EditVenueForm(request.POST, request.FILES)
@@ -120,7 +147,7 @@ def profile(request, username):
                     user.venue.capacity = form.cleaned_data.get('capacity')                  
                 user.save()
                 user.venue.save()
-                return render(request, 'concert/profile.html', {'selecteduser': request.user, 'form': EditVenueForm})
+                return render(request, 'concert/profile.html', {'selecteduser': request.user, 'form': EditVenueForm, 'loginform': loginForm})
         else:
             form = EditVenueForm
     else:
@@ -134,11 +161,11 @@ def profile(request, username):
                     user.giggoer.image = form.cleaned_data.get('image')
                 user.giggoer.save()
                 user.save()  
-                return render(request, 'concert/profile.html', {'selecteduser': request.user, 'form': EditGigGoerForm})
+                return render(request, 'concert/profile.html', {'selecteduser': request.user, 'form': EditGigGoerForm, 'loginform': loginForm})
         else:
             form = EditGigGoerForm
 
-    return render(request, 'concert/profile.html', {'form': form, 'selecteduser': request.user})
+    return render(request, 'concert/profile.html', {'form': form, 'selecteduser': request.user, 'loginform': loginForm})
 
 
 

@@ -50,6 +50,13 @@ class VenueSignUpForm(UserCreationForm):
 
         return user
 
+
+class LoginForm(forms.Form):
+   username = forms.CharField(min_length=1, max_length=36)
+   password = forms.CharField(min_length=8, max_length=32, widget=forms.PasswordInput(render_value=False))
+
+
+
 #EDIT FORMS
 class EditGigGoerForm(forms.ModelForm):
     email = forms.EmailField(required=False)
@@ -61,11 +68,11 @@ class EditGigGoerForm(forms.ModelForm):
 class EditVenueForm(forms.ModelForm):
     email        = forms.EmailField(required=False)
     image        = forms.ImageField(required=False)
-    venue_name   = forms.CharField(max_length=128,required=False) 
-    location     = forms.CharField(max_length=128,required=False) 
+    venue_name   = forms.CharField(max_length=128, required=False) 
+    location     = forms.CharField(max_length=128, required=False) 
     website      = forms.URLField(required=False)
-    description  = forms.CharField(max_length=560,required=False) 
-    phone_number = forms.CharField(max_length=15,required=False) 
+    description  = forms.CharField(max_length=560, required=False) 
+    phone_number = forms.CharField(max_length=15, required=False) 
     capacity     = forms.IntegerField(required=False)
     class Meta:
         model = Venue
