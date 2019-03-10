@@ -11,7 +11,7 @@ from django.contrib.auth.hashers import make_password
 
 class Populate():
     def __init__(self):
-        #self.populate_giggoers()
+        self.populate_giggoers()
         self.populate_venues()
 
     def populate_giggoers(self):
@@ -19,6 +19,8 @@ class Populate():
         data = pd.read_csv(path)
         print(data)
         for ir in data.itertuples():
+            imgpath = os.path.join(os.getcwd(), 'population_files', 'images', str(ir[4]) + ".jpg")
+            os.rename(imgpath, os.path.join(os.getcwd(), 'media', 'profile_images', str(ir[4]) + ".jpg"))
             print(ir)
             print(ir[1])
             user = User.objects.create(
@@ -28,7 +30,7 @@ class Populate():
             is_venue = False,
             )
             giggoer = GigGoer.objects.create(user = user)
-            giggoer.image = os.path.join(os.getcwd(), 'population_files', 'images', str(ir[4]) + ".jpg")
+            giggoer.image = os.path.join(os.getcwd(), 'media', 'profile_images', str(ir[4]) + ".jpg")
             user.save()
             giggoer.save()
 
@@ -37,6 +39,8 @@ class Populate():
         data = pd.read_csv(path)
         print(data)
         for ir in data.itertuples():
+            imgpath = os.path.join(os.getcwd(), 'population_files', 'images', str(ir[4]) + ".jpg")
+            os.rename(imgpath, os.path.join(os.getcwd(), 'media', 'venue_images', str(ir[4]) + ".jpg"))
             print(ir)
             print(ir[1])
             
@@ -47,7 +51,7 @@ class Populate():
             is_venue = True,
             )
             venue = Venue.objects.create(user = user)
-            venue.image       = os.path.join(os.getcwd(), 'population_files', 'images', str(ir[4]) + ".jpg")
+            venue.image       = os.path.join(os.getcwd(), 'media', 'venue_images', str(ir[4]) + ".jpg")
             venue.venue_name  = ir[5]
             venue.location    = ir[6]
             venue.website     = ir[7]
