@@ -4,16 +4,20 @@
 {% block title_block %} {{ block.super }} {% endblock %}
 
 {% block body_block %}
-
     <div class="background">
         <img src="{% static 'images/concert.jpg' %}" class="background-cover">
 
-        <a href="{% url 'events' %}" id="box" class ="link"> 
-            <h1 class="title">FindMyConcert</h1>
-        </a>
-
-
+        {% if user.is_authenticated and user.is_venue %}
+                <a href="{% url 'events' %}" id="box" class="link" style="background-color: white"> 
+                    <h1 class="title" style="color: black">AddMyConcert</h1>
+                </a>
+        {% else %}
+                <a href="{% url 'events' %}" id="box" class="link"> 
+                    <h1 class="title">FindMyConcert</h1>
+                </a>
+        {% endif %}
     </div>
+
 
     <script>
         $(document).ready(function() {

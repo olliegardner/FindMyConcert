@@ -5,8 +5,9 @@
 {% block title %} {{ block.super }} {% endblock %}
 
 {% block body_block %}
-	<h1>Add a Concert</h1>
-	<div>
+	<div class="container">
+		<h1>Add a Concert</h1>
+
 		<form id="concertform" method="post" action="/venues/addconcert/" enctype="multipart/form-data ">
 			{% csrf_token %}
 			{{ form|crispy }}

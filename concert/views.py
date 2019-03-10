@@ -40,7 +40,7 @@ def user_login(request):
                         login(request, user)
                         return render(request, 'concert/index.html')
                     else:
-                        print("disabled")
+                        return HttpResponse("Your account is currently disabled")
                 else:
                     print("Invalid login details: {0}, {1}".format(username, password))
     return loginForm
