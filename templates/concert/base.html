@@ -7,7 +7,6 @@
         <title>{% block title %}FindMyConcert{% endblock %}</title>
 
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
         <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
@@ -16,15 +15,15 @@
     </head>
 
     <body>
-        <div class="navbar-container line">
-            <nav class="navbar navbar-expand-lg navbar-light navbar-trans">
+        <div class="navbar-container text line navbar-nav">
+            <nav class="navbar navbar-expand-lg navbar-light navbar-trans nav-colour-collapsed">
                 <div class="line .col-xs-12 ">
                     <i class="fas fa-music" style="padding-right: 3%"></i>
 
                     {% if user.is_authenticated and user.is_venue %}
-                        <a class="navbar-brand line" href="{% url 'index'%}"><b>  AddMyConcert</b></a>
+                        <a class="text " href="{% url 'index'%}"><b>  AddMyConcert</b></a>
                     {% else %}
-                        <a class="navbar-brand line" href="{% url 'index'%}"><b>  FindMyConcert</b></a> 
+                        <a class="text" href="{% url 'index'%}"><b>  FindMyConcert</b></a> 
                     {% endif %}
                 </div>
 
@@ -33,7 +32,7 @@
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav col-md-8">
+                    <ul class="navbar-nav col-md-10">
                         <li class="nav-item"><a class="nav-link" href="{% url 'events'%}">Events</a></li>
 
                         {% if user.is_authenticated and user.is_venue %}
@@ -45,7 +44,7 @@
                         <li class="nav-item"><a class="nav-link" href="{% url 'faq'%}">FAQ</a></li>
                     </ul>
 
-                    <div class="col-md-4">
+                    
                         {% if user.is_authenticated %}
                             <div class="dropdown navbar-right">
                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
@@ -71,7 +70,7 @@
                             </div>
 
                         {% else %}
-                            <a class="dropdown-toggle btn btn-primary-outline navbar-right" href="#" data-toggle="dropdown" role="button">Sign in</a>
+                            <a class="dropdown-toggle btn btn-primary-outline " href="#" data-toggle="dropdown" role="button">Sign in</a>
 
                             <div class="dropdown-menu dropdown-menu-right">
                                 <form class="px-4 py-3" method="post" novalidate enctype="multipart/form-data">
@@ -86,7 +85,7 @@
 
                             <a href="{% url 'signup-choose' %}" class="btn btn-primary-outline navbar-right" role="button">Sign up</a>
                         {% endif %}
-                    </div>
+                 
                 </div>
             </nav>
         </div>

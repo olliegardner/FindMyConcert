@@ -76,7 +76,7 @@
                                     <td>{{ concert.venue.venue_name }}, {{ concert.venue.location }}</td>
                                     <td>{{ concert.date }}</td>
                                     <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
-                                    <td>{{ concert.url }}</td>
+                                    <td><a href="{{ concert.url}}">Tickets</a></td>
                                     {% if user.is_authenticated and not user.is_venue %}
                                     <td><a href="{% url 'bookmark' concert.concertID%}">
                                       <button class="button button-blue button-bordered">
