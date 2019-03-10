@@ -39,7 +39,9 @@
 </style>
 
 <div class="container">
-    <p>{{ location_json.city }}</p>
+    {% if location %}
+        <p>Current City: {{ location.city }}</p>
+    {% endif %}
 
     <ul id="tabs" class="nav nav-tabs" role="tablist">
         <li class="nav-item">
@@ -75,14 +77,13 @@
                                     <td>{{ concert.artist }}</td>
                                     <td>{{ concert.venue.venue_name }}, {{ concert.venue.location }}</td>
                                     <td>{{ concert.date }}</td>
-                                    <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
+                                    <td>{{ concert.start_time }} 
+                                    - {{ concert.end_time }}</td>
                                     <td><a href="{{ concert.url}}">Tickets</a></td>
                                     {% if user.is_authenticated and not user.is_venue %}
-                                    <td><a href="{% url 'bookmark' concert.concertID%}">
-                                      <button class="button button-blue button-bordered">
-                                        <span class="button--inner">Bookmark</span>
-                                    </button>
-                                </a></td>
+                                        <td>
+                                            <button class="btn btn-outline-success" onclick="myFunction();bookmark({{ concert.concertID }})" >Bookmark</button>
+                                        </td>
                                 {% endif %}
                             </tr>
                             {% endfor %}
@@ -100,7 +101,7 @@
     <div class="card-header" role="tab" id="heading-B">
         <h5 class="mb-0">
             <a class="collapsed" data-toggle="collapse" href="#collapse-B" aria-expanded="false" aria-controls="collapse-B">
-                My Upcoming Events
+                My Upcoming Concerts
             </a>
         </h5>
     </div>
@@ -131,7 +132,7 @@
                                 </div></td>
 
 
-                            </tr><
+                            </tr>
                             {% endif %}
                             {% endfor %}
                         </tbody>
@@ -250,7 +251,7 @@
 {% else %}
 {% if concerts %}
 <div class="table-responsive">
-    <table class="table table-hover" align="center" style="width: 70%">
+    <table class="table table-hover" align="center" style="width: 90%">
         <tbody>
             {% for concert in concerts %}
             <tr>
@@ -259,13 +260,7 @@
                 <td>{{ concert.date }}</td>
                 <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
                 <td><a href="{{ concert.url}}">Tickets</a></td>
-                {% if user.is_authenticated and not user.is_venue %}
-                <td><a href="{% url 'bookmark' concert.concertID%}">
-                  <button class="button button-blue button-bordered">
-                    <span class="button--inner">Bookmark</span>
-                </button>
-            </a></td>
-            {% endif %}
+            
         </tr>
         {% endfor %}
     </tbody>
@@ -275,9 +270,23 @@
 <strong>There are currently no concerts with those search fields</strong>
 {% endif %}
 
-{% if location %}
-Your current city: {{ location.city }}
 {% endif %}
 
-{% endif %}
+
+<script>
+
+function bookmark(concertid) {
+
+
+    toastr.success(concertid);
+    $.get('/concert/bookmark/', {concertid: concertid});
+     };
+
+function myFunction() {
+    toastr.success('Concert successfully bookmarked!');
+};
+
+</script>
+
 {% endblock %}
+

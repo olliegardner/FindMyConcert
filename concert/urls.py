@@ -8,7 +8,8 @@ urlpatterns = [
     url(r'^events/$', views.events, name='events'),
     url(r'^contact/$', views.contact, name='contact'),
     url(r'^profile/(?P<username>[\w\-]+)/$', views.profile, name='profile'),
-    url(r'^bookmark/(?P<id>\d+)/$',views.bookmark, name='bookmark'),
+    url(r'^bookmark/$',views.bookmark, name='bookmark'),
     url(r'^removebookmark/(?P<id>\d+)/$',views.removeBookmark, name='removebookmark'),
+    url(r'^viewconcert/(?P<id>\d+)/$',views.viewConcert, name='view'),
 ]
 

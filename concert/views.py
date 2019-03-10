@@ -8,10 +8,12 @@ from django.core.mail import EmailMessage
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
+from django.template import RequestContext
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.views.generic import CreateView
+
 
 from FindMyConcert.custom_decorators import giggoer_required
 from concert.forms import GigGoerSignUpForm, VenueSignUpForm, removeBookmarkForm, EditGigGoerForm, EditVenueForm, LoginForm
@@ -142,6 +144,7 @@ def success(request):
     loginForm = user_login(request)
     return render(request, 'registration/account_activated.html', {'loginform': loginForm})
 
+"""
 @login_required
 @giggoer_required
 def bookmark(request, id):
@@ -151,6 +154,26 @@ def bookmark(request, id):
     else:
         request.user.giggoer.bookmarks.add(concert)
         return HttpResponseRedirect(reverse(events)) 
+"""
+
+@login_required
+@giggoer_required
+def bookmark(request):
+    context = RequestContext(request)
+    concertid = None
+    if request.method == 'GET':
+        concertid = request.GET['concertid']
+
+    print("test")
+    if concertid:
+        concert = Concert.objects.get(concertID=int(concertid))
+        if concert:
+            if concert in request.user.giggoer.bookmarks.all():
+                pass
+            else:
+                request.user.giggoer.bookmarks.add(concert)
+            
+    return HttpResponse()
 
 @login_required
 @giggoer_required
@@ -177,7 +200,7 @@ def removeBookmark(request, id):
 
 
 def viewConcert(request, id):
-    concert_to_remove = get_object_or_404(Concert, concertID=id)
+    concert = get_object_or_404(Concert, concertID=id)
     return render(request, 'concert/concert.html', {"concert":concert})
 
 @login_required

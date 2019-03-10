@@ -4,5 +4,11 @@
 {% block title_block %} {{ block.super }} {% endblock %}
 
 {% block body_block %}
-  <p> HELLO FRIEND </p>
+  <img src="{{ concert.image.url }}">
+  <td>{{ concert.artist }}</td>
+  <td>{{ concert.venue.venue_name }} , {{ concert.venue.location }}</td>
+  <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
+  <td><a href="{{ concert.url}}">Tickets</a></td>
+  <img src="{{ concert.venue.image.url }}">
+
 {% endblock %}
