@@ -59,6 +59,7 @@ class Populate():
             )
             venue = Venue.objects.create(user = user)
             venue.image.save(str(ir[4]), File(open(imgpath, 'rb')))
+            venue.venue_name  = ir[5]
             venue.location    = ir[6]
             venue.website     = ir[7]
             venue.description = ir[8]
