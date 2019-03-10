@@ -1,3 +1,4 @@
 bcrypt
 pillow
 django-crispy-forms
+pandas
