@@ -7,14 +7,26 @@
     <div class="background">
         <img src="{% static 'images/concert.jpg' %}" class="background-cover">
 
-
+        {% if user.is_authenticated and user.is_venue %}
         <a href="{% url 'events' %}" id="box"> 
+            
+        </a>
+
+        <a href="{% url 'events' %}" id="title"> 
+        <h1 id ="title">AddMyConcert</h1>
+        </a>
+
+        {% else %}
+
+          <a href="{% url 'events' %}" id="box"> 
             
         </a>
 
         <a href="{% url 'events' %}" id="title"> 
         <h1 id ="title">FindMyConcert</h1>
         </a>
+
+        {% endif %}
     </div>
 
 

@@ -175,7 +175,11 @@ def removeBookmark(request, id):
     template_vars = {'form': form}
     return render(request, 'concert/myEvents.html', concert_to_remove)
 
-        
+
+def viewConcert(request, id):
+    concert_to_remove = get_object_or_404(Concert, concertID=id)
+    return render(request, 'concert/concert.html', {"concert":concert})
+
 @login_required
 def profile(request, username):
     loginForm = user_login(request)
