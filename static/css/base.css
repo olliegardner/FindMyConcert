@@ -10,6 +10,9 @@ body, html {
   border-radius: 50%;
 }
 
+.navbar {
+    z-index: 1;
+}
 .navbar-right {
 	float: right;
 }
@@ -54,7 +57,7 @@ body, html {
     position: fixed; 
     left: 0px; 
     top: 0px; 
-    z-index: -1;
+    z-index: 0;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -78,7 +81,9 @@ body, html {
     font-size: 5.9vw;
 }
 
-.box {
+
+#box {
+    z-index: 6;
     width: 50%;
     height: 25%;
     display: none;
