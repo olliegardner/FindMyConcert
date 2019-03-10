@@ -13,6 +13,9 @@
         <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+        <link rel="stylesheet" type="text/css" href="{% static 'css/toastr.min.css' %}">
+        <script src="{% static 'js/toastr.min.js' %}"></script>
     </head>
 
     <body>
@@ -77,7 +80,7 @@
                                 <form class="px-4 py-3" method="post" novalidate enctype="multipart/form-data">
                                     {% csrf_token %}
                                     {{ loginform|crispy }}
-                                    <input class="btn btn-success" type="submit" name="submit_login" value="Submit">
+                                    <input class="btn btn-success" type="submit" name="submit_login" value="Sign in">
                                 </form>
 
                                 <div class="dropdown-divider"></div>
