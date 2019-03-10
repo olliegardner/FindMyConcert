@@ -78,7 +78,7 @@ body, html {
     font-size: 5.9vw;
 }
 
-#box {
+.box {
     width: 50%;
     height: 25%;
     display: none;
