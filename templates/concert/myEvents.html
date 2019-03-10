@@ -73,7 +73,7 @@
                                 <td>{{ concert.venue.venue_name }}, {{ concert.venue.location }}</td>
                                 <td>{{ concert.date }}</td>
                                 <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
-                                <td>{{ concert.url }}</td>
+                                <td><a href="{{ concert.url}}">Tickets</a></td>
                                 {% if user.is_authenticated and not user.is_venue %}
                                 <td><a href="{% url 'bookmark' concert.concertID%}">
                                   <button class="button button-blue button-bordered">
@@ -115,7 +115,7 @@
                             <td>{{ concert.venue.venue_name }} , {{ concert.venue.location }}</td>
                             <td>{{ concert.date }}</td>
                             <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
-                            <td>{{ concert.url }}</td>
+                            <td><a href="{{ concert.url}}">Tickets</a></td>
                             <td><a href="{% url 'edit' concert.concertID%}">
                               <button class="button button-blue button-bordered">
                                 <span class="button--inner">Edit</span> </td>
@@ -148,7 +148,7 @@
                                 <td>{{ concert.venue.venue_name }} , {{ concert.venue.location }}</td>
                                 <td>{{ concert.date }}</td>
                                 <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
-                                <td>{{ concert.url }}</td>
+                                <td><a href="{{ concert.url}}">Tickets</a></td>
                                 <td><form action="{% url 'removebookmark' concert.concertID%}" method="post">
                                     {% csrf_token %}
                                     <button type="submit" >Remove Bookmark</button>
@@ -189,7 +189,7 @@
                             <td>{{ concert.venue.venue_name }} , {{ concert.venue.location }}</td>
                             <td>{{ concert.date }}</td>
                             <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
-                            <td>{{ concert.url }}</td>
+                            <td><a href="{{ concert.url}}">Tickets</a></td>
                             <td><a href="{% url 'edit' concert.concertID%}">
                               <button class="button button-blue button-bordered">
                                 <span class="button--inner">Edit</span></td>
@@ -222,7 +222,7 @@
                             <td>{{ concert.venue.venue_name }} , {{ concert.venue.location }}</td>
                             <td>{{ concert.date }}</td>
                             <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
-                            <td>{{ concert.url }}</td>
+                            <td><a href="{{ concert.url}}">Tickets</a></td>
                             <td><form action="{% url 'removebookmark' concert.concertID%}" method="post">
                                 {% csrf_token %}
                                 <button type="submit" >Remove Bookmark</button>
@@ -255,7 +255,7 @@
                 <td>{{ concert.venue.venue_name }}, {{ concert.venue.location }}</td>
                 <td>{{ concert.date }}</td>
                 <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
-                <td>{{ concert.url }}</td>
+                <td><a href="{{ concert.url}}">Tickets</a></td>
                 {% if user.is_authenticated and not user.is_venue %}
                 <td><a href="{% url 'bookmark' concert.concertID%}">
                   <button class="button button-blue button-bordered">
