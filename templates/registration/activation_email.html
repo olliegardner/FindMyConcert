@@ -1,0 +1,7 @@
+{% autoescape off %}
+Welcome to FindMyConcert, {{ user.username }}!
+This is the last step needed to complete your registration,
+Please click the link below to activate your account:
+
+http://{{ domain }}{% url "activate" uidenc=uid token=token %}
+{% endautoescape %}

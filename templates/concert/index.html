@@ -8,14 +8,17 @@
     <div class="background">
         <img src="{% static 'images/concert.jpg' %}" class="background-cover">
 
-        <a href="#" id="box"> 
+        <a href="{% url 'events' %}" id="box" class ="link"> 
             <h1 class="title">FindMyConcert</h1>
         </a>
+
+
     </div>
 
     <script>
         $(document).ready(function() {
-            $("#box").fadeIn(3500);
+            console.log("hi!");
+            $("#box").fadeIn(4000);
         });
     </script>
 
