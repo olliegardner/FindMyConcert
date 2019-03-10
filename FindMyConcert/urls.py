@@ -29,4 +29,5 @@ urlpatterns = [
     url(r'^accounts/logout/$', views.user_logout, name='logout'),
     url('accounts/', include('django.contrib.auth.urls')),
     url(r'^accounts/signup/$', views.chooseSignUp, name='signup-choose'),   #Override AllAuth form
+    url(r'^activate/(?P<uidenc>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', views.activate, name='activate'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) 

@@ -1,17 +1,22 @@
-from django.shortcuts import render
-from django.shortcuts import redirect
-from django.http import HttpResponse, HttpResponseRedirect
+import json
+import urllib.request
+
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
-from concert.models import User, Concert
-from concert.forms import GigGoerSignUpForm, VenueSignUpForm, removeBookmarkForm, EditGigGoerForm, EditVenueForm, LoginForm
-from django.views.generic import CreateView
+from django.contrib.sites.shortcuts import get_current_site
+from django.core.mail import EmailMessage
 from django.core.urlresolvers import reverse
+from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import render, redirect, get_object_or_404
+from django.template.loader import render_to_string
+from django.utils.encoding import force_bytes, force_text
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.views.generic import CreateView
+
 from FindMyConcert.custom_decorators import giggoer_required
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import get_object_or_404
-import urllib.request
-import json
+from concert.forms import GigGoerSignUpForm, VenueSignUpForm, removeBookmarkForm, EditGigGoerForm, EditVenueForm, LoginForm
+from concert.models import User, Concert
+from concert.tokens import accountActivationToken
 
 
 @login_required
@@ -67,6 +72,29 @@ def contact(request):
     loginForm = user_login(request)
     return render(request, 'concert/contact.html', {'loginform': loginForm})
 
+### OLD
+# def chooseSignUp(request):
+#     loginForm = user_login(request)
+#     gigForm = GigGoerSignUpForm()
+#     venueForm = VenueSignUpForm()
+# 
+#     if request.method == 'POST':
+#         if 'submit_giggoer' in request.POST:
+#             gigForm = GigGoerSignUpForm(request.POST, request.FILES)
+#             if gigForm.is_valid():
+#                 user = gigForm.save()
+#                 login(request, user)
+#                 return render(request, 'concert/index.html')
+#         
+#         if 'submit_venue' in request.POST:
+#             venueForm = VenueSignUpForm(request.POST, request.FILES)
+#             if venueForm.is_valid():
+#                 user = venueForm.save()
+#                 login(request, user)
+#                 return render(request, 'concert/index.html')
+#         
+#     return render(request, 'registration/signup.html', {'gigform': gigForm, 'venueform':venueForm, 'loginform': loginForm})
+
 def chooseSignUp(request):
     loginForm = user_login(request)
     gigForm = GigGoerSignUpForm()
@@ -77,17 +105,57 @@ def chooseSignUp(request):
             gigForm = GigGoerSignUpForm(request.POST, request.FILES)
             if gigForm.is_valid():
                 user = gigForm.save()
-                login(request, user)
-                return render(request, 'concert/index.html')
+                user.is_active = False
+                user.save()
+                site = get_current_site(request)
+                email_subject = "FindMyConcert Account Activation"
+                email_message = render_to_string("registration/activation_email.html", {
+                    "user": user,
+                    "domain": site.domain,
+                    "uid": urlsafe_base64_encode(force_bytes(user.username)).decode(),
+                    "token": accountActivationToken.make_token(user)
+                    })
+                email_address = gigForm.cleaned_data.get("email")
+                email = EmailMessage(email_subject, email_message, to=[email_address])
+                email.send()
+                return HttpResponse("Email Confirmation Needed")    # TODO: Make this a page
         
         if 'submit_venue' in request.POST:
             venueForm = VenueSignUpForm(request.POST, request.FILES)
             if venueForm.is_valid():
                 user = venueForm.save()
-                login(request, user)
-                return render(request, 'concert/index.html')
+                user.is_active = False
+                user.save()
+                site = get_current_site(request)
+                email_subject = "FindMyConcert Account Activation"
+                email_message = render_to_string("registration/activation_email.html", {
+                    "user": user,
+                    "domain": site.domain,
+                    "uid": urlsafe_base64_encode(force_bytes(user.username)).decode(),
+                    "token": accountActivationToken.make_token(user)
+                    })
+                email_address = venueForm.cleaned_data.get("email")
+                email = EmailMessage(email_subject, email_message, to=[email_address])
+                email.send()
+                return HttpResponse("Email Confirmation Needed")    # TODO: Make this a page
         
     return render(request, 'registration/signup.html', {'gigform': gigForm, 'venueform':venueForm, 'loginform': loginForm})
+
+def activate(request, uidenc, token):
+    try:
+        uid = force_text(urlsafe_base64_decode(uidenc))
+        user = User.objects.get(username=uid)
+    except:
+        user = None
+
+    if user is not None and accountActivationToken.check_token(user, token):
+        user.is_active = True
+        user.save()
+        login(request, user)
+        return render(request, 'concert/index.html')                # TODO Make "activation successful" page
+    else:
+        return HttpResponse("Error: Invalid Activation Link")
+
 
 @login_required
 @giggoer_required
