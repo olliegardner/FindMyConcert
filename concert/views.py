@@ -23,20 +23,21 @@ def user_login(request):
     loginForm = LoginForm
 
     if request.method == 'POST':
-        loginForm = LoginForm(request.POST)
-        if loginForm.is_valid():
-            username = loginForm.cleaned_data['username']
-            password = loginForm.cleaned_data['password']
-            user = authenticate(username=username, password=password)
+        if 'submit_login' in request.POST:
+            loginForm = LoginForm(request.POST)
+            if loginForm.is_valid():
+                username = loginForm.cleaned_data['username']
+                password = loginForm.cleaned_data['password']
+                user = authenticate(username=username, password=password)
 
-            if user:
-                if user.is_active:
-                    login(request, user)
-                    return render(request, 'concert/index.html')
+                if user:
+                    if user.is_active:
+                        login(request, user)
+                        return render(request, 'concert/index.html')
+                    else:
+                        print("disabled")
                 else:
-                    print("disabled")
-            else:
-                print("Invalid login details: {0}, {1}".format(username, password))
+                    print("Invalid login details: {0}, {1}".format(username, password))
     return loginForm
 
 
