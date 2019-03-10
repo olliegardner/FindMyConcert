@@ -1,0 +1,20 @@
+{% extends 'concert/base.html' %}
+{% load staticfiles %}
+
+{% block title %} {{ block.super }} - Please Confirm Your Email {% endblock %}
+
+{% block body_block %}
+    <div>
+        <h1>Awesome! Your account has now been activated!</h1>
+        <p>Redirecting to main page...</p>
+    </div>
+    <script>
+        var timer = setTimeout(function() {
+            window.location="{% url 'index' %}"
+        }, 3000);
+    </script>
+    <br>
+    <div>
+        <p>If you are not redirected within a few seconds click <a href="{% url 'index' %}">here.</a></p>
+    </div>
+{% endblock %}

@@ -40,7 +40,7 @@ def user_login(request):
                         login(request, user)
                         return render(request, 'concert/index.html')
                     else:
-                        print("disabled")
+                        return HttpResponse("Your account is currently disabled")
                 else:
                     print("Invalid login details: {0}, {1}".format(username, password))
     return loginForm
@@ -72,29 +72,6 @@ def contact(request):
     loginForm = user_login(request)
     return render(request, 'concert/contact.html', {'loginform': loginForm})
 
-### OLD
-# def chooseSignUp(request):
-#     loginForm = user_login(request)
-#     gigForm = GigGoerSignUpForm()
-#     venueForm = VenueSignUpForm()
-# 
-#     if request.method == 'POST':
-#         if 'submit_giggoer' in request.POST:
-#             gigForm = GigGoerSignUpForm(request.POST, request.FILES)
-#             if gigForm.is_valid():
-#                 user = gigForm.save()
-#                 login(request, user)
-#                 return render(request, 'concert/index.html')
-#         
-#         if 'submit_venue' in request.POST:
-#             venueForm = VenueSignUpForm(request.POST, request.FILES)
-#             if venueForm.is_valid():
-#                 user = venueForm.save()
-#                 login(request, user)
-#                 return render(request, 'concert/index.html')
-#         
-#     return render(request, 'registration/signup.html', {'gigform': gigForm, 'venueform':venueForm, 'loginform': loginForm})
-
 def chooseSignUp(request):
     loginForm = user_login(request)
     gigForm = GigGoerSignUpForm()
@@ -118,7 +95,7 @@ def chooseSignUp(request):
                 email_address = gigForm.cleaned_data.get("email")
                 email = EmailMessage(email_subject, email_message, to=[email_address])
                 email.send()
-                return HttpResponse("Email Confirmation Needed")    # TODO: Make this a page
+                return render(request, 'registration/confirmation_needed.html')
         
         if 'submit_venue' in request.POST:
             venueForm = VenueSignUpForm(request.POST, request.FILES)
@@ -137,7 +114,7 @@ def chooseSignUp(request):
                 email_address = venueForm.cleaned_data.get("email")
                 email = EmailMessage(email_subject, email_message, to=[email_address])
                 email.send()
-                return HttpResponse("Email Confirmation Needed")    # TODO: Make this a page
+                return render(request, 'registration/confirmation_needed.html')
         
     return render(request, 'registration/signup.html', {'gigform': gigForm, 'venueform':venueForm, 'loginform': loginForm})
 
@@ -152,10 +129,18 @@ def activate(request, uidenc, token):
         user.is_active = True
         user.save()
         login(request, user)
-        return render(request, 'concert/index.html')                # TODO Make "activation successful" page
+        return HttpResponseRedirect(reverse(success))
     else:
         return HttpResponse("Error: Invalid Activation Link")
 
+def confirmation(request):
+    loginForm = user_login(request)
+    return render(request, 'registration/confirmation_needed.html', {'loginform': loginForm})
+
+@login_required
+def success(request):
+    loginForm = user_login(request)
+    return render(request, 'registration/account_activated.html', {'loginform': loginForm})
 
 @login_required
 @giggoer_required
