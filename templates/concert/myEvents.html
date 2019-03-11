@@ -1,9 +1,7 @@
 {% extends 'concert/base.html' %}
 {% load staticfiles %}
+
 {% block title %} {{ block.super }} {% endblock %}
-
-
-
 
 {% block body_block %}
 
@@ -47,8 +45,6 @@
 
 {% if user.is_authenticated %}
 
-
-
 <div class="container">
     {% if location %}
         <p>Current City: {{ location.city }}</p>
@@ -76,234 +72,222 @@
                     </a>
                 </h5>
             </div>
+
             <div id="collapse-A" class="collapse show" data-parent="#content" role="tabpanel" aria-labelledby="heading-A">
                 <div class="card-body">
 
-                 {% if concerts %}
+                {% if concerts %}
                      <div class="table-responsive">
                         <table class="table table-hover" align="center" style="width: 90%">
                             <tbody>
                                 {% for concert in concerts %}
-                                <tr>
-                                    <td>{{ concert.artist }}</td>
-                                    <td>{{ concert.venue.venue_name }}, {{ concert.venue.location }}</td>
-                                    <td>{{ concert.date }}</td>
-                                    <td>{{ concert.start_time }} 
-                                    - {{ concert.end_time }}</td>
-                                    <td><a href="{{ concert.url}}">Tickets</a></td>
-                                    {% if user.is_authenticated and not user.is_venue %}
-                                        <td>
-                                            <button class="btn btn-outline-success" onclick="myFunction();bookmark({{ concert.concertID }})" >Bookmark</button>
-                                        </td>
-                                {% endif %}
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-            {% else %}
-                <strong>There are currently no concerts with those search fields</strong>
-            {% endif %}
-        </div>
-    </div>
-</div>
+                                    <tr>
+                                        <td>{{ concert.artist }}</td>
+                                        <td>{{ concert.venue.venue_name }}, {{ concert.venue.location }}</td>
+                                        <td>{{ concert.date }}</td>
+                                        <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
+                                        <td><a href="{{ concert.url}}">Tickets</a></td>
 
-<div id="pane-B" class="card tab-pane fade" role="tabpanel" aria-labelledby="tab-B">
-    <div class="card-header" role="tab" id="heading-B">
-        <h5 class="mb-0">
-            <a class="collapsed" data-toggle="collapse" href="#collapse-B" aria-expanded="false" aria-controls="collapse-B">
-                My Upcoming Concerts
-            </a>
-        </h5>
-    </div>
-    <div id="collapse-B" class="collapse" data-parent="#content" role="tabpanel" aria-labelledby="heading-B">
-        <div class="card-body">
-            {% if user.is_venue %}
-            {% if user.venue.concert %}
-            <div class="table-responsive">
-                <table class="table table-hover" align="center" style="width: 90%">
-                    <tbody>
-                        {% for concert in user.venue.concert.all %}
-                        {% if concert.is_future %}
-                        <tr>
-                            <td>{{ concert.artist }}</td>
-                            <td>{{ concert.venue.venue_name }} , {{ concert.venue.location }}</td>
-                            <td>{{ concert.date }}</td>
-                            <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
-                            <td><a href="{{ concert.url}}">Tickets</a></td>
-                            <td><a href="{% url 'edit' concert.concertID%}">
-                              <button class="button button-blue button-bordered">
-                                <span class="button--inner">Edit</span> </td>
-                                <td>
-
-                                    <form action="{% url 'delete' concert.concertID%}" method="post">
-                                        {% csrf_token %}
-                                        <button type="submit" >Delete</button>
-                                    </form>
-                                </div></td>
-
-
-                            </tr>
-                            {% endif %}
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-                {% endif %}
+                                        {% if user.is_authenticated and not user.is_venue %}
+                                            <td>
+                                                <button class="btn btn-outline-success" onclick="myFunction();bookmark({{ concert.concertID }})" >Bookmark</button>
+                                            </td>
+                                        {% endif %}
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
                 {% else %}
-
-                {% if user.giggoer.bookmarks %}
-                <div class="table-responsive">
-                    <table class="table table-hover" align="center" style="width: 90%">
-                        <tbody>
-                            {% for concert in user.giggoer.bookmarks.all %}
-                            {% if concert.is_future %}
-                            <tr>
-                                <td>{{ concert.artist }}</td>
-                                <td>{{ concert.venue.venue_name }} , {{ concert.venue.location }}</td>
-                                <td>{{ concert.date }}</td>
-                                <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
-                                <td><a href="{{ concert.url}}">Tickets</a></td>
-                                <td><form action="{% url 'removebookmark' concert.concertID%}" method="post">
-                                    {% csrf_token %}
-                                    <button type="submit" >Remove Bookmark</button>
-                                </form>
-                            </div></td>
-                        </tr>
-                        {% endif %}
-                        {% endfor %}
-                    </tbody>
-                </table>
+                    <strong>There are currently no concerts with those search fields</strong>
+                {% endif %}
             </div>
-            {% endif %}
-            {% endif %}
+        </div>
+    </div>
+
+    <div id="pane-B" class="card tab-pane fade" role="tabpanel" aria-labelledby="tab-B">
+        <div class="card-header" role="tab" id="heading-B">
+            <h5 class="mb-0">
+                <a class="collapsed" data-toggle="collapse" href="#collapse-B" aria-expanded="false" aria-controls="collapse-B">
+                    My Upcoming Concerts
+                </a>
+            </h5>
+        </div>
+
+        <div id="collapse-B" class="collapse" data-parent="#content" role="tabpanel" aria-labelledby="heading-B">
+            <div class="card-body">
+                {% if user.is_venue %}
+                    {% if user.venue.concert %}
+                        <div class="table-responsive">
+                            <table class="table table-hover" align="center" style="width: 90%">
+                                <tbody>
+                                    {% for concert in user.venue.concert.all %}
+                                        {% if concert.is_future %}
+                                            <tr>
+                                            <td>{{ concert.artist }}</td>
+                                            <td>{{ concert.venue.venue_name }} , {{ concert.venue.location }}</td>
+                                            <td>{{ concert.date }}</td>
+                                            <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
+                                            <td><a href="{{ concert.url}}">Tickets</a></td>
+                                            <td><a href="{% url 'edit' concert.concertID%}">
+
+                                            <button class="button button-blue button-bordered">
+                                            <span class="button--inner">Edit</span> </td>
+                                            
+                                            <td>
+                                                <form action="{% url 'delete' concert.concertID%}" method="post">
+                                                    {% csrf_token %}
+                                                    <button type="submit" >Delete</button>
+                                                </form>
+                                            </td>
+                                            </tr>
+                                        {% endif %}
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% endif %}
+                {% else %}
+                    {% if user.giggoer.bookmarks %}
+                        <div class="table-responsive">
+                            <table class="table table-hover" align="center" style="width: 90%">
+                                <tbody>
+                                    {% for concert in user.giggoer.bookmarks.all %}
+                                        {% if concert.is_future %}
+                                            <tr>
+                                            <td>{{ concert.artist }}</td>
+                                            <td>{{ concert.venue.venue_name }} , {{ concert.venue.location }}</td>
+                                            <td>{{ concert.date }}</td>
+                                            <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
+                                            <td><a href="{{ concert.url}}">Tickets</a></td>
+
+                                            <td>
+                                                <form action="{% url 'removebookmark' concert.concertID%}" method="post">
+                                                    {% csrf_token %}
+                                                    <button class="btn btn-outline-danger" type="submit" >Remove Bookmark</button>
+                                                </form>
+                                            </td>
+                                            </tr>
+                                        {% endif %}
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    % endif %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div id="pane-C" class="card tab-pane fade" role="tabpanel" aria-labelledby="tab-C">
+        <div class="card-header" role="tab" id="heading-C">
+            <h5 class="mb-0">
+                <a class="collapsed" data-toggle="collapse" href="#collapse-C" aria-expanded="false" aria-controls="collapse-C">
+                    My Past Events
+                </a>
+            </h5>
+        </div>
+
+        <div id="collapse-C" class="collapse" role="tabpanel" data-parent="#content" aria-labelledby="heading-C">
+            <div class="card-body">
+                {% if user.is_venue %}
+                    {% if user.venue.concert %}
+                        <div class="table-responsive">
+                            <table class="table table-hover" align="center" style="width: 90%">
+                                <tbody>
+                                    {% for concert in user.venue.concert.all %}
+                                        {% if not concert.is_future %}
+                                            <tr>
+                                            <td>{{ concert.artist }}</td>
+                                            <td>{{ concert.venue.venue_name }} , {{ concert.venue.location }}</td>
+                                            <td>{{ concert.date }}</td>
+                                            <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
+                                            <td><a href="{{ concert.url}}">Tickets</a></td>
+                                            <td><a href="{% url 'edit' concert.concertID%}">
+                              
+                                            <button class="button button-blue button-bordered">
+                                            <span class="button--inner">Edit</span></td>
+
+                                            <td>
+                                                <form action="{% url 'delete' concert.concertID%}" method="post">
+                                                    {% csrf_token %}
+                                                    <button type="submit" >Delete</button>
+                                                </form>
+                                            </td>
+                                            </tr>
+                                        {% endif %}
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>  
+                    {% endif %}
+                {% else %}
+                    {% if user.giggoer.bookmarks %}
+                        <div class="table-responsive">
+                            <table class="table table-hover" align="center" style="width: 90%">
+                                <tbody>
+                                    {% for concert in user.giggoer.bookmarks.all %}
+                                        {% if not concert.is_future %}
+                                            <tr>
+                                            <td>{{ concert.artist }}</td>
+                                            <td>{{ concert.venue.venue_name }} , {{ concert.venue.location }}</td>
+                                            <td>{{ concert.date }}</td>
+                                            <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
+                                            <td><a href="{{ concert.url}}">Tickets</a></td>
+
+                                            <td>
+                                                <form action="{% url 'removebookmark' concert.concertID%}" method="post">
+                                                    {% csrf_token %}
+                                                    <button class="btn btn-outline-danger" type="submit" >Remove Bookmark</button>
+                                                </form>
+                                            </td>
+                                            </tr>
+                                        {% endif %}
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <strong>You have no concerts bookmarked</strong>
+                    {% endif %}
+                {% endif %}
+            </div>
         </div>
     </div>
 </div>
-
-<div id="pane-C" class="card tab-pane fade" role="tabpanel" aria-labelledby="tab-C">
-    <div class="card-header" role="tab" id="heading-C">
-        <h5 class="mb-0">
-            <a class="collapsed" data-toggle="collapse" href="#collapse-C" aria-expanded="false" aria-controls="collapse-C">
-                My Past Events
-            </a>
-        </h5>
-    </div>
-    <div id="collapse-C" class="collapse" role="tabpanel" data-parent="#content" aria-labelledby="heading-C">
-        <div class="card-body">
-            {% if user.is_venue %}
-
-            {% if user.venue.concert %}
-            <div class="table-responsive">
-                <table class="table table-hover" align="center" style="width: 90%">
-                    <tbody>
-                        {% for concert in user.venue.concert.all %}
-                        {% if not concert.is_future %}
+{% else %}
+    {% if concerts %}
+        <div class="table-responsive">
+            <table class="table table-hover" align="center" style="width: 90%">
+                <tbody>
+                    {% for concert in concerts %}
                         <tr>
-                            <td>{{ concert.artist }}</td>
-                            <td>{{ concert.venue.venue_name }} , {{ concert.venue.location }}</td>
-                            <td>{{ concert.date }}</td>
-                            <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
-                            <td><a href="{{ concert.url}}">Tickets</a></td>
-                            <td><a href="{% url 'edit' concert.concertID%}">
-                              <button class="button button-blue button-bordered">
-                                <span class="button--inner">Edit</span></td>
-
-                                <td><form action="{% url 'delete' concert.concertID%}" method="post">
-                                    {% csrf_token %}
-                                    <button type="submit" >Delete</button>
-                                </form>
-                            </div></td>
-
-
+                        <td>{{ concert.artist }}</td>
+                        <td>{{ concert.venue.venue_name }}, {{ concert.venue.location }}</td>
+                        <td>{{ concert.date }}</td>
+                        <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
+                        <td><a href="{{ concert.url}}">Tickets</a></td>
                         </tr>
-                        {% endif %}
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-
-
-            {% endif %}
-            {% else %}
-            {% if user.giggoer.bookmarks %}
-            <div class="table-responsive">
-                <table class="table table-hover" align="center" style="width: 90%">
-                    <tbody>
-                        {% for concert in user.giggoer.bookmarks.all %}
-                        {% if not concert.is_future %}
-                        <tr>
-                            <td>{{ concert.artist }}</td>
-                            <td>{{ concert.venue.venue_name }} , {{ concert.venue.location }}</td>
-                            <td>{{ concert.date }}</td>
-                            <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
-                            <td><a href="{{ concert.url}}">Tickets</a></td>
-                            <td><form action="{% url 'removebookmark' concert.concertID%}" method="post">
-                                {% csrf_token %}
-                                <button type="submit" >Remove Bookmark</button>
-                            </form>
-                        </div></td>
-                    </tr>
-                    {% endif %}
                     {% endfor %}
                 </tbody>
             </table>
         </div>
-        {% else %}
-        <strong>You have no concerts bookmarked</strong>
-        {% endif %}
-        {% endif %}
-
-    </div>
-</div>
-</div>
-</div>
-
-{% else %}
-{% if concerts %}
-<div class="table-responsive">
-    <table class="table table-hover" align="center" style="width: 90%">
-        <tbody>
-            {% for concert in concerts %}
-            <tr>
-                <td>{{ concert.artist }}</td>
-                <td>{{ concert.venue.venue_name }}, {{ concert.venue.location }}</td>
-                <td>{{ concert.date }}</td>
-                <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
-                <td><a href="{{ concert.url}}">Tickets</a></td>
-            
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-</div>
-{% else %}
-<strong>There are currently no concerts with those search fields</strong>
-{% endif %}
+    {% else %}
+        <strong>There are currently no concerts with those search fields</strong>
+    {% endif %}
 {% endif %}
 
 
 <script>
-function bookmark(concertid) {
+    function bookmark(concertid) {
+        //toastr.success(concertid);
+        $.get('/concert/bookmark/', {concertid: concertid});
+    };
 
-
-    toastr.success(concertid);
-    $.get('/concert/bookmark/', {concertid: concertid});
-     };
-
-function myFunction() {
-    toastr.success('Concert successfully bookmarked!');
-};
-
+    function myFunction() {
+        toastr.success('Concert successfully bookmarked!');
+    };
 </script>
 
-
-
-
 {% endblock %}
-
-
-
-
-
 
