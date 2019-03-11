@@ -42,10 +42,10 @@
 <!-- DON'T MOVE THE STYLE TAG INTO BASE.CSS! IT WILL BREAK SIGN UP PAGE -->
 
 
+<div class="container">
 
 {% if user.is_authenticated %}
 
-<div class="container">
     {% if location %}
         <p>Current City: {{ location.city }}</p>
     {% endif %}
@@ -173,7 +173,7 @@
                                 </tbody>
                             </table>
                         </div>
-                    % endif %}
+                    {% endif %}
                 {% endif %}
             </div>
         </div>
@@ -254,7 +254,6 @@
             </div>
         </div>
     </div>
-</div>
 {% else %}
     {% if concerts %}
         <div class="table-responsive">
@@ -276,6 +275,7 @@
         <strong>There are currently no concerts with those search fields</strong>
     {% endif %}
 {% endif %}
+</div>
 
 
 <script>
