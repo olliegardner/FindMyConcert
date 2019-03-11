@@ -3,15 +3,17 @@
 {% block title %} {{ block.super }} {% endblock %}
 
 
-{% block body_block %}
-{% if user.is_authenticated %}
 
+
+{% block body_block %}
+
+<!-- DON'T MOVE THE STYLE TAG INTO BASE.CSS! IT WILL BREAK SIGN UP PAGE -->
 <style>
 .nav-tabs {
     display:none;
 }
 
-@media(min-width:768px) {
+@media(min-width:991px) {
     .nav-tabs {
         display: flex;
     }
@@ -29,7 +31,7 @@
     }
 }
 
-@media(max-width:767px){
+@media(max-width:991px){
     .tab-content > .tab-pane {
         display: block !important;
         opacity: 1;
@@ -37,6 +39,15 @@
 }
 
 </style>
+
+
+<!-- DON'T MOVE THE STYLE TAG INTO BASE.CSS! IT WILL BREAK SIGN UP PAGE -->
+
+
+
+{% if user.is_authenticated %}
+
+
 
 <div class="container">
     {% if location %}
@@ -269,7 +280,7 @@
 {% else %}
 <strong>There are currently no concerts with those search fields</strong>
 {% endif %}
-
+{% endif %}
 
 
 <script>
@@ -286,8 +297,13 @@ function myFunction() {
 
 </script>
 
-{% endif %}
+
 
 
 {% endblock %}
+
+
+
+
+
 

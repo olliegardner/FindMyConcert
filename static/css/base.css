@@ -28,12 +28,10 @@ body, html {
 @media (max-width:991px) {
     .nav-colour-collapsed {
         background: rgba(0,0,0,1);
-        opacity: 1;
+        opacity: 0.9;
 
     }
-    .dropdown-item{
-        color: white;
-    }
+
     .collapse {}
     .navbar-collapse{}
     .navbar-nav{
@@ -44,7 +42,6 @@ body, html {
     }
     .text {
         color: white;
-
     }
 
  
@@ -63,40 +60,12 @@ nav .navbar-nav li a{
 
 
 .line {
+
     white-space: nowrap;
 }
 
-.nav-tabs {
-    display: none;
-}
-
-@media(min-width:991px) {
-    .nav-tabs {
-        display: flex;
-    }
-    
-    .card {
-        border: none;
-    }
-
-    .card .card-header {
-        display:none;
-    }  
-
-    .card .collapse{
-        display:block;
-    }
-}
-
-@media(max-width:991px){
-    .tab-content > .tab-pane {
-        display: block !important;
-        opacity: 1;
-    }
-}
 
 
-/* styles for text, box and image on the index page */
 .background {
     width: 100%; 
     height: 100%; 
@@ -146,7 +115,7 @@ nav .navbar-nav li a{
     */
     @media
       only screen 
-    and (max-width: 760px), (min-device-width: 991px) 
+    and (max-width: 991px), (min-device-width: 992px) 
     and (max-device-width: 1024px)  {
 
         /* Force table to not be like tables anymore */
