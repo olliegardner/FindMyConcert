@@ -11,5 +11,6 @@ urlpatterns = [
     url(r'^bookmark/$',views.bookmark, name='bookmark'),
     url(r'^removebookmark/$',views.removeBookmark, name='removebookmark'),
     url(r'^viewconcert/(?P<id>\d+)/$',views.viewConcert, name='view'),
+    url(r'^api/get_all_concerts/', views.getAllConcerts, name='get_all_concerts'),
 ]
 

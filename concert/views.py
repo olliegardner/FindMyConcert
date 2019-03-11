@@ -239,5 +239,26 @@ def profile(request, username):
 
     return render(request, 'concert/profile.html', {'form': form, 'selecteduser': request.user, 'loginform': loginForm})
 
+#This lets the events views dynamically load in the concerts 
+# each time a tab is opened
+def getAllConcerts(request):
+    if request.is_ajax():
+        drugs = Concerts.objects.all()
+        results = []
+        for concert in concerts:
+            concert_json = {}
+            concert_json['artist']     = concert.artist
+            concert_json['venuename']  = concert.venue.venue_name
+            concert_json['date']       = concert.date
+            concert_json['starttime']  = concert.start_time
+            concert_json['endtime']    = concert.end_time
+            concert_json['url']        = concert.url
+            concert_json['id']         = concert.concertID
+            results.append(concert_json)
+        data = json.dumps(results)
+    else:
+        data = 'fail'
+    mimetype = 'application/json'
+    return HttpResponse(data, mimetype)
 
 

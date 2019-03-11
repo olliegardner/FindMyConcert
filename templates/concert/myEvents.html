@@ -77,31 +77,7 @@
                 <div id="collapse-A" class="collapse show" data-parent="#content" role="tabpanel" aria-labelledby="heading-A">
                     <div class="card-body">
 
-                        {% if concerts %}
-                            <div class="table-responsive">
-                                <table class="table table-hover" align="center" style="width: 90%">
-                                    <tbody>
-                                        {% for concert in concerts %}
-                                            <tr>
-                                                <td class="clickable-row" data-href="{% url 'view' concert.concertID%}">{{ concert.artist }}</td>
-                                                <td class="clickable-row" data-href="{% url 'view' concert.concertID%}">{{ concert.venue.venue_name }}, {{ concert.venue.location }}</td>
-                                                <td class="clickable-row" data-href="{% url 'view' concert.concertID%}">{{ concert.date }}</td>
-                                                <td class="clickable-row" data-href="{% url 'view' concert.concertID%}">{{ concert.start_time }} - {{ concert.end_time }}</td>
-                                                <td><a href="{{ concert.url}}">Tickets</a></td>
-
-                                                {% if user.is_authenticated and not user.is_venue %}
-                                                    <td>
-                                                        <button class="btn btn-outline-success" onclick="bookmark({{ concert.concertID }})" >Bookmark</button>
-                                                    </td>
-                                                {% endif %}
-                                            </tr>
-                                        {% endfor %}
-                                    </tbody>
-                                </table>
-                            </div>
-                        {% else %}
-                            <strong>There are currently no concerts with those search fields</strong>
-                        {% endif %}
+                        <div id = "allevents"> Content failed to load, please relaod the page </div>
                     </div>
                 </div>
             </div>
@@ -299,6 +275,18 @@
          $(elem).parent().parent().hide();
         
     };
+
+    jQuery(document).ready(function($) {
+        toastr.error('Test');
+        $("#allevents").html(html);
+        toastr.error('Test');
+    });
+
+    $("#tab-A").on("click", function(){
+        toastr.error('Test');
+        $("#allevents").load("allconcerts.html");
+        toastr.error('Test');
+      });
 
     
 </script>
