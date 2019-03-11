@@ -61,6 +61,7 @@ class LoginForm(forms.Form):
 class EditGigGoerForm(forms.ModelForm):
     email = forms.EmailField(required=False)
     image = forms.ImageField(required=False)
+
     class Meta:
         model = GigGoer
         fields = []
