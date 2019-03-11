@@ -82,16 +82,16 @@
                                 <table class="table table-hover" align="center" style="width: 90%">
                                     <tbody>
                                         {% for concert in concerts %}
-                                            <tr class="clickable-row" data-href="{% url 'view' concert.concertID%}">
-                                                <td>{{ concert.artist }}</td>
-                                                <td>{{ concert.venue.venue_name }}, {{ concert.venue.location }}</td>
-                                                <td>{{ concert.date }}</td>
-                                                <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
+                                            <tr>
+                                                <td class="clickable-row" data-href="{% url 'view' concert.concertID%}">{{ concert.artist }}</td>
+                                                <td class="clickable-row" data-href="{% url 'view' concert.concertID%}">{{ concert.venue.venue_name }}, {{ concert.venue.location }}</td>
+                                                <td class="clickable-row" data-href="{% url 'view' concert.concertID%}">{{ concert.date }}</td>
+                                                <td class="clickable-row" data-href="{% url 'view' concert.concertID%}">{{ concert.start_time }} - {{ concert.end_time }}</td>
                                                 <td><a href="{{ concert.url}}">Tickets</a></td>
 
                                                 {% if user.is_authenticated and not user.is_venue %}
                                                     <td>
-                                                        <button class="btn btn-outline-success" onclick="myFunction();bookmark({{ concert.concertID }})" >Bookmark</button>
+                                                        <button class="btn btn-outline-success" onclick="bookmark({{ concert.concertID }})" >Bookmark</button>
                                                     </td>
                                                 {% endif %}
                                             </tr>
@@ -124,11 +124,11 @@
                                         <tbody>
                                             {% for concert in user.venue.concert.all %}
                                                 {% if concert.is_future %}
-                                                    <tr class="clickable-row" data-href="{% url 'view' concert.concertID%}">
-                                                        <td>{{ concert.artist }}</td>
-                                                        <td>{{ concert.venue.venue_name }} , {{ concert.venue.location }}</td>
-                                                        <td>{{ concert.date }}</td>
-                                                        <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
+                                                    <tr >
+                                                        <td class="clickable-row" data-href="{% url 'view' concert.concertID%}">{{ concert.artist }}</td>
+                                                        <td class="clickable-row" data-href="{% url 'view' concert.concertID%}">{{ concert.venue.venue_name }} , {{ concert.venue.location }}</td>
+                                                        <td class="clickable-row" data-href="{% url 'view' concert.concertID%}">{{ concert.date }}</td>
+                                                        <td class="clickable-row" data-href="{% url 'view' concert.concertID%}">{{ concert.start_time }} - {{ concert.end_time }}</td>
                                                         <td><a href="{{ concert.url}}">Tickets</a></td>
                                                         <td><a href="{% url 'edit' concert.concertID%}">
 
@@ -155,18 +155,17 @@
                                         <tbody>
                                             {% for concert in user.giggoer.bookmarks.all %}
                                                 {% if concert.is_future %}
-                                                    <tr class="clickable-row" data-href="{% url 'view' concert.concertID%}">
-                                                        <td>{{ concert.artist }}</td>
-                                                        <td>{{ concert.venue.venue_name }} , {{ concert.venue.location }}</td>
-                                                        <td>{{ concert.date }}</td>
-                                                        <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
+                                                    <tr>
+                                                        <td class="clickable-row" data-href="{% url 'view' concert.concertID%}">{{ concert.artist }}</td>
+                                                        <td class="clickable-row" data-href="{% url 'view' concert.concertID%}">{{ concert.venue.venue_name }} , {{ concert.venue.location }}</td>
+                                                        <td class="clickable-row" data-href="{% url 'view' concert.concertID%}">{{ concert.date }}</td>
+                                                        <td class="clickable-row" data-href="{% url 'view' concert.concertID%}">{{ concert.start_time }} - {{ concert.end_time }}</td>
                                                         <td><a href="{{ concert.url}}">Tickets</a></td>
 
                                                         <td>
-                                                            <form action="{% url 'removebookmark' concert.concertID%}" method="post">
-                                                                {% csrf_token %}
-                                                                <button class="btn btn-outline-danger" type="submit" >Remove Bookmark</button>
-                                                            </form>
+                                            
+                                                                <button class="btn btn-outline-danger" onclick = "removebookmark({{ concert.concertID}});hideparent(this);" >Remove Bookmark</button>
+                                               
                                                         </td>
                                                     </tr>
                                                 {% endif %}
@@ -198,11 +197,11 @@
                                         <tbody>
                                             {% for concert in user.venue.concert.all %}
                                                 {% if not concert.is_future %}
-                                                    <tr class="clickable-row" data-href="{% url 'view' concert.concertID%}">
-                                                        <td>{{ concert.artist }}</td>
-                                                        <td>{{ concert.venue.venue_name }} , {{ concert.venue.location }}</td>
-                                                        <td>{{ concert.date }}</td>
-                                                        <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
+                                                    <tr>
+                                                        <td class="clickable-row" data-href="{% url 'view' concert.concertID%}">{{ concert.artist }}</td>
+                                                        <td class="clickable-row" data-href="{% url 'view' concert.concertID%}">{{ concert.venue.venue_name }} , {{ concert.venue.location }}</td>
+                                                        <td class="clickable-row" data-href="{% url 'view' concert.concertID%}">{{ concert.date }}</td>
+                                                        <td class="clickable-row" data-href="{% url 'view' concert.concertID%}">{{ concert.start_time }} - {{ concert.end_time }}</td>
                                                         <td><a href="{{ concert.url}}">Tickets</a></td>
                                                         <td><a href="{% url 'edit' concert.concertID%}">
 
@@ -229,17 +228,16 @@
                                         <tbody>
                                             {% for concert in user.giggoer.bookmarks.all %}
                                                 {% if not concert.is_future %}
-                                                    <tr class="clickable-row" data-href="{% url 'view' concert.concertID%}">
-                                                        <td>{{ concert.artist }}</td>
-                                                        <td>{{ concert.venue.venue_name }} , {{ concert.venue.location }}</td>
-                                                        <td>{{ concert.date }}</td>
-                                                        <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
+                                                    <tr>
+                                                        <td class="clickable-row" data-href="{% url 'view' concert.concertID%}">{{ concert.artist }}</td>
+                                                        <td class="clickable-row" data-href="{% url 'view' concert.concertID%}">{{ concert.venue.venue_name }} , {{ concert.venue.location }}</td>
+                                                        <td class="clickable-row" data-href="{% url 'view' concert.concertID%}">{{ concert.date }}</td>
+                                                        <td class="clickable-row" data-href="{% url 'view' concert.concertID%}">{{ concert.start_time }} - {{ concert.end_time }}</td>
                                                         <td><a href="{{ concert.url}}">Tickets</a></td>
 
-                                                        <td><form action="{% url 'removebookmark' concert.concertID%}" method="post">
-                                                        {% csrf_token %}
-                                                        <button class="btn btn-outline-danger" type="submit" >Remove Bookmark</button>
-                                                        </form>
+                                                        <td>
+                                                        <button class="btn btn-outline-danger" onclick = "removebookmark({{concert.concertID}});hideparent(this);">Remove Bookmark</button>
+                                                 
                                                         </td>
                                                     </tr>
                                                 {% endif %}
@@ -262,11 +260,11 @@
             <table class="table table-hover" align="center" style="width: 90%">
                 <tbody>
                     {% for concert in concerts %}
-                        <tr class="clickable-row" data-href="{% url 'view' concert.concertID%}">
-                            <td>{{ concert.artist }}</td>
-                            <td>{{ concert.venue.venue_name }}, {{ concert.venue.location }}</td>
-                            <td>{{ concert.date }}</td>
-                            <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
+                        <tr>
+                            <td class="clickable-row" data-href="{% url 'view' concert.concertID%}">{{ concert.artist }}</td>
+                            <td class="clickable-row" data-href="{% url 'view' concert.concertID%}">{{ concert.venue.venue_name }}, {{ concert.venue.location }}</td>
+                            <td class="clickable-row" data-href="{% url 'view' concert.concertID%}">{{ concert.date }}</td>
+                            <td class="clickable-row" data-href="{% url 'view' concert.concertID%}">{{ concert.start_time }} - {{ concert.end_time }}</td>
                             <td><a href="{{ concert.url}}">Tickets</a></td>
                         </tr>
                     {% endfor %}
@@ -284,15 +282,25 @@
     $(".clickable-row").click(function() {
         window.location = $(this).data("href");
     });
-});
+    });
 
     function bookmark(concertid) {
         $.get('/concert/bookmark/', {concertid: concertid});
-    };
-
-    function myFunction() {
         toastr.success('Concert successfully bookmarked!');
     };
+
+
+    function removebookmark(concertid) {
+        $.get('/concert/removebookmark/', {concertid: concertid});
+        toastr.error('Bookmark successfully removed!');
+    };
+
+    function hideparent(elem) {
+         $(elem).parent().parent().hide();
+        
+    };
+
+    
 </script>
 
 {% endblock %}

@@ -9,7 +9,7 @@ urlpatterns = [
     url(r'^contact/$', views.contact, name='contact'),
     url(r'^profile/(?P<username>[\w\-]+)/$', views.profile, name='profile'),
     url(r'^bookmark/$',views.bookmark, name='bookmark'),
-    url(r'^removebookmark/(?P<id>\d+)/$',views.removeBookmark, name='removebookmark'),
+    url(r'^removebookmark/$',views.removeBookmark, name='removebookmark'),
     url(r'^viewconcert/(?P<id>\d+)/$',views.viewConcert, name='view'),
 ]
 

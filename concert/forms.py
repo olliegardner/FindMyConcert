@@ -78,10 +78,6 @@ class EditVenueForm(forms.ModelForm):
         model = Venue
         fields = []
 
-class removeBookmarkForm(forms.ModelForm):
-    class Meta:
-        model = Concert
-        fields = []
 
 
 

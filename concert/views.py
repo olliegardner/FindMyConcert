@@ -13,10 +13,11 @@ from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.views.generic import CreateView
+from django.views.decorators.csrf import requires_csrf_token
 
 
 from FindMyConcert.custom_decorators import giggoer_required
-from concert.forms import GigGoerSignUpForm, VenueSignUpForm, removeBookmarkForm, EditGigGoerForm, EditVenueForm, LoginForm
+from concert.forms import GigGoerSignUpForm, VenueSignUpForm, EditGigGoerForm, EditVenueForm, LoginForm
 from concert.models import User, Concert
 from concert.tokens import accountActivationToken
 
@@ -144,22 +145,9 @@ def success(request):
     loginForm = user_login(request)
     return render(request, 'registration/account_activated.html', {'loginform': loginForm})
 
-"""
-@login_required
-@giggoer_required
-def bookmark(request, id):
-    concert = get_object_or_404(Concert, concertID=id)
-    if (concert in request.user.giggoer.bookmarks.all()):
-        return HttpResponseRedirect(reverse(events)) 
-    else:
-        request.user.giggoer.bookmarks.add(concert)
-        return HttpResponseRedirect(reverse(events)) 
-"""
-
 @login_required
 @giggoer_required
 def bookmark(request):
-    context = RequestContext(request)
     concertid = None
     if request.method == 'GET':
         concertid = request.GET['concertid']
@@ -175,28 +163,31 @@ def bookmark(request):
             
     return HttpResponse()
 
+
 @login_required
 @giggoer_required
-def removeBookmark(request, id):
-    concert_to_remove = get_object_or_404(Concert, concertID=id)
-    if (concert_to_remove not in request.user.giggoer.bookmarks.all()):
-        return HttpResponseRedirect(reverse(events))
+def removeBookmark(request):
 
-    if request.method == 'POST':
-        form = removeBookmarkForm(request.POST, instance=concert_to_remove)
+    print("Starting to remove bookmark")
+    concert_to_remove = None
 
-        if form.is_valid(): 
+
+    if request.method == 'GET':
+        concertid = request.GET['concertid']
+
+        concert_to_remove = get_object_or_404(Concert, concertID=concertid)
+
+        if concert_to_remove:
             request.user.giggoer.bookmarks.remove(concert_to_remove)
-            return HttpResponseRedirect(reverse(events))  # wherever to go after deleting
-        else:
-            print(form.errors)
+            HttpResponse()  # wherever to go after deleting
+    
+    if (concert_to_remove not in request.user.giggoer.bookmarks.all()):
+        HttpResponse()
 
     else:
         print("No POST request") 
-        form = removeBookmarkForm(instance=concert_to_remove)
 
-    template_vars = {'form': form}
-    return render(request, 'concert/myEvents.html', concert_to_remove)
+    HttpResponse()
 
 
 def viewConcert(request, id):

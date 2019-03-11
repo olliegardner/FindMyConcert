@@ -12,13 +12,13 @@
         <br>
         <h1>{{ concert.artist}} at {{ concert.venue.venue_name }}</h1>
         <p>{{ concert.venue.venue_name }} , {{ concert.venue.location }}<br>
-          {{ concert.start_time }} - {{ concert.end_time }}</p>
+          {{ concert.start_time }} - {{ concert.end_time }}   {{ concert.date }}</p>
         <p><a href="{{ concert.url}}">Tickets</a></p>
 
         <img class = "img-fluid" src="{{ concert.image.url }}">
         <br>
         <br>
-        
+
         <ul class="nav nav-tabs">
             <li class="nav-item">
                 <a class="nav-link active" data-toggle="tab" href="#events" role="tab" aria-selected="true">Event</a>
