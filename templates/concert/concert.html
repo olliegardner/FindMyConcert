@@ -4,14 +4,22 @@
 {% block title_block %} {{ block.super }} {% endblock %}
 
 {% block body_block %}
-  <div class = d-sm-flex>
-  <h1>{{ concert.artist}} at {{ concert.venue.venue_name }}</h1>
-  <img class = "img-fluid" src="{{ concert.image.url }}">
-  <td>{{ concert.artist }}</td>
-  <td>{{ concert.description }}</td>
-  <td>{{ concert.venue.venue_name }} , {{ concert.venue.location }}</td>
-  <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
-  <td><a href="{{ concert.url}}">Tickets</a></td>
-  <img class = "img-fluid"src="{{ concert.venue.image.url }}">
-</div>
+    <div class = container>
+        <div class = container >  <!-- Artist info -->
+          <br>
+          <h1>{{ concert.artist}} at {{ concert.venue.venue_name }}</h1>
+          <img class = "img-fluid" src="{{ concert.image.url }}">
+          <p>{{ concert.venue.venue_name }} , {{ concert.venue.location }}<br>
+          {{ concert.start_time }} - {{ concert.end_time }}</p>
+          <p><a href="{{ concert.url}}">Tickets</a></p>
+
+          <p>{{ concert.description }}</p>
+       
+        </div>
+        <div class = container > <!-- Venue stuff -->
+          <h2>{{ concert.venue.venue_name }}</h2>
+          <img class = "img-fluid"src="{{ concert.venue.image.url }}">
+          <p>{{ concert.venue.description }}</p>
+        </div>
+    </div>
 {% endblock %}
