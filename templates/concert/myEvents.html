@@ -82,7 +82,7 @@
                                 <table class="table table-hover" align="center" style="width: 90%">
                                     <tbody>
                                         {% for concert in concerts %}
-                                            <tr>
+                                            <tr class="clickable-row" data-href="{% url 'view' concert.concertID%}">
                                                 <td>{{ concert.artist }}</td>
                                                 <td>{{ concert.venue.venue_name }}, {{ concert.venue.location }}</td>
                                                 <td>{{ concert.date }}</td>
@@ -124,7 +124,7 @@
                                         <tbody>
                                             {% for concert in user.venue.concert.all %}
                                                 {% if concert.is_future %}
-                                                    <tr>
+                                                    <tr class="clickable-row" data-href="{% url 'view' concert.concertID%}">
                                                         <td>{{ concert.artist }}</td>
                                                         <td>{{ concert.venue.venue_name }} , {{ concert.venue.location }}</td>
                                                         <td>{{ concert.date }}</td>
@@ -155,7 +155,7 @@
                                         <tbody>
                                             {% for concert in user.giggoer.bookmarks.all %}
                                                 {% if concert.is_future %}
-                                                    <tr>
+                                                    <tr class="clickable-row" data-href="{% url 'view' concert.concertID%}">
                                                         <td>{{ concert.artist }}</td>
                                                         <td>{{ concert.venue.venue_name }} , {{ concert.venue.location }}</td>
                                                         <td>{{ concert.date }}</td>
@@ -198,7 +198,7 @@
                                         <tbody>
                                             {% for concert in user.venue.concert.all %}
                                                 {% if not concert.is_future %}
-                                                    <tr>
+                                                    <tr class="clickable-row" data-href="{% url 'view' concert.concertID%}">
                                                         <td>{{ concert.artist }}</td>
                                                         <td>{{ concert.venue.venue_name }} , {{ concert.venue.location }}</td>
                                                         <td>{{ concert.date }}</td>
@@ -229,7 +229,7 @@
                                         <tbody>
                                             {% for concert in user.giggoer.bookmarks.all %}
                                                 {% if not concert.is_future %}
-                                                    <tr>
+                                                    <tr class="clickable-row" data-href="{% url 'view' concert.concertID%}">
                                                         <td>{{ concert.artist }}</td>
                                                         <td>{{ concert.venue.venue_name }} , {{ concert.venue.location }}</td>
                                                         <td>{{ concert.date }}</td>
@@ -262,7 +262,7 @@
             <table class="table table-hover" align="center" style="width: 90%">
                 <tbody>
                     {% for concert in concerts %}
-                        <tr>
+                        <tr class="clickable-row" data-href="{% url 'view' concert.concertID%}">
                             <td>{{ concert.artist }}</td>
                             <td>{{ concert.venue.venue_name }}, {{ concert.venue.location }}</td>
                             <td>{{ concert.date }}</td>
@@ -280,6 +280,12 @@
 
 
 <script>
+    jQuery(document).ready(function($) {
+    $(".clickable-row").click(function() {
+        window.location = $(this).data("href");
+    });
+});
+
     function bookmark(concertid) {
         $.get('/concert/bookmark/', {concertid: concertid});
     };

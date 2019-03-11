@@ -4,22 +4,55 @@
 {% block title_block %} {{ block.super }} {% endblock %}
 
 {% block body_block %}
-    <div class = container>
-        <div class = container >  <!-- Artist info -->
-          <br>
-          <h1>{{ concert.artist}} at {{ concert.venue.venue_name }}</h1>
-          <img class = "img-fluid" src="{{ concert.image.url }}">
-          <p>{{ concert.venue.venue_name }} , {{ concert.venue.location }}<br>
-          {{ concert.start_time }} - {{ concert.end_time }}</p>
-          <p><a href="{{ concert.url}}">Tickets</a></p>
 
-          <p>{{ concert.description }}</p>
-       
+     
+     
+                    
+ <div class="container">
+        <br>
+        <h1>{{ concert.artist}} at {{ concert.venue.venue_name }}</h1>
+        <p>{{ concert.venue.venue_name }} , {{ concert.venue.location }}<br>
+          {{ concert.start_time }} - {{ concert.end_time }}</p>
+        <p><a href="{{ concert.url}}">Tickets</a></p>
+
+        <img class = "img-fluid" src="{{ concert.image.url }}">
+        <br>
+        <br>
+        
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#events" role="tab" aria-selected="true">Event</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#venue" role="tab" aria-selected="true">Venue</a>
+            </li>
+             <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#comments" role="tab" aria-selected="true">Comments</a>
+            </li>
+        </ul>
+
+        <div class="tab-content">
+            <div id="events" class="tab-pane fade show active">
+                <br>
+                 <p>{{ concert.description }}</p>
+            </div>
+
+
+            <div id="venue" class="tab-pane fade">
+                <br>
+                    <h2>{{ concert.venue.venue_name }}</h2>
+                    <img class = "img-fluid"src="{{ concert.venue.image.url }}">
+                    <p>{{ concert.venue.description }}</p>
+             </div>
+              <div id="comments" class="tab-pane fade">
+                <br>
+                    <h2> Comments</h2>
+
+                </div>
         </div>
-        <div class = container > <!-- Venue stuff -->
-          <h2>{{ concert.venue.venue_name }}</h2>
-          <img class = "img-fluid"src="{{ concert.venue.image.url }}">
-          <p>{{ concert.venue.description }}</p>
-        </div>
+
+
     </div>
+
 {% endblock %}
