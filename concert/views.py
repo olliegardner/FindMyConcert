@@ -27,7 +27,7 @@ def user_logout(request):
     logout(request)
     return HttpResponseRedirect(reverse('index')) # take user back to the index page
 
-def user_login(request):
+def user_login(request): 
     loginForm = LoginForm
 
     if request.method == 'POST':
@@ -239,8 +239,8 @@ def profile(request, username):
 
     return render(request, 'concert/profile.html', {'form': form, 'selecteduser': request.user, 'loginform': loginForm})
 
-#This lets the events views dynamically load in the concerts 
-# each time a tab is opened
+#This lets the events view to dynamically add a concert each time one
+# is bookmarked
 def getAllConcerts(request):
     if request.is_ajax():
         drugs = Concerts.objects.all()

@@ -77,7 +77,17 @@
                 <div id="collapse-A" class="collapse show" data-parent="#content" role="tabpanel" aria-labelledby="heading-A">
                     <div class="card-body">
 
-                        <div id = "allevents"> Content failed to load, please relaod the page </div>
+                        {% if concerts %}
+                            <div class="table-responsive">
+                                <table class="table table-hover" id = "allevents" align="center" style="width: 90%">
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% else %}
+                            <strong>There are currently no concerts with those search fields</strong>
+                        {% endif %}
+                        
                     </div>
                 </div>
             </div>
@@ -100,7 +110,7 @@
                                         <tbody>
                                             {% for concert in user.venue.concert.all %}
                                                 {% if concert.is_future %}
-                                                    <tr >
+                                                    <tr>
                                                         <td class="clickable-row" data-href="{% url 'view' concert.concertID%}">{{ concert.artist }}</td>
                                                         <td class="clickable-row" data-href="{% url 'view' concert.concertID%}">{{ concert.venue.venue_name }} , {{ concert.venue.location }}</td>
                                                         <td class="clickable-row" data-href="{% url 'view' concert.concertID%}">{{ concert.date }}</td>
@@ -260,12 +270,6 @@
     });
     });
 
-    function bookmark(concertid) {
-        $.get('/concert/bookmark/', {concertid: concertid});
-        toastr.success('Concert successfully bookmarked!');
-    };
-
-
     function removebookmark(concertid) {
         $.get('/concert/removebookmark/', {concertid: concertid});
         toastr.error('Bookmark successfully removed!');
@@ -276,17 +280,53 @@
         
     };
 
-    jQuery(document).ready(function($) {
-        toastr.error('Test');
-        $("#allevents").html(html);
-        toastr.error('Test');
-    });
-
     $("#tab-A").on("click", function(){
         toastr.error('Test');
         $("#allevents").load("allconcerts.html");
         toastr.error('Test');
       });
+
+    function bookmark(concertid) {
+        $.get('/concert/bookmark/', {concertid: concertid});
+        toastr.success('Concert successfully bookmarked!');
+
+
+        toastr.error('Fetching JSON');
+        var response = [{
+            "artist":"Test Artist",
+            "venue":"Test Venue",
+            "date":"Test Date",
+            "time":"Test Time",
+         }]
+        toastr.error('Appending JSON');
+
+        if (true) {
+        $.each(response, function(i, item) {
+            var $tr = $('<tr>').append(
+                $('<td>').text(item.artist),
+                $('<td>').text(item.venue),
+                $('<td>').text(item.date),
+                $('<td>').text(item.time),
+                $('<td>').html('<a href="{{ concert.url}}">Tickets</a>'),
+                $('<td>').html('<button class="btn btn-outline-success" onclick="bookmark(12)" >Bookmark</button>')
+            ).appendTo('#futureevents');
+
+        });
+        } else {
+        $.each(response, function(i, item) {
+            var $tr = $('<tr>').append(
+                $('<td>').text(item.artist),
+                $('<td>').text(item.venue),
+                $('<td>').text(item.date),
+                $('<td>').text(item.time),
+                $('<td>').html('<a href="{{ concert.url}}">Tickets</a>'),
+                $('<td>').html('<button class="btn btn-outline-success" onclick="bookmark(12)" >Bookmark</button>')
+            ).appendTo('#pastevents'); 
+        }
+        }
+
+        toastr.error('JSON appended');
+    };
 
     
 </script>
