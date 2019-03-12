@@ -301,47 +301,42 @@
         toastr.success('Concert successfully bookmarked!');
 
 
+        var $requesturl = 'http://127.0.0.1:8000/api/getconcert/' + concertid;
 
         //Now use AJAX to fetch the data for a the concert
         $.ajax({
-            url: 'api/getconcert/'+concertid,
+            url: $requesturl ,
+            type: 'GET',
             
-            success: function(data){
+            success: function(res){
                 toastr.success('Data successfully received');
-                 
-                //Depending on the date of the conert, append to appropoate 
+                //Depending on the date of the conert, append to appropiate 
                 //table
-                if (true) {
-                    $.each(data, function(i, item) {
-                        var $tr = $('<tr>').append(
-                            $('<td>').text(item.artist),
-                            $('<td>').text(item.venue),
-                            $('<td>').text(item.date),
-                            $('<td>').text(item.time),
-                            $('<td>').html('<a href="{{ concert.url}}">Tickets</a>'),
-                            $('<td>').html('<td><button class="btn btn-outline-danger" onclick = "removebookmark(12));hideparent(this);" >Remove Bookmark</button></td>')
-                        ).appendTo('#futureevents');
 
-                    });
-                } else {
-                    $.each(response, function(i, item) {
-                        var $tr = $('<tr>').append(
-                            $('<td>').text(item.artist),
-                            $('<td>').text(item.venue),
-                            $('<td>').text(item.date),
-                            $('<td>').text(item.time),
-                            $('<td>').html('<a href="{{ concert.url}}">Tickets</a>'),
-                            $('<td>').html('<td><button class="btn btn-outline-danger" onclick = "removebookmark(12));hideparent(this);" >Remove Bookmark</button></td>')
-                        ).appendTo('#pastevents'); 
-                    }
-                }            
-            
-             }
+                $.each(res, function(i, item) {
+                        $('<tr>').append(
+                        $('<td>').text(item.artist),
+                        $('<td>').text(item.venuename),
+                        $('<td>').text(item.date),
+                        $('<td>').text(item.starttime),
+                        $('<td>').text('test'),
+                        $('<td>').text('test')
+                    ).appendTo('#futureevents');
+                });
+                toastr.success('Table added');
+                    
+               }
         });
     };
 
     
 </script>
+
+
+
+
+
+
 
 {% endblock %}
 

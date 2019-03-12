@@ -242,21 +242,20 @@ def profile(request, username):
 #This lets the events view to dynamically add a concert each time one
 # is bookmarked
 def getConcert(request ,id):
-    if request.is_ajax():
-        concert = get_object_or_404(Concert, concertID=id)
-        results = []
-        
-        concert_json = {}
-        concert_json['artist']     = concert.artist
-        concert_json['venuename']  = concert.venue.venue_name
-        concert_json['date']       = concert.date
-        concert_json['starttime']  = concert.start_time
-        concert_json['endtime']    = concert.end_time
-        concert_json['url']        = concert.url
-        concert_json['id']         = concert.concertID
-        data = json.dumps(results)
-    else:
-        data = 'fail'
+
+    concert = get_object_or_404(Concert, concertID=id)
+    results = []
+    concert_json = {}
+    concert_json['artist']     = concert.artist
+    concert_json['venuename']  = concert.venue.venue_name
+    concert_json['date']       = str(concert.date)
+    concert_json['starttime']  = str(concert.start_time)
+    concert_json['endtime']    = str(concert.end_time)
+    concert_json['url']        = concert.url
+    concert_json['id']         = concert.concertID
+    results.append(concert_json)
+    data = json.dumps(results)
+    print(concert_json)
     mimetype = 'application/json'
     return HttpResponse(data, mimetype)
 
