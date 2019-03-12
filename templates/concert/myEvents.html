@@ -75,9 +75,18 @@
 
                 <div id="collapse-A" class="collapse show" data-parent="#content" role="tabpanel" aria-labelledby="heading-A">
                     <div class="card-body">
-          {% if concerts %}
+                        {% if concerts %}
                             <div class="table-responsive">
                                 <table class="table table-hover" align="center" style="width: 90%">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Artist</th>
+                                            <th scope="col">Location</th>
+                                            <th scope="col">Date</th>
+                                            <th scope="col">Time</th>
+                                            <th colspan="2">Find out More</th>
+                                        </tr>
+                                    </thead>
                                     <tbody>
                                         {% for concert in concerts %}
                                             <tr>
@@ -99,8 +108,7 @@
                             </div>
                         {% else %}
                             <strong>There are currently no concerts with those search fields</strong>
-                        {% endif %}
-                        
+                        {% endif %} 
                     </div>
                 </div>
             </div>
@@ -120,6 +128,15 @@
                             {% if user.venue.concert %}
                                 <div class="table-responsive">
                                     <table class="table table-hover" align="center" style="width: 90%">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Artist</th>
+                                                <th scope="col">Location</th>
+                                                <th scope="col">Date</th>
+                                                <th scope="col">Time</th>
+                                                <th colspan="2">Find out More</th>
+                                            </tr>
+                                        </thead>                                        
                                         <tbody>
                                             {% for concert in user.venue.concert.all %}
                                                 {% if concert.is_future %}
@@ -151,6 +168,15 @@
                             {% if user.giggoer.bookmarks %}
                                 <div class="table-responsive">
                                     <table class="table table-hover" align="center" id ="futureevents" style="width: 90%">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Artist</th>
+                                                <th scope="col">Location</th>
+                                                <th scope="col">Date</th>
+                                                <th scope="col">Time</th>
+                                                <th colspan="2">Find out More</th>
+                                            </tr>
+                                        </thead>
                                         <tbody>
                                             {% for concert in user.giggoer.bookmarks.all %}
                                                 {% if concert.is_future %}
@@ -162,9 +188,7 @@
                                                         <td><a href="{% url 'view' concert.concertID%}"">View</a></td>
 
                                                         <td>
-                                            
-                                                                <button class="btn btn-outline-danger" onclick = "removebookmark({{ concert.concertID}});hideparent(this);" >Remove Bookmark</button>
-                                               
+                                                            <button class="btn btn-outline-danger" onclick = "removebookmark({{ concert.concertID}});hideparent(this);" >Remove Bookmark</button>
                                                         </td>
                                                     </tr>
                                                 {% endif %}
@@ -193,6 +217,15 @@
                             {% if user.venue.concert %}
                                 <div class="table-responsive">
                                     <table class="table table-hover" align="center" style="width: 90%">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Artist</th>
+                                                <th scope="col">Location</th>
+                                                <th scope="col">Date</th>
+                                                <th scope="col">Time</th>
+                                                <th colspan="2">Find out More</th>
+                                            </tr>
+                                        </thead>
                                         <tbody>
                                             {% for concert in user.venue.concert.all %}
                                                 {% if not concert.is_future %}
@@ -224,6 +257,15 @@
                             {% if user.giggoer.bookmarks %}
                                 <div class="table-responsive">
                                     <table class="table table-hover" id = "pastevents" align="center" style="width: 90%">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Artist</th>
+                                            <th scope="col">Location</th>
+                                            <th scope="col">Date</th>
+                                            <th scope="col">Time</th>
+                                            <th colspan="2">Find out More</th>
+                                        </tr>
+                                    </thead>
                                         <tbody>
                                             {% for concert in user.giggoer.bookmarks.all %}
                                                 {% if not concert.is_future %}
@@ -256,6 +298,15 @@
         {% if concerts %}
             <div class="table-responsive">
                 <table class="table table-hover" align="center" style="width: 90%">
+                    <thead>
+                        <tr>
+                            <th scope="col">Artist</th>
+                            <th scope="col">Location</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Time</th>
+                            <th colspan="2">Find out More</th>
+                        </tr>
+                    </thead>
                     <tbody>
                         {% for concert in concerts %}
                             <tr>
@@ -300,50 +351,42 @@
             dataType: 'json',
             
             success: function(res){
-                //Depending on the date of the conert, append to appropiate 
-                //table
+                //Depending on the date of the conert, append to appropiate table
 
                 var $concerturl ='<a href="{% url "view" 1 %}">View</a>';
                 $concerturl = $concerturl.replace('1',concertid);
-                if (res[0].isfuture == "True"){
-                $.each(res, function(i, item) {
-                        $('<tr>').append(
-                        $('<td>').text(item.artist),
-                        $('<td>').text(item.venuename + ' , ' + item.location),
-                        $('<td>').text(item.date),
-                        $('<td>').text(item.starttime + ' - ' + item.endtime),
-                        $('<td>').html($concerturl),
-                        $('<td>').html($button)
-                    ).appendTo('#futureevents');
-                });
+                if (res[0].isfuture == "True") {
+                    $.each(res, function(i, item) {
+                            $('<tr>').append(
+                            $('<td>').text(item.artist),
+                            $('<td>').text(item.venuename + ' , ' + item.location),
+                            $('<td>').text(item.date),
+                            $('<td>').text(item.starttime + ' - ' + item.endtime),
+                            $('<td>').html($concerturl),
+                            $('<td>').html($button)
+                        ).appendTo('#futureevents');
+                    });
                 } else {
-                $.each(res, function(i, item) {
-                        $('<tr>').append(
-                        $('<td>').text(item.artist),
-                        $('<td>').text(item.venuename + ' , ' + item.location),
-                        $('<td>').text(item.date),
-                        $('<td>').text(item.starttime + ' - ' + item.endtime),
-                        $('<td>').html($concerturl),
-                        $('<td>').html($button)
-                    ).appendTo('#pastevents');
-                });
+                    $.each(res, function(i, item) {
+                            $('<tr>').append(
+                            $('<td>').text(item.artist),
+                            $('<td>').text(item.venuename + ' , ' + item.location),
+                            $('<td>').text(item.date),
+                            $('<td>').text(item.starttime + ' - ' + item.endtime),
+                            $('<td>').html($concerturl),
+                            $('<td>').html($button)
+                        ).appendTo('#pastevents');
+                    });
                 }
-                 
-               }
+            }
         });
 
         //Start by bookmarking the concert
         $.get('/concert/bookmark/', {concertid: concertid}); 
         toastr.success('Concert successfully bookmarked!');
     };
-
     
 </script>
-
-
-
-
-
 
 
 {% endblock %}
