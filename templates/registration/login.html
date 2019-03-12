@@ -4,12 +4,12 @@
 {% block title_block %} {{ block.super }} {% endblock %}
 
 {% block body_block %}
-	<h1>Sign in</h1>
+    <h1>Sign in</h1>
 
-	<form method="post" novalidate enctype="multipart/form-data">
-		{% csrf_token %}
-		{{ form.as_p }}
-		<input type="submit" name="login" value="Sign in">
-		<input type="hidden" name="next" value="{{ next }}">
-	</form>
+    <form method="post" novalidate enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" name="login" value="Sign in">
+        <input type="hidden" name="next" value="{{ next }}">
+    </form>
 {% endblock %}
