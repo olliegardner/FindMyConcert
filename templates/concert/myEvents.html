@@ -76,11 +76,25 @@
 
                 <div id="collapse-A" class="collapse show" data-parent="#content" role="tabpanel" aria-labelledby="heading-A">
                     <div class="card-body">
-
-                        {% if concerts %}
+          {% if concerts %}
                             <div class="table-responsive">
-                                <table class="table table-hover" id = "allevents" align="center" style="width: 90%">
+                                <table class="table table-hover" align="center" style="width: 90%">
                                     <tbody>
+                                        {% for concert in concerts %}
+                                            <tr>
+                                                <td class="clickable-row" data-href="{% url 'view' concert.concertID%}">{{ concert.artist }}</td>
+                                                <td class="clickable-row" data-href="{% url 'view' concert.concertID%}">{{ concert.venue.venue_name }}, {{ concert.venue.location }}</td>
+                                                <td class="clickable-row" data-href="{% url 'view' concert.concertID%}">{{ concert.date }}</td>
+                                                <td class="clickable-row" data-href="{% url 'view' concert.concertID%}">{{ concert.start_time }} - {{ concert.end_time }}</td>
+                                                <td><a href="{{ concert.url}}">Tickets</a></td>
+
+                                                {% if user.is_authenticated and not user.is_venue %}
+                                                    <td>
+                                                        <button class="btn btn-outline-success" onclick="bookmark({{ concert.concertID }})" >Bookmark</button>
+                                                    </td>
+                                                {% endif %}
+                                            </tr>
+                                        {% endfor %}
                                     </tbody>
                                 </table>
                             </div>
@@ -106,7 +120,7 @@
                         {% if user.is_venue %}
                             {% if user.venue.concert %}
                                 <div class="table-responsive">
-                                    <table class="table table-hover" id = "futureevents" align="center" style="width: 90%">
+                                    <table class="table table-hover" align="center" style="width: 90%">
                                         <tbody>
                                             {% for concert in user.venue.concert.all %}
                                                 {% if concert.is_future %}
@@ -137,7 +151,7 @@
                         {% else %}
                             {% if user.giggoer.bookmarks %}
                                 <div class="table-responsive">
-                                    <table class="table table-hover" align="center" id ="pastevents" style="width: 90%">
+                                    <table class="table table-hover" align="center" id ="futureevents" style="width: 90%">
                                         <tbody>
                                             {% for concert in user.giggoer.bookmarks.all %}
                                                 {% if concert.is_future %}
@@ -290,8 +304,7 @@
 
         //Now use AJAX to fetch the data for a the concert
         $.ajax({
-            type: "POST",
-            data: { action: "getconcert", id: concertid },
+            url: 'api/getconcert/'+concertid,
             
             success: function(data){
                 toastr.success('Data successfully received');
@@ -306,7 +319,7 @@
                             $('<td>').text(item.date),
                             $('<td>').text(item.time),
                             $('<td>').html('<a href="{{ concert.url}}">Tickets</a>'),
-                            $('<td>').html('<button class="btn btn-outline-success" onclick="bookmark(12)" >Bookmark</button>')
+                            $('<td>').html('<td><button class="btn btn-outline-danger" onclick = "removebookmark(12));hideparent(this);" >Remove Bookmark</button></td>')
                         ).appendTo('#futureevents');
 
                     });
@@ -318,7 +331,7 @@
                             $('<td>').text(item.date),
                             $('<td>').text(item.time),
                             $('<td>').html('<a href="{{ concert.url}}">Tickets</a>'),
-                            $('<td>').html('<button class="btn btn-outline-success" onclick="bookmark(12)" >Bookmark</button>')
+                            $('<td>').html('<td><button class="btn btn-outline-danger" onclick = "removebookmark(12));hideparent(this);" >Remove Bookmark</button></td>')
                         ).appendTo('#pastevents'); 
                     }
                 }            

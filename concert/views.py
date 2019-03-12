@@ -241,9 +241,8 @@ def profile(request, username):
 
 #This lets the events view to dynamically add a concert each time one
 # is bookmarked
-def getConcert(request):
+def getConcert(request ,id):
     if request.is_ajax():
-        id = request.GET.get('term', '')
         concert = get_object_or_404(Concert, concertID=id)
         results = []
         
