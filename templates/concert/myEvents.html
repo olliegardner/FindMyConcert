@@ -287,45 +287,47 @@
       });
 
     function bookmark(concertid) {
-        $.get('/concert/bookmark/', {concertid: concertid});
+
+        //Start by bookmarking the concert
+        $.get('/concert/bookmark/', {concertid: concertid}); 
         toastr.success('Concert successfully bookmarked!');
 
 
-        toastr.error('Fetching JSON');
-        var response = [{
-            "artist":"Test Artist",
-            "venue":"Test Venue",
-            "date":"Test Date",
-            "time":"Test Time",
-         }]
-        toastr.error('Appending JSON');
 
-        if (true) {
-        $.each(response, function(i, item) {
-            var $tr = $('<tr>').append(
-                $('<td>').text(item.artist),
-                $('<td>').text(item.venue),
-                $('<td>').text(item.date),
-                $('<td>').text(item.time),
-                $('<td>').html('<a href="{{ concert.url}}">Tickets</a>'),
-                $('<td>').html('<button class="btn btn-outline-success" onclick="bookmark(12)" >Bookmark</button>')
-            ).appendTo('#futureevents');
+        //Now use AJAX to fetch the data for a the concert
+        $.ajax({
+            type: "POST",
+            data: { action: "getconcert", id: concertid },
+            success: function(data){
+                 
+                //Depending on the date of the conert, append to appropoate 
+                //table
+                if (true) {
+                    $.each(data, function(i, item) {
+                        var $tr = $('<tr>').append(
+                            $('<td>').text(item.artist),
+                            $('<td>').text(item.venue),
+                            $('<td>').text(item.date),
+                            $('<td>').text(item.time),
+                            $('<td>').html('<a href="{{ concert.url}}">Tickets</a>'),
+                            $('<td>').html('<button class="btn btn-outline-success" onclick="bookmark(12)" >Bookmark</button>')
+                        ).appendTo('#futureevents');
 
+                    });
+                } else {
+                    $.each(response, function(i, item) {
+                        var $tr = $('<tr>').append(
+                            $('<td>').text(item.artist),
+                            $('<td>').text(item.venue),
+                            $('<td>').text(item.date),
+                            $('<td>').text(item.time),
+                            $('<td>').html('<a href="{{ concert.url}}">Tickets</a>'),
+                            $('<td>').html('<button class="btn btn-outline-success" onclick="bookmark(12)" >Bookmark</button>')
+                        ).appendTo('#pastevents'); 
+                    }
+                }            
+            }
         });
-        } else {
-        $.each(response, function(i, item) {
-            var $tr = $('<tr>').append(
-                $('<td>').text(item.artist),
-                $('<td>').text(item.venue),
-                $('<td>').text(item.date),
-                $('<td>').text(item.time),
-                $('<td>').html('<a href="{{ concert.url}}">Tickets</a>'),
-                $('<td>').html('<button class="btn btn-outline-success" onclick="bookmark(12)" >Bookmark</button>')
-            ).appendTo('#pastevents'); 
-        }
-        }
-
-        toastr.error('JSON appended');
     };
 
     
