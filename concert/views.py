@@ -3,6 +3,7 @@ import urllib.request
 
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
 from django.core.urlresolvers import reverse
@@ -14,7 +15,6 @@ from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.views.generic import CreateView
 from django.views.decorators.csrf import requires_csrf_token
-
 
 from FindMyConcert.custom_decorators import giggoer_required
 from concert.forms import GigGoerSignUpForm, VenueSignUpForm, EditGigGoerForm, EditVenueForm, LoginForm
@@ -167,10 +167,8 @@ def bookmark(request):
 @login_required
 @giggoer_required
 def removeBookmark(request):
-
     print("Starting to remove bookmark")
     concert_to_remove = None
-
 
     if request.method == 'GET':
         concertid = request.GET['concertid']
@@ -240,5 +238,50 @@ def profile(request, username):
 
     return render(request, 'concert/profile.html', {'form': form, 'selecteduser': request.user, 'loginform': loginForm})
 
+
+
+# PASSWORD RESET VIEWS
+'''def password_reset(request):
+    loginForm = user_login(request)
+    return render(request, 'registration/password_reset_form.html', {'loginform': loginForm})
+
+    
+    loginForm = user_login(request)
+    resetForm = PasswordChangeForm()
+    print("aye")
+
+    if request.method == 'POST':
+        print("aye")
+
+        if 'submit_reset' in request.POST:
+            resetForm = PasswordChangeForm(request.POST)
+            print("here")
+
+            email_subject = "FindMyConcert Password Reset"
+            email_message = render_to_string("registration/password_reset_email.html", {
+                "user": user,
+                "domain": site.domain,
+                "uid": urlsafe_base64_encode(force_bytes(user.username)).decode(),
+                "token": passwordResetToken.make_token(user)
+                })
+            email_address = resetForm.cleaned_data.get("email")
+            email = EmailMessage(email_subject, email_message, to=[email_address])
+            email.send()
+            return render(request, 'registration/password_reset_confirm.html')
+
+
+    return render(request, 'registration/password_reset_form.html', {'loginform': loginForm})
+
+def password_reset_complete(request):
+    loginForm = user_login(request)
+    return render(request, 'registration/password_reset_complete.html', {'loginform': loginForm})
+
+def password_reset_confirm(request):
+    loginForm = user_login(request)
+    return render(request, 'registration/password_reset_confirm.html', {'loginform': loginForm})
+
+def password_reset_done(request):
+    loginForm = user_login(request)
+    return render(request, 'registration/password_reset_done.html', {'loginform': loginForm})'''
 
 
