@@ -59,6 +59,8 @@
             <li class="nav-item">
                 <a id="tab-C" href="#pane-C" class="nav-link" data-toggle="tab" role="tab">My Past Events</a>
             </li>
+
+            
         </ul>
 
 
@@ -259,11 +261,11 @@
                     <tbody>
                         {% for concert in concerts %}
                             <tr>
-                                <td class="clickable-row" data-href="{% url 'view' concert.concertID%}">{{ concert.artist }}</td>
-                                <td class="clickable-row" data-href="{% url 'view' concert.concertID%}">{{ concert.venue.venue_name }}, {{ concert.venue.location }}</td>
-                                <td class="clickable-row" data-href="{% url 'view' concert.concertID%}">{{ concert.date }}</td>
-                                <td class="clickable-row" data-href="{% url 'view' concert.concertID%}">{{ concert.start_time }} - {{ concert.end_time }}</td>
-                                <td><a href="{{ concert.url}}">Tickets</a></td>
+                                <td>{{ concert.artist }}</td>
+                                <td>{{ concert.venue.venue_name }}, {{ concert.venue.location }}</td>
+                                <td>{{ concert.date }}</td>
+                                <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
+                                <td><a href="{% url 'view' concert.concertID%}"">View</a></td>
                             </tr>
                         {% endfor %}
                     </tbody>

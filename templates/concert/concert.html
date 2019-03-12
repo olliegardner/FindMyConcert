@@ -27,6 +27,10 @@
             <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#venue" role="tab" aria-selected="true">Venue</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#going" role="tab" aria-selected="true">{% if concert.is_future %} Going {% else %} Went {% endif %}</a>
+            </li>
+        
              <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#comments" role="tab" aria-selected="true">Comments</a>
             </li>
@@ -35,7 +39,10 @@
         <div class="tab-content">
             <div id="events" class="tab-pane fade show active">
                 <br>
+                <h2>{{ concert.artist }}</h2>
                  <p>{{ concert.description }}</p>
+                 <br>
+                 <br>
             </div>
 
 
@@ -45,7 +52,19 @@
                     <img class = "img-fluid"src="{{ concert.venue.image.url }}">
                     <p>{{ concert.venue.description }}</p>
              </div>
-              <div id="comments" class="tab-pane fade">
+
+             <div id="going" class="tab-pane fade show">
+                <br>
+                {% if concert.bookmarks.all  %}
+                {% for giggoer in concert.bookmarks.all %}
+                 <p >{{ giggoer.user.username }}</p>
+                {% endfor %}
+                {% else%}
+                <p> There are no other users currently intrested in this concert</p>
+                {% endif %}
+            </div>
+            
+            <div id="comments" class="tab-pane fade">
                 <br>
                     <h2> Comments</h2>
 
