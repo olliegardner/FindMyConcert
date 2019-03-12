@@ -3,6 +3,7 @@ import urllib.request
 
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
 from django.core.urlresolvers import reverse
@@ -14,7 +15,6 @@ from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.views.generic import CreateView
 from django.views.decorators.csrf import requires_csrf_token
-
 
 from FindMyConcert.custom_decorators import giggoer_required
 from concert.forms import GigGoerSignUpForm, VenueSignUpForm, EditGigGoerForm, EditVenueForm, LoginForm
@@ -165,10 +165,8 @@ def bookmark(request):
 @login_required
 @giggoer_required
 def removeBookmark(request):
-
     print("Starting to remove bookmark")
     concert_to_remove = None
-
 
     if request.method == 'GET':
         concertid = request.GET['concertid']
@@ -186,8 +184,9 @@ def removeBookmark(request):
 
 
 def viewConcert(request, id):
-    concert = get_object_or_404(Concert, concertID=id)
-    return render(request, 'concert/concert.html', {"concert":concert})
+	loginForm = user_login(request)
+	concert = get_object_or_404(Concert, concertID=id)
+	return render(request, 'concert/concert.html', {'concert': concert, 'loginform': loginForm})
 
 @login_required
 def profile(request, username):
@@ -261,5 +260,23 @@ def getConcert(request ,id):
     print(concert_json)
     mimetype = 'application/json'
     return HttpResponse(data, mimetype)
+
+
+# PASSWORD RESET VIEWS
+'''def password_reset(request):
+    loginForm = user_login(request)
+    return render(request, 'registration/password_reset_form.html', {'loginform': loginForm})
+
+def password_reset_complete(request):
+    loginForm = user_login(request)
+    return render(request, 'registration/password_reset_complete.html', {'loginform': loginForm})
+
+def password_reset_confirm(request):
+    loginForm = user_login(request)
+    return render(request, 'registration/password_reset_confirm.html', {'loginform': loginForm})
+
+def password_reset_done(request):
+    loginForm = user_login(request)
+    return render(request, 'registration/password_reset_done.html', {'loginform': loginForm})'''
 
 

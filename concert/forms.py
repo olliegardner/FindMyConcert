@@ -9,12 +9,20 @@ class GigGoerSignUpForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = User
 
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if User.objects.filter(email=email).exists():
+            raise forms.ValidationError("This email already used")
+        return email
+
     def save(self):
         user = super().save(commit=False)
         user.is_venue = False
+        print(self.cleaned_data.get('email'))
+        user.email = self.cleaned_data.get('email')
         user.save()
+
         gigGoer = GigGoer.objects.create(user=user)
-        gigGoer.email = self.cleaned_data.get('email')
         gigGoer.image = self.cleaned_data.get('image')
         gigGoer.save()
 
@@ -33,9 +41,16 @@ class VenueSignUpForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = User
 
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if User.objects.filter(email=email).exists():
+            raise forms.ValidationError("This email already used")
+        return email
+
     def save(self):
         user = super().save(commit=False)
         user.is_venue = True
+        user.email = self.cleaned_data.get('email')
         user.save()
 
         venue = Venue.objects.create(user=user)
@@ -61,6 +76,7 @@ class LoginForm(forms.Form):
 class EditGigGoerForm(forms.ModelForm):
     email = forms.EmailField(required=False)
     image = forms.ImageField(required=False)
+
     class Meta:
         model = GigGoer
         fields = []
