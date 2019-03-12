@@ -33,5 +33,5 @@ urlpatterns = [
     url(r'^activate/(?P<uidenc>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', views.activate, name='activate'),
     url(r'^accounts/confirmation_needed/$', views.confirmation, name='confirmation_needed'),
     url(r'^accounts/account_activated/$', views.success, name='account_activated'),
-    url(r'^api/getconcert/$', views.getConcert, name='getconcert'),
+    url(r'^api/getconcert/', views.getConcert, name='getconcert'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) 

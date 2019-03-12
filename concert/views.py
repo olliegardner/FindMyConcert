@@ -243,18 +243,18 @@ def profile(request, username):
 # is bookmarked
 def getConcert(request):
     if request.is_ajax():
-        drugs = Concerts.objects.all()
+        id = request.GET.get('term', '')
+        concert = get_object_or_404(Concert, concertID=id)
         results = []
-        for concert in concerts:
-            concert_json = {}
-            concert_json['artist']     = concert.artist
-            concert_json['venuename']  = concert.venue.venue_name
-            concert_json['date']       = concert.date
-            concert_json['starttime']  = concert.start_time
-            concert_json['endtime']    = concert.end_time
-            concert_json['url']        = concert.url
-            concert_json['id']         = concert.concertID
-            results.append(concert_json)
+        
+        concert_json = {}
+        concert_json['artist']     = concert.artist
+        concert_json['venuename']  = concert.venue.venue_name
+        concert_json['date']       = concert.date
+        concert_json['starttime']  = concert.start_time
+        concert_json['endtime']    = concert.end_time
+        concert_json['url']        = concert.url
+        concert_json['id']         = concert.concertID
         data = json.dumps(results)
     else:
         data = 'fail'

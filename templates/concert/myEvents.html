@@ -106,7 +106,7 @@
                         {% if user.is_venue %}
                             {% if user.venue.concert %}
                                 <div class="table-responsive">
-                                    <table class="table table-hover" align="center" style="width: 90%">
+                                    <table class="table table-hover" id = "futureevents" align="center" style="width: 90%">
                                         <tbody>
                                             {% for concert in user.venue.concert.all %}
                                                 {% if concert.is_future %}
@@ -137,7 +137,7 @@
                         {% else %}
                             {% if user.giggoer.bookmarks %}
                                 <div class="table-responsive">
-                                    <table class="table table-hover" align="center" style="width: 90%">
+                                    <table class="table table-hover" align="center" id ="pastevents" style="width: 90%">
                                         <tbody>
                                             {% for concert in user.giggoer.bookmarks.all %}
                                                 {% if concert.is_future %}
@@ -280,12 +280,6 @@
         
     };
 
-    $("#tab-A").on("click", function(){
-        toastr.error('Test');
-        $("#allevents").load("allconcerts.html");
-        toastr.error('Test');
-      });
-
     function bookmark(concertid) {
 
         //Start by bookmarking the concert
@@ -298,7 +292,9 @@
         $.ajax({
             type: "POST",
             data: { action: "getconcert", id: concertid },
+            
             success: function(data){
+                toastr.success('Data successfully received');
                  
                 //Depending on the date of the conert, append to appropoate 
                 //table
@@ -326,7 +322,8 @@
                         ).appendTo('#pastevents'); 
                     }
                 }            
-            }
+            
+             }
         });
     };
 
