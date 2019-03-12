@@ -75,18 +75,17 @@
 
                 <div id="collapse-A" class="collapse show" data-parent="#content" role="tabpanel" aria-labelledby="heading-A">
                     <div class="card-body">
-
-                        {% if concerts %}
+          {% if concerts %}
                             <div class="table-responsive">
                                 <table class="table table-hover" align="center" style="width: 90%">
                                     <tbody>
                                         {% for concert in concerts %}
                                             <tr>
-                                                <td class="clickable-row" data-href="{% url 'view' concert.concertID%}">{{ concert.artist }}</td>
-                                                <td class="clickable-row" data-href="{% url 'view' concert.concertID%}">{{ concert.venue.venue_name }}, {{ concert.venue.location }}</td>
-                                                <td class="clickable-row" data-href="{% url 'view' concert.concertID%}">{{ concert.date }}</td>
-                                                <td class="clickable-row" data-href="{% url 'view' concert.concertID%}">{{ concert.start_time }} - {{ concert.end_time }}</td>
-                                                <td><a href="{{ concert.url}}">Tickets</a></td>
+                                                <td>{{ concert.artist }}</td>
+                                                <td>{{ concert.venue.venue_name }}, {{ concert.venue.location }}</td>
+                                                <td>{{ concert.date }}</td>
+                                                <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
+                                                <td><a href="{% url 'view' concert.concertID%}">View</a></td>
 
                                                 {% if user.is_authenticated and not user.is_venue %}
                                                     <td>
@@ -101,6 +100,7 @@
                         {% else %}
                             <strong>There are currently no concerts with those search fields</strong>
                         {% endif %}
+                        
                     </div>
                 </div>
             </div>
@@ -123,12 +123,12 @@
                                         <tbody>
                                             {% for concert in user.venue.concert.all %}
                                                 {% if concert.is_future %}
-                                                    <tr >
-                                                        <td class="clickable-row" data-href="{% url 'view' concert.concertID%}">{{ concert.artist }}</td>
-                                                        <td class="clickable-row" data-href="{% url 'view' concert.concertID%}">{{ concert.venue.venue_name }} , {{ concert.venue.location }}</td>
-                                                        <td class="clickable-row" data-href="{% url 'view' concert.concertID%}">{{ concert.date }}</td>
-                                                        <td class="clickable-row" data-href="{% url 'view' concert.concertID%}">{{ concert.start_time }} - {{ concert.end_time }}</td>
-                                                        <td><a href="{{ concert.url}}">Tickets</a></td>
+                                                    <tr>
+                                                        <td>{{ concert.artist }}</td>
+                                                        <td>{{ concert.venue.venue_name }} , {{ concert.venue.location }}</td>
+                                                        <td>{{ concert.date }}</td>
+                                                        <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
+                                                        <td><a href="{% url 'view' concert.concertID%}"">View</a></td>
                                                         <td><a href="{% url 'edit' concert.concertID%}">
 
                                                             <button class="button button-blue button-bordered">
@@ -150,16 +150,16 @@
                         {% else %}
                             {% if user.giggoer.bookmarks %}
                                 <div class="table-responsive">
-                                    <table class="table table-hover" align="center" style="width: 90%">
+                                    <table class="table table-hover" align="center" id ="futureevents" style="width: 90%">
                                         <tbody>
                                             {% for concert in user.giggoer.bookmarks.all %}
                                                 {% if concert.is_future %}
                                                     <tr>
-                                                        <td class="clickable-row" data-href="{% url 'view' concert.concertID%}">{{ concert.artist }}</td>
-                                                        <td class="clickable-row" data-href="{% url 'view' concert.concertID%}">{{ concert.venue.venue_name }} , {{ concert.venue.location }}</td>
-                                                        <td class="clickable-row" data-href="{% url 'view' concert.concertID%}">{{ concert.date }}</td>
-                                                        <td class="clickable-row" data-href="{% url 'view' concert.concertID%}">{{ concert.start_time }} - {{ concert.end_time }}</td>
-                                                        <td><a href="{{ concert.url}}">Tickets</a></td>
+                                                        <td>{{ concert.artist }}</td>
+                                                        <td>{{ concert.venue.venue_name }} , {{ concert.venue.location }}</td>
+                                                        <td>{{ concert.date }}</td>
+                                                        <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
+                                                        <td><a href="{% url 'view' concert.concertID%}"">View</a></td>
 
                                                         <td>
                                             
@@ -197,11 +197,11 @@
                                             {% for concert in user.venue.concert.all %}
                                                 {% if not concert.is_future %}
                                                     <tr>
-                                                        <td class="clickable-row" data-href="{% url 'view' concert.concertID%}">{{ concert.artist }}</td>
-                                                        <td class="clickable-row" data-href="{% url 'view' concert.concertID%}">{{ concert.venue.venue_name }} , {{ concert.venue.location }}</td>
-                                                        <td class="clickable-row" data-href="{% url 'view' concert.concertID%}">{{ concert.date }}</td>
-                                                        <td class="clickable-row" data-href="{% url 'view' concert.concertID%}">{{ concert.start_time }} - {{ concert.end_time }}</td>
-                                                        <td><a href="{{ concert.url}}">Tickets</a></td>
+                                                        <td>{{ concert.artist }}</td>
+                                                        <td>{{ concert.venue.venue_name }} , {{ concert.venue.location }}</td>
+                                                        <td>{{ concert.date }}</td>
+                                                        <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
+                                                        <td><a href="{% url 'view' concert.concertID%}">View</a></td>
                                                         <td><a href="{% url 'edit' concert.concertID%}">
 
                                                         <button class="button button-blue button-bordered">
@@ -223,16 +223,16 @@
                         {% else %}
                             {% if user.giggoer.bookmarks %}
                                 <div class="table-responsive">
-                                    <table class="table table-hover" align="center" style="width: 90%">
+                                    <table class="table table-hover" id = "pastevents" align="center" style="width: 90%">
                                         <tbody>
                                             {% for concert in user.giggoer.bookmarks.all %}
                                                 {% if not concert.is_future %}
                                                     <tr>
-                                                        <td class="clickable-row" data-href="{% url 'view' concert.concertID%}">{{ concert.artist }}</td>
-                                                        <td class="clickable-row" data-href="{% url 'view' concert.concertID%}">{{ concert.venue.venue_name }} , {{ concert.venue.location }}</td>
-                                                        <td class="clickable-row" data-href="{% url 'view' concert.concertID%}">{{ concert.date }}</td>
-                                                        <td class="clickable-row" data-href="{% url 'view' concert.concertID%}">{{ concert.start_time }} - {{ concert.end_time }}</td>
-                                                        <td><a href="{{ concert.url}}">Tickets</a></td>
+                                                        <td>{{ concert.artist }}</td>
+                                                        <td>{{ concert.venue.venue_name }} , {{ concert.venue.location }}</td>
+                                                        <td>{{ concert.date }}</td>
+                                                        <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
+                                                        <td><a href="{% url 'view' concert.concertID%}"">View</a></td>
 
                                                         <td>
                                                         <button class="btn btn-outline-danger" onclick = "removebookmark({{concert.concertID}});hideparent(this);">Remove Bookmark</button>
@@ -277,17 +277,6 @@
 
 
 <script>
-    jQuery(document).ready(function($) {
-    $(".clickable-row").click(function() {
-        window.location = $(this).data("href");
-    });
-    });
-
-    function bookmark(concertid) {
-        $.get('/concert/bookmark/', {concertid: concertid});
-        toastr.success('Concert successfully bookmarked!');
-    };
-
 
     function removebookmark(concertid) {
         $.get('/concert/removebookmark/', {concertid: concertid});
@@ -299,8 +288,63 @@
         
     };
 
+    function bookmark(concertid) {
+
+        var $requesturl = 'http://127.0.0.1:8000/api/getconcert/' + concertid;
+        var $button = '<button class="btn btn-outline-danger" onclick = "removebookmark(' +concertid+ ');hideparent(this);" >Remove Bookmark</button';
+        //Now use AJAX to fetch the data for a the concert
+        $.ajax({
+            url: $requesturl ,
+            type: 'GET',
+            async: false,
+            dataType: 'json',
+            
+            success: function(res){
+                //Depending on the date of the conert, append to appropiate 
+                //table
+
+                var $concerturl ='<a href="{% url "view" 1 %}">View</a>';
+                $concerturl = $concerturl.replace('1',concertid);
+                if (res[0].isfuture == "True"){
+                $.each(res, function(i, item) {
+                        $('<tr>').append(
+                        $('<td>').text(item.artist),
+                        $('<td>').text(item.venuename + ' , ' + item.location),
+                        $('<td>').text(item.date),
+                        $('<td>').text(item.starttime + ' - ' + item.endtime),
+                        $('<td>').html($concerturl),
+                        $('<td>').html($button)
+                    ).appendTo('#futureevents');
+                });
+                } else {
+                $.each(res, function(i, item) {
+                        $('<tr>').append(
+                        $('<td>').text(item.artist),
+                        $('<td>').text(item.venuename + ' , ' + item.location),
+                        $('<td>').text(item.date),
+                        $('<td>').text(item.starttime + ' - ' + item.endtime),
+                        $('<td>').html($concerturl),
+                        $('<td>').html($button)
+                    ).appendTo('#pastevents');
+                });
+                }
+                 
+               }
+        });
+
+        //Start by bookmarking the concert
+        $.get('/concert/bookmark/', {concertid: concertid}); 
+        toastr.success('Concert successfully bookmarked!');
+    };
+
     
 </script>
+
+
+
+
+
+
 
 {% endblock %}
 

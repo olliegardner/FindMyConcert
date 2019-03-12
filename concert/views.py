@@ -27,7 +27,7 @@ def user_logout(request):
     logout(request)
     return HttpResponseRedirect(reverse('index')) # take user back to the index page
 
-def user_login(request):
+def user_login(request): 
     loginForm = LoginForm
 
     if request.method == 'POST':
@@ -156,10 +156,7 @@ def bookmark(request):
     if concertid:
         concert = Concert.objects.get(concertID=int(concertid))
         if concert:
-            if concert in request.user.giggoer.bookmarks.all():
-                pass
-            else:
-                request.user.giggoer.bookmarks.add(concert)
+            request.user.giggoer.bookmarks.add(concert)
             
     return HttpResponse()
 
@@ -177,15 +174,8 @@ def removeBookmark(request):
 
         if concert_to_remove:
             request.user.giggoer.bookmarks.remove(concert_to_remove)
-            HttpResponse()  # wherever to go after deleting
-    
-    if (concert_to_remove not in request.user.giggoer.bookmarks.all()):
-        HttpResponse()
 
-    else:
-        print("No POST request") 
-
-    HttpResponse()
+    return HttpResponse()
 
 
 def viewConcert(request, id):
@@ -238,6 +228,28 @@ def profile(request, username):
 
     return render(request, 'concert/profile.html', {'form': form, 'selecteduser': request.user, 'loginform': loginForm})
 
+#This lets the events view to dynamically add a concert each time one
+# is bookmarked
+def getConcert(request ,id):
+    concert = get_object_or_404(Concert, concertID=id)
+    if concert in request.user.giggoer.bookmarks.all():
+        return HttpResponse()
+    results = []
+    concert_json = {}
+    concert_json['artist']     = concert.artist
+    concert_json['isfuture']   = str(concert.is_future())
+    concert_json['venuename']  = concert.venue.venue_name
+    concert_json['date']       = str(concert.date)
+    concert_json['starttime']  = str(concert.start_time)
+    concert_json['endtime']    = str(concert.end_time)
+    concert_json['location']   = concert.venue.location
+    concert_json['url']        = concert.url
+    concert_json['id']         = concert.concertID
+    results.append(concert_json)
+    data = json.dumps(results)
+    print(concert_json)
+    mimetype = 'application/json'
+    return HttpResponse(data, mimetype)
 
 
 # PASSWORD RESET VIEWS
