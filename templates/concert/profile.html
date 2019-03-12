@@ -11,10 +11,12 @@
         <div class="row">
             <div class="col-8">
                 <div class="card" style="width: 18rem;">
-                    {% if selecteduser.is_venue %}
+                    {% if selecteduser.is_venue and user.venue.image != "" %}
                         <img class="card-img-top" src="{{ selecteduser.venue.image.url }}">
-                    {% else %}
+                    {% elif not selecteduser.is_venue and user.giggoer.image != "" %}
                         <img class="card-img-top" src="{{ selecteduser.giggoer.image.url }}">
+                    {% else %}
+                        <i class="far fa-user fa-lg"></i>
                     {% endif %}
 
                     <div class="card-body">

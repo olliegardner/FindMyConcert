@@ -245,33 +245,6 @@ def profile(request, username):
     loginForm = user_login(request)
     return render(request, 'registration/password_reset_form.html', {'loginform': loginForm})
 
-    
-    loginForm = user_login(request)
-    resetForm = PasswordChangeForm()
-    print("aye")
-
-    if request.method == 'POST':
-        print("aye")
-
-        if 'submit_reset' in request.POST:
-            resetForm = PasswordChangeForm(request.POST)
-            print("here")
-
-            email_subject = "FindMyConcert Password Reset"
-            email_message = render_to_string("registration/password_reset_email.html", {
-                "user": user,
-                "domain": site.domain,
-                "uid": urlsafe_base64_encode(force_bytes(user.username)).decode(),
-                "token": passwordResetToken.make_token(user)
-                })
-            email_address = resetForm.cleaned_data.get("email")
-            email = EmailMessage(email_subject, email_message, to=[email_address])
-            email.send()
-            return render(request, 'registration/password_reset_confirm.html')
-
-
-    return render(request, 'registration/password_reset_form.html', {'loginform': loginForm})
-
 def password_reset_complete(request):
     loginForm = user_login(request)
     return render(request, 'registration/password_reset_complete.html', {'loginform': loginForm})
