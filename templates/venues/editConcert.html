@@ -5,12 +5,12 @@
 {% block title %} {{ block.super }} {% endblock %}
 
 {% block body_block %}
-	<div class="container">
-		<h1>Edit a concert</h1>
-		<form id="concertform" method="post" action="/venues/edit/{{id}}/" enctype="multipart/form-data ">
-			{% csrf_token %}
-			{{ form|crispy }}
-			<input type="submit" name="submit" value="Edit Concert" />
-		</form>
-	</div>
+    <div class="container">
+        <h1>Edit a concert</h1>
+        <form id="concertform" method="post" action="/venues/edit/{{id}}/" enctype="multipart/form-data ">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <input type="submit" name="submit" value="Edit Concert" />
+        </form>
+    </div>
 {% endblock %}
