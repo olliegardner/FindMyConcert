@@ -43,9 +43,8 @@
 
 
 
-{% if user.is_authenticated %}
-
-    <div class="container">
+<div class="container">
+    {% if user.is_authenticated %}
         {% if location %}
             <p>Current City: {{ location.city }}</p>
         {% endif %}
@@ -253,28 +252,28 @@
                 </div>
             </div>
         </div>
-    </div>
-{% else %}
-    {% if concerts %}
-        <div class="table-responsive">
-            <table class="table table-hover" align="center" style="width: 90%">
-                <tbody>
-                    {% for concert in concerts %}
-                        <tr>
-                            <td class="clickable-row" data-href="{% url 'view' concert.concertID%}">{{ concert.artist }}</td>
-                            <td class="clickable-row" data-href="{% url 'view' concert.concertID%}">{{ concert.venue.venue_name }}, {{ concert.venue.location }}</td>
-                            <td class="clickable-row" data-href="{% url 'view' concert.concertID%}">{{ concert.date }}</td>
-                            <td class="clickable-row" data-href="{% url 'view' concert.concertID%}">{{ concert.start_time }} - {{ concert.end_time }}</td>
-                            <td><a href="{{ concert.url}}">Tickets</a></td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
     {% else %}
-        <strong>There are currently no concerts with those search fields</strong>
+        {% if concerts %}
+            <div class="table-responsive">
+                <table class="table table-hover" align="center" style="width: 90%">
+                    <tbody>
+                        {% for concert in concerts %}
+                            <tr>
+                                <td class="clickable-row" data-href="{% url 'view' concert.concertID%}">{{ concert.artist }}</td>
+                                <td class="clickable-row" data-href="{% url 'view' concert.concertID%}">{{ concert.venue.venue_name }}, {{ concert.venue.location }}</td>
+                                <td class="clickable-row" data-href="{% url 'view' concert.concertID%}">{{ concert.date }}</td>
+                                <td class="clickable-row" data-href="{% url 'view' concert.concertID%}">{{ concert.start_time }} - {{ concert.end_time }}</td>
+                                <td><a href="{{ concert.url}}">Tickets</a></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <strong>There are currently no concerts with those search fields</strong>
+        {% endif %}
     {% endif %}
-{% endif %}
+</div>
 
 
 <script>
