@@ -7,6 +7,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
 from django.core.urlresolvers import reverse
+from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template import RequestContext
@@ -60,10 +61,17 @@ def events(request):
     location = urllib.request.urlopen("http://ip-api.com/json/")
     location_json = json.load(location)
 
-    # very simple search
     query = request.GET.get("q")
     if query:
-        concert_list = concert_list.filter(artist__icontains=query)
+        concert_list = concert_list.filter(
+            Q(artist__icontains=query) |
+            Q(date__icontains=query) |
+            Q(start_time__icontains=query) |
+            Q(end_time__icontains=query) |
+            Q(description__icontains=query) |
+            Q(venue__venue_name__icontains=query) |
+            Q(venue__location__icontains=query)
+            ).distinct()
 
     context_dict = {'concerts': concert_list, 'location': location_json, 'loginform': loginForm}
     return render(request, 'concert/myEvents.html', context_dict)
