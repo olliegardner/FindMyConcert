@@ -7,8 +7,9 @@ from django.utils import timezone
 from django.utils.translation import gettext as _
 
 class User(AbstractUser):
-    email = models.EmailField(max_length=70)
-    is_venue = models.BooleanField(default=False)
+    email     = models.EmailField(max_length=70)
+    is_venue  = models.BooleanField(default=False)
+    comments  = models.ManyToManyField(Comment, related_name='comments', null = True)
 
     def isVenue():
         return is_venue    
@@ -56,10 +57,13 @@ class Comment(models.Model):
         MaxValueValidator(5),
         MinValueValidator(1)
         ])
+    text        = models.CharField(max_length=560, null = True)
     commentID   = models.AutoField(primary_key=True)
     concert     = models.ForeignKey(Concert, on_delete=models.CASCADE)
+    child       = models.ForeignKey('self', null = True)
     date        = models.DateField(_("Date"),default=timezone.now)
     time        = models.DateTimeField(_("Comment Time"), default=timezone.now)
+
 
     def __str__(self): 
         return str(self.commentID)
@@ -67,7 +71,6 @@ class Comment(models.Model):
 
 class GigGoer(models.Model):
     user      = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    comments  = models.ManyToManyField(Comment, related_name='comments')
     image     = models.ImageField(upload_to='profile_images', blank=True) 
     bookmarks = models.ManyToManyField(Concert, related_name='bookmarks')
 

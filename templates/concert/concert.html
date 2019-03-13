@@ -67,11 +67,53 @@
             <div id="comments" class="tab-pane fade">
                 <br>
                     <h2> Comments</h2>
+                    <div class="col-md-6 col-md-offset-2 col-sm-12">
+        <div>
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                </div>
+                <div class="panel-body">
+                    <textarea class="form-control" placeholder="write a comment..." rows="3"></textarea>
+                    <br>
+                    <button type="button" class="btn btn-info pull-right">Post</button>
+                    <hr>
+                    <ul class="comments">
+                        {% for comment in concert.comment%}
+                        <li class="media">
+                            <a href="#" class="pull-left">
+                                <img src="https://bootdey.com/img/Content/user_1.jpg" alt="" class="avatar">
+                            </a>
+                            <div class="media-body">
+                                <span class="text-muted pull-right">
+                                    <small class="text-muted">30 min ago</small>
+                                </span>
+                                <a href="#"><strong class="text-success">{{comment.user.username}}</strong><a>
+                                <p>
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                    Lorem ipsum dolor sit amet, <a href="#">#consecteturadipiscing </a>.
+                                </p>
+                            </div>
+                        </li>
+                        {% endfor %}        
+                    </ul>
+                </div>
+            </div>
+        </div>
 
+    </div>
                 </div>
         </div>
 
 
     </div>
+
+<script>
+function postcomment(elem) {
+         $(elem).parent().parent().hide();
+        
+    };
+
+
+</script>s
 
 {% endblock %}
