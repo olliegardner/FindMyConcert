@@ -129,38 +129,41 @@
         </div>
 
 
-    </div>
+    </div> 
 
 <script>
 
- 
-    document.getElementById("postcomment").addEventListener("click", postcomment);
+ document.getElementById("postcomment").addEventListener("click", postcomment);
     
      
     function postcomment() {
         toastr.success('Comment posted!');
 
         //MAake AJAX post request
-        $.ajax({
+        $.ajaxSetup({
+            headers: { "X-CSRFToken": '{{csrf_token}}' }
+        });
+           $.ajax({
 
-        type = 'POST',
-
-        url:'http://127.0.0.1:8000/api/postcomment',
-
-        //Attach data to resqyesr
-        data:{
-            text:$('#commentbox').val(),
-            csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken').val() //Pass CSRF token, very
-        },
-
+            type: 'POST',
+            url:'http://127.0.0.1:8000/api/postcomment',
+            data: {text:$('#commentbox').val()},
+            dataType: 'json',
             success:function(data){
-               toastr.success('AJAX sent!');
+                   toastr.success('AJAX sent!');
+            },
+            
+            error: function(data) {
+                toastr.error('comment not sent!');
             }
+
+
         });
 
-        t
-        
 
+
+        toastr.success('AJAX setup!');
+     
         
     };
 

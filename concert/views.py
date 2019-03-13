@@ -253,7 +253,7 @@ def getConcert(request ,id):
     return HttpResponse(data, mimetype)
 
 def postComment(request):
-    pass
+    return HttpResponse()
 
 
 # PASSWORD RESET VIEWS
