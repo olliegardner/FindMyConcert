@@ -10,6 +10,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
 from django.core.urlresolvers import reverse
+from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template import RequestContext
@@ -57,13 +58,26 @@ def index(request):
 
 def events(request):
     loginForm = user_login(request)
-    concert_list = Concert.objects.order_by('-artist')
+    concert_list = Concert.objects.all()
 
     location = urllib.request.urlopen("http://ip-api.com/json/")
     location_json = json.load(location)
 
+    query = request.GET.get("q")
+    if query:
+        concert_list = concert_list.filter(
+            Q(artist__icontains=query) |
+            Q(date__icontains=query) |
+            Q(start_time__icontains=query) |
+            Q(end_time__icontains=query) |
+            Q(description__icontains=query) |
+            Q(venue__venue_name__icontains=query) |
+            Q(venue__location__icontains=query)
+            ).distinct()
+
     context_dict = {'concerts': concert_list, 'location': location_json, 'loginform': loginForm}
     return render(request, 'concert/myEvents.html', context_dict)
+
 
 def about(request):
     loginForm = user_login(request)
@@ -193,11 +207,13 @@ def profile(request, username):
             form = EditVenueForm(request.POST, request.FILES)
             if form.is_valid():
                 user = request.user
-                #Would it not be nice if python had switch statements?
+                # would it not be nice if python had switch statements?
                 if (form.cleaned_data.get('email') != ""):
                     user.email = form.cleaned_data.get('email')
                 if (form.cleaned_data.get('image') != None):
-                    user.venue.image = form.cleaned_data.get('image')    
+                    user.venue.image = form.cleaned_data.get('image')
+                if (form.cleaned_data.get('password') != ""):
+                    user.venue.password = form.cleaned_data.get('password')
                 if (form.cleaned_data.get('venue_name') != ""):
                     user.venue.venue_name = form.cleaned_data.get('venue_name')
                 if (form.cleaned_data.get('location') != ""):
@@ -222,6 +238,8 @@ def profile(request, username):
                     user.email = form.cleaned_data.get('email')
                 if (form.cleaned_data.get('image') != None):
                     user.giggoer.image = form.cleaned_data.get('image')
+                if (form.cleaned_data.get('password') != ""):
+                    user.giggoer.password = form.cleaned_data.get('password')
                 user.giggoer.save()
                 user.save()  
                 return render(request, 'concert/profile.html', {'selecteduser': request.user, 'form': EditGigGoerForm, 'loginform': loginForm})
@@ -230,8 +248,7 @@ def profile(request, username):
 
     return render(request, 'concert/profile.html', {'form': form, 'selecteduser': request.user, 'loginform': loginForm})
 
-#This lets the events view to dynamically add a concert each time one
-# is bookmarked
+# this lets the events view to dynamically add a concert each time one is bookmarked
 def getConcert(request ,id):
     concert = get_object_or_404(Concert, concertID=id)
     if concert in request.user.giggoer.bookmarks.all():
@@ -252,7 +269,7 @@ def getConcert(request ,id):
     data = json.dumps(results)
     print(concert_json)
     mimetype = 'application/json'
-    return HttpResponse(data, mimetype)
+    return HttpResponse(data, mimetype)    
 
 @requires_csrf_token
 def postComment(request):

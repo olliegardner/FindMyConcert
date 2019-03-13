@@ -44,6 +44,12 @@
 
 
 <div class="container">
+    <!-- search form -->
+    <form method="GET" action="">
+        <input type="text" name="q" placeholder="Search fields" value="{{ request.GET.q }}">
+        <input type="submit" value="Search">
+    </form>
+
     {% if user.is_authenticated %}
         {% if location %}
             <p>Current City: {{ location.city }}</p>
@@ -338,7 +344,6 @@
 
     function hideparent(elem) {
          $(elem).parent().parent().hide();
-        
     };
 
     function bookmark(concertid) {
