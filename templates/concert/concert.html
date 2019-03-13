@@ -146,11 +146,14 @@
            $.ajax({
 
             type: 'POST',
-            url:'http://127.0.0.1:8000/api/postcomment',
-            data: {text:$('#commentbox').val()},
+            url:'http://127.0.0.1:8000/api/postcomment/',
+            data: {'data':$('#commentbox').val(),'id':'{{concert.concertID}}'},
+            credentials: 'include',
             dataType: 'json',
             success:function(data){
                    toastr.success('AJAX sent!');
+                   $("#commentbox").val(''); //Clear the comment box
+                   
             },
             
             error: function(data) {

@@ -1,5 +1,8 @@
-import json
-import urllib.request
+from concert.forms import GigGoerSignUpForm, VenueSignUpForm, EditGigGoerForm, EditVenueForm, LoginForm
+from concert.models import User, Concert, Comment
+from concert.tokens import accountActivationToken
+
+from datetime import datetime
 
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
@@ -17,10 +20,9 @@ from django.views.generic import CreateView
 from django.views.decorators.csrf import requires_csrf_token
 
 from FindMyConcert.custom_decorators import giggoer_required
-from concert.forms import GigGoerSignUpForm, VenueSignUpForm, EditGigGoerForm, EditVenueForm, LoginForm
-from concert.models import User, Concert
-from concert.tokens import accountActivationToken
 
+import json
+import urllib.request
 
 @login_required
 def user_logout(request):
@@ -252,9 +254,27 @@ def getConcert(request ,id):
     mimetype = 'application/json'
     return HttpResponse(data, mimetype)
 
+@requires_csrf_token
 def postComment(request):
-    return HttpResponse()
+    user = request.user
+    text = request.POST.get('data')
+    concertID = request.POST.get('id')
+    print(text)
 
+    print(concertID)
+    if text == "":
+        payload = {'success': False}
+    else:
+        concert = get_object_or_404(Concert, concertID=concertID)
+        comment = Comment.objects.create(
+            user = user,
+            text = text,
+            concert = concert,
+            time = datetime.now())
+        payload = {'success': True}
+        comment.save()
+
+    return HttpResponse(json.dumps(payload), content_type='application/json')
 
 # PASSWORD RESET VIEWS
 '''def password_reset(request):
