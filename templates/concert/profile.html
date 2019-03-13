@@ -99,11 +99,8 @@
  
                             <form method="post" action="." enctype="multipart/form-data">
                                 {% csrf_token %}
-                                {{ form |crispy }}
-                                <input type="submit" name="Update">
-                                <br>
-                                <br>
-                                <br>
+                                {{ form|crispy }}
+                                <input type="submit" value="Update Profile">
                             </form>
                         </div>
                     {% endif %}
@@ -111,4 +108,5 @@
              </div>
         </div>
     </div>
+
 {% endblock %}

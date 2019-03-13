@@ -205,11 +205,13 @@ def profile(request, username):
             form = EditVenueForm(request.POST, request.FILES)
             if form.is_valid():
                 user = request.user
-                #Would it not be nice if python had switch statements?
+                # would it not be nice if python had switch statements?
                 if (form.cleaned_data.get('email') != ""):
                     user.email = form.cleaned_data.get('email')
                 if (form.cleaned_data.get('image') != None):
-                    user.venue.image = form.cleaned_data.get('image')    
+                    user.venue.image = form.cleaned_data.get('image')
+                if (form.cleaned_data.get('password') != ""):
+                    user.venue.password = form.cleaned_data.get('password')
                 if (form.cleaned_data.get('venue_name') != ""):
                     user.venue.venue_name = form.cleaned_data.get('venue_name')
                 if (form.cleaned_data.get('location') != ""):
@@ -234,6 +236,8 @@ def profile(request, username):
                     user.email = form.cleaned_data.get('email')
                 if (form.cleaned_data.get('image') != None):
                     user.giggoer.image = form.cleaned_data.get('image')
+                if (form.cleaned_data.get('password') != ""):
+                    user.giggoer.password = form.cleaned_data.get('password')
                 user.giggoer.save()
                 user.save()  
                 return render(request, 'concert/profile.html', {'selecteduser': request.user, 'form': EditGigGoerForm, 'loginform': loginForm})
