@@ -19,6 +19,8 @@
         <br>
         <br>
 
+
+        <!-- Bootstrap tabs start -->
         <ul class="nav nav-tabs">
             <li class="nav-item">
                 <a class="nav-link active" data-toggle="tab" href="#events" role="tab" aria-selected="true">Event</a>
@@ -35,9 +37,14 @@
                 <a class="nav-link" data-toggle="tab" href="#comments" role="tab" aria-selected="true">Comments</a>
             </li>
         </ul>
+        <!-- Bootstrap tabs end -->
 
-        <div class="tab-content">
-            <div id="events" class="tab-pane fade show active">
+
+
+        <div class="tab-content"> <!-- This is where the content for the different tabs are defined -->
+
+
+            <div id="events" class="tab-pane fade show active"> <!-- This tab is for info about the artist/concert -->
                 <br>
                 <h2>{{ concert.artist }}</h2>
                  <p>{{ concert.description }}</p>
@@ -46,66 +53,78 @@
             </div>
 
 
-            <div id="venue" class="tab-pane fade">
+            <div id="venue" class="tab-pane fade"> <!-- This tab contains a venue description -->
                 <br>
                     <h2>{{ concert.venue.venue_name }}</h2>
                     <img class = "img-fluid"src="{{ concert.venue.image.url }}">
                     <p>{{ concert.venue.description }}</p>
              </div>
 
-             <div id="going" class="tab-pane fade show">
+             <div id="going" class="tab-pane fade show"> <!-- This shows all users who have bookmarked the concert-->
                 <br>
-                {% if concert.bookmarks.all  %}
-                {% for giggoer in concert.bookmarks.all %}
-                 <p >{{ giggoer.user.username }}</p>
-                {% endfor %}
-                {% else%}
-                <p> There are no other users currently intrested in this concert</p>
-                {% endif %}
+                    {% if concert.bookmarks.all  %}
+                        {% for giggoer in concert.bookmarks.all %}
+                         <p >{{ giggoer.user.username }}</p>
+                        {% endfor %}
+                    {% else%}
+                         <p> There are no other users currently intrested in this concert</p>
+                    {% endif %}
             </div>
             
-            <div id="comments" class="tab-pane fade">
+            <div id="comments" class="tab-pane fade"> <!-- This tab shows the comments associated to the concert -->
                 <br>
                     <h2> Comments</h2>
                     <div class="col-md-6 col-md-offset-2 col-sm-12">
-        <div>
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                </div>
-                <div class="panel-body">
-                    <textarea class="form-control" placeholder="write a comment..." rows="3"></textarea>
-                    <br>
-                    <button type="button" class="btn btn-info pull-right">Post</button>
-                    <hr>
-                    <ul class = "comments">
-                        {% for comment in concert.comment.all%}
-                        <li class="media">
-                            <a href="{ % url 'profile' comment.user.username‰}" class="pull-left">
-                                {% if comment.user.is_venue and comment.user.venue.image != "" %}
-                                         <img src="{{ comment.user.venue.image.url }}" alt="Avatar" class="avatar">
-                                    {% elif not comment.user.is_venue and comment.user.giggoer.image != "" %}
-                                        <img src="{{comment.user.giggoer.image.url }}" alt="Avatar" class="avatar">
-                                    {% else %}
-                                        <i class="far fa-user fa-lg"></i>
-                                    {% endif %}
-                            </a>
-                            <div class="media-body">
-                                <span class="text-muted pull-right">
-                                    <small class="text-muted">30 min ago</small>
-                                </span>
-                                <a href="{ % url 'profile' comment.user.username ‰}"><strong class="text-success">{{comment.user.username}}</strong><a>
-                                <p>
-                                    {{ comment.text }}
-                                </p>
-                            </div>
-                        </li>
-                        {% endfor %}        
-                    </ul>
-                </div>
-            </div>
-        </div>
+                        <div>
+                            <div class="panel panel-info">
+                                <div class="panel-heading">
+                                </div>
+                                <div class="panel-body"> 
+                                    <!-- Comment input area start -->
+                                    <form method="post">{% csrf_token %}
+                                    <textarea id = "commentbox" class="form-control" placeholder="write a comment..." rows="3"></textarea>
+                                    <br>
+                                    <button type="button" class="btn btn-info pull-right" id = "postcomment" >Post</button>
+                                    <hr>
+                                    </form>
+                                    <!-- Comment input are end --> 
 
-    </div>
+                                    <!-- Section for all the comments, show all comments associated with this conncert -->
+                                    <ul class = "comments">
+                                        {% for comment in concert.comment.all%}
+                                            <li class="media">
+                                                <a href="{ % url 'profile' comment.user.username‰}" class="pull-left">
+                                                    {% if comment.user.is_venue and comment.user.venue.image != "" %}
+                                                             <img src="{{ comment.user.venue.image.url }}" alt="Avatar" class="avatar">
+                                                        {% elif not comment.user.is_venue and comment.user.giggoer.image != "" %}
+                                                            <img src="{{comment.user.giggoer.image.url }}" alt="Avatar" class="avatar">
+                                                        {% else %}
+                                                            <i class="far fa-user fa-lg"></i>
+                                                        {% endif %}
+                                                </a> <!-- Handle profile pic and wrap in link to profile -->
+                                                
+
+                                                <div class="media-body"> <!-- Comment body starts here -->
+                                                    <span class="text-muted pull-right">
+                                                        <small class="text-muted">30 min ago</small>
+                                                    </span>
+                                                    <a href="{ % url 'profile' comment.user.username ‰}"><strong class="text-success">{{comment.user.username}}</strong><a>
+                                                    <p>
+                                                        {{ comment.text }}
+                                                    </p>
+
+                                                    {% if comment.user.username == user.username %}
+                                                    <a href = # class = "text-muted" >Delete</a>
+                                                    {% endif %}
+                                                </div>
+                                            </li>
+                                        {% endfor %}        
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
         </div>
 
@@ -113,8 +132,35 @@
     </div>
 
 <script>
-function postcomment(elem) {
-         $(elem).parent().parent().hide();
+
+ 
+    document.getElementById("postcomment").addEventListener("click", postcomment);
+    
+     
+    function postcomment() {
+        toastr.success('Comment posted!');
+
+        //MAake AJAX post request
+        $.ajax({
+
+        type = 'POST',
+
+        url:'http://127.0.0.1:8000/api/postcomment',
+
+        //Attach data to resqyesr
+        data:{
+            text:$('#commentbox').val(),
+            csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken').val() //Pass CSRF token, very
+        },
+
+            success:function(data){
+               toastr.success('AJAX sent!');
+            }
+        });
+
+        t
+        
+
         
     };
 

@@ -252,6 +252,9 @@ def getConcert(request ,id):
     mimetype = 'application/json'
     return HttpResponse(data, mimetype)
 
+def postComment(request):
+    pass
+
 
 # PASSWORD RESET VIEWS
 '''def password_reset(request):
