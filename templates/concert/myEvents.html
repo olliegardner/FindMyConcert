@@ -44,6 +44,13 @@
 
 
 <div class="container">
+    <!-- basic search -->
+    <p>Searches artist (very basic lol)</p>
+    <form method="GET" action="">
+        <input type="text" name="q" placeholder="Search artist" value="{{ request.GET.q }}">
+        <input type="submit" value="Search">
+    </form>
+
     {% if user.is_authenticated %}
         {% if location %}
             <p>Current City: {{ location.city }}</p>

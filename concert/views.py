@@ -55,13 +55,19 @@ def index(request):
 
 def events(request):
     loginForm = user_login(request)
-    concert_list = Concert.objects.order_by('-artist')
+    concert_list = Concert.objects.all()
 
     location = urllib.request.urlopen("http://ip-api.com/json/")
     location_json = json.load(location)
 
+    # very simple search
+    query = request.GET.get("q")
+    if query:
+        concert_list = concert_list.filter(artist__icontains=query)
+
     context_dict = {'concerts': concert_list, 'location': location_json, 'loginform': loginForm}
     return render(request, 'concert/myEvents.html', context_dict)
+
 
 def about(request):
     loginForm = user_login(request)
@@ -228,8 +234,7 @@ def profile(request, username):
 
     return render(request, 'concert/profile.html', {'form': form, 'selecteduser': request.user, 'loginform': loginForm})
 
-#This lets the events view to dynamically add a concert each time one
-# is bookmarked
+# this lets the events view to dynamically add a concert each time one is bookmarked
 def getConcert(request ,id):
     concert = get_object_or_404(Concert, concertID=id)
     if concert in request.user.giggoer.bookmarks.all():
@@ -250,7 +255,7 @@ def getConcert(request ,id):
     data = json.dumps(results)
     print(concert_json)
     mimetype = 'application/json'
-    return HttpResponse(data, mimetype)
+    return HttpResponse(data, mimetype)    
 
 
 # PASSWORD RESET VIEWS
