@@ -3,6 +3,10 @@ body, html {
     margin: 0;
 }
 
+.comments {
+  height:450px;
+  overflow-y: scroll;
+}
 
 .avatar {
   vertical-align: middle;
