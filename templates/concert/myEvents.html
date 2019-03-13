@@ -1,6 +1,5 @@
 {% extends 'concert/base.html' %}
 {% load staticfiles %}
-
 {% block title %} {{ block.super }} {% endblock %}
 
 {% block body_block %}
@@ -10,6 +9,18 @@
 .nav-tabs {
     display:none;
 }
+
+.form-control-borderless {
+    border: none;
+}
+
+.form-control-borderless:hover, .form-control-borderless:active, .form-control-borderless:focus {
+    border: none;
+    outline: none;
+    box-shadow: none;
+}
+
+.moveup { margin-top: -20px}
 
 @media(min-width:991px) {
     .nav-tabs {
@@ -36,6 +47,14 @@
     }
 }
 
+.concertimage {
+  vertical-align: middle;
+  width:50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
 </style>
 
 
@@ -44,11 +63,6 @@
 
 
 <div class="container">
-    <!-- search form -->
-    <form method="GET" action="">
-        <input type="text" name="q" placeholder="Search fields" value="{{ request.GET.q }}">
-        <input type="submit" value="Search">
-    </form>
 
     {% if user.is_authenticated %}
         {% if location %}
@@ -83,12 +97,36 @@
 
                 <div id="collapse-A" class="collapse show" data-parent="#content" role="tabpanel" aria-labelledby="heading-A">
                     <div class="card-body">
+                            <!-- search form -->
+                        <div class="row justify-content-center moveup">
+                                <div class="col-12 col-md-10 col-lg-8">
+                                    <form class="card card-sm" method="GET" action="">
+                                        <div class="card-body row no-gutters align-items-center">
+                                            <div class="col-auto">
+                                                <i class="fas fa-search h4 text-body"></i>
+                                            </div>
+                                            <!--end of col-->
+                                            <div class="col">
+                                                <input class="form-control form-control-lg form-control-borderless" type="text" name="q" placeholder="Search fields" value="{{ request.GET.q }}">
+
+                                            </div>
+                                            <!--end of col-->
+                                            <div class="col-auto">
+                                                <button class="btn btn-lg btn-success" type="submit" value="Search">Search</button>
+                                            </div>
+                                            <!--end of col-->
+                                        </div>
+                                    </form>
+                                </div>
+                                <!--end of col-->
+                            </div>
+                     
                         {% if concerts %}
                             <div class="table-responsive">
                                 <table class="table table-hover" align="center" style="width: 90%">
                                     <thead>
                                         <tr>
-                                            <th scope="col">Artist</th>
+                                            <th colspan="2">Artist</th>
                                             <th scope="col">Location</th>
                                             <th scope="col">Date</th>
                                             <th scope="col">Time</th>
@@ -98,6 +136,7 @@
                                     <tbody>
                                         {% for concert in concerts %}
                                             <tr>
+                                                <td><img src="{{ concert.image.url }}"class="concertimage"></td>
                                                 <td>{{ concert.artist }}</td>
                                                 <td>{{ concert.venue.venue_name }}, {{ concert.venue.location }}</td>
                                                 <td>{{ concert.date }}</td>
@@ -149,6 +188,7 @@
                                             {% for concert in user.venue.concert.all %}
                                                 {% if concert.is_future %}
                                                     <tr>
+                                                        <td><img src="{{ concert.image.url }}"class="concertimage"></td>
                                                         <td>{{ concert.artist }}</td>
                                                         <td>{{ concert.venue.venue_name }} , {{ concert.venue.location }}</td>
                                                         <td>{{ concert.date }}</td>
@@ -189,6 +229,7 @@
                                             {% for concert in user.giggoer.bookmarks.all %}
                                                 {% if concert.is_future %}
                                                     <tr>
+                                                        <td><img src="{{ concert.image.url }}"class="concertimage"></td>
                                                         <td>{{ concert.artist }}</td>
                                                         <td>{{ concert.venue.venue_name }} , {{ concert.venue.location }}</td>
                                                         <td>{{ concert.date }}</td>
@@ -238,6 +279,7 @@
                                             {% for concert in user.venue.concert.all %}
                                                 {% if not concert.is_future %}
                                                     <tr>
+                                                        <td><img src="{{ concert.image.url }}"class="concertimage"></td>
                                                         <td>{{ concert.artist }}</td>
                                                         <td>{{ concert.venue.venue_name }} , {{ concert.venue.location }}</td>
                                                         <td>{{ concert.date }}</td>
@@ -278,6 +320,7 @@
                                             {% for concert in user.giggoer.bookmarks.all %}
                                                 {% if not concert.is_future %}
                                                     <tr>
+                                                        <td><img src="{{ concert.image.url }}"class="concertimage"></td>
                                                         <td>{{ concert.artist }}</td>
                                                         <td>{{ concert.venue.venue_name }} , {{ concert.venue.location }}</td>
                                                         <td>{{ concert.date }}</td>
@@ -304,6 +347,30 @@
         </div>
     {% else %}
         {% if concerts %}
+
+            <div class="row justify-content-center moveup">
+                                <div class="col-12 col-md-10 col-lg-8">
+                                    <form class="card card-sm" method="GET" action="">
+                                        <div class="card-body row no-gutters align-items-center">
+                                            <div class="col-auto">
+                                                <i class="fas fa-search h4 text-body"></i>
+                                            </div>
+                                            <!--end of col-->
+                                            <div class="col">
+                                                <input class="form-control form-control-lg form-control-borderless" type="text" name="q" placeholder="Search fields" value="{{ request.GET.q }}">
+
+                                            </div>
+                                            <!--end of col-->
+                                            <div class="col-auto">
+                                                <button class="btn btn-lg btn-success" type="submit" value="Search">Search</button>
+                                            </div>
+                                            <!--end of col-->
+                                        </div>
+                                    </form>
+                                </div>
+                                <!--end of col-->
+                            </div>
+
             <div class="table-responsive">
                 <table class="table table-hover" align="center" style="width: 90%">
                     <thead>
@@ -318,6 +385,7 @@
                     <tbody>
                         {% for concert in concerts %}
                             <tr>
+                                <td><img src="{{ concert.image.url }}"class="concertimage"></td>
                                 <td>{{ concert.artist }}</td>
                                 <td>{{ concert.venue.venue_name }}, {{ concert.venue.location }}</td>
                                 <td>{{ concert.date }}</td>
@@ -360,11 +428,12 @@
             success: function(res){
                 //Depending on the date of the conert, append to appropiate table
 
-                var $concerturl ='<a href="{% url "view" 1 %}">View</a>';
+                var $concerturl ='<a href="{% url "view" 1 %}">View</a>'
                 $concerturl = $concerturl.replace('1',concertid);
                 if (res[0].isfuture == "True") {
                     $.each(res, function(i, item) {
                             $('<tr>').append(
+                            $('<td>').html('<img src="' +item.image+'" class="concertimage">'),
                             $('<td>').text(item.artist),
                             $('<td>').text(item.venuename + ' , ' + item.location),
                             $('<td>').text(item.date),
@@ -376,6 +445,7 @@
                 } else {
                     $.each(res, function(i, item) {
                             $('<tr>').append(
+                            $('<td>').html('<img src="' +item.image+'" class="concertimage">'),
                             $('<td>').text(item.artist),
                             $('<td>').text(item.venuename + ' , ' + item.location),
                             $('<td>').text(item.date),
@@ -390,7 +460,7 @@
 
         //Start by bookmarking the concert
         $.get('/concert/bookmark/', {concertid: concertid}); 
-        toastr.success('Concert successfully bookmarked!');
+        toastr.success('Concert bookmarked!');
     };
     
 </script>

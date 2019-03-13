@@ -173,7 +173,6 @@ def bookmark(request):
         concert = Concert.objects.get(concertID=int(concertid))
         if concert:
             request.user.giggoer.bookmarks.add(concert)
-            
     return HttpResponse()
 
 
@@ -265,6 +264,7 @@ def getConcert(request ,id):
     concert_json['location']   = concert.venue.location
     concert_json['url']        = concert.url
     concert_json['id']         = concert.concertID
+    concert_json['image']      = concert.image.url
     results.append(concert_json)
     data = json.dumps(results)
     print(concert_json)

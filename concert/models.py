@@ -6,6 +6,9 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext as _
 
+
+
+
 class User(AbstractUser):
     email     = models.EmailField(max_length=70)
     is_venue  = models.BooleanField(default=False)
@@ -38,6 +41,9 @@ class Concert(models.Model):
     url         = models.URLField()
     description = models.CharField(max_length=560)
     venue       = models.ForeignKey(Venue, related_name='concert', on_delete=models.CASCADE)
+
+    class Meta():
+        ordering = ['-date']
 
     def is_future(self):
         print(datetime.date.today() )

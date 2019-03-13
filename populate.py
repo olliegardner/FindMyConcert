@@ -1,4 +1,4 @@
-import os
+ import os
 os.environ.setdefault('DJANGO_SETTINGS_MODULE',
                       'FindMyConcert.settings')
 import django

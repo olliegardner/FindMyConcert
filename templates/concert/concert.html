@@ -81,12 +81,14 @@
                                 </div>
                                 <div class="panel-body"> 
                                     <!-- Comment input area start -->
-                                    <form method="post">{% csrf_token %}
-                                    <textarea id = "commentbox" class="form-control" placeholder="write a comment..." rows="3"></textarea>
-                                    <br>
-                                    <button type="button" class="btn btn-info pull-right" id = "postcomment" >Post</button>
-                                    <hr>
-                                    </form>
+                                    {% if user.is_authenticated %}
+                                        <form method="post">{% csrf_token %}
+                                        <textarea id = "commentbox" class="form-control" placeholder="write a comment..." rows="3"></textarea>
+                                        <br>
+                                        <button type="button" class="btn btn-info pull-right" id = "postcomment" >Post</button>
+                                        <hr>
+                                        </form>
+                                    {% endif %}
                                     <!-- Comment input are end --> 
 
                                     <!-- Section for all the comments, show all comments associated with this conncert -->
