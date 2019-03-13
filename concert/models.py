@@ -9,7 +9,6 @@ from django.utils.translation import gettext as _
 class User(AbstractUser):
     email     = models.EmailField(max_length=70)
     is_venue  = models.BooleanField(default=False)
-    comments  = models.ManyToManyField(Comment, related_name='comments', null = True)
 
     def isVenue():
         return is_venue    
@@ -57,12 +56,14 @@ class Comment(models.Model):
         MaxValueValidator(5),
         MinValueValidator(1)
         ])
+    user        = models.ForeignKey(User, related_name='user', on_delete=models.CASCADE)
     text        = models.CharField(max_length=560, null = True)
     commentID   = models.AutoField(primary_key=True)
-    concert     = models.ForeignKey(Concert, on_delete=models.CASCADE)
-    child       = models.ForeignKey('self', null = True)
-    date        = models.DateField(_("Date"),default=timezone.now)
+    concert     = models.ForeignKey(Concert, on_delete=models.CASCADE, related_name='comment')
     time        = models.DateTimeField(_("Comment Time"), default=timezone.now)
+
+    class Meta():
+        ordering = ['time']
 
 
     def __str__(self): 

@@ -77,20 +77,25 @@
                     <br>
                     <button type="button" class="btn btn-info pull-right">Post</button>
                     <hr>
-                    <ul class="comments">
-                        {% for comment in concert.comment%}
+                    <ul class = "comments">
+                        {% for comment in concert.comment.all%}
                         <li class="media">
-                            <a href="#" class="pull-left">
-                                <img src="https://bootdey.com/img/Content/user_1.jpg" alt="" class="avatar">
+                            <a href="{ % url 'profile' comment.user.username‰}" class="pull-left">
+                                {% if comment.user.is_venue and comment.user.venue.image != "" %}
+                                         <img src="{{ comment.user.venue.image.url }}" alt="Avatar" class="avatar">
+                                    {% elif not comment.user.is_venue and comment.user.giggoer.image != "" %}
+                                        <img src="{{comment.user.giggoer.image.url }}" alt="Avatar" class="avatar">
+                                    {% else %}
+                                        <i class="far fa-user fa-lg"></i>
+                                    {% endif %}
                             </a>
                             <div class="media-body">
                                 <span class="text-muted pull-right">
                                     <small class="text-muted">30 min ago</small>
                                 </span>
-                                <a href="#"><strong class="text-success">{{comment.user.username}}</strong><a>
+                                <a href="{ % url 'profile' comment.user.username ‰}"><strong class="text-success">{{comment.user.username}}</strong><a>
                                 <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                    Lorem ipsum dolor sit amet, <a href="#">#consecteturadipiscing </a>.
+                                    {{ comment.text }}
                                 </p>
                             </div>
                         </li>
