@@ -5,76 +5,79 @@
 
 {% block body_block %}
 
-     
-     
-                    
- <div class="container">
-        <br>
-        <h1>{{ concert.artist}} at {{ concert.venue.venue_name }}</h1>
-        <p>{{ concert.venue.venue_name }} , {{ concert.venue.location }}<br>
-          {{ concert.start_time }} - {{ concert.end_time }}   {{ concert.date }}</p>
-        <p><a href="{{ concert.url}}">Tickets</a></p>
 
-        <img class = "img-fluid" src="{{ concert.image.url }}">
-        <br>
-        <br>
+<div class="container">
+    <div class="row">
+        <div class ="col-lg-4 col-xs-12  col-md-12">
+            <br>
+            <h1>{{ concert.artist}} at {{ concert.venue.venue_name }}</h1>
+            <p>{{ concert.venue.venue_name }} , {{ concert.venue.location }}<br>
+            {{ concert.start_time }} - {{ concert.end_time }}   {{ concert.date }}</p>
+            <p><a href="{{ concert.url}}">Tickets</a></p>
 
+            <img class = "img-fluid" src="{{ concert.image.url }}">
+            <br>
+            <br>
 
-        <!-- Bootstrap tabs start -->
-        <ul class="nav nav-tabs">
-            <li class="nav-item">
-                <a class="nav-link active" data-toggle="tab" href="#events" role="tab" aria-selected="true">Event</a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#venue" role="tab" aria-selected="true">Venue</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#going" role="tab" aria-selected="true">{% if concert.is_future %} Going {% else %} Went {% endif %}</a>
-            </li>
-        
-             <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#comments" role="tab" aria-selected="true">Comments</a>
-            </li>
-        </ul>
-        <!-- Bootstrap tabs end -->
+        </div>
 
 
+        <div class ="col-lg-8 col-xs-12 col-md-12">
+            <!-- Bootstrap tabs start -->
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#events" role="tab" aria-selected="true">Event</a>
+                </li>
 
-        <div class="tab-content"> <!-- This is where the content for the different tabs are defined -->
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#venue" role="tab" aria-selected="true">Venue</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#going" role="tab" aria-selected="true">{% if concert.is_future %} Going {% else %} Went {% endif %}</a>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#comments" role="tab" aria-selected="true">Comments</a>
+                </li>
+            </ul>
+            <!-- Bootstrap tabs end -->
 
 
-            <div id="events" class="tab-pane fade show active"> <!-- This tab is for info about the artist/concert -->
-                <br>
-                <h2>{{ concert.artist }}</h2>
-                 <p>{{ concert.description }}</p>
-                 <br>
-                 <br>
-            </div>
+
+            <div class="tab-content"> <!-- This is where the content for the different tabs are defined -->
 
 
-            <div id="venue" class="tab-pane fade"> <!-- This tab contains a venue description -->
-                <br>
+                <div id="events" class="tab-pane fade show active"> <!-- This tab is for info about the artist/concert -->
+                    <br>
+                    <h2>{{ concert.artist }}</h2>
+                    <p>{{ concert.description }}</p>
+                    <br>
+                    <br>
+                </div>
+
+
+                <div id="venue" class="tab-pane fade"> <!-- This tab contains a venue description -->
+                    <br>
                     <h2>{{ concert.venue.venue_name }}</h2>
                     <img class = "img-fluid"src="{{ concert.venue.image.url }}">
                     <p>{{ concert.venue.description }}</p>
-             </div>
+                </div>
 
-             <div id="going" class="tab-pane fade show"> <!-- This shows all users who have bookmarked the concert-->
-                <br>
+                <div id="going" class="tab-pane fade show"> <!-- This shows all users who have bookmarked the concert-->
+                    <br>
                     {% if concert.bookmarks.all  %}
-                        {% for giggoer in concert.bookmarks.all %}
-                         <p >{{ giggoer.user.username }}</p>
-                        {% endfor %}
+                    {% for giggoer in concert.bookmarks.all %}
+                    <p >{{ giggoer.user.username }}</p>
+                    {% endfor %}
                     {% else%}
-                         <p> There are no other users currently intrested in this concert</p>
+                    <p> There are no other users currently intrested in this concert</p>
                     {% endif %}
-            </div>
-            
-            <div id="comments" class="tab-pane fade"> <!-- This tab shows the comments associated to the concert -->
-                <br>
+                </div>
+                
+                <div id="comments" class="tab-pane fade"> <!-- This tab shows the comments associated to the concert -->
+                    <br>
                     <h2> Comments</h2>
-                    <div class="col-md-6 col-md-offset-2 col-sm-12">
+                    <div class="col-md-6 col-md-offset-2 col-sm-12 col-lg-12">
                         <div>
                             <div class="panel panel-info">
                                 <div class="panel-heading">
@@ -82,76 +85,78 @@
                                 <div class="panel-body"> 
                                     <!-- Comment input area start -->
                                     {% if user.is_authenticated %}
-                                        <form method="post">{% csrf_token %}
+                                    <form method="post">{% csrf_token %}
                                         <textarea id = "commentbox" class="form-control" placeholder="write a comment..." rows="3"></textarea>
                                         <br>
                                         <button type="button" class="btn btn-info pull-right" id = "postcomment" >Post</button>
                                         <hr>
-                                        </form>
+                                    </form>
                                     {% endif %}
                                     <!-- Comment input are end --> 
 
                                     <!-- Section for all the comments, show all comments associated with this conncert -->
                                     <ul class = "comments" id ="allcomments">
                                         {% for comment in concert.comment.all%}
-                                            <li class="media">
-                                                <a href="{ % url 'profile' comment.user.username‰}" class="pull-left">
-                                                    {% if comment.user.is_venue and comment.user.venue.image != "" %}
-                                                             <img src="{{ comment.user.venue.image.url }}" alt="Avatar" class="avatar">
-                                                        {% elif not comment.user.is_venue and comment.user.giggoer.image != "" %}
-                                                            <img src="{{comment.user.giggoer.image.url }}" alt="Avatar" class="avatar">
-                                                        {% else %}
-                                                            <i class="far fa-user fa-lg"></i>
-                                                        {% endif %}
-                                                </a> <!-- Handle profile pic and wrap in link to profile -->
-                                                
+                                        <li class="media">
+                                            <a href="{ % url 'profile' comment.user.username‰}" class="pull-left">
+                                                {% if comment.user.is_venue and comment.user.venue.image != "" %}
+                                                <img src="{{ comment.user.venue.image.url }}" alt="Avatar" class="avatar">
+                                                {% elif not comment.user.is_venue and comment.user.giggoer.image != "" %}
+                                                <img src="{{comment.user.giggoer.image.url }}" alt="Avatar" class="avatar">
+                                                {% else %}
+                                                <i class="far fa-user fa-lg"></i>
+                                                {% endif %}
+                                            </a> <!-- Handle profile pic and wrap in link to profile -->
 
-                                                <div class="media-body"> <!-- Comment body starts here -->
-                                                    <a href="{ % url 'profile' comment.user.username ‰}"><strong class="text-success">{{comment.user.username}}</strong><a>
+
+                                            <div class="media-body"> <!-- Comment body starts here -->
+                                                <a href="{ % url 'profile' comment.user.username ‰}"><strong class="text-success">{{comment.user.username}}</strong><a>
                                                     <p>
                                                         {{ comment.text }}
                                                     </p>
 
-                                                    <!-- Todo, implement delete
-                                                    {% if comment.user.username == user.username %}
-                                                    <a href = # class = "text-muted" >Delete</a>
-                                                    {% endif %}
+                                                        <!-- Todo, implement delete
+                                                        {% if comment.user.username == user.username %}
+                                                        <a href = # class = "text-muted" >Delete</a>
+                                                        {% endif %}
                                                     -->
                                                 </div>
                                             </li>
-                                        {% endfor %}       
-                                    </ul>
+                                            {% endfor %}       
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
+                        </div>
                     </div>
                 </div>
+            </div>
         </div>
 
 
     </div> 
 
-<script>
+    <script>
 
- document.getElementById("postcomment").addEventListener("click", postcomment);
-    
-     
-    function postcomment() {
+       document.getElementById("postcomment").addEventListener("click", postcomment);
+
+
+       function postcomment() {
 
         //MAake AJAX post request
         $.ajaxSetup({
             headers: { "X-CSRFToken": '{{csrf_token}}' }
         });
-           $.ajax({
+        $.ajax({
             type: 'POST',
             url:'http://127.0.0.1:8000/api/postcomment/',
             data: {'data':$('#commentbox').val(),'id':'{{concert.concertID}}'},
             credentials: 'include',
             dataType: 'json',
             success:function(data){
-                    var $text = $('#commentbox').val();
-                    toastr.success('Comment posted succesfully');
+                var $text = $('#commentbox').val();
+                toastr.success('Comment posted succesfully');
                     $("#commentbox").val(''); //Clear the comment box
 
 
@@ -159,24 +164,24 @@
                     //The links are left blank deliberately for the sake of simplicity and time constraints
                     //The user will have to relaod to access more fucntions
                     $('<li class="media">').append(
-                    $('<a href="#" class="pull-left"><img src="' +data.image+'" class="avatar"></a>'),
-                    $('<div class="media-body"><a href="#"<strong class="text-success">'+data.username +'</strong></a><p>' +$text +'</p>')
-                    ).appendTo('#allcomments');             
-            },
-            
-            error: function(data) {
-                toastr.error('Comment not sent!');
-            }
+                        $('<a href="#" class="pull-left"><img src="' +data.image+'" class="avatar"></a>'),
+                        $('<div class="media-body"><a href="#"<strong class="text-success">'+data.username +'</strong></a><p>' +$text +'</p>')
+                        ).appendTo('#allcomments');             
+                },
+
+                error: function(data) {
+                    toastr.error('Comment not sent!');
+                }
 
 
-        });
+            });
 
 
-     
+
         
     };
 
 
-</script>s
+</script>
 
 {% endblock %}
