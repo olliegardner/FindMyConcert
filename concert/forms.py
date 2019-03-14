@@ -9,6 +9,8 @@ class GigGoerSignUpForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = User
 
+    field_order = ['username', 'email', 'password1', 'password2', 'image']
+
     def clean_email(self):
         email = self.cleaned_data.get('email')
         if User.objects.filter(email=email).exists():
@@ -40,6 +42,8 @@ class VenueSignUpForm(UserCreationForm):
 
     class Meta(UserCreationForm.Meta):
         model = User
+
+    field_order = ['username', 'email', 'password1', 'password2', 'image', 'venue_name', 'location', 'website', 'description', 'phone_number', 'capacity']
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
