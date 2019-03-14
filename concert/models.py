@@ -6,9 +6,6 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext as _
 
-
-
-
 class User(AbstractUser):
     email     = models.EmailField(max_length=70)
     is_venue  = models.BooleanField(default=False)
