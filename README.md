@@ -10,7 +10,9 @@ local area and for venues to be able to easily add new concerts.
 
 First clone the repository and then navigate to the FindMyConcert source folder.
 
-```pip install -r requirements.txt
+```
+pip install -r requirements.txt
+
 python manage.py makemigrations concert
 ```
 
@@ -18,7 +20,9 @@ python manage.py makemigrations concert
 ```python populate.py```
 
 Now run the server!
-```python manage.py runserver```
+```
+python manage.py runserver
+```
 
 Now if you navigate to http://127.0.0.1:8000/ you should be greeted by a view which looks like this:
 ###TODO: add screenshot of index
