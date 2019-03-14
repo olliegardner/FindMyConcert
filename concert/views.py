@@ -203,51 +203,57 @@ def viewConcert(request, id):
 
 def profile(request, username):
     loginForm = user_login(request)
-    if (request.user.is_venue):
-        if request.method == 'POST':
-            form = EditVenueForm(request.POST, request.FILES)
-            if form.is_valid():
-                user = request.user
-                # would it not be nice if python had switch statements?
-                if (form.cleaned_data.get('email') != ""):
-                    user.email = form.cleaned_data.get('email')
-                if (form.cleaned_data.get('image') != None):
-                    user.venue.image = form.cleaned_data.get('image')
-                if (form.cleaned_data.get('password') != ""):
-                    user.venue.password = form.cleaned_data.get('password')
-                if (form.cleaned_data.get('venue_name') != ""):
-                    user.venue.venue_name = form.cleaned_data.get('venue_name')
-                if (form.cleaned_data.get('location') != ""):
-                    user.venue.location = form.cleaned_data.get('location')
-                if (form.cleaned_data.get('website') != ""):
-                    user.venue.website = form.cleaned_data.get('website')
-                if (form.cleaned_data.get('description') != ""):
-                    user.venue.description = form.cleaned_data.get('description')
-                if (form.cleaned_data.get('capacity') != None):
-                    user.venue.capacity = form.cleaned_data.get('capacity')                  
-                user.save()
-                user.venue.save()
-                return render(request, 'concert/profile.html', {'selecteduser': request.user, 'form': EditVenueForm, 'loginform': loginForm})
-        else:
-            form = EditVenueForm
-    else:
-        if request.method == 'POST':
-            form = EditGigGoerForm(request.POST, request.FILES)
-            if form.is_valid():
-                user = request.user
-                if (form.cleaned_data.get('email') != ""):
-                    user.email = form.cleaned_data.get('email')
-                if (form.cleaned_data.get('image') != None):
-                    user.giggoer.image = form.cleaned_data.get('image')
-                if (form.cleaned_data.get('password') != ""):
-                    user.giggoer.password = form.cleaned_data.get('password')
-                user.giggoer.save()
-                user.save()  
-                return render(request, 'concert/profile.html', {'selecteduser': request.user, 'form': EditGigGoerForm, 'loginform': loginForm})
-        else:
-            form = EditGigGoerForm
+    user = User.objects.get(username=username)
 
-    return render(request, 'concert/profile.html', {'form': form, 'selecteduser': request.user, 'loginform': loginForm})
+    if not request.user.is_anonymous:
+        if request.user.is_venue:
+            if request.method == 'POST':
+                form = EditVenueForm(request.POST, request.FILES)
+                if form.is_valid():
+                    user = request.user
+                    # would it not be nice if python had switch statements?
+                    if (form.cleaned_data.get('email') != ""):
+                        user.email = form.cleaned_data.get('email')
+                    if (form.cleaned_data.get('image') != None):
+                        user.venue.image = form.cleaned_data.get('image')
+                    if (form.cleaned_data.get('password') != ""):
+                        user.venue.password = form.cleaned_data.get('password')
+                    if (form.cleaned_data.get('venue_name') != ""):
+                        user.venue.venue_name = form.cleaned_data.get('venue_name')
+                    if (form.cleaned_data.get('location') != ""):
+                        user.venue.location = form.cleaned_data.get('location')
+                    if (form.cleaned_data.get('website') != ""):
+                        user.venue.website = form.cleaned_data.get('website')
+                    if (form.cleaned_data.get('description') != ""):
+                        user.venue.description = form.cleaned_data.get('description')
+                    if (form.cleaned_data.get('capacity') != None):
+                        user.venue.capacity = form.cleaned_data.get('capacity')                  
+                    user.save()
+                    user.venue.save()
+                    return render(request, 'concert/profile.html', {'selecteduser': request.user, 'form': EditVenueForm, 'loginform': loginForm})
+            else:
+                form = EditVenueForm
+        else:
+            if request.method == 'POST':
+                form = EditGigGoerForm(request.POST, request.FILES)
+                if form.is_valid():
+                    user = request.user
+                    if (form.cleaned_data.get('email') != ""):
+                        user.email = form.cleaned_data.get('email')
+                    if (form.cleaned_data.get('image') != None):
+                        user.giggoer.image = form.cleaned_data.get('image')
+                    if (form.cleaned_data.get('password') != ""):
+                        user.giggoer.password = form.cleaned_data.get('password')
+                    user.giggoer.save()
+                    user.save()  
+                    return render(request, 'concert/profile.html', {'selecteduser': request.user, 'form': EditGigGoerForm, 'loginform': loginForm})
+            else:
+                form = EditGigGoerForm
+
+        return render(request, 'concert/profile.html', {'form': form, 'selecteduser': request.user, 'loginform': loginForm})
+
+    return render(request, 'concert/profile.html', {'selecteduser': user, 'loginform': loginForm}) 
+
 
 # this lets the events view to dynamically add a concert each time one is bookmarked
 def getConcert(request ,id):

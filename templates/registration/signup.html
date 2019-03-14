@@ -22,7 +22,7 @@
         <div class="tab-content">
             <div id="private" class="tab-pane fade show active">
                 <br>
-                <form method="post" novalidate enctype="multipart/form-data">
+                <form method="POST" novalidate enctype="multipart/form-data">
                     {% csrf_token %}
                     {{ gigform|crispy }}
                     <input class="btn btn-success" type="submit" name="submit_giggoer" value="Create Account">
@@ -32,7 +32,7 @@
 
             <div id="venue" class="tab-pane fade">
                 <br>
-                <form method="post" novalidate enctype="multipart/form-data">
+                <form method="POST" novalidate enctype="multipart/form-data">
                     {% csrf_token %}
                     {{ venueform|crispy }}
                     <input class="btn btn-success" type="submit" name="submit_venue" value="Create Account">
