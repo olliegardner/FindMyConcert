@@ -8,17 +8,22 @@
 
 <div class="container">
     <div class="row">
-        <div class ="col-lg-5 col-xs-12  col-md-12">
+        <div class ="col-lg-6 col-xs-12  col-md-12">
             <br>
             <h1>{{ concert.artist}} at {{ concert.venue.venue_name }}</h1>
             <p>{{ concert.venue.venue_name }} , {{ concert.venue.location }}<br>
             {{ concert.start_time }} - {{ concert.end_time }}   {{ concert.date }}</p>
-            <p><a href="{{ concert.url}}">Tickets</a></p>
+            <p><a href="{{ concert.url}}">Tickets</a>  <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star"></span>
+                <span class="fa fa-star"></span> <button class="btn btn-outline-success navbar-right pull-right" onclick="bookmark({{ concert.concertID }})" >Bookmark</button></p>
 
             <img class = "img-fluid" src="{{ concert.image.url }}">
             <br>
             <br>
-            <h2>{{ concert.artist }}</h2>
+            <h2>{{ concert.artist }}  
+            </h2>
             <p>{{ concert.description }}</p>
             <br>
             <br>
@@ -26,19 +31,19 @@
         </div>
 
 
-        <div class ="col-lg-7 col-xs-12 col-md-12">
+        <div class ="col-lg-6 col-xs-12 col-md-12">
             <!-- Bootstrap tabs start -->
             <ul class="nav nav-tabs">
 
-                <li class="nav-item">
-                    <a class="nav-link " data-toggle="tab" href="#venue" role="tab" aria-selected="true">Venue</a>
+                <li class="nav-item"> 
+                    <a class="nav-link active" data-toggle="tab" href="#comments" role="tab" aria-selected="true">Comments</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" data-toggle="tab" href="#going" role="tab" aria-selected="true">{% if concert.is_future %} Going {% else %} Went {% endif %}</a>
                 </li>
                 
                 <li class="nav-item">
-                    <a class="nav-link active" data-toggle="tab" href="#comments" role="tab" aria-selected="true">Comments</a>
+                    <a class="nav-link " data-toggle="tab" href="#venue" role="tab" aria-selected="true">Venue</a>
                 </li>
             </ul>
             <!-- Bootstrap tabs end -->
@@ -51,7 +56,7 @@
                 <div id="venue" class="tab-pane fade"> <!-- This tab contains a venue description -->
                     <br>
                     <h2>{{ concert.venue.venue_name }}</h2>
-                    <img class = "img-fluid"src="{{ concert.venue.image.url }}">
+                    <img class = "img-fluid "src="{{ concert.venue.image.url }}">
                     <p>{{ concert.venue.description }}</p>
                 </div>
 

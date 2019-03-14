@@ -8,6 +8,13 @@ body, html {
   overflow-y: scroll;
 }
 
+.concert-image {
+  vertical-align: middle;
+  width: 50%;
+  height: 300px;
+  object-fit: cover;
+}
+
 .avatar {
   vertical-align: middle;
   width: 35px;
@@ -19,6 +26,10 @@ body, html {
 .navbar {
     z-index: 1;
 
+}
+
+.checked {
+  color: orange;
 }
 
 .text {
