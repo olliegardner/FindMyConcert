@@ -29,10 +29,9 @@
                     <i class="fas fa-music" style="padding-right: 3%"></i>
 
                     {% if user.is_authenticated and user.is_venue %}
-                    
-                        <a class="text" href="{% url 'index'%}"><b>AddMyConcert&nbsp;&nbsp;&nbsp;</b></a>
+                        <a class="navbar-brand text" href="{% url 'index'%}"><b>AddMyConcert&nbsp;&nbsp;&nbsp;</b></a>
                     {% else %}
-                        <a class="text" href="{% url 'index'%}"><b>FindMyConcert&nbsp;&nbsp;&nbsp;</b></a> 
+                        <a class="navbar-brand text" href="{% url 'index'%}"><b>FindMyConcert&nbsp;&nbsp;&nbsp;</b></a> 
                     {% endif %}
                 </div>
 

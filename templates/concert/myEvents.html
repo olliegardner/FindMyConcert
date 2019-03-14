@@ -103,12 +103,12 @@
                                                 <input class="form-control form-control-lg form-control-borderless" id="search-concert" type="text" name="q" placeholder="Search Concerts" value="{{ request.GET.q }}">
                                             </div>
                                             <!--end of col-->
-                                            <div class="col-auto" style="margin-right: 0.5%">
-                                                <button class="btn btn-lg btn-info" type="submit" onclick="document.getElementById('search-concert').value='{{ location.city }}';"><i class="fas fa-location-arrow"></i></button>
-                                            </div>
-                                            <!--end of col-->
                                             <div class="col-auto">
                                                 <button class="btn btn-lg btn-success" type="submit" value="Search">Search</button>
+                                            </div>
+                                            <!--end of col-->
+                                            <div class="col-auto" style="margin-left: 0.5%">
+                                                <button class="btn btn-lg btn-info" type="submit" onclick="document.getElementById('search-concert').value='{{ location.city }}';"><i class="fas fa-location-arrow"></i></button>
                                             </div>
                                             <!--end of col-->
                                         </div>
@@ -361,14 +361,15 @@
                                 <input class="form-control form-control-lg form-control-borderless" id="search-concert" type="text" name="q" placeholder="Search Concerts" value="{{ request.GET.q }}">
                             </div>
                             <!--end of col-->
-                            <div class="col-auto" style="margin-right: 0.5%">
-                                <button class="btn btn-lg btn-info" type="submit" onclick="document.getElementById('search-concert').value='{{ location.city }}';"><i class="fas fa-location-arrow"></i></button>
-                            </div>
-                            <!--end of col-->
                             <div class="col-auto">
                                 <button class="btn btn-lg btn-success" type="submit" value="Search">Search</button>
                             </div>
                             <!--end of col-->
+                            <div class="col-auto" style="margin-left: 0.5%">
+                                <button class="btn btn-lg btn-info" type="submit" onclick="document.getElementById('search-concert').value='{{ location.city }}';"><i class="fas fa-location-arrow"></i></button>
+                            </div>
+                            <!--end of col-->
+
                         </div>
                     </form>
                 </div>
