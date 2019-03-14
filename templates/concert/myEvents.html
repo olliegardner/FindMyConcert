@@ -194,13 +194,13 @@
                                                         <td><a href="{% url 'view' concert.concertID%}"">View</a></td>
                                                         <td><a href="{% url 'edit' concert.concertID%}">
 
-                                                            <button class="button button-blue button-bordered">
+                                                            <button class="button button-blue button-bordered btn-primary">
                                                                 <span class="button--inner">Edit</span> </td>
                                                                 
                                                                 <td>
                                                                     <form action="{% url 'delete' concert.concertID%}" method="post">
                                                                         {% csrf_token %}
-                                                                        <button type="submit" >Delete</button>
+                                                                        <button class = "btn-danger"type="submit" >Delete</button>
                                                                     </form>
                                                                 </td>
                                                             </tr>
@@ -287,13 +287,13 @@
                                                         <td><a href="{% url 'view' concert.concertID%}">View</a></td>
                                                         <td><a href="{% url 'edit' concert.concertID%}">
 
-                                                        <button class="button button-blue button-bordered">
+                                                        <button class="button button-blue button-bordered btn-primary">
                                                         <span class="button--inner">Edit</span></td>
 
                                                         <td>
                                                         <form action="{% url 'delete' concert.concertID%}" method="post">
                                                         {% csrf_token %}
-                                                        <button type="submit" >Delete</button>
+                                                        <button type="submit" class="btn-danger">Delete</button>
                                                         </form>
                                                         </td>
                                                     </tr>
@@ -329,7 +329,7 @@
                                                         <td><a href="{% url 'view' concert.concertID%}"">View</a></td>
 
                                                         <td>
-                                                        <button class="btn btn-outline-danger" onclick="removebookmark('{{ concert.concertID }}');hideparent(this);">Remove Bookmark</button>
+                                                        <button class="btn btn-danger" onclick="removebookmark('{{ concert.concertID }}');hideparent(this);">Remove Bookmark</button>
                                                  
                                                         </td>
                                                     </tr>
