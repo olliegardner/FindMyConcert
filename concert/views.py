@@ -59,9 +59,11 @@ def index(request):
 def events(request):
     loginForm = user_login(request)
     concert_list = Concert.objects.all()
-
-    location = urllib.request.urlopen("http://ip-api.com/json/")
-    location_json = json.load(location)
+    try:
+        location = urllib.request.urlopen("http://ip-api.com/json/")
+        location_json = json.load(location)
+    except:
+        location_json = "Unknown"
 
     query = request.GET.get("q")
     if query:
