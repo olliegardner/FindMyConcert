@@ -3,12 +3,17 @@ body, html {
     margin: 0;
 }
 
+.comments {
+  height:450px;
+  overflow-y: scroll;
+}
 
 .avatar {
   vertical-align: middle;
   width: 35px;
   height: 35px;
   border-radius: 50%;
+  object-fit: cover;
 }
 
 .navbar {

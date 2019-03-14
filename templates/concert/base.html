@@ -6,11 +6,12 @@
     <head lang="en">
         <title>{% block title %}FindMyConcert{% endblock %}</title>
 
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- Device width -->
 
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> <!-- Twitter Bootstrap 4 -->
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"> <!-- Public domain icons -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> <!-- AJAX -->
+        <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script> <!-- JS cookie library for csrf tokens-->
 
         <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'css/tables.css' %}">
@@ -20,6 +21,8 @@
     </head>
 
     <body>
+        
+        <!-- NAVBAR START -->
         <div class="navbar-container line text size">
             <nav class="navbar navbar-expand-lg navbar-light navbar-trans nav-colour-collapsed ">
                 <div class="line .col-xs-10 ">
@@ -39,7 +42,7 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav col-md-8">
-                        <li class="nav-item"><a class="nav-link" href="{% url 'events'%}">Events</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'events'%}">&nbsp;&nbsp;&nbsp;Events</a></li>
 
                         {% if user.is_authenticated and user.is_venue %}
                             <li class="nav-item"><a class="nav-link" href="{% url 'add-concert'%}">Add Concert</a></li>
@@ -95,6 +98,8 @@
                 </div>
             </nav>
         </div>
+
+        <!-- NAVBAR END -->
 
         <div>
             {% block body_block %}
