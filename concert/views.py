@@ -198,7 +198,7 @@ def viewConcert(request, id):
 	concert = get_object_or_404(Concert, concertID=id)
 	return render(request, 'concert/concert.html', {'concert': concert, 'loginform': loginForm})
 
-@login_required
+
 def profile(request, username):
     loginForm = user_login(request)
     if (request.user.is_venue):

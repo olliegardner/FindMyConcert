@@ -63,12 +63,7 @@
 
 
 <div class="container">
-
     {% if user.is_authenticated %}
-        {% if location %}
-            <p>Current City: {{ location.city }}</p>
-        {% endif %}
-
         <ul id="tabs" class="nav nav-tabs" role="tablist">
             <li class="nav-item">
                 <a id="tab-A" href="#pane-A" class="nav-link active" data-toggle="tab" role="tab">All Events</a>
@@ -79,8 +74,6 @@
             <li class="nav-item">
                 <a id="tab-C" href="#pane-C" class="nav-link" data-toggle="tab" role="tab">My Past Events</a>
             </li>
-
-            
         </ul>
 
 
@@ -107,8 +100,11 @@
                                             </div>
                                             <!--end of col-->
                                             <div class="col">
-                                                <input class="form-control form-control-lg form-control-borderless" type="text" name="q" placeholder="Search fields" value="{{ request.GET.q }}">
-
+                                                <input class="form-control form-control-lg form-control-borderless" id="search-concert" type="text" name="q" placeholder="Search Concerts" value="{{ request.GET.q }}">
+                                            </div>
+                                            <!--end of col-->
+                                            <div class="col-auto" style="margin-right: 0.5%">
+                                                <button class="btn btn-lg btn-info" type="submit" onclick="document.getElementById('search-concert').value='{{ location.city }}';"><i class="fas fa-location-arrow"></i></button>
                                             </div>
                                             <!--end of col-->
                                             <div class="col-auto">
@@ -333,7 +329,7 @@
                                                         <td><a href="{% url 'view' concert.concertID%}"">View</a></td>
 
                                                         <td>
-                                                        <button class="btn btn-outline-danger" onclick = "removebookmark({{concert.concertID}});hideparent(this);">Remove Bookmark</button>
+                                                        <button class="btn btn-outline-danger" onclick="removebookmark('{{ concert.concertID }}');hideparent(this);">Remove Bookmark</button>
                                                  
                                                         </td>
                                                     </tr>
@@ -354,27 +350,30 @@
         {% if concerts %}
 
             <div class="row justify-content-center moveup">
-                                <div class="col-12 col-md-10 col-lg-8">
-                                    <form class="card card-sm" method="GET" action="">
-                                        <div class="card-body row no-gutters align-items-center">
-                                            <div class="col-auto">
-                                                <i class="fas fa-search h4 text-body"></i>
-                                            </div>
-                                            <!--end of col-->
-                                            <div class="col">
-                                                <input class="form-control form-control-lg form-control-borderless" type="text" name="q" placeholder="Search fields" value="{{ request.GET.q }}">
-
-                                            </div>
-                                            <!--end of col-->
-                                            <div class="col-auto">
-                                                <button class="btn btn-lg btn-success" type="submit" value="Search">Search</button>
-                                            </div>
-                                            <!--end of col-->
-                                        </div>
-                                    </form>
-                                </div>
-                                <!--end of col-->
+                <div class="col-12 col-md-10 col-lg-8">
+                    <form class="card card-sm" method="GET" action="">
+                        <div class="card-body row no-gutters align-items-center">
+                            <div class="col-auto">
+                                <i class="fas fa-search h4 text-body"></i>
                             </div>
+                            <!--end of col-->
+                            <div class="col">
+                                <input class="form-control form-control-lg form-control-borderless" id="search-concert" type="text" name="q" placeholder="Search Concerts" value="{{ request.GET.q }}">
+                            </div>
+                            <!--end of col-->
+                            <div class="col-auto" style="margin-right: 0.5%">
+                                <button class="btn btn-lg btn-info" type="submit" onclick="document.getElementById('search-concert').value='{{ location.city }}';"><i class="fas fa-location-arrow"></i></button>
+                            </div>
+                            <!--end of col-->
+                            <div class="col-auto">
+                                <button class="btn btn-lg btn-success" type="submit" value="Search">Search</button>
+                            </div>
+                            <!--end of col-->
+                        </div>
+                    </form>
+                </div>
+                <!--end of col-->
+            </div>
 
             <div class="table-responsive">
                 <table class="table table-hover" align="center" style="width: 90%">
