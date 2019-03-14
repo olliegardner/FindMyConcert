@@ -276,10 +276,7 @@ def postComment(request):
     user = request.user
     text = request.POST.get('data')
     concertID = request.POST.get('id')
-    print(text)
-
-    print(concertID)
-    if text == "":
+    if text == "" or text == None:
         payload = {'success': False}
     else:
         concert = get_object_or_404(Concert, concertID=concertID)
@@ -288,7 +285,11 @@ def postComment(request):
             text = text,
             concert = concert,
             time = datetime.now())
-        payload = {'success': True}
+        if user.is_venue:
+            image = user.venue.image.url
+        else:
+            image = user.giggoer.image.url
+        payload = {'success': True, 'username':user.username, 'image':image}
         comment.save()
 
     return HttpResponse(json.dumps(payload), content_type='application/json')

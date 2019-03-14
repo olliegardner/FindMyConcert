@@ -92,7 +92,7 @@
                                     <!-- Comment input are end --> 
 
                                     <!-- Section for all the comments, show all comments associated with this conncert -->
-                                    <ul class = "comments">
+                                    <ul class = "comments" id ="allcomments">
                                         {% for comment in concert.comment.all%}
                                             <li class="media">
                                                 <a href="{ % url 'profile' comment.user.username‰}" class="pull-left">
@@ -107,9 +107,6 @@
                                                 
 
                                                 <div class="media-body"> <!-- Comment body starts here -->
-                                                    <span class="text-muted pull-right">
-                                                        <small class="text-muted">30 min ago</small>
-                                                    </span>
                                                     <a href="{ % url 'profile' comment.user.username ‰}"><strong class="text-success">{{comment.user.username}}</strong><a>
                                                     <p>
                                                         {{ comment.text }}
@@ -120,7 +117,7 @@
                                                     {% endif %}
                                                 </div>
                                             </li>
-                                        {% endfor %}        
+                                        {% endfor %}       
                                     </ul>
                                 </div>
                             </div>
@@ -139,35 +136,35 @@
     
      
     function postcomment() {
-        toastr.success('Comment posted!');
 
         //MAake AJAX post request
         $.ajaxSetup({
             headers: { "X-CSRFToken": '{{csrf_token}}' }
         });
            $.ajax({
-
             type: 'POST',
             url:'http://127.0.0.1:8000/api/postcomment/',
             data: {'data':$('#commentbox').val(),'id':'{{concert.concertID}}'},
             credentials: 'include',
             dataType: 'json',
             success:function(data){
-                   toastr.success('AJAX sent!');
-                   $("#commentbox").val(''); //Clear the comment box
-                   
+                    var $text = $('#commentbox').val();
+                    toastr.success('Comment posted succesfully');
+                    $("#commentbox").val(''); //Clear the comment box
+                            $('<li class="media">').append(
+                                $('<a href="#" class="pull-left"><img src="' +data.image+'" class="avatar"></a>'),
+                                $('<div class="media-body"><a href="#"<strong class="text-success">'+data.username +'</strong></a><p>' +$text +'</p><a href = # class = "text-muted" >Delete</a>')
+                        ).appendTo('#allcomments');                   
             },
             
             error: function(data) {
-                toastr.error('comment not sent!');
+                toastr.error('Comment not sent!');
             }
 
 
         });
 
 
-
-        toastr.success('AJAX setup!');
      
         
     };
