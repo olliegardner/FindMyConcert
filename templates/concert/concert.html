@@ -8,7 +8,7 @@
 
 <div class="container">
     <div class="row">
-        <div class ="col-lg-4 col-xs-12  col-md-12">
+        <div class ="col-lg-5 col-xs-12  col-md-12">
             <br>
             <h1>{{ concert.artist}} at {{ concert.venue.venue_name }}</h1>
             <p>{{ concert.venue.venue_name }} , {{ concert.venue.location }}<br>
@@ -18,26 +18,27 @@
             <img class = "img-fluid" src="{{ concert.image.url }}">
             <br>
             <br>
+            <h2>{{ concert.artist }}</h2>
+            <p>{{ concert.description }}</p>
+            <br>
+            <br>
 
         </div>
 
 
-        <div class ="col-lg-8 col-xs-12 col-md-12">
+        <div class ="col-lg-7 col-xs-12 col-md-12">
             <!-- Bootstrap tabs start -->
             <ul class="nav nav-tabs">
-                <li class="nav-item">
-                    <a class="nav-link active" data-toggle="tab" href="#events" role="tab" aria-selected="true">Event</a>
-                </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#venue" role="tab" aria-selected="true">Venue</a>
+                    <a class="nav-link " data-toggle="tab" href="#venue" role="tab" aria-selected="true">Venue</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" data-toggle="tab" href="#going" role="tab" aria-selected="true">{% if concert.is_future %} Going {% else %} Went {% endif %}</a>
                 </li>
                 
                 <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#comments" role="tab" aria-selected="true">Comments</a>
+                    <a class="nav-link active" data-toggle="tab" href="#comments" role="tab" aria-selected="true">Comments</a>
                 </li>
             </ul>
             <!-- Bootstrap tabs end -->
@@ -45,15 +46,6 @@
 
 
             <div class="tab-content"> <!-- This is where the content for the different tabs are defined -->
-
-
-                <div id="events" class="tab-pane fade show active"> <!-- This tab is for info about the artist/concert -->
-                    <br>
-                    <h2>{{ concert.artist }}</h2>
-                    <p>{{ concert.description }}</p>
-                    <br>
-                    <br>
-                </div>
 
 
                 <div id="venue" class="tab-pane fade"> <!-- This tab contains a venue description -->
@@ -74,7 +66,7 @@
                     {% endif %}
                 </div>
                 
-                <div id="comments" class="tab-pane fade"> <!-- This tab shows the comments associated to the concert -->
+                <div id="comments" class="tab-pane fade show active"> <!-- This tab shows the comments associated to the concert -->
                     <br>
                     <h2> Comments</h2>
                     <div class="col-md-6 col-md-offset-2 col-sm-12 col-lg-12">
