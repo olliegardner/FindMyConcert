@@ -6,7 +6,7 @@
     <div class="container">
         <br>
  
-        {% if selecteduser.username == user.username %}
+        {% if selecteduser.username == user.username%}
             <h1 class="display-4">Your Profile</h1>
             <p class="lead">Edit your profile here</p>
         {% else %}
@@ -15,11 +15,11 @@
         {% endif %}
  
         <div class="row">
-            <div class="col-4">
+            <div class="col-xs-12 col-md-12 col-lg-4">
                 <div class="card" style="width: 18rem;">
-                    {% if selecteduser.is_venue and user.venue.image != "" %}
+                    {% if selecteduser.is_venue and selecteduser.venue.image != "" %}
                         <img class="card-img-top" src="{{ selecteduser.venue.image.url }}">
-                    {% elif not selecteduser.is_venue and user.giggoer.image != "" %}
+                    {% elif not selecteduser.is_venue and selecteduser.giggoer.image != "" %}
                         <img class="card-img-top" src="{{ selecteduser.giggoer.image.url }}">
                     {% else %}
                         <img class="card-img-top" src="{% static 'images/default-pic.png' %}">
@@ -41,7 +41,7 @@
                 </div>
             </div>
  
-            <div class="col-8">
+            <div class="col-lg-8">
                 <div class="tab-content" id="v-pills-tabContent">
                     <div class="tab-pane fade show active" id="v-pills-activity" role="tabpanel" aria-labelledby="v-pills-activity-tab">
                         <div class="panel-group" id="faqAccordion">
