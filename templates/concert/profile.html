@@ -100,7 +100,7 @@
                             <form method="post" action="." enctype="multipart/form-data">
                                 {% csrf_token %}
                                 {{ form|crispy }}
-                                <input type="submit" value="Update Profile">
+                                <input class="btn btn-success" type="submit" value="Update Profile">
                             </form>
                         </div>
                     {% endif %}
