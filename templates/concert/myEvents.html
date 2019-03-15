@@ -4,98 +4,122 @@
 {% block title %} {{ block.super }} {% endblock %}
 
 {% block body_block %}
-	<div class="container">
-		{% if user.is_authenticated %}
-        	<ul class="nav nav-tabs" id="myTab" role="tablist">
-  				<li class="nav-item">
-    				<a class="nav-link active" id="all-tab" data-toggle="tab" href="#all" role="tab" aria-controls="all" aria-selected="true">All</a>
-  				</li>
-			  	<li class="nav-item">
-			    	<a class="nav-link" id="upcoming-tab" data-toggle="tab" href="#upcoming" role="tab" aria-controls="upcoming" aria-selected="false">Upcoming</a>
-			  	</li>
-			  	<li class="nav-item">
-			    	<a class="nav-link" id="past-tab" data-toggle="tab" href="#past" role="tab" aria-controls="past" aria-selected="false">Past</a>
-			  	</li>
-			</ul>
+<div class="container">
+    {% if user.is_authenticated %}
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="all-tab" data-toggle="tab" href="#all" role="tab" aria-controls="all" aria-selected="true">All</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="upcoming-tab" data-toggle="tab" href="#upcoming" role="tab" aria-controls="upcoming" aria-selected="false">Upcoming</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="past-tab" data-toggle="tab" href="#past" role="tab" aria-controls="past" aria-selected="false">Past</a>
+        </li>
+    </ul>
 
-			<div class="tab-content">
-				<div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="all-tab">
-					<!-- content for all concerts tab -->
-					{% if concerts %}
-						<div class="row">
-							{% for concert in concerts %}
-						    	<div class="col-xs-12 col-md-6 col-lg-4 mt">
-						    		<div class="tile-container">
-										<div class="tile">
-								        	<div class="tile-front" style="background-image: url({{ concert.image.url }}); background-size: cover; background-position: center;">
-								        		<div class="bottom-left">
-								        			<p>
-								        				{{ concert.artist }}
-								        				<br>
-								        				{{ concert.venue.venue_name }}
-								        			</p>
-								        		</div>
-								        	</div>
+    <div class="tab-content">
+        <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="all-tab">
+            <!-- content for all concerts tab -->
+            {% if concerts %}
+            <div class="row">
+                {% for concert in concerts %}
+                <div class="col-xs-12 col-md-6 col-lg-4 mt">
+                    <div class="tile-container">
+                        <div class="tile">
+                            <div class="tile-front" style="background-image: url({{ concert.image.url }}); background-size: cover; background-position: center;">
+                                <div class="bottom-left">
+                                    <p>
+                                        {{ concert.artist }}
+                                        <br>
+                                        {{ concert.venue.venue_name }}
+                                    </p>
+                                </div>
+                            </div>
 
-								        	<div class="tile-back" style=" background-image: url({{ concert.image.url }}); background-size: cover; background-position: center;">
-                                       
-								        		<div class ="center-white-bg"style="background-color: rgba(256, 256, 256, 0.93);width:100%; height:340px; border-radius: 10%;">
-                                                    <div class ="center">
-									        		<h6>
-									        			{{ concert.artist }}
-									        			<br>
-									        			{{ concert.venue.venue_name }}, {{ concert.venue.location }}
-									        			<br>
-									        			{{ concert.date }}
-									        			<br>
-									        			{{ concert.start_time }} - {{ concert.end_time }}
-									        			<br>
-													</h6>
+                            <div class="tile-back" style=" background-image: url({{ concert.image.url }}); background-size: cover; background-position: center;">
 
-													<br>
-									        		<a href="{% url 'view' concert.concertID %}"><button class="btn btn-outline-info">View</button></a>
-									        		<button class="btn btn-info">Bookmark</button>
-                                                    </div>
-								        		</div>
-								        	</div>			    			
-						    			</div>
-						    		</div>
-						    	</div>
-					    	{% endfor %}
-						</div>
-					{% else %}
-	            		<strong>There are currently no concerts with those search fields</strong>
-					{% endif %}	 
-				</div>
+                                <div class ="center-white-bg"style="background-color: rgba(256, 256, 256, 0.93);width:100%; height:340px; border-radius: 10%;">
+                                    <div class ="center">
+                                        <h6>
+                                            {{ concert.artist }}
+                                            <br>
+                                            {{ concert.venue.venue_name }}, {{ concert.venue.location }}
+                                            <br>
+                                            {{ concert.date }}
+                                            <br>
+                                            {{ concert.start_time }} - {{ concert.end_time }}
+                                            <br>
+                                        </h6>
 
-			  	<div class="tab-pane fade" id="upcoming" role="tabpanel" aria-labelledby="upcoming-tab">
-			  		<!-- content for upcoming concerts tab -->
-			  	</div>
+                                        <br>
+                                        <a href="{% url 'view' concert.concertID %}"><button class="btn btn-outline-info">View</button></a>
+                                        <button class="btn btn-info">Bookmark</button>
+                                    </div>
+                                </div>
+                            </div>                          
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <strong>There are currently no concerts with those search fields</strong>
+            {% endif %}  
+        </div>
 
-			  	<div class="tab-pane fade" id="past" role="tabpanel" aria-labelledby="past-tab">
-			  		<!-- content for past concerts tab -->
-			  	</div>
-			</div>
-	    {% else %}
-			{% if concerts %}
-				<div class="row">
-					{% for concert in concerts %}
-						<div class="col-xs-12 col-md-6 col-lg-4">
-						    <div class="tile" style="background-image: url({{ concert.image.url }}); background-size: cover; background-position: center;">
-						        <div class="bottom-left">
-						        	<p>
-						        		{{ concert.artist }}
-						        		<br>
-						        		{{ concert.venue.venue_name }}
-						        	</p>
-						        </div>
-						    </div>
-						</div>
-					{% endfor %}
-				</div>
-			{% else %}
-	            <strong>There are currently no concerts with those search fields</strong>
-			{% endif %}   	
-	    {% endif %}
-	</div>
-{% endblock %}
+        <div class="tab-pane fade" id="upcoming" role="tabpanel" aria-labelledby="upcoming-tab">
+            <!-- content for upcoming concerts tab -->
+        </div>
+
+        <div class="tab-pane fade" id="past" role="tabpanel" aria-labelledby="past-tab">
+            <!-- content for past concerts tab -->
+        </div>
+    </div>
+    {% else %}
+    {% if concerts %}
+    <div class="row">
+        {% for concert in concerts %}
+        <div class="col-xs-12 col-md-6 col-lg-4 mt">
+            <div class="tile-container">
+                <div class="tile">
+                    <div class="tile-front" style="background-image: url({{ concert.image.url }}); background-size: cover; background-position: center;">
+                        <div class="bottom-left">
+                            <p>
+                                {{ concert.artist }}
+                                <br>
+                                {{ concert.venue.venue_name }}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="tile-back" style=" background-image: url({{ concert.image.url }}); background-size: cover; background-position: center;">
+
+                        <div class ="center-white-bg"style="background-color: rgba(256, 256, 256, 0.93);width:100%; height:340px; border-radius: 10%;">
+                            <div class ="center">
+                                <h6>
+                                    {{ concert.artist }}
+                                    <br>
+                                    {{ concert.venue.venue_name }}, {{ concert.venue.location }}
+                                    <br>
+                                    {{ concert.date }}
+                                    <br>
+                                    {{ concert.start_time }} - {{ concert.end_time }}
+                                    <br>
+                                </h6>
+
+                                <br>
+                                <a href="{% url 'view' concert.concertID %}"><button class="btn btn-outline-info">View</button></a>
+                            </div>
+                        </div>
+                    </div>                          
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <strong>There are currently no concerts with those search fields</strong>
+        {% endif %}     
+        {% endif %}
+    </div>
+    {% endblock %}
