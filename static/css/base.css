@@ -4,8 +4,10 @@ body, html {
 }
 
 .comments {
-  height:250px;
+  height:400px;
   overflow-y: scroll;
+  -moz-scrollbars-vertical;
+
 }
 
 .concert-image {

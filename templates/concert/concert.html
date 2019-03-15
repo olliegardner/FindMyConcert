@@ -113,8 +113,8 @@
 
 
                                             <div class="media-body"> <!-- Comment body starts here -->
-                                                <a href="{ % url 'profile' comment.user.username ‰}"><strong class="text-success">{{comment.user.username}}</strong><a>
-                                                    <p>
+                                                <a href="{ % url 'profile' comment.user.username ‰}"><strong class="text-success">&nbsp;&nbsp;{{comment.user.username}}</strong><a>
+                                                    <p>&nbsp;
                                                         {{ comment.text }}
                                                     </p>
 
@@ -168,8 +168,10 @@
                     //The user will have to relaod to access more fucntions
                     $('<li class="media">').append(
                         $('<a href="#" class="pull-left"><img src="' +data.image+'" class="avatar"></a>'),
-                        $('<div class="media-body"><a href="#"<strong class="text-success">'+data.username +'</strong></a><p>' +$text +'</p>')
-                        ).appendTo('#allcomments');             
+                        $('<div class="media-body"><a href="#"<strong class="text-success">&nbsp;&nbsp;'+data.username +'</strong></a><p>&nbsp;&nbsp;' +$text +'</p>')
+                        ).appendTo('#allcomments');      
+
+                    $('#allcomments').animate({ scrollTop: 10000000000000000 }, 50);       
                 },
 
                 error: function(data) {
