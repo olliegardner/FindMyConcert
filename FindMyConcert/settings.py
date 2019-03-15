@@ -149,11 +149,10 @@ LOGIN_REDIRECT_URL = "/concert/"
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-
-EMAIL_USE_TLS = True
-#EMAIL_USE_SSL = True
 #EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
 EMAIL_HOST_USER = 'findmyconcert.wadproject@gmail.com'
 EMAIL_HOST_PASSWORD = 'bw38k394'
-EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+

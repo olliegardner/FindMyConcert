@@ -84,7 +84,8 @@ class Populate():
             end_time = ir[4],
             url = ir[6],
             description = ir[7],
-            venue = User.objects.get(username=ir[8]).venue
+            venue = User.objects.get(username=ir[8]).venue,
+            spotify_URI = ir[9]
             )
 
             concert.image.save(str(ir[5]), File(open(imgpath, 'rb')))

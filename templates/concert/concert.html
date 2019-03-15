@@ -53,12 +53,21 @@
             <!-- Bootstrap tabs end -->
 
             <div class="tab-content"> <!-- This is where the content for the different tabs are defined -->
+<<<<<<< HEAD
 
                 <div id="spotify" class="tab-pane fade"> <!-- This tab contains a venue description -->
                     <br>
                     <iframe src="https://open.spotify.com/embed/artist/{{concert.spotify_URI}}" width="370" height="500" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
                 </div>
 
+=======
+
+                <div id="spotify" class="tab-pane fade"> <!-- This tab contains a venue description -->
+                    <br>
+                    <iframe src="https://open.spotify.com/embed/artist/{{concert.spotify_URI}}" width="370" height="500" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+                </div>
+
+>>>>>>> a90aafd224bd4dea3f906140f25ce7bc6f1fe89e
                 <div id="venue" class="tab-pane fade"> <!-- This tab contains a venue description -->
                     <br>
                     <h2>{{ concert.venue.venue_name }}</h2>
@@ -110,6 +119,7 @@
                                                 <i class="far fa-user fa-lg"></i>
                                                 {% endif %}
                                             </a> <!-- Handle profile pic and wrap in link to profile -->
+<<<<<<< HEAD
 
 
                                             <div class="media-body"> <!-- Comment body starts here -->
@@ -118,6 +128,16 @@
                                                         {{ comment.text }}
                                                     </p>
 
+=======
+
+
+                                            <div class="media-body"> <!-- Comment body starts here -->
+                                                <a href="{ % url 'profile' comment.user.username ‰}"><strong class="text-success">{{comment.user.username}}</strong><a>
+                                                    <p>
+                                                        {{ comment.text }}
+                                                    </p>
+
+>>>>>>> a90aafd224bd4dea3f906140f25ce7bc6f1fe89e
                                                         <!-- Todo, implement delete
                                                         {% if comment.user.username == user.username %}
                                                         <a href = # class = "text-muted" >Delete</a>
@@ -141,8 +161,17 @@
     </div> 
 
     <script>
+<<<<<<< HEAD
        document.getElementById("postcomment").addEventListener("click", postcomment);
        function postcomment() {
+=======
+
+       document.getElementById("postcomment").addEventListener("click", postcomment);
+
+
+       function postcomment() {
+
+>>>>>>> a90aafd224bd4dea3f906140f25ce7bc6f1fe89e
         //MAake AJAX post request
         $.ajaxSetup({
             headers: { "X-CSRFToken": '{{csrf_token}}' }
@@ -157,6 +186,11 @@
                 var $text = $('#commentbox').val();
                 toastr.success('Comment posted succesfully');
                     $("#commentbox").val(''); //Clear the comment box
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> a90aafd224bd4dea3f906140f25ce7bc6f1fe89e
                     //Next part is a mess, this appens the new comment to the html code
                     //The links are left blank deliberately for the sake of simplicity and time constraints
                     //The user will have to relaod to access more fucntions
@@ -165,12 +199,29 @@
                         $('<div class="media-body"><a href="#"<strong class="text-success">'+data.username +'</strong></a><p>' +$text +'</p>')
                         ).appendTo('#allcomments');             
                 },
+<<<<<<< HEAD
                 error: function(data) {
                     toastr.error('Comment not sent!');
                 }
             });
         
     };
+=======
+
+                error: function(data) {
+                    toastr.error('Comment not sent!');
+                }
+
+
+            });
+
+
+
+        
+    };
+
+
+>>>>>>> a90aafd224bd4dea3f906140f25ce7bc6f1fe89e
 </script>
 
 {% endblock %}

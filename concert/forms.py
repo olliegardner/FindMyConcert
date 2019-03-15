@@ -9,12 +9,22 @@ class GigGoerSignUpForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = User
 
+    field_order = ['username', 'email', 'password1', 'password2', 'image']
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if User.objects.filter(email=email).exists():
+            raise forms.ValidationError("This email already used")
+        return email
+
     def save(self):
         user = super().save(commit=False)
         user.is_venue = False
+        print(self.cleaned_data.get('email'))
+        user.email = self.cleaned_data.get('email')
         user.save()
+
         gigGoer = GigGoer.objects.create(user=user)
-        gigGoer.email = self.cleaned_data.get('email')
         gigGoer.image = self.cleaned_data.get('image')
         gigGoer.save()
 
@@ -33,13 +43,21 @@ class VenueSignUpForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = User
 
+    field_order = ['username', 'email', 'password1', 'password2', 'image', 'venue_name', 'location', 'website', 'description', 'phone_number', 'capacity']
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if User.objects.filter(email=email).exists():
+            raise forms.ValidationError("This email already used")
+        return email
+
     def save(self):
         user = super().save(commit=False)
         user.is_venue = True
+        user.email = self.cleaned_data.get('email')
         user.save()
 
         venue = Venue.objects.create(user=user)
-        venue.email = self.cleaned_data.get('email')
         venue.image = self.cleaned_data.get('image')
         venue.venue_name = self.cleaned_data.get('venue_name')
         venue.location = self.cleaned_data.get('location')
@@ -60,8 +78,9 @@ class LoginForm(forms.Form):
 
 #EDIT FORMS
 class EditGigGoerForm(forms.ModelForm):
-    email = forms.EmailField(required=False)
-    image = forms.ImageField(required=False)
+    email    = forms.EmailField(required=False)
+    image    = forms.ImageField(required=False)
+    password = forms.CharField(required=False, widget=forms.PasswordInput(render_value=False))
 
     class Meta:
         model = GigGoer
@@ -70,12 +89,14 @@ class EditGigGoerForm(forms.ModelForm):
 class EditVenueForm(forms.ModelForm):
     email        = forms.EmailField(required=False)
     image        = forms.ImageField(required=False)
+    password     = forms.CharField(required=False, widget=forms.PasswordInput(render_value=False))
     venue_name   = forms.CharField(max_length=128, required=False) 
     location     = forms.CharField(max_length=128, required=False) 
     website      = forms.URLField(required=False)
     description  = forms.CharField(max_length=560, required=False) 
     phone_number = forms.CharField(max_length=15, required=False) 
     capacity     = forms.IntegerField(required=False)
+
     class Meta:
         model = Venue
         fields = []
