@@ -40,6 +40,7 @@ class Concert(models.Model):
     image       = models.ImageField(upload_to='concert_images', null=True)
     url         = models.URLField()
     description = models.CharField(max_length=560)
+    spotify_URI = models.CharField(max_length=100, null = True)
     venue       = models.ForeignKey(Venue, related_name='concert', on_delete=models.CASCADE)
 
     class Meta():
