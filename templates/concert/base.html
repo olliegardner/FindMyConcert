@@ -22,6 +22,22 @@
         <link rel="stylesheet" type="text/css" href="{% static 'css/toastr.min.css' %}">
         <script src="{% static 'js/toastr.min.js' %}"></script>
 
+        <script type="text/javascript">
+            ImageArray = new Array();
+            ImageArray[0] = 'rock.jpg';
+            ImageArray[1] = 'crowd.jpg';
+            ImageArray[2] = 'lights.jpg';
+            
+
+
+            function getRandomImage() {
+                var num = Math.floor( Math.random() * 11);
+                var img = ImageArray[num];
+                document.getElementById("randImage").innerHTML = ('<img src="' + 'images/' + img + '"')
+
+                }
+        </script>
+
         
     </head>
 
