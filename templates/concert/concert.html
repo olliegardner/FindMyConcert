@@ -13,7 +13,7 @@
             <h1>{{ concert.artist}} at {{ concert.venue.venue_name }}</h1>
             <p>{{ concert.venue.venue_name }} , {{ concert.venue.location }}<br>
             {{ concert.start_time }} - {{ concert.end_time }}   {{ concert.date }}</p>
-            <p><a href="{{ concert.url}}">Tickets</a>  <span class="fa fa-star checked"></span>
+            <p><a href="{{ concert.url}}" target="_blank" >Tickets</a>  <span class="fa fa-star checked"></span>
                 <span class="fa fa-star checked"></span>
                 <span class="fa fa-star checked"></span>
                 <span class="fa fa-star"></span>
@@ -153,7 +153,7 @@
         });
         $.ajax({
             type: 'POST',
-            url:'http://127.0.0.1:8000/api/postcomment/',
+            url:'{% url "postcomment" %}',
             data: {'data':$('#commentbox').val(),'id':'{{concert.concertID}}'},
             credentials: 'include',
             dataType: 'json',
