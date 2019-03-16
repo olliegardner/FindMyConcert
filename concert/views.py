@@ -283,7 +283,7 @@ def postComment(request):
     text = request.POST.get('data')
     concertID = request.POST.get('id')
     if text == "" or text == None:
-        payload = {'success': False}
+        payload = {'success': "False"}
     else:
         concert = get_object_or_404(Concert, concertID=concertID)
         comment = Comment.objects.create(
@@ -295,7 +295,7 @@ def postComment(request):
             image = user.venue.image.url
         else:
             image = user.giggoer.image.url
-        payload = {'success': True, 'username':user.username, 'image':image}
+        payload = {'success': "True", 'username':user.username, 'image':image}
         comment.save()
 
     return HttpResponse(json.dumps(payload), content_type='application/json')

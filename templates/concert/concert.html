@@ -158,6 +158,7 @@
             credentials: 'include',
             dataType: 'json',
             success:function(data){
+                if (data.success == "True") {
                 var $text = $('#commentbox').val();
                 toastr.success('Comment posted succesfully');
                     $("#commentbox").val(''); //Clear the comment box
@@ -171,7 +172,10 @@
                         $('<div class="media-body"><a href="#"<strong class="text-success">&nbsp;&nbsp;'+data.username +'</strong></a><p>&nbsp;&nbsp;' +$text +'</p>')
                         ).appendTo('#allcomments');      
 
-                    $('#allcomments').animate({ scrollTop: 10000000000000000 }, 50);       
+                    $('#allcomments').animate({ scrollTop: 10000000000000000 }, 50);
+                    } else {
+                        toastr.error('Comment not sent!');
+                    }      
                 },
 
                 error: function(data) {
