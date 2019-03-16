@@ -181,12 +181,10 @@ def bookmark(request):
 @login_required
 @giggoer_required
 def removeBookmark(request):
-    print("Starting to remove bookmark")
     concert_to_remove = None
 
     if request.method == 'GET':
         concertid = request.GET['concertid']
-
         concert_to_remove = get_object_or_404(Concert, concertID=concertid)
 
         if concert_to_remove:

@@ -1,0 +1,477 @@
+{% extends 'concert/base.html' %}
+{% load staticfiles %}
+
+{% block title %} {{ block.super }} {% endblock %}
+
+{% block body_block %}
+
+<!-- DON'T MOVE THE STYLE TAG INTO BASE.CSS! IT WILL BREAK SIGN UP PAGE -->
+<style>
+.nav-tabs {
+    display:none;
+}
+
+.form-control-borderless {
+    border: none;
+}
+
+.form-control-borderless:hover, .form-control-borderless:active, .form-control-borderless:focus {
+    border: none;
+    outline: none;
+    box-shadow: none;
+}
+
+.moveup { margin-top: -20px}
+
+@media(min-width:991px) {
+    .nav-tabs {
+        display: flex;
+    }
+    
+    .card {
+        border: none;
+    }
+
+    .card .card-header {
+        display:none;
+    }  
+
+    .card .collapse{
+        display:block;
+    }
+}
+
+@media(max-width:991px){
+    .tab-content > .tab-pane {
+        display: block !important;
+        opacity: 1;
+    }
+}
+
+.concertimage {
+  vertical-align: middle;
+  width:50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+</style>
+
+
+<!-- DON'T MOVE THE STYLE TAG INTO BASE.CSS! IT WILL BREAK SIGN UP PAGE -->
+
+
+
+<div class="container">
+    {% if user.is_authenticated %}
+        <ul id="tabs" class="nav nav-tabs" role="tablist">
+            <li class="nav-item">
+                <a id="tab-A" href="#pane-A" class="nav-link active" data-toggle="tab" role="tab">All Events</a>
+            </li>
+            <li class="nav-item">
+                <a id="tab-B" href="#pane-B" class="nav-link" data-toggle="tab" role="tab">My Upcoming Events</a>
+            </li>
+            <li class="nav-item">
+                <a id="tab-C" href="#pane-C" class="nav-link" data-toggle="tab" role="tab">My Past Events</a>
+            </li>
+        </ul>
+
+
+        <div id="content" class="tab-content" role="tablist">
+            <div id="pane-A" class="card tab-pane fade show active" role="tabpanel" aria-labelledby="tab-A">
+                <div class="card-header" role="tab" id="heading-A">
+                    <h5 class="mb-0">
+                        <a data-toggle="collapse" href="#collapse-A" aria-expanded="true" aria-controls="collapse-A">
+                            All Events
+                        </a>
+                    </h5>
+                </div>
+            
+
+                <div id="collapse-A" class="collapse show" data-parent="#content" role="tabpanel" aria-labelledby="heading-A">
+                    <div class="card-body">
+                        <!-- search form -->
+                        <div class="row justify-content-center moveup">
+                                <div class="col-12 col-md-10 col-lg-8">
+                                    <form class="card card-sm" method="GET" action="">
+                                        <div class="card-body row no-gutters align-items-center">
+                                            <div class="col-auto">
+                                                <i class="fas fa-search h4 text-body"></i>
+                                            </div>
+                                            <!--end of col-->
+                                            <div class="col">
+                                                <input class="form-control form-control-lg form-control-borderless" id="search-concert" type="text" name="q" placeholder="Search Concerts" value="{{ request.GET.q }}">
+                                            </div>
+                                            <!--end of col-->
+                                            <div class="col-auto">
+                                                <button class="btn btn-lg btn-success" type="submit" value="Search">Search</button>
+                                            </div>
+                                            <!--end of col-->
+                                            <div class="col-auto" style="margin-left: 0.5%">
+                                                <button class="btn btn-lg btn-info" type="submit" onclick="document.getElementById('search-concert').value='{{ location.city }}';"><i class="fas fa-location-arrow"></i></button>
+                                            </div>
+                                            <!--end of col-->
+                                        </div>
+                                    </form>
+                                </div>
+                                <!--end of col-->
+                            </div>
+                     
+                        {% if concerts %}
+                            <div class="table-responsive">
+                                <table class="table table-hover" align="center" style="width: 90%">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Image</th>
+                                            <th scope="col">Artist</th>
+                                            <th scope="col">Location</th>
+                                            <th scope="col">Date</th>
+                                            <th scope="col">Time</th>
+                                            <th scope="col">More</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for concert in concerts %}
+                                            <tr>
+                                                <td><img src="{{ concert.image.url }}"class="concertimage"></td>
+                                                <td>{{ concert.artist }}</td>
+                                                <td>{{ concert.venue.venue_name }}, {{ concert.venue.location }}</td>
+                                                <td>{{ concert.date }}</td>
+                                                <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
+                                                <td><a href="{% url 'view' concert.concertID%}">View</a></td>
+
+                                                {% if user.is_authenticated and not user.is_venue %}
+                                                    <td>
+                                                        <button class="btn btn-outline-success" onclick="bookmark({{ concert.concertID }})" >Bookmark</button>
+                                                    </td>
+                                                {% endif %}
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% else %}
+                            <strong>There are currently no concerts with those search fields</strong>
+                        {% endif %} 
+                    </div>
+                </div>
+            </div>
+
+            <div id="pane-B" class="card tab-pane fade" role="tabpanel" aria-labelledby="tab-B">
+                <div class="card-header" role="tab" id="heading-B">
+                    <h5 class="mb-0">
+                        <a class="collapsed" data-toggle="collapse" href="#collapse-B" aria-expanded="false" aria-controls="collapse-B">
+                            My Upcoming Concerts
+                        </a>
+                    </h5>
+                </div>
+
+                <div id="collapse-B" class="collapse" data-parent="#content" role="tabpanel" aria-labelledby="heading-B">
+                    <div class="card-body">
+                        {% if user.is_venue %}
+                            {% if user.venue.concert %}
+                                <div class="table-responsive">
+                                    <table class="table table-hover" align="center" style="width: 90%">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Image</th>
+                                                <th scope="col">Artist</th>
+                                                <th scope="col">Location</th>
+                                                <th scope="col">Date</th>
+                                                <th scope="col">Time</th>
+                                                <th scope="col">More</th>
+                                            </tr>
+                                        </thead>                                        
+                                        <tbody>
+                                            {% for concert in user.venue.concert.all %}
+                                                {% if concert.is_future %}
+                                                    <tr>
+                                                        <td><img src="{{ concert.image.url }}"class="concertimage"></td>
+                                                        <td>{{ concert.artist }}</td>
+                                                        <td>{{ concert.venue.venue_name }} , {{ concert.venue.location }}</td>
+                                                        <td>{{ concert.date }}</td>
+                                                        <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
+                                                        <td><a href="{% url 'view' concert.concertID%}"">View</a></td>
+                                                        <td><a href="{% url 'edit' concert.concertID%}">
+
+                                                            <button class="button button-blue button-bordered btn-primary">
+                                                                <span class="button--inner">Edit</span> </td>
+                                                                
+                                                                <td>
+                                                                    <form action="{% url 'delete' concert.concertID%}" method="post">
+                                                                        {% csrf_token %}
+                                                                        <button class = "btn-danger"type="submit" >Delete</button>
+                                                                    </form>
+                                                                </td>
+                                                            </tr>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            {% endif %}
+                        {% else %}
+                            {% if user.giggoer.bookmarks %}
+                                <div class="table-responsive">
+                                    <table class="table table-hover" align="center" id ="futureevents" style="width: 90%">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Image</th>
+                                                <th scope="col">Artist</th>
+                                                <th scope="col">Location</th>
+                                                <th scope="col">Date</th>
+                                                <th scope="col">Time</th>
+                                                <th scope="col">More</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for concert in user.giggoer.bookmarks.all %}
+                                                {% if concert.is_future %}
+                                                    <tr>
+                                                        <td><img src="{{ concert.image.url }}"class="concertimage"></td>
+                                                        <td>{{ concert.artist }}</td>
+                                                        <td>{{ concert.venue.venue_name }} , {{ concert.venue.location }}</td>
+                                                        <td>{{ concert.date }}</td>
+                                                        <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
+                                                        <td><a href="{% url 'view' concert.concertID%}"">View</a></td>
+
+                                                        <td>
+                                                            <button class="btn btn-outline-danger" onclick = "removebookmark({{ concert.concertID}});hideparent(this);" >Remove Bookmark</button>
+                                                        </td>
+                                                    </tr>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div id="pane-C" class="card tab-pane fade" role="tabpanel" aria-labelledby="tab-C">
+                <div class="card-header" role="tab" id="heading-C">
+                    <h5 class="mb-0">
+                        <a class="collapsed" data-toggle="collapse" href="#collapse-C" aria-expanded="false" aria-controls="collapse-C">
+                            My Past Events
+                        </a>
+                    </h5>
+                </div>
+
+                <div id="collapse-C" class="collapse" role="tabpanel" data-parent="#content" aria-labelledby="heading-C">
+                    <div class="card-body">
+                        {% if user.is_venue %}
+                            {% if user.venue.concert %}
+                                <div class="table-responsive">
+                                    <table class="table table-hover" align="center" style="width: 90%">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Image</th>
+                                                <th scope="col">Artist</th>
+                                                <th scope="col">Location</th>
+                                                <th scope="col">Date</th>
+                                                <th scope="col">Time</th>
+                                                <th scope="col">More</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for concert in user.venue.concert.all %}
+                                                {% if not concert.is_future %}
+                                                    <tr>
+                                                        <td><img src="{{ concert.image.url }}"class="concertimage"></td>
+                                                        <td>{{ concert.artist }}</td>
+                                                        <td>{{ concert.venue.venue_name }} , {{ concert.venue.location }}</td>
+                                                        <td>{{ concert.date }}</td>
+                                                        <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
+                                                        <td><a href="{% url 'view' concert.concertID%}">View</a></td>
+                                                        <td><a href="{% url 'edit' concert.concertID%}">
+
+                                                        <button class="button button-blue button-bordered btn-primary">
+                                                        <span class="button--inner">Edit</span></td>
+
+                                                        <td>
+                                                        <form action="{% url 'delete' concert.concertID%}" method="post">
+                                                        {% csrf_token %}
+                                                        <button type="submit" class="btn-danger">Delete</button>
+                                                        </form>
+                                                        </td>
+                                                    </tr>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>  
+                            {% endif %}
+                        {% else %}
+                            {% if user.giggoer.bookmarks %}
+                                <div class="table-responsive">
+                                    <table class="table table-hover" id = "pastevents" align="center" style="width: 90%">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Image</th>
+                                            <th scope="col">Artist</th>
+                                            <th scope="col">Location</th>
+                                            <th scope="col">Date</th>
+                                            <th scope="col">Time</th>
+                                            <th scope="col">More</th>
+                                        </tr>
+                                    </thead>
+                                        <tbody>
+                                            {% for concert in user.giggoer.bookmarks.all %}
+                                                {% if not concert.is_future %}
+                                                    <tr>
+                                                        <td><img src="{{ concert.image.url }}"class="concertimage"></td>
+                                                        <td>{{ concert.artist }}</td>
+                                                        <td>{{ concert.venue.venue_name }} , {{ concert.venue.location }}</td>
+                                                        <td>{{ concert.date }}</td>
+                                                        <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
+                                                        <td><a href="{% url 'view' concert.concertID%}"">View</a></td>
+
+                                                        <td>
+                                                        <button class="btn btn-danger" onclick="removebookmark('{{ concert.concertID }}');hideparent(this);">Remove Bookmark</button>
+                                                 
+                                                        </td>
+                                                    </tr>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </tbody>
+                                     </table>
+                                </div>
+                            {% else %}
+                                <strong>You have no concerts bookmarked</strong>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        {% if concerts %}
+
+            <div class="row justify-content-center moveup">
+                <div class="col-12 col-md-10 col-lg-8">
+                    <form class="card card-sm" method="GET" action="">
+                        <div class="card-body row no-gutters align-items-center">
+                            <div class="col-auto">
+                                <i class="fas fa-search h4 text-body"></i>
+                            </div>
+                            <!--end of col-->
+                            <div class="col">
+                                <input class="form-control form-control-lg form-control-borderless" id="search-concert" type="text" name="q" placeholder="Search Concerts" value="{{ request.GET.q }}">
+                            </div>
+                            <!--end of col-->
+                            <div class="col-auto">
+                                <button class="btn btn-lg btn-success" type="submit" value="Search">Search</button>
+                            </div>
+                            <!--end of col-->
+                            <div class="col-auto" style="margin-left: 0.5%">
+                                <button class="btn btn-lg btn-info" type="submit" onclick="document.getElementById('search-concert').value='{{ location.city }}';"><i class="fas fa-location-arrow"></i></button>
+                            </div>
+                            <!--end of col-->
+
+                        </div>
+                    </form>
+                </div>
+                <!--end of col-->
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-hover" align="center" style="width: 90%">
+                    <thead>
+                        <tr>
+                            <th scope="col">Image</th>
+                            <th scope="col">Artist</th>
+                            <th scope="col">Location</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Time</th>
+                            <th scope="col">More</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for concert in concerts %}
+                            <tr>
+                                <td><img src="{{ concert.image.url }}"class="concertimage"></td>
+                                <td>{{ concert.artist }}</td>
+                                <td>{{ concert.venue.venue_name }}, {{ concert.venue.location }}</td>
+                                <td>{{ concert.date }}</td>
+                                <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
+                                <td><a href="{% url 'view' concert.concertID%}"">View</a></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <strong>There are currently no concerts with those search fields</strong>
+        {% endif %}
+    {% endif %}
+</div>
+
+
+<script>
+
+    function removebookmark(concertid) {
+        $.get('/concert/removebookmark/', {concertid: concertid});
+        toastr.error('Bookmark removed!');
+    };
+
+    function hideparent(elem) {
+         $(elem).parent().parent().hide();
+    };
+
+    function bookmark(concertid) {
+
+        var $requesturl = 'http://127.0.0.1:8000/api/getconcert/' + concertid;
+        var $button = '<button class="btn btn-outline-danger" onclick = "removebookmark(' +concertid+ ');hideparent(this);" >Remove Bookmark</button';
+        //Now use AJAX to fetch the data for a the concert
+        $.ajax({
+            url: $requesturl ,
+            type: 'GET',
+            async: false,
+            dataType: 'json',
+            
+            success: function(res){
+                //Depending on the date of the conert, append to appropiate table
+
+                var $concerturl ='<a href="{% url "view" 1 %}">View</a>'
+                $concerturl = $concerturl.replace('1',concertid);
+                if (res[0].isfuture == "True") {
+                    $.each(res, function(i, item) {
+                            $('<tr>').append(
+                            $('<td>').html('<img src="' +item.image+'" class="concertimage">'),
+                            $('<td>').text(item.artist),
+                            $('<td>').text(item.venuename + ' , ' + item.location),
+                            $('<td>').text(item.date),
+                            $('<td>').text(item.starttime + ' - ' + item.endtime),
+                            $('<td>').html($concerturl),
+                            $('<td>').html($button)
+                        ).appendTo('#futureevents');
+                    });
+                } else {
+                    $.each(res, function(i, item) {
+                            $('<tr>').append(
+                            $('<td>').html('<img src="' +item.image+'" class="concertimage">'),
+                            $('<td>').text(item.artist),
+                            $('<td>').text(item.venuename + ' , ' + item.location),
+                            $('<td>').text(item.date),
+                            $('<td>').text(item.starttime + ' - ' + item.endtime),
+                            $('<td>').html($concerturl),
+                            $('<td>').html($button)
+                        ).appendTo('#pastevents');
+                    });
+                }
+            }
+        });
+
+        //Start by bookmarking the concert
+        $.get('/concert/bookmark/', {concertid: concertid}); 
+        toastr.success('Concert bookmarked!');
+    };
+    
+</script>
+
+
+{% endblock %}
+
