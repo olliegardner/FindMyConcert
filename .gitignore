@@ -3,4 +3,5 @@ db.sqlite3
 .DS_Store
 media/profile_images/*
 media/venue_images/*
+media/concert_images/*
 concert/migrations/*
