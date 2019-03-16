@@ -2,12 +2,6 @@ from concert.models import Concert
 from bootstrap_datepicker_plus import DatePickerInput, TimePickerInput
 from django import forms
 
-class DateInput(forms.DateInput):
-    input_type = "date"
-
-class TimeInput(forms.TimeInput):
-    input_type = "time"
-
 class ConcertForm(forms.ModelForm):
     artist      = forms.CharField(max_length=128)
     date        = forms.DateField(widget=DatePickerInput(format="%d/%m/%Y"))
