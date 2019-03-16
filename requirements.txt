@@ -2,3 +2,5 @@ bcrypt
 pillow
 django-crispy-forms
 pandas
+django-bootstrap4
+django-bootstrap-datepicker-plus
