@@ -329,7 +329,40 @@
 </div>
 
 {% else %}
-
+ <br>
+      <div class="row">
+       <div class="col-xs-12 col-md-12 col-lg-12">
+         <form method="GET" action="">
+           <div class="row no-gutters align-items-center">
+             <div class="col-auto">
+              <button class="btn btn-lg btn-outline-dark dropdown-toggle" type="button" data-toggle="dropdown"><i class="fas fa-filter"></i></button>
+              <ul class="dropdown-menu" role="menu">
+                <span class="dropdown-item-text">some filters</span>
+                <div class="dropdown-divider"></div>
+                <span class="dropdown-item-text">will go</span>    
+                <div class="dropdown-divider"></div>
+                <span class="dropdown-item-text">here maybe</span>
+            </ul>
+        </div>
+        <!--end of col-->
+        <div class="col">
+         <input class="form-control form-control-lg form-control-borderless" id="search-concert" type="text" name="q" placeholder="Search Events" value="{{ request.GET.q }}">
+     </div>
+     <!--end of col-->
+     <div class="col-auto">
+       <button class="btn btn-lg btn-success" type="submit"><i class="fas fa-search"></i></button>
+   </div>
+   <!--end of col-->
+   <div class="col-auto">
+      <button class="btn btn-lg btn-info" type="submit" onclick="document.getElementById('search-concert').value='{{ location.city }}';"><i class="fas fa-location-arrow"></i></button>
+  </div>
+  <!--end of col-->
+</div>
+</form>
+</div>
+<!--end of col-->
+</div>
+<br>
 {% if concerts %}
 <div class="row">
  {% for concert in concerts %}
