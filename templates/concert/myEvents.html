@@ -60,8 +60,10 @@
 
 <!-- DON'T MOVE THE STYLE TAG INTO BASE.CSS! IT WILL BREAK SIGN UP PAGE -->
 
-
-
+<div class="background" style = " background-image: url({% static 'images/rock.jpg' %}) ">
+<br>
+<br>
+<br>
 <div class="container">
     {% if user.is_authenticated %}
         <ul id="tabs" class="nav nav-tabs" role="tablist">
@@ -406,6 +408,7 @@
             <strong>There are currently no concerts with those search fields</strong>
         {% endif %}
     {% endif %}
+</div>
 </div>
 
 
