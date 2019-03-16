@@ -21,6 +21,33 @@
     <div class="tab-content">
         <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="all-tab">
             <!-- content for all concerts tab -->
+            <!-- search form -->
+            <div class="row justify-content-center moveup">
+                    <div class="col-xs-12 col-md-12 col-lg-12">
+                        <form class="card card-sm" method="GET" action="">
+                            <div class="card-body row no-gutters align-items-center">
+                                <div class="col-auto">
+                                    <i class="fas fa-search h4 text-body"></i>
+                                </div>
+                                <!--end of col-->
+                                <div class="col">
+                                    <input class="form-control form-control-lg form-control-borderless" id="search-concert" type="text" name="q" placeholder="Search Concerts" value="{{ request.GET.q }}">
+                                </div>
+                                <!--end of col-->
+                                <div class="col-auto">
+                                    <button class="btn btn-lg btn-success" type="submit" value="Search">Search</button>
+                                </div>
+                                <!--end of col-->
+                                <div class="col-auto" style="margin-left: 0.5%">
+                                    <button class="btn btn-lg btn-info" type="submit" onclick="document.getElementById('search-concert').value='{{ location.city }}';"><i class="fas fa-location-arrow"></i></button>
+                                </div>
+                                <!--end of col-->
+                            </div>
+                        </form>
+                    </div>
+                    <!--end of col-->
+                </div>
+                <!-- End of search form -->
             {% if concerts %}
             <div class="row">
                 {% for concert in concerts %}
@@ -55,7 +82,7 @@
                                         <br>
                                         <a href="{% url 'view' concert.concertID %}"><button class="btn btn-outline-info">View</button></a>
                                         {% if not user.is_venue %}
-                                        <button class="btn btn-info">Bookmark</button>
+                                        <button class="btn btn-info" onclick="bookmark({{ concert.concertID}})">Bookmark</button>
                                         {% endif %}
                                     </div>
                                 </div>
@@ -132,7 +159,7 @@
                     <div class="row">
                         {% for concert in user.giggoer.bookmarks.all %}
                             {% if concert.is_future %}
-                                <div class="col-xs-12 col-md-6 col-lg-4 mt">
+                                <div class="col-xs-12 col-md-6 col-lg-4 mt" id = "futureevents">
                                     <div class="tile-container">
                                         <div class="tile">
                                             <div class="tile-front" style="background-image: url({{ concert.image.url }}); background-size: cover; background-position: center;">
@@ -161,10 +188,9 @@
                                                         </h6>
 
                                                         <br>
-                                                        <a href="{% url 'view' concert.concertID %}"><button class="btn btn-outline-info">View</button></a>
-                                                        {% if not user.is_authenticated %}
-                                                             <button class="btn btn-outline-danger" onclick = "removebookmark({{ concert.concert}});hideparent(this);" >Remove Bookmark</button>
-                                                        {% endif %}
+                                                        <a href="{% url 'view' concert.concertID %}"><button class="btn btn-outline-info">View</button></a>    
+
+                                                        <button class="btn btn-outline-danger" onclick = "removebookmark({{ concert.concert}});hideparent(this);" >Remove Bookmark</button>
                                                     </div>
                                                 </div>
                                             </div>                          
@@ -330,4 +356,50 @@
         {% endif %}     
     {% endif %}
 </div>
+
+<script>
+
+    function removebookmark(concertid) {
+        $.get('/concert/removebookmark/', {concertid: concertid});
+        toastr.error('Bookmark removed!');
+    };
+
+    function hideparent(elem) {
+         $(elem).parent().parent().parent().parent().parent().hide();
+    };
+
+
+    function bookmark(concertid) {
+
+        var $requesturl = 'http://127.0.0.1:8000/api/getconcert/' + concertid;
+        var $button = '<button class="btn btn-outline-danger" onclick = "removebookmark(' +concertid+ ');hideparent(this);" >Remove Bookmark</button';
+        //Now use AJAX to fetch the data for a the concert
+        $.ajax({
+            url: $requesturl ,
+            type: 'GET',
+            async: false,
+            dataType: 'json',
+            
+            success: function(res){
+                //Depending on the date of the conert, append to appropiate table
+
+                var $concerturl ='<a href="{% url "view" 1 %}">View</a>'
+                $concerturl = $concerturl.replace('1',concertid);
+                $.each(res, function(i, item) {
+                            $('<div>').append('<div class="tile-container"><div class="tile"><div class="tile-front" style="background-image: url( "'+item.image+'""); background-size: cover; background-position: center;"><div class="bottom-left"><p>'+item.artist+'<br>'+item.venue_name+'</p></div></div><div class="tile-back" style=" background-image: url('+item.image+'); background-size: cover; background-position: center;"><div class ="center-white-bg"style="background-color: rgba(256, 256, 256, 0.93);width:100%; height:340px; border-radius: 10%;"> <div class ="center"><h6>'+item.artist+'<br>'+item.venue_name+', '+item.location+'<br>'+item.date+'<br>'+item.start_time+' - '+item.end_time+'<br></h6><br><a href="'+ $concerturl +'"><button class="btn btn-outline-info">View</button></a>{% if not user.is_authenticated %}<button class="btn btn-outline-danger" onclick = "removebookmark('+ concertid+');hideparent(this);" >Remove Bookmark</button>{% endif %}</div></div></div></div></div>'
+                        ).appendTo('#futureevents');
+                    });
+            }
+        });
+
+        //Start by bookmarking the concert
+        $.get('/concert/bookmark/', {concertid: concertid}); 
+        toastr.success('Concert bookmarked!');
+    };
+
+    
+</script>
+
 {% endblock %}
+
+
