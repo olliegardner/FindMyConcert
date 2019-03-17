@@ -31,9 +31,12 @@
                     <i class="fas fa-music" style="padding-right: 3%"></i>
 
                     {% if user.is_authenticated and user.is_venue %}
-                        <a class="navbar-brand" href="{% url 'index'%}"><b>AddMyConcert</b></a>
-                    {% else %}
-                        <a class="navbar-brand" href="{% url 'index'%}"><b>FindMyConcert</b></a> 
+                        <a class="text" href="{% url 'index'%}"><b>AddMyConcert&nbsp;&nbsp;&nbsp;</b></a>
+                    {% else %} <!-- NB; Do not user the navbar-brand class as it can no be overidden, if you want to hide the
+                                link highlight you will have to write your own CSS to mimic the navbar-brand class and which also 
+                                swicthes to white colour at less than 991px screen width //A
+                            -->
+                        <a class="text" href="{% url 'index'%}"><b>FindMyConcert&nbsp;&nbsp;&nbsp;</b></a> 
                     {% endif %}
                 </div>
 
