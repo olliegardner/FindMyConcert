@@ -7,7 +7,7 @@ class ConcertForm(forms.ModelForm):
     date        = forms.DateField(widget=DatePickerInput(format="%d/%m/%Y"))
     start_time  = forms.TimeField(widget=TimePickerInput(format="%H:%M"))
     end_time    = forms.TimeField(widget=TimePickerInput(format="%H:%M"))
-    image       = forms.ImageField(required = False)
+    image       = forms.ImageField()
     url         = forms.URLField()
     description = forms.CharField(max_length=1000)
 

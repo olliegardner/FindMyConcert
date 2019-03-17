@@ -6,6 +6,13 @@
 {% block body_block %}
 
 <style>
+
+          /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #google-map {
+        height: 400px;
+      }
+
     .concert-image { 
         max-width: 100%;
         width : 100%;
@@ -31,7 +38,7 @@ span.line {
             
             <p>{{ concert.venue.venue_name }} , {{ concert.venue.location }}<br>
             {{ concert.start_time }} - {{ concert.end_time }}   {{ concert.date }}</p>
-            <p><a href="{{ concert.url}}" target="_blank" >Tickets</a>  
+            <p><a href="{{ concert.url }}" target="_blank" >Tickets</a>  
                 {% if user.is_authenticated %}
                 {% if not bookmarked %}
                  <button class="btn btn-outline-success navbar-right pull-right" id = "bookmarkbutton" onclick="bookmark({{ concert.concertID }})" >Bookmark</button> 
@@ -92,7 +99,7 @@ span.line {
 
                 <div id="spotify" class="tab-pane fade"> <!-- This tab contains a venue description -->
                     <br>
-                    <iframe src="https://open.spotify.com/embed/artist/{{concert.spotify_URI}}" width="370" height="500" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+                    <iframe src="https://open.spotify.com/embed/artist/{{concert.spotify_URI}}" width="370" height="400" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
                 </div>
 
                 <div id="venue" class="tab-pane fade"> <!-- This tab contains a venue description -->
@@ -169,6 +176,11 @@ span.line {
 
                         </div>
                     </div>
+
+                    <div id="map" class="tab-pane fade show">
+                        <br>
+                        <div id="google-map"></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -177,11 +189,50 @@ span.line {
     </div> 
 
     <script>
+        var map;
+        var service;
+        var infowindow;
+
+        function initMap() {
+            var venue_location = new google.maps.LatLng(-33.867, 151.195);
+            infowindow = new google.maps.InfoWindow();
+            map = new google.maps.Map(document.getElementById('google-map'), {center: venue_location, zoom: 15});
+
+            var request = {
+                query: '{{ concert.venue.venue_name }}, {{ concert.venue.location }}',
+                fields: ['name', 'geometry'],
+            };
+
+            service = new google.maps.places.PlacesService(map);
+
+            service.findPlaceFromQuery(request, function(results, status) {
+                if (status === google.maps.places.PlacesServiceStatus.OK) {
+                    for (var i = 0; i < results.length; i++) {
+                        createMarker(results[i]);
+                    }
+                    map.setCenter(results[0].geometry.location);
+                }
+            });
+        }
+
+        function createMarker(place) {
+            var marker = new google.maps.Marker({
+                map: map,
+                position: place.geometry.location
+            });
+
+            google.maps.event.addListener(marker, 'click', function() {
+                infowindow.setContent(place.name);
+                infowindow.open(map, this);
+            });
+        }
 
         $(document).ready(function() {
             $('html, body').animate({
             'scrollTop' : $("#concert_title").position().top
             });
+
+            
         });
        document.getElementById("postcomment").addEventListener("click", postcomment);
 
@@ -241,5 +292,7 @@ span.line {
     };
 
 </script>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA80wEVfNDR49oTo3yede1S6Nik_Lw6PyY&libraries=places&callback=initMap" async defer></script>
 
 {% endblock %}

@@ -31,7 +31,7 @@ class Venue(models.Model):
 class Concert(models.Model):
     concertID   = models.AutoField(primary_key=True)
     artist      = models.CharField(max_length=128,) 
-    date        = models.DateField(_("Date"))
+    date        = models.DateField()
     start_time  = models.TimeField(_("Start Time"))
     end_time    = models.TimeField(_("End Time"))
     image       = models.ImageField(upload_to='concert_images', null=True)

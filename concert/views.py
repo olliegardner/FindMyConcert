@@ -197,9 +197,10 @@ def viewConcert(request, id):
     loginForm = user_login(request)
     concert = get_object_or_404(Concert, concertID=id)
     bookmark_boolean = False
-    if not request.user.is_venue and not request.user.is_anonymous:
-        if concert in request.user.giggoer.bookmarks.all():
-            bookmark_boolean  = True
+    if request.user.is_authenticated():
+        if not request.user.is_venue and not request.user.is_anonymous:
+            if concert in request.user.giggoer.bookmarks.all():
+                bookmark_boolean  = True
 
     return render(request, 'concert/concert.html', {'concert': concert, 'loginform': loginForm, 'user': request.user, 'bookmarked':
 
