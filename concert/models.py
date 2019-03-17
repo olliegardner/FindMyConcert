@@ -55,11 +55,6 @@ class Concert(models.Model):
 
 
 class Comment(models.Model):
-    rating = models.IntegerField(default=5,
-    validators=[
-        MaxValueValidator(5),
-        MinValueValidator(1)
-        ])
     user        = models.ForeignKey(User, related_name='user', on_delete=models.CASCADE)
     text        = models.CharField(max_length=560, null = True)
     commentID   = models.AutoField(primary_key=True)
@@ -81,3 +76,11 @@ class GigGoer(models.Model):
 
     def __str__(self):
         return self.user.username
+
+
+class Rating(models.Model):
+    ratingID   = models.AutoField(primary_key=True)
+    user       = models.ForeignKey(User, related_name='rating', on_delete=models.CASCADE)
+    concert    = models.ForeignKey(Concert, related_name='rating', on_delete=models.CASCADE)
+    
+

@@ -1,34 +1,29 @@
 {% extends 'concert/base.html' %}
 {% load staticfiles %} 
-
+{% load extra_tags %}
 {% block title_block %} {{ block.super }} {% endblock %}
 
 {% block body_block %}
 
+<style>
+    .concert-image { 
+        max-width: 100%;
+        width : 100%;
+        height: auto;
+        max-height:340px;
+
+}%
+
+
+    }
+</style>
 
 <div class="container">
+    <br>
     <div class="row">
         <div class ="col-lg-6 col-xs-12  col-md-12">
-            <br>
             <h1>{{ concert.artist}} at {{ concert.venue.venue_name }}</h1>
-            <p>{{ concert.venue.venue_name }} , {{ concert.venue.location }}<br>
-            {{ concert.start_time }} - {{ concert.end_time }}   {{ concert.date }}</p>
-            <p><a href="{{ concert.url}}" target="_blank" >Tickets</a>  <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star"></span>
-                <span class="fa fa-star"></span>
-
-                  {% if user.is_authenticated %}
-                  {% if not bookmarked %}
-                 <button class="btn btn-outline-success navbar-right pull-right" id = "bookmarkbutton" onclick="bookmark({{ concert.concertID }})" >Bookmark</button> 
-                 {% else %}
-                 <button class="btn btn-outline-danger navbar-right pull-right" id = "bookmarkbutton" onclick="removebookmark({{ concert.concertID }})" >Remove Bookmark</button> 
-                 {% endif %}
-                 {% endif %}
-            </p>
-
-            <img class = "img-fluid" src="{{ concert.image.url }}">
+            <img class = "concert-image" src="{{ concert.image.url }}">
             <br>
             <br>
             <h2>{{ concert.artist }}  
@@ -41,6 +36,27 @@
 
 
         <div class ="col-lg-6 col-xs-12 col-md-12">
+            <p>{{ concert.venue.venue_name }} , {{ concert.venue.location }}<br>
+            {{ concert.start_time }} - {{ concert.end_time }}   {{ concert.date }}</p>
+            <p><a href="{{ concert.url}}" target="_blank" >Tickets</a><br>  
+                {% enough_ratings concert.concertID as test %}
+                {% if test %}
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star"></span>
+                    <span class="fa fa-star"></span>
+                {% else %}
+                    <span> Not enough ratings <span>
+                {% endif %}
+                {% if user.is_authenticated %}
+                {% if not bookmarked %}
+                 <button class="btn btn-outline-success navbar-right pull-right" id = "bookmarkbutton" onclick="bookmark({{ concert.concertID }})" >Bookmark</button> 
+                 {% else %}
+                 <button class="btn btn-outline-danger navbar-right pull-right" id = "bookmarkbutton" onclick="removebookmark({{ concert.concertID }})" >Remove Bookmark</button> 
+                 {% endif %}
+                 {% endif %}
+            </p>
             <!-- Bootstrap tabs start -->
             <ul class="nav nav-tabs">
 
