@@ -13,7 +13,11 @@
             <h1>{{ concert.artist}} at {{ concert.venue.venue_name }}</h1>
             <p>{{ concert.venue.venue_name }} , {{ concert.venue.location }}<br>
             {{ concert.start_time }} - {{ concert.end_time }}   {{ concert.date }}</p>
+<<<<<<< HEAD
             <p><a href="{{ concert.url}}">Tickets</a>  <span class="fa fa-star checked"></span>
+=======
+            <p><a href="{{ concert.url}}" target="_blank" >Tickets</a>  <span class="fa fa-star checked"></span>
+>>>>>>> 5b5b60d90d0383f0846b1eb1cf21c1075803f333
                 <span class="fa fa-star checked"></span>
                 <span class="fa fa-star checked"></span>
                 <span class="fa fa-star"></span>
@@ -53,12 +57,21 @@
             <!-- Bootstrap tabs end -->
 
             <div class="tab-content"> <!-- This is where the content for the different tabs are defined -->
+<<<<<<< HEAD
 
                 <div id="spotify" class="tab-pane fade"> <!-- This tab contains a venue description -->
                     <br>
                     <iframe src="https://open.spotify.com/embed/artist/{{concert.spotify_URI}}" width="370" height="500" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
                 </div>
 
+=======
+
+                <div id="spotify" class="tab-pane fade"> <!-- This tab contains a venue description -->
+                    <br>
+                    <iframe src="https://open.spotify.com/embed/artist/{{concert.spotify_URI}}" width="370" height="500" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+                </div>
+
+>>>>>>> 5b5b60d90d0383f0846b1eb1cf21c1075803f333
                 <div id="venue" class="tab-pane fade"> <!-- This tab contains a venue description -->
                     <br>
                     <h2>{{ concert.venue.venue_name }}</h2>
@@ -110,6 +123,7 @@
                                                 <i class="far fa-user fa-lg"></i>
                                                 {% endif %}
                                             </a> <!-- Handle profile pic and wrap in link to profile -->
+<<<<<<< HEAD
 
 
                                             <div class="media-body"> <!-- Comment body starts here -->
@@ -131,6 +145,29 @@
                                 </div>
                             </div>
 
+=======
+
+
+                                            <div class="media-body"> <!-- Comment body starts here -->
+                                                <a href="{ % url 'profile' comment.user.username ‰}"><strong class="text-success">&nbsp;&nbsp;{{comment.user.username}}</strong><a>
+                                                    <p>&nbsp;
+                                                        {{ comment.text }}
+                                                    </p>
+
+                                                        <!-- Todo, implement delete
+                                                        {% if comment.user.username == user.username %}
+                                                        <a href = # class = "text-muted" >Delete</a>
+                                                        {% endif %}
+                                                    -->
+                                                </div>
+                                            </li>
+                                            {% endfor %}       
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+>>>>>>> 5b5b60d90d0383f0846b1eb1cf21c1075803f333
                         </div>
                     </div>
                 </div>
@@ -141,27 +178,50 @@
     </div> 
 
     <script>
+<<<<<<< HEAD
        document.getElementById("postcomment").addEventListener("click", postcomment);
        function postcomment() {
+=======
+
+       document.getElementById("postcomment").addEventListener("click", postcomment);
+
+
+       function postcomment() {
+
+>>>>>>> 5b5b60d90d0383f0846b1eb1cf21c1075803f333
         //MAake AJAX post request
         $.ajaxSetup({
             headers: { "X-CSRFToken": '{{csrf_token}}' }
         });
         $.ajax({
             type: 'POST',
+<<<<<<< HEAD
             url:'http://127.0.0.1:8000/api/postcomment/',
+=======
+            url:'{% url "postcomment" %}',
+>>>>>>> 5b5b60d90d0383f0846b1eb1cf21c1075803f333
             data: {'data':$('#commentbox').val(),'id':'{{concert.concertID}}'},
             credentials: 'include',
             dataType: 'json',
             success:function(data){
+<<<<<<< HEAD
                 var $text = $('#commentbox').val();
                 toastr.success('Comment posted succesfully');
                     $("#commentbox").val(''); //Clear the comment box
+=======
+                if (data.success == "True") {
+                var $text = $('#commentbox').val();
+                toastr.success('Comment posted succesfully');
+                    $("#commentbox").val(''); //Clear the comment box
+
+
+>>>>>>> 5b5b60d90d0383f0846b1eb1cf21c1075803f333
                     //Next part is a mess, this appens the new comment to the html code
                     //The links are left blank deliberately for the sake of simplicity and time constraints
                     //The user will have to relaod to access more fucntions
                     $('<li class="media">').append(
                         $('<a href="#" class="pull-left"><img src="' +data.image+'" class="avatar"></a>'),
+<<<<<<< HEAD
                         $('<div class="media-body"><a href="#"<strong class="text-success">'+data.username +'</strong></a><p>' +$text +'</p>')
                         ).appendTo('#allcomments');             
                 },
@@ -171,6 +231,30 @@
             });
         
     };
+=======
+                        $('<div class="media-body"><a href="#"<strong class="text-success">&nbsp;&nbsp;'+data.username +'</strong></a><p>&nbsp;&nbsp;' +$text +'</p>')
+                        ).appendTo('#allcomments');      
+
+                    $('#allcomments').animate({ scrollTop: 10000000000000000 }, 50);
+                    } else {
+                        toastr.error('Comment not sent!');
+                    }      
+                },
+
+                error: function(data) {
+                    toastr.error('Comment not sent!');
+                }
+
+
+            });
+
+
+
+        
+    };
+
+
+>>>>>>> 5b5b60d90d0383f0846b1eb1cf21c1075803f333
 </script>
 
 {% endblock %}

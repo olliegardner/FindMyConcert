@@ -20,17 +20,18 @@ def addConcert(request):
 
     if request.method == 'POST':
         form = ConcertForm(request.POST, request.FILES)
-
+        print(request.FILES)
         if form.is_valid():
             concert = Concert()
-            concert.artist      = form.cleaned_data['artist']
-            concert.date        = form.cleaned_data['date']
-            concert.start_time  = form.cleaned_data['start_time']
-            concert.end_time    = form.cleaned_data['end_time']
-            concert.image       = form.cleaned_data.get('image')
-            concert.url         = form.cleaned_data['url']
-            concert.venue       = request.user.venue
-            concert.description = form.cleaned_data['description']
+            print(form.cleaned_data)
+            concert.artist       = form.cleaned_data['artist']
+            concert.date         = form.cleaned_data['date']
+            concert.start_time   = form.cleaned_data['start_time']
+            concert.end_time     = form.cleaned_data['end_time']
+            concert.image        = form.cleaned_data['image']
+            concert.url          = form.cleaned_data['url']
+            concert.description  = form.cleaned_data['description']
+            concert.venue        = request.user.venue
             concert.save()
 
 

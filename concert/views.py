@@ -1,11 +1,16 @@
-import json
-import urllib.request
+from concert.forms import GigGoerSignUpForm, VenueSignUpForm, EditGigGoerForm, EditVenueForm, LoginForm
+from concert.models import User, Concert, Comment
+from concert.tokens import accountActivationToken
+
+from datetime import datetime
 
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
 from django.core.urlresolvers import reverse
+from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template import RequestContext
@@ -15,19 +20,17 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.views.generic import CreateView
 from django.views.decorators.csrf import requires_csrf_token
 
-
 from FindMyConcert.custom_decorators import giggoer_required
-from concert.forms import GigGoerSignUpForm, VenueSignUpForm, EditGigGoerForm, EditVenueForm, LoginForm
-from concert.models import User, Concert
-from concert.tokens import accountActivationToken
 
+import json
+import urllib.request
 
 @login_required
 def user_logout(request):
     logout(request)
     return HttpResponseRedirect(reverse('index')) # take user back to the index page
 
-def user_login(request):
+def user_login(request): 
     loginForm = LoginForm
 
     if request.method == 'POST':
@@ -55,13 +58,28 @@ def index(request):
 
 def events(request):
     loginForm = user_login(request)
-    concert_list = Concert.objects.order_by('-artist')
+    concert_list = Concert.objects.all()
+    try:
+        location = urllib.request.urlopen("http://ip-api.com/json/")
+        location_json = json.load(location)
+    except:
+        location_json = "Unknown"
 
-    location = urllib.request.urlopen("http://ip-api.com/json/")
-    location_json = json.load(location)
+    query = request.GET.get("q")
+    if query:
+        concert_list = concert_list.filter(
+            Q(artist__icontains=query) |
+            Q(date__icontains=query) |
+            Q(start_time__icontains=query) |
+            Q(end_time__icontains=query) |
+            Q(description__icontains=query) |
+            Q(venue__venue_name__icontains=query) |
+            Q(venue__location__icontains=query)
+            ).distinct()
 
     context_dict = {'concerts': concert_list, 'location': location_json, 'loginform': loginForm}
     return render(request, 'concert/myEvents.html', context_dict)
+
 
 def about(request):
     loginForm = user_login(request)
@@ -156,38 +174,23 @@ def bookmark(request):
     if concertid:
         concert = Concert.objects.get(concertID=int(concertid))
         if concert:
-            if concert in request.user.giggoer.bookmarks.all():
-                pass
-            else:
-                request.user.giggoer.bookmarks.add(concert)
-            
+            request.user.giggoer.bookmarks.add(concert)
     return HttpResponse()
 
 
 @login_required
 @giggoer_required
 def removeBookmark(request):
-
-    print("Starting to remove bookmark")
     concert_to_remove = None
-
 
     if request.method == 'GET':
         concertid = request.GET['concertid']
-
         concert_to_remove = get_object_or_404(Concert, concertID=concertid)
 
         if concert_to_remove:
             request.user.giggoer.bookmarks.remove(concert_to_remove)
-            HttpResponse()  # wherever to go after deleting
-    
-    if (concert_to_remove not in request.user.giggoer.bookmarks.all()):
-        HttpResponse()
 
-    else:
-        print("No POST request") 
-
-    HttpResponse()
+    return HttpResponse()
 
 
 def viewConcert(request, id):
@@ -195,50 +198,123 @@ def viewConcert(request, id):
 	concert = get_object_or_404(Concert, concertID=id)
 	return render(request, 'concert/concert.html', {'concert': concert, 'loginform': loginForm})
 
-@login_required
+
 def profile(request, username):
     loginForm = user_login(request)
-    if (request.user.is_venue):
-        if request.method == 'POST':
-            form = EditVenueForm(request.POST, request.FILES)
-            if form.is_valid():
-                user = request.user
-                #Would it not be nice if python had switch statements?
-                if (form.cleaned_data.get('email') != ""):
-                    user.email = form.cleaned_data.get('email')
-                if (form.cleaned_data.get('image') != None):
-                    user.venue.image = form.cleaned_data.get('image')    
-                if (form.cleaned_data.get('venue_name') != ""):
-                    user.venue.venue_name = form.cleaned_data.get('venue_name')
-                if (form.cleaned_data.get('location') != ""):
-                    user.venue.location = form.cleaned_data.get('location')
-                if (form.cleaned_data.get('website') != ""):
-                    user.venue.website = form.cleaned_data.get('website')
-                if (form.cleaned_data.get('description') != ""):
-                    user.venue.description = form.cleaned_data.get('description')
-                if (form.cleaned_data.get('capacity') != None):
-                    user.venue.capacity = form.cleaned_data.get('capacity')                  
-                user.save()
-                user.venue.save()
-                return render(request, 'concert/profile.html', {'selecteduser': request.user, 'form': EditVenueForm, 'loginform': loginForm})
+    user = User.objects.get(username=username)
+
+    if not request.user.is_anonymous:
+        if request.user.is_venue:
+            if request.method == 'POST':
+                form = EditVenueForm(request.POST, request.FILES)
+                if form.is_valid():
+                    user = request.user
+                    # would it not be nice if python had switch statements?
+                    if (form.cleaned_data.get('email') != ""):
+                        user.email = form.cleaned_data.get('email')
+                    if (form.cleaned_data.get('image') != None):
+                        user.venue.image = form.cleaned_data.get('image')
+                    if (form.cleaned_data.get('password') != ""):
+                        user.venue.password = form.cleaned_data.get('password')
+                    if (form.cleaned_data.get('venue_name') != ""):
+                        user.venue.venue_name = form.cleaned_data.get('venue_name')
+                    if (form.cleaned_data.get('location') != ""):
+                        user.venue.location = form.cleaned_data.get('location')
+                    if (form.cleaned_data.get('website') != ""):
+                        user.venue.website = form.cleaned_data.get('website')
+                    if (form.cleaned_data.get('description') != ""):
+                        user.venue.description = form.cleaned_data.get('description')
+                    if (form.cleaned_data.get('capacity') != None):
+                        user.venue.capacity = form.cleaned_data.get('capacity')                  
+                    user.save()
+                    user.venue.save()
+                    return render(request, 'concert/profile.html', {'selecteduser': request.user, 'form': EditVenueForm, 'loginform': loginForm})
+            else:
+                form = EditVenueForm
         else:
-            form = EditVenueForm
+            if request.method == 'POST':
+                form = EditGigGoerForm(request.POST, request.FILES)
+                if form.is_valid():
+                    user = request.user
+                    if (form.cleaned_data.get('email') != ""):
+                        user.email = form.cleaned_data.get('email')
+                    if (form.cleaned_data.get('image') != None):
+                        user.giggoer.image = form.cleaned_data.get('image')
+                    if (form.cleaned_data.get('password') != ""):
+                        user.giggoer.password = form.cleaned_data.get('password')
+                    user.giggoer.save()
+                    user.save()  
+                    return render(request, 'concert/profile.html', {'selecteduser': request.user, 'form': EditGigGoerForm, 'loginform': loginForm})
+            else:
+                form = EditGigGoerForm
+
+        return render(request, 'concert/profile.html', {'form': form, 'selecteduser': request.user, 'loginform': loginForm})
+
+    return render(request, 'concert/profile.html', {'selecteduser': user, 'loginform': loginForm}) 
+
+
+# this lets the events view to dynamically add a concert each time one is bookmarked
+def getConcert(request ,id):
+    concert = get_object_or_404(Concert, concertID=id)
+    if concert in request.user.giggoer.bookmarks.all():
+        return HttpResponse()
+    results = []
+    concert_json = {}
+    concert_json['artist']     = concert.artist
+    concert_json['isfuture']   = str(concert.is_future())
+    concert_json['venuename']  = concert.venue.venue_name
+    concert_json['date']       = str(concert.date.strftime('%B %-d, %Y'))
+    concert_json['starttime']  = str(concert.start_time.strftime('%-I %p'))
+
+    concert_json['endtime']    = str(concert.end_time.strftime('%-I %p'))
+    concert_json['location']   = concert.venue.location
+    concert_json['url']        = concert.url
+    concert_json['id']         = concert.concertID
+    concert_json['image']      = concert.image.url
+    results.append(concert_json)
+    data = json.dumps(results)
+    print(concert_json)
+    mimetype = 'application/json'
+    return HttpResponse(data, mimetype)    
+
+@requires_csrf_token
+def postComment(request):
+    user = request.user
+    text = request.POST.get('data')
+    concertID = request.POST.get('id')
+    if text == "" or text == None:
+        payload = {'success': "False"}
     else:
-        if request.method == 'POST':
-            form = EditGigGoerForm(request.POST, request.FILES)
-            if form.is_valid():
-                user = request.user
-                if (form.cleaned_data.get('email') != ""):
-                    user.email = form.cleaned_data.get('email')
-                if (form.cleaned_data.get('image') != None):
-                    user.giggoer.image = form.cleaned_data.get('image')
-                user.giggoer.save()
-                user.save()  
-                return render(request, 'concert/profile.html', {'selecteduser': request.user, 'form': EditGigGoerForm, 'loginform': loginForm})
+        concert = get_object_or_404(Concert, concertID=concertID)
+        comment = Comment.objects.create(
+            user = user,
+            text = text,
+            concert = concert,
+            time = datetime.now())
+        if user.is_venue:
+            image = user.venue.image.url
         else:
-            form = EditGigGoerForm
+            image = user.giggoer.image.url
+        payload = {'success': "True", 'username':user.username, 'image':image}
+        comment.save()
 
-    return render(request, 'concert/profile.html', {'form': form, 'selecteduser': request.user, 'loginform': loginForm})
+    return HttpResponse(json.dumps(payload), content_type='application/json')
 
+# PASSWORD RESET VIEWS
+'''def password_reset(request):
+    loginForm = user_login(request)
+    return render(request, 'registration/password_reset_form.html', {'loginform': loginForm})
+
+def password_reset_complete(request):
+    loginForm = user_login(request)
+    return render(request, 'registration/password_reset_complete.html', {'loginform': loginForm})
+
+def password_reset_confirm(request):
+    loginForm = user_login(request)
+    return render(request, 'registration/password_reset_confirm.html', {'loginform': loginForm})
+
+def password_reset_done(request):
+    loginForm = user_login(request)
+    return render(request, 'registration/password_reset_done.html', {'loginform': loginForm})'''
 
 

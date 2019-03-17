@@ -3,12 +3,26 @@ body, html {
     margin: 0;
 }
 
+.comments {
+  height:400px;
+  overflow-y: scroll;
+  -moz-scrollbars-vertical;
+
+}
+
+.concert-image {
+  vertical-align: middle;
+  width: 50%;
+  height: 300px;
+  object-fit: cover;
+}
 
 .avatar {
   vertical-align: middle;
   width: 35px;
   height: 35px;
   border-radius: 50%;
+  object-fit: cover;
 }
 
 .navbar {
@@ -16,9 +30,13 @@ body, html {
 
 }
 
+.checked {
+  color: orange;
+}
+ 
 .text {
-        color: black;
-    }
+    color: black;
+}
 
 .navbar-light .navbar-toggler-icon {
     background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(256,256,256, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
@@ -35,7 +53,6 @@ body, html {
         opacity: 0.9;
 
     }
-
     .navbar-nav{
         color: white;
     }

@@ -24,7 +24,6 @@ urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^concert/', include('concert.urls')),
     url(r'^venues/' , include('venues.urls')),
-   
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/$', views.index),  #Override accounts
     url(r'^accounts/logout/$', views.user_logout, name='logout'),
@@ -33,4 +32,15 @@ urlpatterns = [
     url(r'^activate/(?P<uidenc>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', views.activate, name='activate'),
     url(r'^accounts/confirmation_needed/$', views.confirmation, name='confirmation_needed'),
     url(r'^accounts/account_activated/$', views.success, name='account_activated'),
+    url(r'^api/getconcert/(?P<id>\d+)/', views.getConcert, name='getconcert'),
+    url(r'^api/postcomment/', views.postComment, name='postcomment'),
+    url(r'^password_reset/$', auth_views.password_reset, name='password_reset'),
+    url(r'^password_reset/done/$', auth_views.password_reset_done, name='password_reset_done'),
+    url(r'^reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', auth_views.password_reset_confirm, name='password_reset_confirm'),
+    url(r'^reset/done/$', auth_views.password_reset_complete, name='password_reset_complete'),
+    url(r'^accounts/password_reset/$', auth_views.password_reset, name='password_reset'),
+    url(r'^accounts/password_reset/done/$', auth_views.password_reset_done, name='password_reset_done'),
+    url(r'^accounts/reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', auth_views.password_reset_confirm, name='password_reset_confirm'),
+    url(r'^accounts/reset/done/$', auth_views.password_reset_complete, name='password_reset_complete'),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) 

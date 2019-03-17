@@ -27,7 +27,7 @@ SECRET_KEY = '5479bo7nzc=#3r-38+kjk-4u1($0%cocvd$o8va9$ejlj1#d57'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['f4ee591d.ngrok.io', '127.0.0.1']
 
 
 # Application definition
@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'concert',
     'venues',
     'crispy_forms',
-
+    'bootstrap_datepicker_plus',
 ]
 
 MIDDLEWARE = [
@@ -149,11 +149,10 @@ LOGIN_REDIRECT_URL = "/concert/"
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-
-EMAIL_USE_TLS = True
-#EMAIL_USE_SSL = True
 #EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
 EMAIL_HOST_USER = 'findmyconcert.wadproject@gmail.com'
 EMAIL_HOST_PASSWORD = 'bw38k394'
-EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
