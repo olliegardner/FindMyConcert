@@ -6,7 +6,7 @@
     <div class="container">
         <br>
  
-        {% if selecteduser.username == user.username%}
+        {% if selecteduser.username == user.username %}
             <h1 class="display-4">Your Profile</h1>
             <p class="lead">Edit your profile here</p>
         {% else %}
@@ -44,16 +44,21 @@
             <div class="col-lg-8">
                 <div class="tab-content" id="v-pills-tabContent">
                     <div class="tab-pane fade show active" id="v-pills-activity" role="tabpanel" aria-labelledby="v-pills-activity-tab">
-                        <div class="panel-group" id="faqAccordion">
-                            <div class="panel panel-default ">
+                        <div class="panel-group" id="events-accordion">
+                            <div class="panel panel-default">
                                 <h2>Activity</h2>
- 
- 
- 
-                                <div class="panel-heading accordion-toggle question-toggle collapsed" data-toggle="collapse" data-parent="#faqAccordion" data-target="#question0">
+                                <p class="lead">Discover the events</p>
+
+                                {% if selecteduser.username == user.username %}
+        {% else %}
+            <p class="lead">Discover other user's just like you</p>
+        {% endif %}
+
+                                <div class="panel-heading accordion-toggle collapsed" data-toggle="collapse" data-parent="#events-accordion" data-target="#upcoming">
                                     <h4 class="panel-title">Upcoming Events <span class="badge badge-secondary">3</span></h4>
                                 </div>
-                                <div id="question0" class="panel-collapse collapse" style="height: 0px;">
+
+                                <div id="upcoming" class="panel-collapse collapse" style="height: 0px;">
                                     <div class="panel-body">
                                         <h5><span class="label label-primary">Answer</span></h5>
  
@@ -63,11 +68,11 @@
                                 </div>
                             </div>
  
-                            <div class="panel panel-default ">
-                                <div class="panel-heading accordion-toggle question-toggle collapsed" data-toggle="collapse" data-parent="#faqAccordion" data-target="#question1">
+                            <div class="panel panel-default">
+                                <div class="panel-heading accordion-toggle collapsed" data-toggle="collapse" data-parent="#events-accordion" data-target="#past">
                                     <h4 class="panel-title">Past Events <span class="badge badge-secondary">7</span></h4>
                                 </div>
-                                <div id="question1" class="panel-collapse collapse" style="height: 0px;">
+                                <div id="past" class="panel-collapse collapse" style="height: 0px;">
                                     <div class="panel-body">
                                         <h5><span class="label label-primary">Answer</span></h5>
  
