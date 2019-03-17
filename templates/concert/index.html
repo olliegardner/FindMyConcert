@@ -8,11 +8,11 @@
         <img src="{% static 'images/concert.jpg' %}" class="background-cover">
 
         {% if user.is_authenticated and user.is_venue %}
-        <a href="{% url 'add-concert' %}" id="box"> 
+        <a href="{% url 'events' %}" id="box"> 
             
         </a>
 
-        <a href="{% url 'add-concert' %}" id="title"> 
+        <a href="{% url 'events' %}" id="title"> 
         <h1 id ="title">AddMyConcert</h1>
         </a>
 
