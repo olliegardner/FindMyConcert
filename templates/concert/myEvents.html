@@ -5,7 +5,7 @@
 
 {% block body_block %}
 <div class="container">
-  <h1 class="display-4">Events</h1>
+  <h1 class="display-4" id = "events_title">Events</h1>
   <p class="lead">View all of the events going on around you</p>
   <br>
 
@@ -409,6 +409,13 @@
 
 <script>
 
+    $(document).ready(function() {
+            $('html, body').animate({
+            'scrollTop' : $("#events_title").position().top
+            });
+        });
+
+
     function removebookmark(concertid) {
       $.get('/concert/removebookmark/', {concertid: concertid});
       toastr.error('Bookmark removed!');
@@ -450,7 +457,6 @@
         $.get('/concert/bookmark/', {concertid: concertid}); 
         toastr.success('Concert bookmarked!');
 
-        //Start by bookmarking the concert
     };
 
 </script>
