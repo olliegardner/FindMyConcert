@@ -17,7 +17,16 @@
                 <span class="fa fa-star checked"></span>
                 <span class="fa fa-star checked"></span>
                 <span class="fa fa-star"></span>
-                <span class="fa fa-star"></span> <button class="btn btn-outline-success navbar-right pull-right" onclick="bookmark({{ concert.concertID }})" >Bookmark</button></p>
+                <span class="fa fa-star"></span>
+
+                  {% if user.is_authenticated %}
+                  {% if not bookmarked %}
+                 <button class="btn btn-outline-success navbar-right pull-right" id = "bookmarkbutton" onclick="bookmark({{ concert.concertID }})" >Bookmark</button> 
+                 {% else %}
+                 <button class="btn btn-outline-danger navbar-right pull-right" id = "bookmarkbutton" onclick="removebookmark({{ concert.concertID }})" >Remove Bookmark</button> 
+                 {% endif %}
+                 {% endif %}
+            </p>
 
             <img class = "img-fluid" src="{{ concert.image.url }}">
             <br>
@@ -180,17 +189,24 @@
 
                 error: function(data) {
                     toastr.error('Comment not sent!');
-                }
-
-
-            });
-
-
-
-        
+            }
+        });   
     };
+    $("#click-button").on('click', firstClick)
 
+    function removebookmark(concertid) {
+      $.get('/concert/removebookmark/', {concertid: concertid});
+      toastr.error('Bookmark removed!');
+      $('#bookmarkbutton').replaceWith('<button class="btn btn-outline-success navbar-right pull-right" id = "bookmarkbutton" onclick="bookmark({{ concert.concertID }})" >Bookmark</button></p>')
+  };
 
+    function bookmark(concertid) {
+        $.get('/concert/bookmark/', {concertid: concertid}); 
+        toastr.success('Concert bookmarked!');
+        $('#bookmarkbutton').replaceWith('<button class="btn btn-outline-danger navbar-right pull-right" id = "bookmarkbutton" onclick="removebookmark({{ concert.concertID }})" >Remove Bookmark</button></p>')
+
+        //Start by bookmarking the concert
+    };
 </script>
 
 {% endblock %}

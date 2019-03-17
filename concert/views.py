@@ -194,9 +194,16 @@ def removeBookmark(request):
 
 
 def viewConcert(request, id):
-	loginForm = user_login(request)
-	concert = get_object_or_404(Concert, concertID=id)
-	return render(request, 'concert/concert.html', {'concert': concert, 'loginform': loginForm})
+    loginForm = user_login(request)
+    concert = get_object_or_404(Concert, concertID=id)
+    bookmark_boolean = False
+    if not request.user.is_venue and not request.user.is_anonymous:
+        if concert in request.user.giggoer.bookmarks.all():
+            bookmark_boolean  = True
+
+    return render(request, 'concert/concert.html', {'concert': concert, 'loginform': loginForm, 'user': request.user, 'bookmarked':
+
+     bookmark_boolean})
 
 
 def profile(request, username):
