@@ -13,10 +13,9 @@
         }
 
         .center {
-            text-align: center;
             position: absolute;
-            top: 25%;
-            left: 10%;
+            top: 40%;
+            left: 35%;
         }
     </style>
 
@@ -94,18 +93,7 @@
                                                                     <div class="tile-back" style=" background-image: url({{ concert.image.url }}); background-size: cover; background-position: center;">
                                                                         <div class ="center-white-bg"style="background-color: rgba(256, 256, 256, 0.93);width:100%; height:200px; border-radius: 10%;">
                                                                             <div class ="center">
-                                                                                <h6>
-                                                                                    {{ concert.artist }}
-                                                                                    <br>
-                                                                                    {{ concert.venue.venue_name }}
-                                                                                    <br>
-                                                                                    {{ concert.venue.location }}
-                                                                                    <br>
-                                                                                    {{ concert.date }}
-                                                                                    <br>
-                                                                                    {{ concert.start_time }} - {{ concert.end_time }}
-                                                                                </h6>
-                                                                                <a href="{% url 'view' concert.concertID %}"><button class="btn btn-outline-dark">View</button></a>
+                                                                                <a href="{% url 'view' concert.concertID %}"><button class="btn btn-outline-info">View</button></a>
                                                                             </div>
                                                                         </div>
                                                                     </div>                          
@@ -147,18 +135,7 @@
                                                                     <div class="tile-back" style=" background-image: url({{ concert.image.url }}); background-size: cover; background-position: center;">
                                                                         <div class ="center-white-bg"style="background-color: rgba(256, 256, 256, 0.93);width:100%; height:200px; border-radius: 10%;">
                                                                             <div class ="center">
-                                                                                <h6>
-                                                                                    {{ concert.artist }}
-                                                                                    <br>
-                                                                                    {{ concert.venue.venue_name }}
-                                                                                    <br>
-                                                                                    {{ concert.venue.location }}
-                                                                                    <br>
-                                                                                    {{ concert.date }}
-                                                                                    <br>
-                                                                                    {{ concert.start_time }} - {{ concert.end_time }}
-                                                                                </h6>
-                                                                                <a href="{% url 'view' concert.concertID %}"><button class="btn btn-outline-dark">View</button></a>
+                                                                                <a href="{% url 'view' concert.concertID %}"><button class="btn btn-outline-info">View</button></a>
                                                                             </div>
                                                                         </div>
                                                                     </div>                          
