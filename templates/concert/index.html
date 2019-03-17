@@ -4,7 +4,7 @@
 {% block title_block %} {{ block.super }} {% endblock %}
 
 {% block body_block %}
-    <div class="background_custom">
+    <div class="background">
         <img src="{% static 'images/concert.jpg' %}" class="background-cover">
 
         {% if user.is_authenticated and user.is_venue %}

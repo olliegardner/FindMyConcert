@@ -3,27 +3,17 @@ body, html {
     margin: 0;
 }
 
-<<<<<<< HEAD
+
 .faq {
     z-index: 10 !important;
     background-color: white;
 }
 
-
-
-
-
-
-.comments {
-  height:250px;
-  overflow-y: scroll;
-=======
 .comments {
   height:400px;
   overflow-y: scroll;
   -moz-scrollbars-vertical;
 
->>>>>>> master
 }
 
 .concert-image {
@@ -98,7 +88,7 @@ nav .navbar-nav li a{
 
 
 
-.background_custom {
+.background {
     width: 100%; 
     height: 100%; 
     position: fixed; 
@@ -112,7 +102,8 @@ nav .navbar-nav li a{
 
 .background-cover {
   object-fit: cover;
-  position: fixed; bottom: 0px; width: 100%; 
+  width: 100%;
+  height: 100%;
 }
 
 .random_background {

@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html>
 {% load staticfiles %} 
 {% load crispy_forms_tags %}
@@ -40,51 +39,7 @@
         };
     </script>
 
-<<<<<<< HEAD
-    
-</head>
-
-<body onload = 'getRandomImage()'>
-    
-    <!-- NAVBAR START -->
-    <div class="navbar-container line text size">
-        <nav class="navbar navbar-expand-lg navbar-light navbar-trans nav-colour-collapsed ">
-            <div class="line .col-xs-10 ">
-                <i class="fas fa-music" style="padding-right: 3%"></i>
-=======
-        <meta name="viewport" content="width=device-width, initial-scale=1">   <!-- Device width -->
-
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> <!-- Twitter Bootstrap 4 -->
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"> <!-- Public domain icons -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> <!-- AJAX -->
-        {{ form.media }} <!-- Bootstrap DateTimePicker -->
-
-        <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'css/tables.css' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'css/tiles.css' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'css/search.css' %}">
->>>>>>> master
-
-                {% if user.is_authenticated and user.is_venue %}
-                <a class="text" href="{% url 'index'%}"><b>AddMyConcert&nbsp;&nbsp;&nbsp;</b></a>
-                {% else %}
-                <a class="text" href="{% url 'index'%}"><b>FindMyConcert&nbsp;&nbsp;&nbsp;</b></a> 
-                {% endif %}
-            </div>
-
-<<<<<<< HEAD
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav col-md-8">
-                    <li class="nav-item"><a class="nav-link" href="{% url 'events'%}">Events</a></li>
-
-                    {% if user.is_authenticated and user.is_venue %}
-                    <li class="nav-item"><a class="nav-link" href="{% url 'add-concert'%}">Add Concert</a></li>
-=======
-    <body>
+    <body onload = 'getRandomImage()'>
         
         <!-- NAVBAR START -->
         <div class="navbar-container line text size">
@@ -96,53 +51,9 @@
                         <a class="navbar-brand" href="{% url 'index'%}"><b>AddMyConcert</b></a>
                     {% else %}
                         <a class="navbar-brand" href="{% url 'index'%}"><b>FindMyConcert</b></a> 
->>>>>>> master
                     {% endif %}
+                </div>
 
-<<<<<<< HEAD
-                    <li class="nav-item"><a class="nav-link" href="{% url 'about'%}">About</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'contact'%}">Contact</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'faq'%}">FAQ</a></li>
-                </ul>
-
-                <div class="col-md-4">
-                    {% if user.is_authenticated %}
-                    <div class="dropdown navbar-right">
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                            {% if user.is_venue and user.venue.image != "" %}
-                            <img src="{{ user.venue.image.url }}" alt="Avatar" class="avatar">
-                            {% elif not user.is_venue and user.giggoer.image != "" %}
-                            <img src="{{ user.giggoer.image.url }}" alt="Avatar" class="avatar">
-                            {% else %}
-                            <i class="far fa-user fa-lg"></i>
-                            {% endif %}
-                            
-                            <span class="caret"></span>
-                        </button>
-
-                        <div class="dropdown-menu dropdown-menu-right">
-                            <span class="dropdown-item-text">Signed in as</span>
-                            <b><span class="dropdown-item-text">{{ user.username }}</span></b>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{% url 'profile' user.username %}">Your profile</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{% url 'logout' %}">Sign out</a>
-                        </div>
-                    </div>
-
-                    {% else %}
-                    <a class="dropdown-toggle btn btn-primary-outline navbar-right text" href="#" data-toggle="dropdown" role="button">Sign in</a>
-
-                    <div class="dropdown-menu dropdown-menu-right">
-                        <form class="px-4 py-3" method="post" novalidate enctype="multipart/form-data">
-                            {% csrf_token %}
-                            {{ loginform|crispy }}
-                            <input class="btn btn-success" type="submit" name="submit_login" value="Sign in">
-                        </form>
-
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{% url 'password_reset' %}">Forgot password?</a>
-=======
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
                 </button>
@@ -201,40 +112,22 @@
 
                             <a href="{% url 'signup-choose' %}" class="btn btn-primary-outline navbar-right text" role="button">Sign up</a>
                         {% endif %}
->>>>>>> master
                     </div>
-
-                    <a href="{% url 'signup-choose' %}" class="btn btn-primary-outline navbar-right text" role="button">Sign up</a>
-                    {% endif %}
                 </div>
-            </div>
-        </nav>
-    </div>
+            </nav>
+        </div>
 
-<<<<<<< HEAD
-    <!-- NAVBAR END -->
-=======
         <!-- NAVBAR END -->
 
         <div>
             {% block body_block %}
->>>>>>> master
 
-    <div>
-        {% block body_block %}
+            {% endblock %}
+        </div>
 
-        {% endblock %}
-    </div>
 
-<<<<<<< HEAD
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-</body> 
-=======
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script> <!-- JS cookie library for csrf tokens-->
     </body> 
->>>>>>> master
 </html>
