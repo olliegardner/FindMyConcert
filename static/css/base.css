@@ -90,7 +90,7 @@ nav .navbar-nav li a{
 
 
 
-.background {
+.background_custom {
     width: 100%; 
     height: 100%; 
     position: fixed; 
@@ -104,10 +104,17 @@ nav .navbar-nav li a{
 
 .background-cover {
   object-fit: cover;
-  width: 100%;
-  height: 100%;
+  position: fixed; bottom: 0px; width: 100%; 
 }
 
+.random_background {
+    object-fit: cover;
+    background-repeat: no-repeat !important;
+    top: 0px; 
+    width: 100%;
+    height: 100%;
+    background-attachment: fixed
+}
 #title {
     opacity: 1;
     z-index: 7;
