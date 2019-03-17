@@ -35,19 +35,18 @@ span.line {
     <h1 id="concert_title"> {{ concert.artist}} at {{ concert.venue.venue_name }}</h1>
     <div class="row">
         <div class ="col-lg-6 col-xs-12  col-md-12">
-            
-            <p>{{ concert.venue.venue_name }} , {{ concert.venue.location }}<br>
-            {{ concert.start_time }} - {{ concert.end_time }}   {{ concert.date }}</p>
-            <p><a href="{{ concert.url }}" target="_blank" >Tickets</a>  
+        
+            <p>{{ concert.venue.venue_name }} , {{ concert.venue.location }}<br>{{ concert.start_time }} - {{ concert.end_time }}   {{ concert.date }}</p>
+            <p>
+                <a href="{{ concert.url }}" target="_blank" >Tickets</a>  
                 {% if user.is_authenticated %}
-                {% if not bookmarked %}
-                 <button class="btn btn-outline-success navbar-right pull-right" id = "bookmarkbutton" onclick="bookmark({{ concert.concertID }})" >Bookmark</button> 
-                 {% else %}
-                 <button class="btn btn-outline-danger navbar-right pull-right" id = "bookmarkbutton" onclick="removebookmark({{ concert.concertID }})" >Remove Bookmark</button> 
-                 {% endif %}
-                 {% endif %}
+                    {% if not bookmarked %}
+                        <button class="btn btn-outline-success navbar-right pull-right" id = "bookmarkbutton" onclick="bookmark({{ concert.concertID }})" >Bookmark</button> 
+                    {% else %}
+                        <button class="btn btn-outline-danger navbar-right pull-right" id = "bookmarkbutton" onclick="removebookmark({{ concert.concertID }})" >Remove Bookmark</button> 
+                    {% endif %}
+                {% endif %}
             </p>
-
             <img class = "concert-image" src="{{ concert.image.url }}">
             <br>
             <br>
@@ -66,7 +65,6 @@ span.line {
             <p>{{ concert.description }}</p>
             <br>
             <br>
-
         </div>
 
 
@@ -124,69 +122,51 @@ span.line {
                     <br>
                     <h2> Comments</h2>
                     <div class="col-md-6 col-md-offset-2 col-sm-12 col-lg-12">
-                        <div>
-                            <div class="panel panel-info">
-                                <div class="panel-heading">
-                                </div>
-                                <div class="panel-body"> 
-                                    <!-- Comment input area start -->
-                                    {% if user.is_authenticated %}
-                                    <form method="post">{% csrf_token %}
-                                        <textarea id = "commentbox" class="form-control" placeholder="write a comment..." rows="3"></textarea>
-                                        <br>
-                                        <button type="button" class="btn btn-info pull-right" id = "postcomment" >Post</button>
-                                        <hr>
-                                    </form>
-                                    {% endif %}
-                                    <!-- Comment input are end --> 
+                        <!-- Comment input area start -->
+                        {% if user.is_authenticated %}
+                            <form method="post">{% csrf_token %}
+                                <textarea id = "commentbox" class="form-control" placeholder="write a comment..." rows="3"></textarea>
+                                <br>
+                                <button type="button" class="btn btn-info pull-right" id = "postcomment" >Post</button>
+                            </form>
+                        {% endif %}
+                        <hr>
+                        <!-- Comment input area end --> 
 
-                                    <!-- Section for all the comments, show all comments associated with this conncert -->
-                                    <ul class = "comments" id ="allcomments">
-                                        {% for comment in concert.comment.all%}
-                                        <li class="media">
-                                            <a href="{ % url 'profile' comment.user.username‰}" class="pull-left">
-                                                {% if comment.user.is_venue and comment.user.venue.image != "" %}
-                                                <img src="{{ comment.user.venue.image.url }}" alt="Avatar" class="avatar">
-                                                {% elif not comment.user.is_venue and comment.user.giggoer.image != "" %}
-                                                <img src="{{comment.user.giggoer.image.url }}" alt="Avatar" class="avatar">
-                                                {% else %}
-                                                <i class="far fa-user fa-lg"></i>
-                                                {% endif %}
-                                            </a> <!-- Handle profile pic and wrap in link to profile -->
+                        <!-- Section for all the comments, show all comments associated with this conncert -->
+                        <ul class = "comments" id ="allcomments">
+                            {% for comment in concert.comment.all%}
+                                <li class="media">
+                                    <a href="{ % url 'profile' comment.user.username‰}" class="pull-left">
+                                        {% if comment.user.is_venue and comment.user.venue.image != "" %}
+                                            <img src="{{ comment.user.venue.image.url }}" alt="Avatar" class="avatar">
+                                        {% elif not comment.user.is_venue and comment.user.giggoer.image != "" %}
+                                            <img src="{{comment.user.giggoer.image.url }}" alt="Avatar" class="avatar">
+                                        {% else %}
+                                            <i class="far fa-user fa-lg"></i>
+                                        {% endif %}
+                                    </a> <!-- Handle profile pic and wrap in link to profile -->
 
 
-                                            <div class="media-body"> <!-- Comment body starts here -->
-                                                <a href="{ % url 'profile' comment.user.username ‰}"><strong class="text-success">&nbsp;&nbsp;{{comment.user.username}}</strong><a>
-                                                    <p>&nbsp;
-                                                        {{ comment.text }}
-                                                    </p>
-
-                                                        <!-- Todo, implement delete
-                                                        {% if comment.user.username == user.username %}
-                                                        <a href = # class = "text-muted" >Delete</a>
-                                                        {% endif %}
-                                                    -->
-                                                </div>
-                                            </li>
-                                            {% endfor %}       
-                                        </ul>
+                                    <div class="media-body"> <!-- Comment body starts here -->
+                                        <a href="{ % url 'profile' comment.user.username ‰}"><strong class="text-success">&nbsp;&nbsp;{{comment.user.username}}</strong><a>
+                                        <p>&nbsp;{{ comment.text }}</p>
                                     </div>
-                                </div>
-                            </div>
-
-                        </div>
+                                </li>
+                            {% endfor %}       
+                        </ul>
                     </div>
-
-                    <div id="map" class="tab-pane fade show">
-                        <br>
-                        <div id="google-map"></div>
+                </div>
+          
+                <div id="map" class="tab-pane fade show">
+                    <br>
+                    <div id="google-map">
                     </div>
                 </div>
             </div>
         </div>
-
-
-    </div> 
+    </div>
+</div> 
 
     <script>
         var map;
