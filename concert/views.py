@@ -239,7 +239,7 @@ def profile(request, username):
                         user.venue.capacity = form.cleaned_data.get('capacity')                  
                     user.save()
                     user.venue.save()
-                    return render(request, 'concert/profile.html', {'selecteduser': request.user, 'form': EditVenueForm, 'loginform': loginForm})
+                    return render(request, 'concert/profile.html', {'selecteduser': user, 'form': EditVenueForm, 'loginform': loginForm})
             else:
                 form = EditVenueForm
         else:
@@ -255,11 +255,11 @@ def profile(request, username):
                         user.giggoer.password = form.cleaned_data.get('password')
                     user.giggoer.save()
                     user.save()  
-                    return render(request, 'concert/profile.html', {'selecteduser': request.user, 'form': EditGigGoerForm, 'loginform': loginForm})
+                    return render(request, 'concert/profile.html', {'selecteduser': user, 'form': EditGigGoerForm, 'loginform': loginForm})
             else:
                 form = EditGigGoerForm
 
-        return render(request, 'concert/profile.html', {'form': form, 'selecteduser': request.user, 'loginform': loginForm})
+        return render(request, 'concert/profile.html', {'form': form, 'selecteduser': user, 'loginform': loginForm})
 
     return render(request, 'concert/profile.html', {'selecteduser': user, 'loginform': loginForm}) 
 

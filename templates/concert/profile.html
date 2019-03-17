@@ -1,8 +1,25 @@
 {% extends 'concert/base.html' %}
 {% load staticfiles %}
 {% load crispy_forms_tags %}
+{% load extra_tags %}
  
 {% block body_block %}
+    <style>
+        /* overrides css in tiles.css so that they are smaller */
+        .tile-container, .tile-front, .tile-back {
+            width: 100%;
+            height: 200px;
+            border-radius: 10%;
+        }
+
+        .center {
+            text-align: center;
+            position: absolute;
+            top: 25%;
+            left: 10%;
+        }
+    </style>
+
     <div class="container">
         <br>
  
@@ -15,7 +32,7 @@
         {% endif %}
  
         <div class="row">
-            <div class="col-xs-12 col-md-12 col-lg-4">
+            <div class="col-12 col-md-12 col-lg-4">
                 <div class="card" style="width: 18rem;">
                     {% if selecteduser.is_venue and selecteduser.venue.image != "" %}
                         <img class="card-img-top" src="{{ selecteduser.venue.image.url }}">
@@ -30,7 +47,7 @@
                         <!--<p class="card-text"><i>Venue user</i></p>-->
  
                         <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                            <a class="nav-link active" id="v-pills-activity-tab" data-toggle="pill" href="#v-pills-activity" role="tab" aria-controls="v-pills-activity" aria-selected="true">Activity</a>
+                            <a class="nav-link active" id="v-pills-discover-tab" data-toggle="pill" href="#v-pills-discover" role="tab" aria-controls="v-pills-discover" aria-selected="true">Discover</a>
                             <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Profile</a>
  
                             {% if selecteduser.username == user.username %}
@@ -39,45 +56,119 @@
                         </div>
                     </div>
                 </div>
+                <br>
             </div>
  
             <div class="col-lg-8">
                 <div class="tab-content" id="v-pills-tabContent">
-                    <div class="tab-pane fade show active" id="v-pills-activity" role="tabpanel" aria-labelledby="v-pills-activity-tab">
+                    <div class="tab-pane fade show active" id="v-pills-discover" role="tabpanel" aria-labelledby="v-pills-discover-tab">
                         <div class="panel-group" id="events-accordion">
                             <div class="panel panel-default">
-                                <h2>Activity</h2>
-                                <p class="lead">Discover the events</p>
-
-                                {% if selecteduser.username == user.username %}
-        {% else %}
-            <p class="lead">Discover other user's just like you</p>
-        {% endif %}
+                                <h2>Discover</h2>
+                                <hr>
 
                                 <div class="panel-heading accordion-toggle collapsed" data-toggle="collapse" data-parent="#events-accordion" data-target="#upcoming">
-                                    <h4 class="panel-title">Upcoming Events <span class="badge badge-secondary">3</span></h4>
+                                    <h4 class="panel-title" data-toggle="tooltip" data-placement="top" title="Click me!">Upcoming Events <span class="badge badge-info">{% get_upcoming_concert_count selecteduser.username %}</span></h4>
                                 </div>
 
+                                <!-- upcoming concert tiles inside accordion -->
                                 <div id="upcoming" class="panel-collapse collapse" style="height: 0px;">
-                                    <div class="panel-body">
-                                        <h5><span class="label label-primary">Answer</span></h5>
- 
-                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five <a href="http://jquery2dotnet.com/" class="label label-success">http://jquery2dotnet.com/</a> centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-                                        </p>
+                                    <div class="panel-body"> 
+                                        <div class="row">
+                                            {% if selecteduser.giggoer.bookmarks %}
+                                                {% for concert in selecteduser.giggoer.bookmarks.all %}
+                                                    {% if concert.is_future %}
+                                                        <div class="col-6 col-md-6 col-lg-4 mt">
+                                                            <div class="tile-container">
+                                                                <div class="tile">
+                                                                    <div class="tile-front" style="background-image: url({{ concert.image.url }}); background-size: cover; background-position: center;">
+                                                                        <div class="bottom-left">
+                                                                            <p>
+                                                                                {{ concert.artist }}
+                                                                                <br>
+                                                                                {{ concert.venue.venue_name }}
+                                                                            </p>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="tile-back" style=" background-image: url({{ concert.image.url }}); background-size: cover; background-position: center;">
+                                                                        <div class ="center-white-bg"style="background-color: rgba(256, 256, 256, 0.93);width:100%; height:200px; border-radius: 10%;">
+                                                                            <div class ="center">
+                                                                                <h6>
+                                                                                    {{ concert.artist }}
+                                                                                    <br>
+                                                                                    {{ concert.venue.venue_name }}
+                                                                                    <br>
+                                                                                    {{ concert.venue.location }}
+                                                                                    <br>
+                                                                                    {{ concert.date }}
+                                                                                    <br>
+                                                                                    {{ concert.start_time }} - {{ concert.end_time }}
+                                                                                </h6>
+                                                                                <a href="{% url 'view' concert.concertID %}"><button class="btn btn-outline-dark">View</button></a>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>                          
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            {% endif %}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
  
+                            <!-- past concert tiles inside accordion -->
                             <div class="panel panel-default">
                                 <div class="panel-heading accordion-toggle collapsed" data-toggle="collapse" data-parent="#events-accordion" data-target="#past">
-                                    <h4 class="panel-title">Past Events <span class="badge badge-secondary">7</span></h4>
+                                    <h4 class="panel-title" data-toggle="tooltip" data-placement="top" title="Click me!">Past Events <span class="badge badge-info">{% get_past_concert_count selecteduser.username %}</span></h4>
                                 </div>
                                 <div id="past" class="panel-collapse collapse" style="height: 0px;">
                                     <div class="panel-body">
-                                        <h5><span class="label label-primary">Answer</span></h5>
- 
-                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five <a href="http://jquery2dotnet.com/" class="label label-success">http://jquery2dotnet.com/</a> centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-                                        </p>
+                                        <div class="row">
+                                            {% if selecteduser.giggoer.bookmarks %}
+                                                {% for concert in selecteduser.giggoer.bookmarks.all %}
+                                                    {% if not concert.is_future %}
+                                                        <div class="col-6 col-md-6 col-lg-4 mt">
+                                                            <div class="tile-container">
+                                                                <div class="tile">
+                                                                    <div class="tile-front" style="background-image: url({{ concert.image.url }}); background-size: cover; background-position: center;">
+                                                                        <div class="bottom-left">
+                                                                            <p>
+                                                                                {{ concert.artist }}
+                                                                                <br>
+                                                                                {{ concert.venue.venue_name }}
+                                                                            </p>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="tile-back" style=" background-image: url({{ concert.image.url }}); background-size: cover; background-position: center;">
+                                                                        <div class ="center-white-bg"style="background-color: rgba(256, 256, 256, 0.93);width:100%; height:200px; border-radius: 10%;">
+                                                                            <div class ="center">
+                                                                                <h6>
+                                                                                    {{ concert.artist }}
+                                                                                    <br>
+                                                                                    {{ concert.venue.venue_name }}
+                                                                                    <br>
+                                                                                    {{ concert.venue.location }}
+                                                                                    <br>
+                                                                                    {{ concert.date }}
+                                                                                    <br>
+                                                                                    {{ concert.start_time }} - {{ concert.end_time }}
+                                                                                </h6>
+                                                                                <a href="{% url 'view' concert.concertID %}"><button class="btn btn-outline-dark">View</button></a>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>                          
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            {% endif %}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -113,5 +204,12 @@
              </div>
         </div>
     </div>
+
+
+    <script>
+        $(document).ready(function() {
+            $('[data-toggle="tooltip"]').tooltip(); 
+        });
+    </script>
 
 {% endblock %}
