@@ -4,17 +4,10 @@ body, html {
 }
 
 .comments {
+
   height:360px;
+
   overflow-y: scroll;
-  -moz-scrollbars-vertical;
-
-}
-
-.concert-image {
-  vertical-align: middle;
-  width: 50%;
-  height: 300px;
-  object-fit: cover;
 }
 
 .avatar {
@@ -30,10 +23,6 @@ body, html {
 
 }
 
-.checked {
-  color: orange;
-}
- 
 .text {
     color: black;
 }

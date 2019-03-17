@@ -19,11 +19,10 @@
         <link rel="stylesheet" type="text/css" href="{% static 'css/search.css' %}">
 
         <link rel="stylesheet" type="text/css" href="{% static 'css/toastr.min.css' %}">
-        <script src="{% static 'js/toastr.min.js' %}"></script>
     </head>
 
     <body>
-        
+
         <!-- NAVBAR START -->
         <div class="navbar-container line text size">
             <nav class="navbar navbar-expand-lg navbar-light navbar-trans nav-colour-collapsed ">
@@ -32,10 +31,7 @@
 
                     {% if user.is_authenticated and user.is_venue %}
                         <a class="text" href="{% url 'index'%}"><b>AddMyConcert&nbsp;&nbsp;&nbsp;</b></a>
-                    {% else %} <!-- NB; Do not user the navbar-brand class as it can no be overidden, if you want to hide the
-                                link highlight you will have to write your own CSS to mimic the navbar-brand class and which also 
-                                swicthes to white colour at less than 991px screen width //A
-                            -->
+                    {% else %}
                         <a class="text" href="{% url 'index'%}"><b>FindMyConcert&nbsp;&nbsp;&nbsp;</b></a> 
                     {% endif %}
                 </div>
@@ -115,5 +111,6 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script> <!-- JS cookie library for csrf tokens-->
+        <script src="{% static 'js/toastr.min.js' %}"></script>
     </body> 
 </html>
