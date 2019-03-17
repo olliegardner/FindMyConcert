@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'concert',
     'venues',
     'crispy_forms',
-
+    'bootstrap_datepicker_plus',
 ]
 
 MIDDLEWARE = [
