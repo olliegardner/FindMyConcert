@@ -94,6 +94,9 @@ def contact(request):
     return render(request, 'concert/contact.html', {'loginform': loginForm})
 
 def chooseSignUp(request):
+    if request.user.is_authenticated(): 
+        return HttpResponseRedirect(reverse('index')) #Redirect to Index if user is logged in
+        
     loginForm = user_login(request)
     gigForm = GigGoerSignUpForm()
     venueForm = VenueSignUpForm()
