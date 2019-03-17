@@ -46,8 +46,8 @@ span.line {
             <br>
             <h2>{{ concert.artist }}  
                 {% enough_ratings concert.concertID as test %}
-                {% if not test %}
-                    <span class=" notbold line">
+                {% if test %}
+                    <span data = "{% get_rating concert.concertID%}"  class=" notbold line">
                     <span class="fa fa-star checked "></span>
                     <span class="fa fa-star checked "></span>
                     <span class="fa fa-star checked "></span>
