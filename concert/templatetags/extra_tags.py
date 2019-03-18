@@ -1,7 +1,9 @@
 from django import template
 register = template.Library()
 
-from concert.models import Concert, User
+
+from concert.models import Concert, User, Rating
+
 
 @register.simple_tag
 def enough_ratings(concertID):
@@ -49,3 +51,13 @@ def get_past_concert_count(username):
             past = past + 1
     
     return past
+
+@register.simple_tag
+def check_no_rating(username, concertID):
+    user    = User.objects.get(username = username)
+    concert = Concert.objects.get(concertID = concertID)
+    for rating in concert.rating.all():
+        if rating.user == user:
+            return False
+    return True
+

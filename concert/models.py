@@ -84,7 +84,7 @@ class GigGoer(models.Model):
 class Rating(models.Model):
     #Theoretically a user could rate a concert several times, but this is unlikely sicne it requires an AJAX request
     ratingID   = models.AutoField(primary_key=True)
-    user       = models.OneToOneField(User, related_name='rating', on_delete=models.CASCADE)
+    user       = models.ForeignKey(User, related_name='rating', on_delete=models.CASCADE)
     concert    = models.ForeignKey(Concert, related_name='rating', on_delete=models.CASCADE)
     score      = models.IntegerField(default=5, validators=[MaxValueValidator(5), MinValueValidator(1)])
     

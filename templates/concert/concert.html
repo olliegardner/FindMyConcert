@@ -50,7 +50,7 @@
             <p>{{ concert.venue.venue_name }} , {{ concert.venue.location }}<br>{{ concert.start_time }} - {{ concert.end_time }}   {{ concert.date }}</p>
             <p>
                 <a href="{{ concert.url }}" target="_blank" >Tickets</a>  
-                {% if user.is_authenticated %}
+                {% if user.is_authenticated and not user.is_venue %}
                     {% if not bookmarked %}
                         <button class="btn btn-outline-success navbar-right pull-right" id = "bookmarkbutton" onclick="bookmark({{ concert.concertID }})" >Bookmark</button> 
                     {% else %}
@@ -108,15 +108,31 @@
                         <!-- Comment input area start -->
                         {% if user.is_authenticated %}
                             <textarea id = "commentbox" class="form-control" placeholder="write a comment..." rows="3"></textarea>
+                            <br>
                             <form method="post" style ="float:left;" >{% csrf_token %}
                                 
                                 <button type="button" class="btn btn-info" id = "postcomment" >Post</button>
                             </form>
-                            <form method="post" style ="float:right;">{% csrf_token %}
-                                
-                                <button type= "button" class="btn btn-info pull-right">Rate</button>
-                            </form>
-                        {% endif %}
+                                {% if not user.is_venue %}
+                                    {% check_no_rating user.username concert.concertID as not_rated %}
+                                    {% if not_rated %}
+                                        <div class="form-inline" style ="float:right;" id = "ratingdiv" >
+                                            <form method="post" class="form-inline">{% csrf_token %}
+                                                <select id="rating" class="custom-select">
+                                                <option value="5">5 - Excellent</option>
+                                                <option value="4">4 - Good</option>
+                                                <option value="3">3 - Okay </option>
+                                                <option value="2">2 - Bad </option>
+                                                <option value="1">1 - Awful </option>
+                                                </select>
+                                                <button type= "button" id = "ratingbutton" class="btn btn-info" style ="float:right;">Rate</button>
+                                            </form>
+                                        </div>
+                                    {% else %}
+                                        <p style = "float:right"> Thank you for rating!</p>
+                                    {% endif %}
+                                {% endif %}
+                            {% endif %}
                         <br>
                         <br>
                         <hr>
@@ -206,72 +222,72 @@
     </div>
 </div> 
 
-    <script>
-        var map;
-        var service;
-        var infowindow;
+<script>
+    var map;
+    var service;
+    var infowindow;
 
-        function initMap() {
-            var venue_location = new google.maps.LatLng(-33.867, 151.195);
-            infowindow = new google.maps.InfoWindow();
-            map = new google.maps.Map(document.getElementById('google-map'), {center: venue_location, zoom: 15});
+    function initMap() {
+        var venue_location = new google.maps.LatLng(-33.867, 151.195);
+        infowindow = new google.maps.InfoWindow();
+        map = new google.maps.Map(document.getElementById('google-map'), {center: venue_location, zoom: 15});
 
-            var request = {
-                query: '{{ concert.venue.venue_name }}, {{ concert.venue.location }}',
-                fields: ['name', 'geometry'],
-            };
+        var request = {
+            query: '{{ concert.venue.venue_name }}, {{ concert.venue.location }}',
+            fields: ['name', 'geometry'],
+        };
 
-            service = new google.maps.places.PlacesService(map);
+        service = new google.maps.places.PlacesService(map);
 
-            service.findPlaceFromQuery(request, function(results, status) {
-                if (status === google.maps.places.PlacesServiceStatus.OK) {
-                    for (var i = 0; i < results.length; i++) {
-                        createMarker(results[i]);
-                    }
-                    map.setCenter(results[0].geometry.location);
+        service.findPlaceFromQuery(request, function(results, status) {
+            if (status === google.maps.places.PlacesServiceStatus.OK) {
+                for (var i = 0; i < results.length; i++) {
+                    createMarker(results[i]);
                 }
-            });
-        }
-
-        function createMarker(place) {
-            var marker = new google.maps.Marker({
-                map: map,
-                position: place.geometry.location
-            });
-
-            google.maps.event.addListener(marker, 'click', function() {
-                infowindow.setContent(place.name);
-                infowindow.open(map, this);
-            });
-        }
-
-
-
-        $(document).ready(function() {
-            $('html, body').animate({
-            'scrollTop' : $("#concert_title").position().top
-            });
-
-            //Add rating if applicable
-            var filledStars = document.getElementById('stars').getAttribute('data');
-            var emptyStars = 5 - filledStars;
-
-            var i;
-            for (i = 0; i < filledStars; i++) { 
-                $('<span class="fa fa-star checked "></span>').appendTo('#stars'); 
+                map.setCenter(results[0].geometry.location);
             }
+        });
+    }
 
-            for (i = 0; i < emptyStars; i++) { 
-                $('<span class="fa fa-star"></span>').appendTo('#stars'); 
-            }
-            
+    function createMarker(place) {
+        var marker = new google.maps.Marker({
+            map: map,
+            position: place.geometry.location
         });
 
+        google.maps.event.addListener(marker, 'click', function() {
+            infowindow.setContent(place.name);
+            infowindow.open(map, this);
+        });
+    }
 
-       document.getElementById("postcomment").addEventListener("click", postcomment);
 
 
-       function postcomment() {
+    $(document).ready(function() {
+        $('html, body').animate({
+        'scrollTop' : $("#concert_title").position().top
+        });
+
+        //Add rating if applicable
+        var filledStars = document.getElementById('stars').getAttribute('data');
+        var emptyStars = 5 - filledStars;
+
+        var i;
+        for (i = 0; i < filledStars; i++) { 
+            $('<span class="fa fa-star checked "></span>').appendTo('#stars'); 
+        }
+
+        for (i = 0; i < emptyStars; i++) { 
+            $('<span class="fa fa-star"></span>').appendTo('#stars'); 
+        }
+        
+    });
+
+
+    document.getElementById("postcomment").addEventListener("click", postcomment);
+
+
+    function postcomment() {
 
         //MAake AJAX post request
         $.ajaxSetup({
@@ -309,20 +325,49 @@
             }
         });   
     };
-    $("#click-button").on('click', firstClick)
+    
+
+    document.getElementById("ratingbutton").addEventListener("click", rateconcert);
+    
+    function rateconcert() {
+
+        console.log("test")
+        var $rating = $("#rating").val();
+        //MAake AJAX post request
+        $.ajaxSetup({
+            headers: { "X-CSRFToken": '{{csrf_token}}' }
+        });
+        console.log("ajax")
+        $.ajax({
+            type: 'POST',
+            url:'{% url "rateconcert" %}',
+            data: {'data':$rating,'id':'{{concert.concertID}}'},
+            credentials: 'include',
+            dataType: 'json',
+            success:function(data){
+                toastr.success('Rating succesfully recorded');
+                $('#ratingdiv').replaceWith('<p style = "float:right"> Thank you for rating!</p>')
+                
+            },
+
+            error: function(data) {
+                toastr.error('Rating not recorded');
+            }
+        });   
+    };
 
     function removebookmark(concertid) {
-      $.get('/concert/removebookmark/', {concertid: concertid});
-      toastr.error('Bookmark removed!');
-      $('#bookmarkbutton').replaceWith('<button class="btn btn-outline-success navbar-right pull-right" id = "bookmarkbutton" onclick="bookmark({{ concert.concertID }})" >Bookmark</button></p>')
-  };
+          $.get('/concert/removebookmark/', {concertid: concertid});
+          toastr.error('Bookmark removed!');
+          $('#bookmarkbutton').replaceWith('<button class="btn btn-outline-success navbar-right pull-right" id = "bookmarkbutton" onclick="bookmark({{ concert.concertID }})" >Bookmark</button></p>')
+    };
 
     function bookmark(concertid) {
-        $.get('/concert/bookmark/', {concertid: concertid}); 
-        toastr.success('Concert bookmarked!');
-        $('#bookmarkbutton').replaceWith('<button class="btn btn-outline-danger navbar-right pull-right" id = "bookmarkbutton" onclick="removebookmark({{ concert.concertID }})" >Remove Bookmark</button></p>')
+            $.get('/concert/bookmark/', {concertid: concertid}); 
+            toastr.success('Concert bookmarked!');
+            $('#bookmarkbutton').replaceWith('<button class="btn btn-outline-danger navbar-right pull-right" id = "bookmarkbutton" onclick="removebookmark({{ concert.concertID }})" >Remove Bookmark</button></p>')
 
-        //Start by bookmarking the concert
+            //Start by bookmarking the concert
     };
 
 </script>
