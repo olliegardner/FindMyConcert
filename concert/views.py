@@ -389,6 +389,14 @@ def postComment(request):
 
     return HttpResponse(json.dumps(payload), content_type='application/json')
 
+@login_required
+@giggoer_required
+def discover(request):
+    loginForm = user_login(request)
+    return render(request, 'concert/discover.html', {'loginform': loginForm})
+
+
+
 # PASSWORD RESET VIEWS
 '''def password_reset(request):
     loginForm = user_login(request)
