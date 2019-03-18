@@ -55,25 +55,33 @@ class VenueSignUpForm(UserCreationForm):
 
     field_order = ['username', 'email', 'password1', 'password2', 'image', 'venue_name', 'location', 'website', 'description', 'phone_number', 'capacity']
 
-    def clean_email(self):  #Override the save method so that we can create a user object at the same time
+    def clean_email(self):  
         email = self.cleaned_data.get('email')
         if User.objects.filter(email=email).exists():
             raise forms.ValidationError("This email already used")
         return email
 
-    def save(self):
+    def save(self): #Override the save method so that we can create a user object at the same time
+
+        #This first part creates a user
         user = super().save(commit=False)
         user.is_venue = True
         user.email = self.cleaned_data.get('email')
         user.save()
 
+        #This part creates the venue object with a one to one field
+        #to the user object which was jsut creaated.
         venue = Venue.objects.create(user=user)
+        
+        #Check if an image was submitted and store the default one otherwise
         image = self.cleaned_data.get('image')
         if image == None:    
             imgpath = os.path.join(os.getcwd(), 'static', 'images', 'default-pic' + ".png")
             venue.image.save('default-pic', File(open(imgpath, 'rb')))
         else:
             venue.image = image
+
+        #Now save the rest of the field to the new venue object
         venue.venue_name = self.cleaned_data.get('venue_name')
         venue.location = self.cleaned_data.get('location')
         venue.website = self.cleaned_data.get('website')
@@ -85,14 +93,15 @@ class VenueSignUpForm(UserCreationForm):
         return user
 
 
-class LoginForm(forms.Form):
-   username = forms.CharField(min_length=1, max_length=36)
-   password = forms.CharField(min_length=8, max_length=32, widget=forms.PasswordInput(render_value=False))
+class LoginForm(forms.Form):¨
+    #This form is used to log in
+    username = forms.CharField(min_length=1, max_length=36)
+    password = forms.CharField(min_length=8, max_length=32, widget=forms.PasswordInput(render_value=False))
 
 
 
-#EDIT FORMS
 class EditGigGoerForm(forms.ModelForm):
+    #This form is used to edit giggoer profiles
     email    = forms.EmailField(required=False)
     image    = forms.ImageField(required=False)
     password = forms.CharField(required=False, widget=forms.PasswordInput(render_value=False))
@@ -100,8 +109,10 @@ class EditGigGoerForm(forms.ModelForm):
     class Meta:
         model = GigGoer
         fields = []
+
     
 class EditVenueForm(forms.ModelForm):
+    #This form is used to edit venue profiles
     email        = forms.EmailField(required=False)
     image        = forms.ImageField(required=False)
     password     = forms.CharField(required=False, widget=forms.PasswordInput(render_value=False))
