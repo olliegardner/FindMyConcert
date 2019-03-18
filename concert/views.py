@@ -25,6 +25,10 @@ from FindMyConcert.custom_decorators import giggoer_required
 import json
 import urllib.request
 
+def error_404(request):
+    loginForm = user_login(request)
+    return render(request, 'concert/error.html', {'loginform': loginForm})
+
 @login_required
 def user_logout(request):
     logout(request)

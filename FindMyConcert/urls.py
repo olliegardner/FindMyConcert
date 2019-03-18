@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf import settings
-from django.conf.urls import url, include
+from django.conf.urls import url, include, handler404
 from django.conf.urls.static import static
 from django.contrib import admin, auth
 from django.contrib.auth import views as auth_views
@@ -44,3 +44,5 @@ urlpatterns = [
     url(r'^accounts/reset/done/$', auth_views.password_reset_complete, name='password_reset_complete'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) 
+
+handler404 = views.error_404
