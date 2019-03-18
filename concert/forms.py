@@ -8,19 +8,20 @@ import os
 class GigGoerSignUpForm(UserCreationForm):
     email = forms.EmailField(required=True)
     image = forms.ImageField(required=False)
-
+    
     class Meta(UserCreationForm.Meta):
         model = User
 
     field_order = ['username', 'email', 'password1', 'password2', 'image']
-
-    def clean_email(self):
+    
+    def clean_email(self): 
+        #Require emails to be unique
         email = self.cleaned_data.get('email')
         if User.objects.filter(email=email).exists():
             raise forms.ValidationError("This email already used")
         return email
 
-    def save(self):
+    def save(self): #Override the save method so that we can create a user object at the same time
         user = super().save(commit=False)
         user.is_venue = False
         print(self.cleaned_data.get('email'))
@@ -54,7 +55,7 @@ class VenueSignUpForm(UserCreationForm):
 
     field_order = ['username', 'email', 'password1', 'password2', 'image', 'venue_name', 'location', 'website', 'description', 'phone_number', 'capacity']
 
-    def clean_email(self):
+    def clean_email(self):  #Override the save method so that we can create a user object at the same time
         email = self.cleaned_data.get('email')
         if User.objects.filter(email=email).exists():
             raise forms.ValidationError("This email already used")

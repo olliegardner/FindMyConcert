@@ -5,8 +5,10 @@ from concert.models import Concert
 
 @register.simple_tag
 def enough_ratings(concertID):
-    print(concertID)
     concert = Concert.objects.get(concertID = int(concertID))
+    if len(concert.rating.all()) > 0:
+        return True
+    return False
 
 @register.simple_tag
 def get_rating(concertID):
@@ -15,7 +17,7 @@ def get_rating(concertID):
 
     sum = 0
     for rating in concert.rating.all():
-        sum = sum + rating.rating
+        sum = sum + rating.score
 
     length = len(concert.rating.all())
     if length == 0:
