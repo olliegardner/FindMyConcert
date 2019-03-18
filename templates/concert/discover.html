@@ -4,5 +4,24 @@
 {% block title %} {{ block.super }} {% endblock %}
 
 {% block body_block %}
-<p> DISCOVER STUFF </p>
+<div class = "container">
+    <div class="row">
+        {% for concert in concerts%}
+            <div class="col-6 col-md-4 col-lg-4">
+                <div class="card" style="width: 20rem;">
+                    <img class="card-img-top img-fluid" src="{{concert.image.url}}">
+
+                    <div class="card-body">
+                        
+                        <h5 class="card-title">{{ concert.artist }}
+                            <span> <button></button><button></button> </span>
+                        </h5>
+                        <p class="card-text"><i>{{concert.description}}</i></p>
+
+                    </div>
+                </div>
+            </div>
+        {%endfor %}
+    </div>
+</div>
 {% endblock %}

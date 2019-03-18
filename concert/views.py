@@ -393,7 +393,9 @@ def postComment(request):
 @giggoer_required
 def discover(request):
     loginForm = user_login(request)
-    return render(request, 'concert/discover.html', {'loginform': loginForm})
+
+    concert_list = Concert.objects.all() #Get all concerts
+    return render(request, 'concert/discover.html', {'loginform': loginForm, 'concerts': concert_list})
 
 
 
