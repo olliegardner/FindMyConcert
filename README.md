@@ -14,6 +14,8 @@ First clone the repository and then navigate to the FindMyConcert source folder.
 pip install -r requirements.txt
 
 python manage.py makemigrations concert
+
+python manage.py migrate
 ```
 
 (Optional )Now you can run the population script. Please note that db.sqlite3 has to be deleted each time you run this script as the data base does not allow duplicate entries.

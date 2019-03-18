@@ -25,7 +25,7 @@
                 <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="all-tab">
                     <br>
                     <div class="row">
-                        <div class="col-xs-12 col-md-12 col-lg-12">
+                        <div class="col-12 col-md-12 col-lg-12">
                             <form method="GET" action="">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col-auto">
@@ -44,12 +44,16 @@
                                         <input class="form-control form-control-lg form-control-borderless" id="search-concert" type="text" name="q" placeholder="Search Events" value="{{ request.GET.q }}">
                                     </div>
                                     <!--end of col-->
-                                    <div class="col-auto">
-                                        <button class="btn btn-lg btn-success" type="submit"><i class="fas fa-search"></i></button>
+                                    <div class="col-auto" style="margin-right: 0.3%">
+                                        <button class="btn btn-lg btn-success" type="submit" data-toggle="tooltip" data-placement="top" title="Search"><i class="fas fa-search"></i></button>
                                     </div>
                                     <!--end of col-->
-                                    <div class="col-auto">
-                                        <button class="btn btn-lg btn-info" type="submit" onclick="document.getElementById('search-concert').value='{{ location.city }}';"><i class="fas fa-location-arrow"></i></button>
+                                    <div class="col-auto" style="margin-right: 0.3%">
+                                        <button class="btn btn-lg btn-info" type="submit" data-toggle="tooltip" data-placement="top" title="Search by Location" onclick="document.getElementById('search-concert').value='{{ location.city }}';"><i class="fas fa-location-arrow"></i></button>
+                                    </div>
+                                    <!-- end of col -->
+                                    <div class="col-auto" style="margin-right: 0.3%">
+                                        <button class="btn btn-lg btn-danger" type="submit" data-toggle="tooltip" data-placement="top" title="Clear Search" onclick="document.getElementById('search-concert').value='';"><i class="fas fa-times fa-lg"></i></button>
                                     </div>
                                      <!--end of col-->
                                 </div>
@@ -62,7 +66,7 @@
                     {% if concerts %}
                         <div class="row">
                             {% for concert in concerts %}
-                                <div class="col-xs-12 col-md-6 col-lg-4 mt">
+                                <div class="col-12 col-md-6 col-lg-4 mt">
                                     <div class="tile-container" id ="hint{{forloop.counter}}">
                                         <div class="tile">
                                             <div class="tile-front" style="background-image: url({{ concert.image.url }}); background-size: cover; background-position: center;">
@@ -113,8 +117,8 @@
                             {% if user.venue.concert %}
                                 {% for concert in user.venue.concert.all %}
                                     {% if concert.is_future %}
-                                        <div class="col-xs-12 col-md-6 col-lg-4 mt">
-                                            <div class="tile-container" >
+                                        <div class="col-12 col-md-6 col-lg-4 mt">
+                                            <div class="tile-container">
                                                 <div class="tile">
                                                     <div class="tile-front" style="background-image: url({{ concert.image.url }}); background-size: cover; background-position: center;">
                                                         <div class="bottom-left">
@@ -166,7 +170,7 @@
                             {% if user.giggoer.bookmarks %}
                                 {% for concert in user.giggoer.bookmarks.all %}
                                     {% if concert.is_future %}
-                                        <div class="col-xs-12 col-md-6 col-lg-4 mt">
+                                        <div class="col-12 col-md-6 col-lg-4 mt">
                                             <div class="tile-container">
                                                 <div class="tile">
                                                     <div class="tile-front" style="background-image: url({{ concert.image.url }}); background-size: cover; background-position: center;">
@@ -215,7 +219,7 @@
                             {% if user.venue.concert %}
                                 {% for concert in user.venue.concert.all %}
                                     {% if not concert.is_future %}
-                                        <div class="col-xs-12 col-md-6 col-lg-4 mt">
+                                        <div class="col-12 col-md-6 col-lg-4 mt">
                                             <div class="tile-container">
                                                 <div class="tile">
                                                     <div class="tile-front" style="background-image: url({{ concert.image.url }}); background-size: cover; background-position: center;">
@@ -268,7 +272,7 @@
                             {% if user.giggoer.bookmarks %}
                                 {% for concert in user.giggoer.bookmarks.all %}
                                     {% if not concert.is_future %}
-                                        <div class="col-xs-12 col-md-6 col-lg-4 mt">
+                                        <div class="col-12 col-md-6 col-lg-4 mt">
                                             <div class="tile-container">
                                                 <div class="tile">
                                                     <div class="tile-front" style="background-image: url({{ concert.image.url }}); background-size: cover; background-position: center;">
@@ -315,7 +319,7 @@
         {% else %}
             <hr>
             <div class="row">
-                <div class="col-xs-12 col-md-12 col-lg-12">
+                <div class="col-12 col-md-12 col-lg-12">
                     <form method="GET" action="">
                         <div class="row no-gutters align-items-center">
                             <div class="col-auto">
@@ -333,12 +337,16 @@
                                 <input class="form-control form-control-lg form-control-borderless" id="search-concert" type="text" name="q" placeholder="Search Events" value="{{ request.GET.q }}">
                             </div>
                             <!--end of col-->
-                            <div class="col-auto">
-                                <button class="btn btn-lg btn-success" type="submit"><i class="fas fa-search"></i></button>
+                            <div class="col-auto" style="margin-right: 0.3%">
+                                <button class="btn btn-lg btn-success" type="submit" data-toggle="tooltip" data-placement="top" title="Search"><i class="fas fa-search"></i></button>
                             </div>
                             <!--end of col-->
-                            <div class="col-auto">
-                                <button class="btn btn-lg btn-info" type="submit" onclick="document.getElementById('search-concert').value='{{ location.city }}';"><i class="fas fa-location-arrow"></i></button>
+                            <div class="col-auto" style="margin-right: 0.3%">
+                                <button class="btn btn-lg btn-info" type="submit" data-toggle="tooltip" data-placement="top" title="Search by Location" onclick="document.getElementById('search-concert').value='{{ location.city }}';"><i class="fas fa-location-arrow"></i></button>
+                            </div>
+                            <!-- end of col -->
+                            <div class="col-auto" style="margin-right: 0.3%">
+                                <button class="btn btn-lg btn-danger" type="submit" data-toggle="tooltip" data-placement="top" title="Clear Search" onclick="document.getElementById('search-concert').value='';"><i class="fas fa-times fa-lg"></i></button>
                             </div>
                             <!--end of col-->
                         </div>
@@ -350,7 +358,7 @@
             {% if concerts %}
                 <div class="row">
                     {% for concert in concerts %}
-                        <div class="col-xs-12 col-md-6 col-lg-4 mt">
+                        <div class="col-12 col-md-6 col-lg-4 mt">
                             <div class="tile-container" id ="hint{{forloop.counter}}">
                                 <div class="tile">
                                     <div class="tile-front" style="background-image: url({{ concert.image.url }}); background-size: cover; background-position: center;">
@@ -394,8 +402,9 @@
     <script>
         $(document).ready(function() {
             $('html, body').animate({
-            'scrollTop' : $("#events_title").position().top});       
-            
+            'scrollTop' : $("#events_title").position().top
+            });
+            $('[data-toggle="tooltip"]').tooltip(); 
         });
 
         function removebookmark(concertid) {
@@ -425,12 +434,12 @@
                     $concerturl = $concerturl.replace('1',concertid);
                     if (res[0].isfuture == "True") {
                         $.each(res, function(i, item) {
-                            $('<div class="col-xs-12 col-md-6 col-lg-4 mt">').append('<div class="tile-container"><div class="tile"><div class="tile-front" style="background-image: url( '+item.image+'); background-size: cover; background-position: center;"><div class="bottom-left"><p>'+item.artist+'<br>'+item.venuename+'</p></div></div><div class="tile-back" style=" background-image: url('+item.image+'); background-size: cover; background-position: center;"><div class ="center-white-bg"style="background-color: rgba(256, 256, 256, 0.93);width:100%; height:340px; border-radius: 10%;"> <div class ="center"><h6>'+item.artist+'<br>'+item.venuename+', '+item.location+'<br>'+item.date+'<br>'+item.starttime+' - '+item.endtime+'<br></h6>   <br> ' + $concerturl + ' <button class="btn btn-outline-dark">View</button></a>  <button class="btn btn-outline-danger" onclick = "removebookmark('+ concertid+');hideparent(this);" >Remove Bookmark</button></div></div></div></div></div>'
+                            $('<div class="col-12 col-md-6 col-lg-4 mt">').append('<div class="tile-container"><div class="tile"><div class="tile-front" style="background-image: url( '+item.image+'); background-size: cover; background-position: center;"><div class="bottom-left"><p>'+item.artist+'<br>'+item.venuename+'</p></div></div><div class="tile-back" style=" background-image: url('+item.image+'); background-size: cover; background-position: center;"><div class ="center-white-bg"style="background-color: rgba(256, 256, 256, 0.93);width:100%; height:340px; border-radius: 10%;"> <div class ="center"><h6>'+item.artist+'<br>'+item.venuename+', '+item.location+'<br>'+item.date+'<br>'+item.starttime+' - '+item.endtime+'<br></h6>   <br> ' + $concerturl + ' <button class="btn btn-outline-dark">View</button></a>  <button class="btn btn-outline-danger" onclick = "removebookmark('+ concertid+');hideparent(this);" >Remove Bookmark</button></div></div></div></div></div>'
                             ).appendTo('#futureevents');
                         });
                     } else {
                         $.each(res, function(i, item) {
-                            $('<div class="col-xs-12 col-md-6 col-lg-4 mt">').append('<div class="tile-container"><div class="tile"><div class="tile-front" style="background-image: url( '+item.image+'); background-size: cover; background-position: center;"><div class="bottom-left"><p>'+item.artist+'<br>'+item.venuename+'</p></div></div><div class="tile-back" style=" background-image: url('+item.image+'); background-size: cover; background-position: center;"><div class ="center-white-bg"style="background-color: rgba(256, 256, 256, 0.93);width:100%; height:340px; border-radius: 10%;"> <div class ="center"><h6>'+item.artist+'<br>'+item.venuename+', '+item.location+'<br>'+item.date+'<br>'+item.starttime+' - '+item.endtime+'<br></h6>   <br> ' + $concerturl + ' <button class="btn btn-outline-dark">View</button></a>  <button class="btn btn-outline-danger" onclick = "removebookmark('+ concertid+');hideparent(this);" >Remove Bookmark</button></div></div></div></div></div>'
+                            $('<div class="col-12 col-md-6 col-lg-4 mt">').append('<div class="tile-container"><div class="tile"><div class="tile-front" style="background-image: url( '+item.image+'); background-size: cover; background-position: center;"><div class="bottom-left"><p>'+item.artist+'<br>'+item.venuename+'</p></div></div><div class="tile-back" style=" background-image: url('+item.image+'); background-size: cover; background-position: center;"><div class ="center-white-bg"style="background-color: rgba(256, 256, 256, 0.93);width:100%; height:340px; border-radius: 10%;"> <div class ="center"><h6>'+item.artist+'<br>'+item.venuename+', '+item.location+'<br>'+item.date+'<br>'+item.starttime+' - '+item.endtime+'<br></h6>   <br> ' + $concerturl + ' <button class="btn btn-outline-dark">View</button></a>  <button class="btn btn-outline-danger" onclick = "removebookmark('+ concertid+');hideparent(this);" >Remove Bookmark</button></div></div></div></div></div>'
                             ).appendTo('#pastevents');
                         });
                     }
