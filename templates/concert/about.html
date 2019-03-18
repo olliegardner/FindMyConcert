@@ -4,6 +4,26 @@
 {% block title %} {{ block.super }} - About {% endblock %}
 
 {% block body_block %}
-    <div class="container">
+    <div class="container jumbotron">
         <h1 class="display-4">About</h1>
+
+        <p>FindMyConcert is a 2nd year univerisity project for the Web Application Development course at the University of Glasgow. The premise of the website is to allow users to find concerts in their local area and for venues to be able to easily add new concerts.</p>
+
+        <p>
+        	FindMyConcert was developed by:
+        	<ul style="list-style-type: circle;">
+        		<li>Ollie Gardner</li>
+        		<li>Axel Stjerngren</li>
+        		<li>Robert Pringle</li>
+        		<li>Andrew Finlayson</li>
+        		<li>Patryk Kaczmarczyk</li>
+        	</ul>
+        </p>
+
+        <hr>
+        <div style="float: right;">
+        	<a href="https://github.com/olliegardner/FindMyConcert" style="color: inherit;"><i class="fab fa-github fa-2x"></i></a>
+        	<a href="mailto:findmyconcert.wadproject@gmail.com" style="color: inherit;"><i class="fas fa-envelope fa-2x"></i></a>
+    	</div>
+    </div>
 {% endblock %}
