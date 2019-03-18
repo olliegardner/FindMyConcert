@@ -1,6 +1,8 @@
 from django.contrib import admin
 from concert.models import User, Concert, Comment, GigGoer, Venue, Rating
 
+
+#Register the different models on admin
 admin.site.register(User)
 admin.site.register(Concert)
 admin.site.register(Comment)

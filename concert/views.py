@@ -238,29 +238,39 @@ def removeBookmark(request):
 
 def viewConcert(request, id):
     loginForm = user_login(request)
-    concert = get_object_or_404(Concert, concertID=id)
+
+    concert = get_object_or_404(Concert, concertID=id) #Get the concert
+
+    #This boolean is used to see if the user has bookmarked a concert a not
+    #It it s passed into the template
     bookmark_boolean = False
     if request.user.is_authenticated():
         if not request.user.is_venue and not request.user.is_anonymous:
             if concert in request.user.giggoer.bookmarks.all():
-                bookmark_boolean  = True
+                bookmark_boolean  = True 
 
-    return render(request, 'concert/concert.html', {'concert': concert, 'loginform': loginForm, 'user': request.user, 'bookmarked':
-
-     bookmark_boolean})
+    return render(request, 'concert/concert.html', {'concert': concert, 
+                                                    'loginform': loginForm, 
+                                                    'user': request.user, 
+                                                    'bookmarked':bookmark_boolean})
 
 
 def profile(request, username):
     loginForm = user_login(request)
-    user = User.objects.get(username=username)
+    user = User.objects.get(username=username) #Get the user object with correspondong name
 
     if not request.user.is_anonymous:
         if request.user.is_venue:
             if request.method == 'POST':
                 form = EditVenueForm(request.POST, request.FILES)
+
                 if form.is_valid():
                     user = request.user
-                    # would it not be nice if python had switch statements?
+
+                    """ 
+                    Here we have to check what forms 
+                    """
+                
                     if (form.cleaned_data.get('email') != ""):
                         user.email = form.cleaned_data.get('email')
                     if (form.cleaned_data.get('image') != None):
