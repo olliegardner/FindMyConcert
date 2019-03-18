@@ -1,5 +1,6 @@
 from concert.forms import GigGoerSignUpForm, VenueSignUpForm, EditGigGoerForm, EditVenueForm, LoginForm
 from concert.models import User, Concert, Comment, Rating
+from concert.recommend import recommendationEngine
 from concert.tokens import accountActivationToken
 
 from datetime import datetime
@@ -23,6 +24,7 @@ from django.views.decorators.csrf import requires_csrf_token
 from FindMyConcert.custom_decorators import giggoer_required
 
 import json
+
 import urllib.request
 
 def error_404(request):
@@ -360,6 +362,8 @@ def getConcert(request ,id):
 
 @requires_csrf_token
 def postComment(request):
+    #This view is used so that a comment can be posted using AJAX
+
     user = request.user
     text = request.POST.get('data') #Get the text data
     concertID = request.POST.get('id')
@@ -395,24 +399,29 @@ def postComment(request):
 def discover(request):
     loginForm = user_login(request)
 
-    concert_list = Concert.objects.all() #Get all concerts
+    concert_list = recommendationEngine()
     return render(request, 'concert/discover.html', {'loginform': loginForm, 'concerts': concert_list})
 
 
 @requires_csrf_token
 def rateConcert(request):
+    #This view is used so that a rating can be posted using AJAX
+
+    #Load in the necessary data
     user = request.user
     rating = request.POST.get('data')
     concertID = request.POST.get('id')
-
     concert = get_object_or_404(Concert, concertID=concertID)
-    comment = Rating.objects.create(
+
+    #Store the new rating
+    rating = Rating.objects.create(
         user = user,
         score = rating,
         concert = concert,)
 
+    rating.save() #Save the new rating
     payload = {'success': "True"}
-    comment.save()
+    
 
     return HttpResponse(json.dumps(payload), content_type='application/json')
 
