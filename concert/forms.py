@@ -13,7 +13,7 @@ class GigGoerSignUpForm(UserCreationForm):
         model = User
 
     field_order = ['username', 'email', 'password1', 'password2', 'image']
-    
+
     def clean_email(self): 
         #Require emails to be unique
         email = self.cleaned_data.get('email')

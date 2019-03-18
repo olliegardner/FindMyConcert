@@ -80,7 +80,7 @@ class GigGoer(models.Model):
 
 class Rating(models.Model):
     ratingID   = models.AutoField(primary_key=True)
-    user       = models.OneToOneField(User, related_name='rating', on_delete=models.CASCADE)
+    user       = models.ForeignKey(User, related_name='rating', on_delete=models.CASCADE)
     concert    = models.ForeignKey(Concert, related_name='rating', on_delete=models.CASCADE)
     score      = models.IntegerField(default=5, validators=[MaxValueValidator(5), MinValueValidator(1)])
     

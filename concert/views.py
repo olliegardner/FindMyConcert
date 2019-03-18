@@ -1,5 +1,5 @@
 from concert.forms import GigGoerSignUpForm, VenueSignUpForm, EditGigGoerForm, EditVenueForm, LoginForm
-from concert.models import User, Concert, Comment
+from concert.models import User, Concert, Comment, Rating
 from concert.tokens import accountActivationToken
 
 from datetime import datetime
@@ -308,6 +308,24 @@ def postComment(request):
             image = user.giggoer.image.url
         payload = {'success': "True", 'username':user.username, 'image':image}
         comment.save()
+
+    return HttpResponse(json.dumps(payload), content_type='application/json')
+
+
+@requires_csrf_token
+def rateConcert(request):
+    user = request.user
+    rating = request.POST.get('data')
+    concertID = request.POST.get('id')
+
+    concert = get_object_or_404(Concert, concertID=concertID)
+    comment = Rating.objects.create(
+        user = user,
+        score = rating,
+        concert = concert,)
+
+    payload = {'success': "True"}
+    comment.save()
 
     return HttpResponse(json.dumps(payload), content_type='application/json')
 
