@@ -93,7 +93,7 @@ class VenueSignUpForm(UserCreationForm):
         return user
 
 
-class LoginForm(forms.Form):¨
+class LoginForm(forms.Form):
     #This form is used to log in
     username = forms.CharField(min_length=1, max_length=36)
     password = forms.CharField(min_length=8, max_length=32, widget=forms.PasswordInput(render_value=False))
