@@ -27,7 +27,10 @@
                     <div class="card-body">
 
                         <h5 class="card-title">{{ concert.artist }}</h5>
-                        <span> <button class="btn btn-outline-dark" >View</button><button class="btn btn-success">Bookmark</button> </span>
+                        <span> 
+                            <button class="btn btn-outline-dark" >View</button>
+                            <button class="btn btn-success">Bookmark</button> 
+                        </span>
                         <p class="card-text "><i>{{concert.description}}</i></p>
 
                     </div>
@@ -36,4 +39,7 @@
         {%endfor %}
     </div>
 </div>
+
+
+
 {% endblock %}

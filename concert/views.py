@@ -243,7 +243,7 @@ def viewConcert(request, id):
 
     concert = get_object_or_404(Concert, concertID=id) #Get the concert
 
-    #This boolean is used to see if the user has bookmarked a concert a not
+    #This boolean is used to see if a giggoer has bookmarked a concert or not
     #It it s passed into the template
     bookmark_boolean = False
     if request.user.is_authenticated():
@@ -398,8 +398,7 @@ def postComment(request):
 @giggoer_required
 def discover(request):
     loginForm = user_login(request)
-
-    concert_list = recommendationEngine()
+    concert_list = recommendationEngine(request) #Get recommendation from recommendation engine
     return render(request, 'concert/discover.html', {'loginform': loginForm, 'concerts': concert_list})
 
 
