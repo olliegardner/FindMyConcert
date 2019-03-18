@@ -26,7 +26,7 @@
             <h1 class="display-4">Your Profile</h1>
             <p class="lead">Edit your profile here</p>
         {% else %}
-            <h1 class="display-4">{{ selecteduser.username}}'s Profile</h1>
+            <h1 class="display-4">{{ selecteduser.username }}'s Profile</h1>
             <p class="lead">Discover other user's just like you</p>
         {% endif %}
  
@@ -61,92 +61,90 @@
             <div class="col-lg-8">
                 <div class="tab-content" id="v-pills-tabContent">
                     <div class="tab-pane fade show active" id="v-pills-discover" role="tabpanel" aria-labelledby="v-pills-discover-tab">
-                        <div class="panel-group" id="events-accordion">
-                            <div class="panel panel-default">
-                                <h2>Discover</h2>
-                                <hr>
+                        <h2>Discover</h2>
+                        {% if selecteduser.username == user.username %}
+                            <p class="lead">Discover your upcoming and past events</p>
+                        {% else %}
+                            <p class="lead">Discover {{ selecteduser.username }}'s upcoming and past events</p>
+                        {% endif %}
 
-                                <div class="panel-heading accordion-toggle collapsed" data-toggle="collapse" data-parent="#events-accordion" data-target="#upcoming">
-                                    <h4 class="panel-title" data-toggle="tooltip" data-placement="top" title="Click me!">Upcoming Events <span class="badge badge-info">{% get_upcoming_concert_count selecteduser.username %}</span></h4>
-                                </div>
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="upcoming-tab" data-toggle="tab" href="#upcoming" role="tab" aria-controls="upcoming" aria-selected="false">Upcoming <span class="badge badge-info">{% get_upcoming_concert_count selecteduser.username %}</span></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="past-tab" data-toggle="tab" href="#past" role="tab" aria-controls="past" aria-selected="false">Past <span class="badge badge-info">{% get_past_concert_count selecteduser.username %}</span></a>
+                            </li>
+                        </ul>
 
-                                <!-- upcoming concert tiles inside accordion -->
-                                <div id="upcoming" class="panel-collapse collapse" style="height: 0px;">
-                                    <div class="panel-body"> 
-                                        <div class="row">
-                                            {% if selecteduser.giggoer.bookmarks %}
-                                                {% for concert in selecteduser.giggoer.bookmarks.all %}
-                                                    {% if concert.is_future %}
-                                                        <div class="col-6 col-md-6 col-lg-4 mt">
-                                                            <div class="tile-container">
-                                                                <div class="tile">
-                                                                    <div class="tile-front" style="background-image: url({{ concert.image.url }}); background-size: cover; background-position: center;">
-                                                                        <div class="bottom-left">
-                                                                            <p>
-                                                                                {{ concert.artist }}
-                                                                                <br>
-                                                                                {{ concert.venue.venue_name }}
-                                                                            </p>
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <div class="tile-back" style=" background-image: url({{ concert.image.url }}); background-size: cover; background-position: center;">
-                                                                        <div class ="center-white-bg"style="background-color: rgba(256, 256, 256, 0.93);width:100%; height:200px; border-radius: 10%;">
-                                                                            <div class ="center">
-                                                                                <a href="{% url 'view' concert.concertID %}"><button class="btn btn-outline-info">View</button></a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>                          
+                        <div class="tab-content">
+                            <!-- upcoming concert tiles inside tab -->
+                            <div class="tab-pane fade show active" id="upcoming" role="tabpanel" aria-labelledby="upcoming-tab">
+                                <div class="row">
+                                    {% if selecteduser.giggoer.bookmarks %}
+                                        {% for concert in selecteduser.giggoer.bookmarks.all %}
+                                            {% if concert.is_future %}
+                                                <div class="col-6 col-md-6 col-lg-4 mt">
+                                                    <div class="tile-container">
+                                                        <div class="tile">
+                                                            <div class="tile-front" style="background-image: url({{ concert.image.url }}); background-size: cover; background-position: center;">
+                                                                <div class="bottom-left">
+                                                                    <p>
+                                                                        {{ concert.artist }}
+                                                                        <br>
+                                                                        {{ concert.venue.venue_name }}
+                                                                    </p>
                                                                 </div>
                                                             </div>
+
+                                                            <div class="tile-back" style=" background-image: url({{ concert.image.url }}); background-size: cover; background-position: center;">
+                                                                <div class ="center-white-bg"style="background-color: rgba(256, 256, 256, 0.93);width:100%; height:200px; border-radius: 10%;">
+                                                                    <div class ="center">
+                                                                        <a href="{% url 'view' concert.concertID %}"><button class="btn btn-outline-info">View</button></a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>                          
                                                         </div>
-                                                    {% endif %}
-                                                {% endfor %}
+                                                    </div>
+                                                </div>
                                             {% endif %}
-                                        </div>
-                                    </div>
-                                </div>
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>                            
                             </div>
- 
-                            <!-- past concert tiles inside accordion -->
-                            <div class="panel panel-default">
-                                <div class="panel-heading accordion-toggle collapsed" data-toggle="collapse" data-parent="#events-accordion" data-target="#past">
-                                    <h4 class="panel-title" data-toggle="tooltip" data-placement="top" title="Click me!">Past Events <span class="badge badge-info">{% get_past_concert_count selecteduser.username %}</span></h4>
-                                </div>
-                                <div id="past" class="panel-collapse collapse" style="height: 0px;">
-                                    <div class="panel-body">
-                                        <div class="row">
-                                            {% if selecteduser.giggoer.bookmarks %}
-                                                {% for concert in selecteduser.giggoer.bookmarks.all %}
-                                                    {% if not concert.is_future %}
-                                                        <div class="col-6 col-md-6 col-lg-4 mt">
-                                                            <div class="tile-container">
-                                                                <div class="tile">
-                                                                    <div class="tile-front" style="background-image: url({{ concert.image.url }}); background-size: cover; background-position: center;">
-                                                                        <div class="bottom-left">
-                                                                            <p>
-                                                                                {{ concert.artist }}
-                                                                                <br>
-                                                                                {{ concert.venue.venue_name }}
-                                                                            </p>
-                                                                        </div>
-                                                                    </div>
 
-                                                                    <div class="tile-back" style=" background-image: url({{ concert.image.url }}); background-size: cover; background-position: center;">
-                                                                        <div class ="center-white-bg"style="background-color: rgba(256, 256, 256, 0.93);width:100%; height:200px; border-radius: 10%;">
-                                                                            <div class ="center">
-                                                                                <a href="{% url 'view' concert.concertID %}"><button class="btn btn-outline-info">View</button></a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>                          
+                            <!-- past concert tiles inside tab -->
+                            <div class="tab-pane fade" id="past" role="tabpanel" aria-labelledby="past-tab">
+                                <div class="row">
+                                    {% if selecteduser.giggoer.bookmarks %}
+                                        {% for concert in selecteduser.giggoer.bookmarks.all %}
+                                            {% if not concert.is_future %}
+                                                <div class="col-6 col-md-6 col-lg-4 mt">
+                                                    <div class="tile-container">
+                                                        <div class="tile">
+                                                            <div class="tile-front" style="background-image: url({{ concert.image.url }}); background-size: cover; background-position: center;">
+                                                                <div class="bottom-left">
+                                                                    <p>
+                                                                        {{ concert.artist }}
+                                                                        <br>
+                                                                        {{ concert.venue.venue_name }}
+                                                                    </p>
                                                                 </div>
                                                             </div>
+
+                                                            <div class="tile-back" style=" background-image: url({{ concert.image.url }}); background-size: cover; background-position: center;">
+                                                                <div class ="center-white-bg"style="background-color: rgba(256, 256, 256, 0.93);width:100%; height:200px; border-radius: 10%;">
+                                                                    <div class ="center">
+                                                                        <a href="{% url 'view' concert.concertID %}"><button class="btn btn-outline-info">View</button></a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>                          
                                                         </div>
-                                                    {% endif %}
-                                                {% endfor %}
+                                                    </div>
+                                                </div>
                                             {% endif %}
-                                        </div>
-                                    </div>
+                                        {% endfor %}
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
