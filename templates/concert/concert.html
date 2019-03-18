@@ -7,26 +7,37 @@
 
 <style>
 
-          /* Always set the map height explicitly to define the size of the div
-       * element that contains the map. */
-      #google-map {
+    /* Always set the map height explicitly to define the size of the div
+    * element that contains the map. */
+    #google-map {
         height: 400px;
-      }
+    }
 
     .concert-image { 
         max-width: 100%;
         width : 100%;
         height: auto;
         max-height:340px;
+        object-fit: cover;
 
-}
-.notbold{
-    font-size: 22px;
-}​
-span.line {
-  display: inline-block;
-}
+    }
+    .notbold{
+        font-size: 22px;
+    }​
+    span.line {
+      display: inline-block;
 
+
+    }
+
+    .tile-container, .tile-front, .tile-back {
+        width: 100%;
+        height: 100px;
+        border-radius: 10%;
+    }
+    .checked {
+        color:orange;
+    }
 
 </style>
 
@@ -34,7 +45,7 @@ span.line {
     <br>
     <h1 id="concert_title"> {{ concert.artist}} at {{ concert.venue.venue_name }}</h1>
     <div class="row">
-        <div class ="col-lg-6 col-xs-12  col-md-12">
+        <div class ="col-lg-6 col-12  col-md-12">
         
             <p>{{ concert.venue.venue_name }} , {{ concert.venue.location }}<br>{{ concert.start_time }} - {{ concert.end_time }}   {{ concert.date }}</p>
             <p>
@@ -51,14 +62,9 @@ span.line {
             <br>
             <br>
             <h2>{{ concert.artist }}  
-                {% enough_ratings concert.concertID as test %}
-                {% if test %}
-                    <span data = "{% get_rating concert.concertID%}"  class=" notbold line">
-                    <span class="fa fa-star checked "></span>
-                    <span class="fa fa-star checked "></span>
-                    <span class="fa fa-star checked "></span>
-                    <span class="fa fa-star "></span>
-                    <span class="fa fa-star "></span>
+                {% enough_ratings concert.concertID as rated %}
+                {% if rated %}
+                    <span data = "{% get_rating concert.concertID%}"  class=" notbold line" id ="stars">
                     </span>
                 {% endif %}
             </h2>
@@ -68,7 +74,7 @@ span.line {
         </div>
 
 
-        <div class ="col-lg-6 col-xs-12 col-md-12">
+        <div class ="col-lg-6 col-12 col-md-12">
             <!-- Bootstrap tabs start -->
             <ul class="nav nav-tabs">
 
@@ -101,12 +107,18 @@ span.line {
                     <div class="col-md-6 col-md-offset-2 col-sm-12 col-lg-12">
                         <!-- Comment input area start -->
                         {% if user.is_authenticated %}
-                            <form method="post">{% csrf_token %}
-                                <textarea id = "commentbox" class="form-control" placeholder="write a comment..." rows="3"></textarea>
-                                <br>
-                                <button type="button" class="btn btn-info pull-right" id = "postcomment" >Post</button>
+                            <textarea id = "commentbox" class="form-control" placeholder="write a comment..." rows="3"></textarea>
+                            <form method="post" style ="float:left;" >{% csrf_token %}
+                                
+                                <button type="button" class="btn btn-info" id = "postcomment" >Post</button>
+                            </form>
+                            <form method="post" style ="float:right;">{% csrf_token %}
+                                
+                                <button type= "button" class="btn btn-info pull-right">Rate</button>
                             </form>
                         {% endif %}
+                        <br>
+                        <br>
                         <hr>
                         <!-- Comment input area end --> 
 
@@ -137,15 +149,41 @@ span.line {
 
                 <div id="going" class="tab-pane fade show"> <!-- This shows all users who have bookmarked the concert-->
                     <br>
+                    <div class = "row">
                     {% if concert.bookmarks.all  %}
-                    {% for giggoer in concert.bookmarks.all %}
-                    <p >{{ giggoer.user.username }}</p>
-                    {% endfor %}
-                    {% else%}
-                    <p> There are no other users currently intrested in this concert</p>
-                    {% endif %}
-                </div>
+                        {% for giggoer in concert.bookmarks.all %}
+                            <div class="col-4 col-md-3 col-lg-3 mt">
+                                <div class="tile-container">
+                                    <div class="tile">
+                                        <div class="tile-front" style="background-image: url({{ giggoer.image.url }}); background-size: cover; background-position: center;">
+                                            <div class="bottom-left">
+                                                <p>
+                                                    <br>
+                                                    {{ giggoer.user.username }}
+                                                </p>
+                                            </div>
+                                        </div>
 
+                                        <div class="tile-back" style=" background-image: url({{ giggoer.image.url  }}); background-size: cover; background-position: center;">
+                                            <div class ="center-white-bg"style="background-color: rgba(256, 256, 256, 0.93);width:100%; height:100px; border-radius: 10%;">
+                                                <div class ="center">
+                                                    <a href="{% url 'profile' giggoer.user %}">
+                                                        <button class="btn btn-outline-info">View</button>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>                          
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        <br>
+                    {% else%}
+                        <p> There are no other users currently intrested in this concert</p>
+                    {% endif %}
+                    </div>
+                    <!-- User tiles-->
+                </div>
                 <div id="venue" class="tab-pane fade"> <!-- This tab contains a venue description -->
                     <br>
                     <h2>{{ concert.venue.venue_name }}</h2>
@@ -163,7 +201,6 @@ span.line {
                     <div id="google-map">
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -208,13 +245,29 @@ span.line {
             });
         }
 
+
+
         $(document).ready(function() {
             $('html, body').animate({
             'scrollTop' : $("#concert_title").position().top
             });
 
+            //Add rating if applicable
+            var filledStars = document.getElementById('stars').getAttribute('data');
+            var emptyStars = 5 - filledStars;
+
+            var i;
+            for (i = 0; i < filledStars; i++) { 
+                $('<span class="fa fa-star checked "></span>').appendTo('#stars'); 
+            }
+
+            for (i = 0; i < emptyStars; i++) { 
+                $('<span class="fa fa-star"></span>').appendTo('#stars'); 
+            }
             
         });
+
+
        document.getElementById("postcomment").addEventListener("click", postcomment);
 
 
@@ -245,7 +298,7 @@ span.line {
                         $('<div class="media-body"><a href="#"<strong class="text-success">&nbsp;&nbsp;'+data.username +'</strong></a><p>&nbsp;&nbsp;' +$text +'</p>')
                         ).appendTo('#allcomments');      
 
-                    $('#allcomments').animate({ scrollTop: 10000000000000000 }, 50);
+                    $('#allcomments').animate({ scrollTop: 10000000000000000 }, 50); //This is hack, scrolling too far scrolls to the bottom
                     } else {
                         toastr.error('Comment not sent!');
                     }      

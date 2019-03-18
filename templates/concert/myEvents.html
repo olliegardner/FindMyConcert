@@ -67,7 +67,7 @@
                         <div class="row">
                             {% for concert in concerts %}
                                 <div class="col-12 col-md-6 col-lg-4 mt">
-                                    <div class="tile-container">
+                                    <div class="tile-container" id ="hint{{forloop.counter}}">
                                         <div class="tile">
                                             <div class="tile-front" style="background-image: url({{ concert.image.url }}); background-size: cover; background-position: center;">
                                                 <div class="bottom-left">
@@ -359,7 +359,7 @@
                 <div class="row">
                     {% for concert in concerts %}
                         <div class="col-12 col-md-6 col-lg-4 mt">
-                            <div class="tile-container">
+                            <div class="tile-container" id ="hint{{forloop.counter}}">
                                 <div class="tile">
                                     <div class="tile-front" style="background-image: url({{ concert.image.url }}); background-size: cover; background-position: center;">
                                         <div class="bottom-left">

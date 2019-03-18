@@ -1,23 +1,27 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from concert.models import GigGoer, User, Venue, Concert
+from django.core.files import File
+import os
+
 
 class GigGoerSignUpForm(UserCreationForm):
     email = forms.EmailField(required=True)
     image = forms.ImageField(required=False)
-
+    
     class Meta(UserCreationForm.Meta):
         model = User
 
     field_order = ['username', 'email', 'password1', 'password2', 'image']
-
-    def clean_email(self):
+    
+    def clean_email(self): 
+        #Require emails to be unique
         email = self.cleaned_data.get('email')
         if User.objects.filter(email=email).exists():
             raise forms.ValidationError("This email already used")
         return email
 
-    def save(self):
+    def save(self): #Override the save method so that we can create a user object at the same time
         user = super().save(commit=False)
         user.is_venue = False
         print(self.cleaned_data.get('email'))
@@ -25,7 +29,13 @@ class GigGoerSignUpForm(UserCreationForm):
         user.save()
 
         gigGoer = GigGoer.objects.create(user=user)
-        gigGoer.image = self.cleaned_data.get('image')
+
+        image = self.cleaned_data.get('image')
+        if image == None:    
+            imgpath = os.path.join(os.getcwd(), 'static', 'images', 'default-pic' + ".png")
+            gigGoer.image.save('default-pic', File(open(imgpath, 'rb')))
+        else:
+            gigGoer.image = image
         gigGoer.save()
 
         return user
@@ -45,7 +55,7 @@ class VenueSignUpForm(UserCreationForm):
 
     field_order = ['username', 'email', 'password1', 'password2', 'image', 'venue_name', 'location', 'website', 'description', 'phone_number', 'capacity']
 
-    def clean_email(self):
+    def clean_email(self):  #Override the save method so that we can create a user object at the same time
         email = self.cleaned_data.get('email')
         if User.objects.filter(email=email).exists():
             raise forms.ValidationError("This email already used")
@@ -58,7 +68,12 @@ class VenueSignUpForm(UserCreationForm):
         user.save()
 
         venue = Venue.objects.create(user=user)
-        venue.image = self.cleaned_data.get('image')
+        image = self.cleaned_data.get('image')
+        if image == None:    
+            imgpath = os.path.join(os.getcwd(), 'static', 'images', 'default-pic' + ".png")
+            venue.image.save('default-pic', File(open(imgpath, 'rb')))
+        else:
+            venue.image = image
         venue.venue_name = self.cleaned_data.get('venue_name')
         venue.location = self.cleaned_data.get('location')
         venue.website = self.cleaned_data.get('website')
