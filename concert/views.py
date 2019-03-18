@@ -260,7 +260,7 @@ def profile(request, username):
     user = User.objects.get(username=username) #Get the user object with correspondong name
 
     if not request.user.is_anonymous:
-        if request.user.is_venue:
+        if request.user.is_venue: #Check user types
             if request.method == 'POST':
                 form = EditVenueForm(request.POST, request.FILES)
 
@@ -268,7 +268,12 @@ def profile(request, username):
                     user = request.user
 
                     """ 
-                    Here we have to check what forms 
+                    Here we have to check which fields in the form the user has filled in.
+                    We can't user the normal form.save() as we are saving to two different models
+                    (Venue and User).
+
+                    This function could also have been implemented by overriding save() in 
+                    EditVenueForm
                     """
                 
                     if (form.cleaned_data.get('email') != ""):
@@ -287,6 +292,8 @@ def profile(request, username):
                         user.venue.description = form.cleaned_data.get('description')
                     if (form.cleaned_data.get('capacity') != None):
                         user.venue.capacity = form.cleaned_data.get('capacity')                  
+                    
+                    #Save the new updated models
                     user.save()
                     user.venue.save()
                     return render(request, 'concert/profile.html', {'selecteduser': user, 'form': EditVenueForm, 'loginform': loginForm})
@@ -297,6 +304,16 @@ def profile(request, username):
                 form = EditGigGoerForm(request.POST, request.FILES)
                 if form.is_valid():
                     user = request.user
+
+                    """ 
+                    Here we have to check which fields in the form the user has filled in.
+                    We can't user the normal form.save() as we are saving to two different models
+                    (Giggoer and User).
+
+                    This function could also have been implemented by overriding save() in 
+                    EditGigGoerForm
+                    """
+
                     if (form.cleaned_data.get('email') != ""):
                         user.email = form.cleaned_data.get('email')
                     if (form.cleaned_data.get('image') != None):
@@ -310,54 +327,65 @@ def profile(request, username):
                 form = EditGigGoerForm
 
         return render(request, 'concert/profile.html', {'form': form, 'selecteduser': user, 'loginform': loginForm})
+        #Subllime highlights the line above as a bug
 
     return render(request, 'concert/profile.html', {'selecteduser': user, 'loginform': loginForm}) 
 
 
-# this lets the events view to dynamically add a concert each time one is bookmarked
+# This lets the events view to dynamically add a concert each time one is bookmarked
 def getConcert(request ,id):
     concert = get_object_or_404(Concert, concertID=id)
+
+    #If concert has already been bookmarked, do nothing
     if concert in request.user.giggoer.bookmarks.all():
         return HttpResponse()
     results = []
+
+    #Store the JSON data
     concert_json = {}
     concert_json['artist']     = concert.artist
     concert_json['isfuture']   = str(concert.is_future())
     concert_json['venuename']  = concert.venue.venue_name
     concert_json['date']       = str(concert.date.strftime('%B %-d, %Y'))
     concert_json['starttime']  = str(concert.start_time.strftime('%-I %p'))
-
     concert_json['endtime']    = str(concert.end_time.strftime('%-I %p'))
     concert_json['location']   = concert.venue.location
     concert_json['url']        = concert.url
     concert_json['id']         = concert.concertID
     concert_json['image']      = concert.image.url
-    results.append(concert_json)
-    data = json.dumps(results)
-    print(concert_json)
-    mimetype = 'application/json'
-    return HttpResponse(data, mimetype)    
+    results.append(concert_json) #Append to a list (in case we want several concerts in the future)
+    data = json.dumps(results)  #Dump to JSON
+    return HttpResponse(data, 'application/json')    
+
 
 @requires_csrf_token
 def postComment(request):
     user = request.user
-    text = request.POST.get('data')
+    text = request.POST.get('data') #Get the text data
     concertID = request.POST.get('id')
+
+    #Check if empty comment and return false success if empty
     if text == "" or text == None:
         payload = {'success': "False"}
     else:
         concert = get_object_or_404(Concert, concertID=concertID)
+
+        #Create a new comment object
         comment = Comment.objects.create(
             user = user,
             text = text,
             concert = concert,
             time = datetime.now())
+
+        comment.save() #Make sure comment is saved in database
+
+        #Return the appropiate comment image depending on usertype
         if user.is_venue:
             image = user.venue.image.url
         else:
             image = user.giggoer.image.url
+
         payload = {'success': "True", 'username':user.username, 'image':image}
-        comment.save()
 
     return HttpResponse(json.dumps(payload), content_type='application/json')
 
