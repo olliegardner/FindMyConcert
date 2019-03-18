@@ -1,6 +1,5 @@
 from concert.forms import GigGoerSignUpForm, VenueSignUpForm, EditGigGoerForm, EditVenueForm, LoginForm
 from concert.models import User, Concert, Comment, Rating
-from concert.recommend import recommendationEngine
 from concert.tokens import accountActivationToken
 
 from datetime import datetime
@@ -24,7 +23,7 @@ from django.views.decorators.csrf import requires_csrf_token
 from FindMyConcert.custom_decorators import giggoer_required
 
 import json
-
+from tensor.recommend import recommendationEngine
 import urllib.request
 
 def error_404(request):
