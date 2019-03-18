@@ -1,5 +1,5 @@
 from concert.forms import GigGoerSignUpForm, VenueSignUpForm, EditGigGoerForm, EditVenueForm, LoginForm
-from concert.models import User, Concert, Comment
+from concert.models import User, Concert, Comment, Rating
 from concert.tokens import accountActivationToken
 
 from datetime import datetime
@@ -389,6 +389,7 @@ def postComment(request):
 
     return HttpResponse(json.dumps(payload), content_type='application/json')
 
+
 @login_required
 @giggoer_required
 def discover(request):
@@ -397,6 +398,23 @@ def discover(request):
     concert_list = Concert.objects.all() #Get all concerts
     return render(request, 'concert/discover.html', {'loginform': loginForm, 'concerts': concert_list})
 
+
+@requires_csrf_token
+def rateConcert(request):
+    user = request.user
+    rating = request.POST.get('data')
+    concertID = request.POST.get('id')
+
+    concert = get_object_or_404(Concert, concertID=concertID)
+    comment = Rating.objects.create(
+        user = user,
+        score = rating,
+        concert = concert,)
+
+    payload = {'success': "True"}
+    comment.save()
+
+    return HttpResponse(json.dumps(payload), content_type='application/json')
 
 
 # PASSWORD RESET VIEWS
