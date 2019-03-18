@@ -4,12 +4,25 @@
 {% block title %} {{ block.super }} {% endblock %}
 
 {% block body_block %}
+
+<style>
+    .concert-image { 
+        max-width: 100%;
+        width : 100%;
+        height: auto;
+        max-height: 250px;
+        object-fit: cover;
+
+    }
+</style>
 <div class = "container">
+    <h1 class="display-4">Discover</h1>
+    <hr>
     <div class="row">
         {% for concert in concerts%}
             <div class="col-12 col-md-6 col-lg-4">
                 <div class="card">
-                    <img class="card-img-top img-fluid" src="{{concert.image.url}}">
+                    <img class="card-img-top concert-image" src="{{concert.image.url}}">
 
                     <div class="card-body">
 
