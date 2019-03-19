@@ -1,58 +1,27 @@
-
 <!DOCTYPE html>
 {% load staticfiles %} 
 {% load crispy_forms_tags %}
 
 <html> 
-<head lang="en">
+    <head lang="en">
+        <title>{% block title %}FindMyConcert{% endblock %}</title>
 
-    <title>{% block title %}FindMyConcert{% endblock %}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">   <!-- Device width -->
 
-    <meta name="viewport" content="width=device-width, initial-scale=1">   <!-- Device width -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> <!-- Twitter Bootstrap 4 -->
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"> <!-- Public domain icons -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> <!-- AJAX -->
+        <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script> <!-- JS cookie library for csrf tokens-->
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> <!-- Twitter Bootstrap 4 -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"> <!-- Public domain icons -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> <!-- AJAX -->
-    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script> <!-- JS cookie library for csrf tokens-->
-
-    <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/tables.css' %}">
-
-    <link rel="stylesheet" type="text/css" href="{% static 'css/toastr.min.css' %}">
-    <script src="{% static 'js/toastr.min.js' %}"></script>
-
-    <script>
-        var $imageArray = new Array();
-        
-        $imageArray[0] = 'images/rock.jpg';
-        $imageArray[1] = 'images/lights.png';
-        $imageArray[2] = 'images/bg.jpg';
-        $imageArray[3] = 'images/bg2.jpg';
-      
-        
-
-
-        function getRandomImage() {
-            var $num = Math.floor( Math.random() * 4);
-            var $img = $imageArray[$num];
-            var $bg = "url({% static 'replace' %}) ";
-            $bg = $bg.replace('replace',$img);
-            $('#randImage').css('background-image', $bg);
-
-
-        };
-    </script>
-
-    
-        
+        <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/tables.css' %}">
 
         <link rel="stylesheet" type="text/css" href="{% static 'css/toastr.min.css' %}">
+        <script src="{% static 'js/toastr.min.js' %}"></script>
     </head>
 
 
-    <body ontouchstart="" onload= "getRandomImage()">
-
-
+    <body onload= "getRandomImage()">
         <!-- NAVBAR START -->
         <div class="navbar-container line text size">
             <nav class="navbar navbar-expand-lg navbar-light navbar-trans nav-colour-collapsed ">
@@ -154,6 +123,23 @@
         <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script> <!-- JS cookie library for csrf tokens-->
 
         <script src="{% static 'js/toastr.min.js' %}"></script>
+
+        <script>
+            var $imageArray = new Array();
+            
+            $imageArray[0] = 'images/rock.jpg';
+            $imageArray[1] = 'images/lights.png';
+            $imageArray[2] = 'images/bg.jpg';
+            $imageArray[3] = 'images/bg2.jpg';
+          
+            function getRandomImage() {
+                var $num = Math.floor( Math.random() * 4);
+                var $img = $imageArray[$num];
+                var $bg = "url({% static 'replace' %}) ";
+                $bg = $bg.replace('replace',$img);
+                $('#randImage').css('background-image', $bg);
+            };
+        </script>
     </body>
 </html>
 
