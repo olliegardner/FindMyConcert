@@ -95,6 +95,7 @@ nav .navbar-nav li a{
 
 .random_background {
     object-fit: cover;
+    position: fixed;
     background-repeat: no-repeat !important;
     top: 0px; 
     width: 100%;
@@ -108,7 +109,7 @@ nav .navbar-nav li a{
     position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);   
     word-wrap: break-word;
     font-size: 5.9vw;
 }
