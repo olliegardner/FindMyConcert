@@ -61,12 +61,14 @@ Now if you navigate to http://127.0.0.1:8000/ you should be greeted by a view wh
 
 #### About
 * See information about the creators
+![Screenshot of about page](https://i.imgur.com/JP376un.jpg)
 
 #### Contact
 * Contact form to send a message to us
 
 #### FAQ
 * See a list of frequently asked questions with answers
+![Screenshot of FAQ page](https://i.imgur.com/F5RcObm.png)
 
 #### Profile
 * Ability to view your profile and other user's profiles
@@ -90,11 +92,7 @@ Now if you navigate to http://127.0.0.1:8000/ you should be greeted by a view wh
 #### Add/Edit Concert
 * To access this page you must be logged in as a venue
 * Allows venues to add concerts which they are hosting
-
-### Using FindMyConcert
-
-
-### Using AddMyConcert
+![Screenshot of add concert page](https://i.imgur.com/6tz2Vza.png)
 
 ### External Sources
 * django 1.11.17 | https://www.djangoproject.com | backend as specified by project specification
