@@ -4,7 +4,6 @@ from concert.tokens import accountActivationToken
 
 from datetime import datetime
 
-from django.contrib import messages 
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
@@ -58,9 +57,9 @@ def user_login(request):
                         login(request, user)
                         return render(request, 'concert/index.html')
                     else:
-                        messages.error(request, "Your account is currently disabled")
+                        return HttpResponse("Your account is currently disabled")
                 else:
-                    messages.error(request, "Incorrect username or password")
+                    return HttpResponse("Incorrect username or password")
 
     #If no post, return the form 
     return loginForm
@@ -89,15 +88,18 @@ def events(request):
         months = {'December':'12', 'November':'11', 'October':'10', 'September':'9',
                   'August':'8', 'July':'7', 'June':'6', 'May':'5', 'April':'4', 'March':'3',
                   'February':'2', 'January':'1'}
-        
-        if query in months.keys():
+
+        if query == 'default':
+            #default filter shows only events in future
+            concert_list = concert_list.filter(
+                Q(date__gte=datetime.today())).distinct()
+        elif query in months.keys():
+            #If query is a month, use its numerical value in comparison
             query = months[query]
-            
             concert_list = concert_list.filter(
                 Q(date__month=query)).distinct()
         elif query == "date_past":
             concert_list = concert_list.filter(
-                #Q(date < datetime.date.today())).distinct()
                 Q(date__lt=datetime.today())).distinct()
         else:
             #If query, return only filtered concerts
