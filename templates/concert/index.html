@@ -4,27 +4,29 @@
 {% block title_block %} {{ block.super }} {% endblock %}
 
 {% block body_block %}
+
     <div class="background">
+        <!-- Set the background image-->
         <img src="{% static 'images/concert.jpg' %}" class="background-cover">
 
+        <!-- Different titles depending on concert or not-->
         {% if user.is_authenticated and user.is_venue %}
-        <a href="{% url 'add-concert' %}" id="box"> 
             
-        </a>
+            <a href="{% url 'add-concert' %}" id="box"> 
+            </a> <!-- Create box-->
 
-        <a href="{% url 'add-concert' %}" id="title"> 
-        <h1 id ="title">AddMyConcert</h1>
-        </a>
+            <a href="{% url 'add-concert' %}" id="title"> 
+                <h1 id ="title">AddMyConcert</h1>
+            </a> <!-- Superimpose text above box-->
 
-        {% else %}
+            {% else %}
 
-          <a href="{% url 'events' %}" id="box"> 
-            
-        </a>
+            <a href="{% url 'events' %}" id="box">  
+            </a> <!-- Create box-->
 
-        <a href="{% url 'events' %}" id="title"> 
-        <h1 id ="title">FindMyConcert</h1>
-        </a>
+            <a href="{% url 'events' %}" id="title"> 
+                <h1 id ="title">FindMyConcert</h1>
+            </a> <!-- Superimpose text above box-->
 
         {% endif %}
     </div>

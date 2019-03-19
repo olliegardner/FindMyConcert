@@ -4,6 +4,8 @@
 {% block title %} {{ block.super }} - About {% endblock %}
 
 {% block body_block %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/about.css' %}">
+
     <div class="container">
         <h1 class="display-4">About</h1>
 
@@ -19,23 +21,38 @@
                     <div class="card-body">
                         <h5 class="card-title">Ollie Gardner</h5>
  						
- 						<a href="https://github.com/olliegardner" style="color: inherit;"><i class="fab fa-github fa-2x"></i></a>
- 						<a href="https://www.facebook.com/olliegardner2" style="color: inherit;"><i class="fab fa-facebook fa-2x"></i></a>
-        				<a href="mailto:olliegardner@gmail.com" style="color: inherit;"><i class="fas fa-envelope fa-2x"></i></a>
+ 						<a href="https://github.com/olliegardner" class = "inherit-color">
+                            <i class="fab fa-github fa-2x"></i>
+                        </a>
+ 						
+                        <a href="https://www.facebook.com/olliegardner2" class = "inherit-color">
+                            <i class="fab fa-facebook fa-2x"></i>
+                        </a>
+        				<a href="mailto:olliegardner@gmail.com" class = "inherit-color">
+                            <i class="fas fa-envelope fa-2x"></i>
+                        </a>
                     </div>
                 </div>
             </div>
 
             <div class="col-12 col-md-6 col-lg-3">
                 <div class="card">
-                    <img class="card-img-top" src="{% static 'images/axel.jpg' %}" style="height: 14.8rem; object-fit: cover;">
+                    <img class="card-img-top" src="{% static 'images/axel.jpg' %}">
  
                     <div class="card-body">
                         <h5 class="card-title">Axel Stjerngren</h5>
- 						<a href="https://github.com/axelstjerngren" style="color: inherit;"><i class="fab fa-github fa-2x"></i></a>
- 						<a href="https://www.facebook.com/axel.stjerngren" style="color: inherit;"><i class="fab fa-facebook fa-2x"></i></a>
- 						<a href="https://www.linkedin.com/in/axel-stjerngren/" style="color: inherit;"><i class="fab fa-linkedin fa-2x"></i></a>
-        				<a href="mailto:a.stjerngr@gmail.com" style="color: inherit;"><i class="fas fa-envelope fa-2x"></i></a>
+ 						<a href="https://github.com/axelstjerngren" class ="inherit-color">
+                            <i class="fab fa-github fa-2x"></i>
+                        </a>
+ 						<a href="https://www.facebook.com/axel.stjerngren" class ="inherit-color">
+                            <i class="fab fa-facebook fa-2x"></i>
+                        </a>
+ 						<a href="https://www.linkedin.com/in/axel-stjerngren/" class ="inherit-color">
+                            <i class="fab fa-linkedin fa-2x"></i>
+                        </a>
+        				<a href="mailto:a.stjerngr@gmail.com" class ="inherit-color">
+                            <i class="fas fa-envelope fa-2x"></i>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -47,9 +64,15 @@
                     <div class="card-body">
                         <h5 class="card-title">Robert Pringle</h5>
  						
- 						<a href="https://github.com/2304777P" style="color: inherit;"><i class="fab fa-github fa-2x"></i></a>
- 						<a href="https://www.facebook.com/robert.pringle.7503" style="color: inherit;"><i class="fab fa-facebook fa-2x"></i></a>
-        				<a href="mailto:pringle@live.co.uk" style="color: inherit;"><i class="fas fa-envelope fa-2x"></i></a>
+ 						<a href="https://github.com/2304777P" class ="inherit-color">
+                            <i class="fab fa-github fa-2x"></i>
+                        </a>
+ 						<a href="https://www.facebook.com/robert.pringle.7503" class ="inherit-color">
+                            <i class="fab fa-facebook fa-2x"></i>
+                        </a>
+        				<a href="mailto:pringle@live.co.uk" class ="inherit-color">
+                            <i class="fas fa-envelope fa-2x"></i>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -61,23 +84,35 @@
                     <div class="card-body">
                         <h5 class="card-title">Patryk Kaczmarczyk</h5>
  						
- 						<a href="https://github.com/Patsonical" style="color: inherit;"><i class="fab fa-github fa-2x"></i></a>
- 						<a href="https://www.facebook.com/patryk.kaczmarczyk4" style="color: inherit;"><i class="fab fa-facebook fa-2x"></i></a>
-        				<a href="mailto:patryk.kaczmarczyk.mail@gmail.com" style="color: inherit;"><i class="fas fa-envelope fa-2x"></i></a>
+ 						<a href="https://github.com/Patsonical" class ="inherit-color">
+                            <i class="fab fa-github fa-2x"></i>
+                        </a>
+ 						<a href="https://www.facebook.com/patryk.kaczmarczyk4" class ="inherit-color">
+                            <i class="fab fa-facebook fa-2x"></i>
+                        </a>
+        				<a href="mailto:patryk.kaczmarczyk.mail@gmail.com" class ="inherit-color">
+                            <i class="fas fa-envelope fa-2x"></i>
+                        </a>
                     </div>
                 </div>
             </div>
 
-            <div class="col-12 col-md-6 col-lg-3" style="padding-top: 1%">
+            <div class="col-12 col-md-6 col-lg-3" class="top-padding">
                 <div class="card">
                     <img class="card-img-top" src="{% static 'images/andrew.jpg' %}">
  
                     <div class="card-body">
                         <h5 class="card-title">Andrew Finlayson</h5>
  						
- 						<a href="https://github.com/Annddrew" style="color: inherit;"><i class="fab fa-github fa-2x"></i></a>
- 						<a href="https://www.facebook.com/andrew.finlayson.180" style="color: inherit;"><i class="fab fa-facebook fa-2x"></i></a>
-        				<a href="mailto:andrewfinlayson@live.com" style="color: inherit;"><i class="fas fa-envelope fa-2x"></i></a>
+ 						<a href="https://github.com/Annddrew" class ="inherit-color">
+                            <i class="fab fa-github fa-2x"></i>
+                        </a>
+ 						<a href="https://www.facebook.com/andrew.finlayson.180" class ="inherit-color">
+                            <i class="fab fa-facebook fa-2x"></i>
+                        </a>
+        				<a href="mailto:andrewfinlayson@live.com" class ="inherit-color">
+                            <i class="fas fa-envelope fa-2x"></i>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -86,9 +121,14 @@
         <br>
         <hr>
 
-        <div style="float: right;">
-        	<a href="https://github.com/olliegardner/" style="color: inherit;"><i class="fab fa-github fa-2x"></i></a>
-        	<a href="mailto:findmyconcert.wadproject@gmail.com" style="color: inherit;"><i class="fas fa-envelope fa-2x"></i></a>
+        <div class = "right">
+        	<a href="https://github.com/olliegardner/FindMyConcert" class ="inherit-color">
+                <i class="fab fa-github fa-2x"></i>
+            </a>
+        	<a href="mailto:findmyconcert.wadproject@gmail.com" class ="inherit-color">
+                <i class="fas fa-envelope fa-2x"></i>
+            </a>
     	</div>
+    </div>br>
     </div>
 {% endblock %}
