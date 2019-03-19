@@ -18,7 +18,7 @@ python manage.py makemigrations concert
 python manage.py migrate
 ```
 
-(Optional )Now you can run the population script. Please note that db.sqlite3 has to be deleted each time you run this script as the database does not allow duplicate entries.
+(Optional) Now you can run the population script. Please note that db.sqlite3 has to be deleted each time you run this script as the database does not allow duplicate entries.
 ```
 python populate.py
 ```
@@ -33,8 +33,14 @@ Now if you navigate to http://127.0.0.1:8000/ you should be greeted by a view wh
 
 ## Feautures
 * Ability to register as 2 user types - GigGoers and Venues
+* User authentication system with secure password hashing
 * Email verficiation
 * Password reset via email link
+* Spotify integration
+* Google Maps integration
+* Responsive UI (mobile mode)
+* Cross browser support
+* Comments, ratings and tiles are added dynamically using AJAX without the need of reloading the page
 
 #### Events
 * Search available concerts (also by location using ip-api)
@@ -43,10 +49,30 @@ Now if you navigate to http://127.0.0.1:8000/ you should be greeted by a view wh
 * See available concerts in tile form
 * Hover over tile and watch it flip over to reveal concert details/view button/bookmark button (if logged in as GigGoer)
 * Switch between all/upcoming/past concerts (if logged in)
-* Edit/delete buttons 
-
+* Edit/delete buttons
+![Screenshot of events page](https://i.imgur.com/SyoNk9J.jpg)
 
 #### Discover
+* To access this page you must be logged in as a GigGoer
+* See artist and concerts recommendations based on your previous ratings
+* Add/remove bookmark and view concert
+* TODO: explain how discover works
+![Screenshot of discover page](https://i.imgur.com/sOpUc1F.jpg)
+
+#### About
+* See information about the creators
+
+#### Contact
+* Contact form to send a message to us
+
+#### FAQ
+* See a list of frequently asked questions with answers
+
+#### Profile
+* Ability to view your profile and other user's profiles
+* See events which the user has bookmarked
+* See events that venues are hosting
+* Edit your own profile (if logged in)
 
 #### Concert Information
 * See the venue location using a google map
@@ -60,6 +86,10 @@ Now if you navigate to http://127.0.0.1:8000/ you should be greeted by a view wh
 * See concert details
 * Add/remove bookmarks on concerts
 ![Screenshot of concert page](https://i.imgur.com/e3WQS4c.jpg)
+
+#### Add/Edit Concert
+* To access this page you must be logged in as a venue
+* Allows venues to add concerts which they are hosting
 
 ### Using FindMyConcert
 
@@ -80,6 +110,6 @@ Now if you navigate to http://127.0.0.1:8000/ you should be greeted by a view wh
 * bcrypt | https://pypi.org/project/bcrypt/ | password hashing algorithm for user authentication
 * pillow | https://pypi.org/project/Pillow/ | python imaging library for storing images in django database
 * pandas | http://pandas.pydata.org/pandas-docs/version/0.15/tutorials.html | dataframe manipulation in recommendation engine
-
-TODO: explain that concert is related to event
-
+* jQuery | https://jquery.com | javascript library for html document traversal and manipulation
+* Font Awesome | https://fontawesome.com | public domain icons
+* popper.js | https://popper.js.org | used to manage poppers on different pages
