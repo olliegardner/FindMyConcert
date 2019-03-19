@@ -94,6 +94,10 @@ def events(request):
             
             concert_list = concert_list.filter(
                 Q(date__month=query)).distinct()
+        elif query == "date_past":
+            concert_list = concert_list.filter(
+                #Q(date < datetime.date.today())).distinct()
+                Q(date__lt=datetime.today())).distinct()
         else:
             #If query, return only filtered concerts
             concert_list = concert_list.filter(
