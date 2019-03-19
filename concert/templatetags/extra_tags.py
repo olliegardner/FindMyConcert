@@ -38,6 +38,10 @@ def get_upcoming_concert_count(username):
         for concert in user.giggoer.bookmarks.all():
             if concert.is_future():
                 upcoming = upcoming + 1
+    else:
+        for concert in user.venue.concert.all():
+            if concert.is_future():
+                upcoming = upcoming + 1
 
     return upcoming
 
@@ -49,6 +53,10 @@ def get_past_concert_count(username):
 
     if not user.is_venue:
         for concert in user.giggoer.bookmarks.all():
+            if not concert.is_future():
+                past = past + 1
+    else:
+        for concert in user.venue.concert.all():
             if not concert.is_future():
                 past = past + 1
     
