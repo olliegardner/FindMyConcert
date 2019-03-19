@@ -3,3 +3,4 @@ pillow
 django-crispy-forms
 pandas
 django-bootstrap-datepicker-plus
+scikit-learn
