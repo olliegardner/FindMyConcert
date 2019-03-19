@@ -148,5 +148,22 @@
 
         <script src="{% static 'js/base.js' %}"></script>
 
+        <script>
+            var $imageArray = new Array();
+            
+            $imageArray[0] = 'images/rock.jpg';
+            $imageArray[1] = 'images/lights.png';
+            $imageArray[2] = 'images/bg.jpg';
+            $imageArray[3] = 'images/bg2.jpg';
+          
+            function getRandomImage() {
+                var $num = Math.floor( Math.random() * 4);
+                var $img = $imageArray[$num];
+                var $bg = "url({% static 'replace' %}) ";
+                $bg = $bg.replace('replace',$img);
+                $('#randImage').css('background-image', $bg);
+            };
+        </script>
+
     </body>
 </html>
