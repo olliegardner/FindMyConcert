@@ -95,7 +95,6 @@ def events(request):
             Q(date__icontains=query) |
             Q(start_time__icontains=query) |
             Q(end_time__icontains=query) |
-            Q(description__icontains=query) |
             Q(venue__venue_name__icontains=query) |
             Q(venue__location__icontains=query)
             ).distinct()
