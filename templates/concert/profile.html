@@ -43,7 +43,12 @@
  
                     <div class="card-body">
                         <h5 class="card-title">{{ selecteduser.username }}</h5>
-                        <!--<p class="card-text"><i>Venue user</i></p>-->
+
+                        {% if selecteduser.is_venue %}
+                            <p class="card-text">Venue user</p>
+                        {% else %}
+                            <p class="card-text">GigGoer user</p>
+                        {% endif %}
  
                         <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                             <a class="nav-link active" id="v-pills-events-tab" data-toggle="pill" href="#v-pills-events" role="tab" aria-controls="v-pills-events" aria-selected="true">Events</a>
@@ -254,6 +259,8 @@
                                 {{ form|crispy }}
                                 <input class="btn btn-success" type="submit" value="Update Profile">
                             </form>
+
+                            <br>
                         </div>
                     {% endif %}
                 </div>
