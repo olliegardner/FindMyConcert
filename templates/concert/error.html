@@ -1,0 +1,11 @@
+{% extends 'concert/base.html' %}
+{% load staticfiles %} 
+
+{% block title_block %} {{ block.super }} {% endblock %}
+
+{% block body_block %}
+    <div class="container">
+        <img class="img-fluid" src="{% static 'images/433.jpg' %}" alt="Error 404: Page Not Found"/>
+    </div>
+
+{% endblock %}

@@ -1,41 +1,80 @@
 {% extends 'concert/base.html' %}
 {% load staticfiles %} 
-
+{% load extra_tags %}
 {% block title_block %} {{ block.super }} {% endblock %}
 
 {% block body_block %}
 
+<style>
+
+    /* Always set the map height explicitly to define the size of the div
+    * element that contains the map. */
+    #google-map {
+        height: 400px;
+    }
+
+    .concert-image { 
+        max-width: 100%;
+        width : 100%;
+        height: auto;
+        max-height:340px;
+        object-fit: cover;
+
+    }
+    .notbold{
+        font-size: 22px;
+    }​
+    span.line {
+      display: inline-block;
+
+
+    }
+
+    .tile-container, .tile-front, .tile-back {
+        width: 100%;
+        height: 100px;
+        border-radius: 10%;
+    }
+    .checked {
+        color:orange;
+    }
+
+</style>
 
 <div class="container">
+    <br>
+    <h1 id="concert_title"> {{ concert.artist}} at {{ concert.venue.venue_name }}</h1>
     <div class="row">
-        <div class ="col-lg-6 col-xs-12  col-md-12">
-            <br>
-            <h1>{{ concert.artist}} at {{ concert.venue.venue_name }}</h1>
-            <p>{{ concert.venue.venue_name }} , {{ concert.venue.location }}<br>
-            {{ concert.start_time }} - {{ concert.end_time }}   {{ concert.date }}</p>
-<<<<<<< HEAD
-            <p><a href="{{ concert.url}}">Tickets</a>  <span class="fa fa-star checked"></span>
-=======
-            <p><a href="{{ concert.url}}" target="_blank" >Tickets</a>  <span class="fa fa-star checked"></span>
->>>>>>> 5b5b60d90d0383f0846b1eb1cf21c1075803f333
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star"></span>
-                <span class="fa fa-star"></span> <button class="btn btn-outline-success navbar-right pull-right" onclick="bookmark({{ concert.concertID }})" >Bookmark</button></p>
-
-            <img class = "img-fluid" src="{{ concert.image.url }}">
+        <div class ="col-lg-6 col-12  col-md-12">
+        
+            <p>{{ concert.venue.venue_name }} , {{ concert.venue.location }}<br>{{ concert.start_time }} - {{ concert.end_time }}   {{ concert.date }}</p>
+            <p>
+                <a href="{{ concert.url }}" target="_blank" >Tickets</a>  
+                {% if user.is_authenticated and not user.is_venue %}
+                    {% if not bookmarked %}
+                        <button class="btn btn-outline-success navbar-right pull-right" id = "bookmarkbutton" onclick="bookmark({{ concert.concertID }})" >Bookmark</button> 
+                    {% else %}
+                        <button class="btn btn-outline-danger navbar-right pull-right" id = "bookmarkbutton" onclick="removebookmark({{ concert.concertID }})" >Remove Bookmark</button> 
+                    {% endif %}
+                {% endif %}
+            </p>
+            <img class = "concert-image" src="{{ concert.image.url }}">
             <br>
             <br>
             <h2>{{ concert.artist }}  
+                {% enough_ratings concert.concertID as rated %}
+                {% if rated %}
+                    <span data = "{% get_rating concert.concertID%}"  class=" notbold line" id ="stars">
+                    </span>
+                {% endif %}
             </h2>
             <p>{{ concert.description }}</p>
             <br>
             <br>
-
         </div>
 
 
-        <div class ="col-lg-6 col-xs-12 col-md-12">
+        <div class ="col-lg-6 col-12 col-md-12">
             <!-- Bootstrap tabs start -->
             <ul class="nav nav-tabs">
 
@@ -47,35 +86,120 @@
                 </li>
                 
                 <li class="nav-item">
-                    <a class="nav-link " data-toggle="tab" href="#venue" role="tab" aria-selected="true">Venue</a>
+                    <a class="nav-link" data-toggle="tab" href="#venue" role="tab" aria-selected="true">Venue</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link " data-toggle="tab" href="#spotify" role="tab" aria-selected="true">Spotify</a>
+                    <a class="nav-link" data-toggle="tab" href="#spotify" role="tab" aria-selected="true">Spotify</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#map" role="tab" aria-selected="true">Map</a>
                 </li>
             </ul>
             <!-- Bootstrap tabs end -->
 
             <div class="tab-content"> <!-- This is where the content for the different tabs are defined -->
-<<<<<<< HEAD
-
-                <div id="spotify" class="tab-pane fade"> <!-- This tab contains a venue description -->
+                
+                <div id="comments" class="tab-pane fade show active"> <!-- This tab shows the comments associated to the concert -->
                     <br>
-                    <iframe src="https://open.spotify.com/embed/artist/{{concert.spotify_URI}}" width="370" height="500" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+                    <h2> Comments</h2>
+                    <div class="col-md-6 col-md-offset-2 col-sm-12 col-lg-12">
+                        <!-- Comment input area start -->
+                        {% if user.is_authenticated %}
+                            <textarea id = "commentbox" class="form-control" placeholder="write a comment..." rows="3"></textarea>
+                            <br>
+                            <form method="post" style ="float:left;" >{% csrf_token %}
+                                
+                                <button type="button" class="btn btn-info" id = "postcomment" >Post</button>
+                            </form>
+                                {% if not user.is_venue %}
+                                    {% check_no_rating user.username concert.concertID as not_rated %}
+                                    {% if not_rated %}
+                                        <div class="form-inline" style ="float:right;" id = "ratingdiv" >
+                                            <form method="post" class="form-inline">{% csrf_token %}
+                                                <select id="rating" class="custom-select">
+                                                <option value="5">5 - Excellent</option>
+                                                <option value="4">4 - Good</option>
+                                                <option value="3">3 - Okay </option>
+                                                <option value="2">2 - Bad </option>
+                                                <option value="1">1 - Awful </option>
+                                                </select>
+                                                <button type= "button" id = "ratingbutton" class="btn btn-info" style ="float:right;">Rate</button>
+                                            </form>
+                                        </div>
+                                    {% else %}
+                                        <p style = "float:right"> Thank you for rating!</p>
+                                    {% endif %}
+                                {% endif %}
+                            {% endif %}
+                        <br>
+                        <br>
+                        <hr>
+                        <!-- Comment input area end --> 
+
+                        <!-- Section for all the comments, show all comments associated with this conncert -->
+                        <ul class = "comments" id ="allcomments">
+                            {% for comment in concert.comment.all%}
+                                <li class="media">
+                                    <a href="{ % url 'profile' comment.user.username‰}" class="pull-left">
+                                        {% if comment.user.is_venue and comment.user.venue.image != "" %}
+                                            <img src="{{ comment.user.venue.image.url }}" alt="Avatar" class="avatar">
+                                        {% elif not comment.user.is_venue and comment.user.giggoer.image != "" %}
+                                            <img src="{{comment.user.giggoer.image.url }}" alt="Avatar" class="avatar">
+                                        {% else %}
+                                            <i class="far fa-user fa-lg"></i>
+                                        {% endif %}
+                                    </a> <!-- Handle profile pic and wrap in link to profile -->
+
+
+                                    <div class="media-body"> <!-- Comment body starts here -->
+                                        <a href="{ % url 'profile' comment.user.username ‰}"><strong class="text-success">&nbsp;&nbsp;{{comment.user.username}}</strong></a>
+                                        <p>&nbsp;{{ comment.text }}</p>
+                                    </div>
+                                </li>
+                            {% endfor %}       
+                        </ul>
+                    </div>
                 </div>
 
-=======
-
-                <div id="spotify" class="tab-pane fade"> <!-- This tab contains a venue description -->
+                <div id="going" class="tab-pane fade show"> <!-- This shows all users who have bookmarked the concert-->
                     <br>
-                    <iframe src="https://open.spotify.com/embed/artist/{{concert.spotify_URI}}" width="370" height="500" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
-                </div>
+                    <div class = "row">
+                    {% if concert.bookmarks.all  %}
+                        {% for giggoer in concert.bookmarks.all %}
+                            <div class="col-4 col-md-3 col-lg-3 mt">
+                                <div class="tile-container">
+                                    <div class="tile">
+                                        <div class="tile-front" style="background-image: url({{ giggoer.image.url }}); background-size: cover; background-position: center;">
+                                            <div class="bottom-left">
+                                                <p>
+                                                    <br>
+                                                    {{ giggoer.user.username }}
+                                                </p>
+                                            </div>
+                                        </div>
 
-<<<<<<< HEAD
->>>>>>> a90aafd224bd4dea3f906140f25ce7bc6f1fe89e
-=======
->>>>>>> 5b5b60d90d0383f0846b1eb1cf21c1075803f333
->>>>>>> master
+                                        <div class="tile-back" style=" background-image: url({{ giggoer.image.url  }}); background-size: cover; background-position: center;">
+                                            <div class ="center-white-bg"style="background-color: rgba(256, 256, 256, 0.93);width:100%; height:100px; border-radius: 10%;">
+                                                <div class ="center">
+                                                    <a href="{% url 'profile' giggoer.user %}">
+                                                        <button class="btn btn-outline-info">View</button>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>                          
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        <br>
+                    {% else%}
+                        <p> There are no other users currently intrested in this concert</p>
+                    {% endif %}
+                    </div>
+                    <!-- User tiles-->
+                </div>
                 <div id="venue" class="tab-pane fade"> <!-- This tab contains a venue description -->
                     <br>
                     <h2>{{ concert.venue.venue_name }}</h2>
@@ -83,217 +207,114 @@
                     <p>{{ concert.venue.description }}</p>
                 </div>
 
-                <div id="going" class="tab-pane fade show"> <!-- This shows all users who have bookmarked the concert-->
+                <div id="spotify" class="tab-pane fade"> <!-- This tab contains a venue description -->
                     <br>
-                    {% if concert.bookmarks.all  %}
-                    {% for giggoer in concert.bookmarks.all %}
-                    <p >{{ giggoer.user.username }}</p>
-                    {% endfor %}
-                    {% else%}
-                    <p> There are no other users currently intrested in this concert</p>
-                    {% endif %}
+                    <iframe src="https://open.spotify.com/embed/artist/{{concert.spotify_URI}}" width="370" height="400" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
                 </div>
-                
-                <div id="comments" class="tab-pane fade show active"> <!-- This tab shows the comments associated to the concert -->
+
+                <div id="map" class="tab-pane fade show">
                     <br>
-                    <h2> Comments</h2>
-                    <div class="col-md-6 col-md-offset-2 col-sm-12 col-lg-12">
-                        <div>
-                            <div class="panel panel-info">
-                                <div class="panel-heading">
-                                </div>
-                                <div class="panel-body"> 
-                                    <!-- Comment input area start -->
-                                    {% if user.is_authenticated %}
-                                    <form method="post">{% csrf_token %}
-                                        <textarea id = "commentbox" class="form-control" placeholder="write a comment..." rows="3"></textarea>
-                                        <br>
-                                        <button type="button" class="btn btn-info pull-right" id = "postcomment" >Post</button>
-                                        <hr>
-                                    </form>
-                                    {% endif %}
-                                    <!-- Comment input are end --> 
-
-                                    <!-- Section for all the comments, show all comments associated with this conncert -->
-                                    <ul class = "comments" id ="allcomments">
-                                        {% for comment in concert.comment.all%}
-                                        <li class="media">
-                                            <a href="{ % url 'profile' comment.user.username‰}" class="pull-left">
-                                                {% if comment.user.is_venue and comment.user.venue.image != "" %}
-                                                <img src="{{ comment.user.venue.image.url }}" alt="Avatar" class="avatar">
-                                                {% elif not comment.user.is_venue and comment.user.giggoer.image != "" %}
-                                                <img src="{{comment.user.giggoer.image.url }}" alt="Avatar" class="avatar">
-                                                {% else %}
-                                                <i class="far fa-user fa-lg"></i>
-                                                {% endif %}
-                                            </a> <!-- Handle profile pic and wrap in link to profile -->
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-
-                                            <div class="media-body"> <!-- Comment body starts here -->
-                                                <a href="{ % url 'profile' comment.user.username ‰}"><strong class="text-success">{{comment.user.username}}</strong><a>
-                                                    <p>
-                                                        {{ comment.text }}
-                                                    </p>
-
-=======
-=======
->>>>>>> master
-
-
-                                            <div class="media-body"> <!-- Comment body starts here -->
-                                                <a href="{ % url 'profile' comment.user.username ‰}"><strong class="text-success">{{comment.user.username}}</strong><a>
-                                                    <p>
-                                                        {{ comment.text }}
-                                                    </p>
-
->>>>>>> a90aafd224bd4dea3f906140f25ce7bc6f1fe89e
-                                                        <!-- Todo, implement delete
-                                                        {% if comment.user.username == user.username %}
-                                                        <a href = # class = "text-muted" >Delete</a>
-                                                        {% endif %}
-                                                    -->
-                                                </div>
-                                            </li>
-                                            {% endfor %}       
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-
-=======
-
-
-                                            <div class="media-body"> <!-- Comment body starts here -->
-                                                <a href="{ % url 'profile' comment.user.username ‰}"><strong class="text-success">&nbsp;&nbsp;{{comment.user.username}}</strong><a>
-                                                    <p>&nbsp;
-                                                        {{ comment.text }}
-                                                    </p>
-
-                                                        <!-- Todo, implement delete
-                                                        {% if comment.user.username == user.username %}
-                                                        <a href = # class = "text-muted" >Delete</a>
-                                                        {% endif %}
-                                                    -->
-                                                </div>
-                                            </li>
-                                            {% endfor %}       
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-
->>>>>>> 5b5b60d90d0383f0846b1eb1cf21c1075803f333
-                        </div>
+                    <div id="google-map">
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+</div> 
+
+<script>
+    var map;
+    var service;
+    var infowindow;
+
+    function initMap() {
+        var venue_location = new google.maps.LatLng(-33.867, 151.195);
+        infowindow = new google.maps.InfoWindow();
+        map = new google.maps.Map(document.getElementById('google-map'), {center: venue_location, zoom: 15});
+
+        var request = {
+            query: '{{ concert.venue.venue_name }}, {{ concert.venue.location }}',
+            fields: ['name', 'geometry'],
+        };
+
+        service = new google.maps.places.PlacesService(map);
+
+        service.findPlaceFromQuery(request, function(results, status) {
+            if (status === google.maps.places.PlacesServiceStatus.OK) {
+                for (var i = 0; i < results.length; i++) {
+                    createMarker(results[i]);
+                }
+                map.setCenter(results[0].geometry.location);
+            }
+        });
+    }
+
+    function createMarker(place) {
+        var marker = new google.maps.Marker({
+            map: map,
+            position: place.geometry.location
+        });
+
+        google.maps.event.addListener(marker, 'click', function() {
+            infowindow.setContent(place.name);
+            infowindow.open(map, this);
+        });
+    }
 
 
-    </div> 
 
-    <script>
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-       document.getElementById("postcomment").addEventListener("click", postcomment);
-       function postcomment() {
-=======
+    $(document).ready(function() {
+        $('html, body').animate({
+        'scrollTop' : $("#concert_title").position().top
+        });
 
->>>>>>> master
-       document.getElementById("postcomment").addEventListener("click", postcomment);
+        //Add rating if applicable
+        var filledStars = document.getElementById('stars').getAttribute('data');
+        var emptyStars = 5 - filledStars;
+
+        var i;
+        for (i = 0; i < filledStars; i++) { 
+            $('<span class="fa fa-star checked "></span>').appendTo('#stars'); 
+        }
+
+        for (i = 0; i < emptyStars; i++) { 
+            $('<span class="fa fa-star"></span>').appendTo('#stars'); 
+        }
+        
+    });
 
 
-       function postcomment() {
-<<<<<<< HEAD
-=======
-
-       document.getElementById("postcomment").addEventListener("click", postcomment);
+    document.getElementById("postcomment").addEventListener("click", postcomment);
 
 
-       function postcomment() {
+    function postcomment() {
 
->>>>>>> a90aafd224bd4dea3f906140f25ce7bc6f1fe89e
-=======
-
->>>>>>> 5b5b60d90d0383f0846b1eb1cf21c1075803f333
->>>>>>> master
         //MAake AJAX post request
         $.ajaxSetup({
             headers: { "X-CSRFToken": '{{csrf_token}}' }
         });
         $.ajax({
             type: 'POST',
-<<<<<<< HEAD
-            url:'http://127.0.0.1:8000/api/postcomment/',
-=======
             url:'{% url "postcomment" %}',
->>>>>>> 5b5b60d90d0383f0846b1eb1cf21c1075803f333
             data: {'data':$('#commentbox').val(),'id':'{{concert.concertID}}'},
             credentials: 'include',
             dataType: 'json',
             success:function(data){
-<<<<<<< HEAD
-                var $text = $('#commentbox').val();
-                toastr.success('Comment posted succesfully');
-                    $("#commentbox").val(''); //Clear the comment box
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-
-
->>>>>>> a90aafd224bd4dea3f906140f25ce7bc6f1fe89e
-=======
-=======
                 if (data.success == "True") {
                 var $text = $('#commentbox').val();
                 toastr.success('Comment posted succesfully');
                     $("#commentbox").val(''); //Clear the comment box
 
 
->>>>>>> 5b5b60d90d0383f0846b1eb1cf21c1075803f333
->>>>>>> master
                     //Next part is a mess, this appens the new comment to the html code
                     //The links are left blank deliberately for the sake of simplicity and time constraints
                     //The user will have to relaod to access more fucntions
                     $('<li class="media">').append(
                         $('<a href="#" class="pull-left"><img src="' +data.image+'" class="avatar"></a>'),
-<<<<<<< HEAD
-                        $('<div class="media-body"><a href="#"<strong class="text-success">'+data.username +'</strong></a><p>' +$text +'</p>')
-                        ).appendTo('#allcomments');             
-                },
-<<<<<<< HEAD
-                error: function(data) {
-                    toastr.error('Comment not sent!');
-                }
-            });
-        
-    };
-=======
-
-                error: function(data) {
-                    toastr.error('Comment not sent!');
-                }
-
-
-            });
-
-
-
-        
-    };
-<<<<<<< HEAD
-
-
->>>>>>> a90aafd224bd4dea3f906140f25ce7bc6f1fe89e
-=======
-=======
                         $('<div class="media-body"><a href="#"<strong class="text-success">&nbsp;&nbsp;'+data.username +'</strong></a><p>&nbsp;&nbsp;' +$text +'</p>')
                         ).appendTo('#allcomments');      
 
-                    $('#allcomments').animate({ scrollTop: 10000000000000000 }, 50);
+                    $('#allcomments').animate({ scrollTop: 10000000000000000 }, 50); //This is hack, scrolling too far scrolls to the bottom
                     } else {
                         toastr.error('Comment not sent!');
                     }      
@@ -301,19 +322,56 @@
 
                 error: function(data) {
                     toastr.error('Comment not sent!');
-                }
+            }
+        });   
+    };
+    
 
+    document.getElementById("ratingbutton").addEventListener("click", rateconcert);
+    
+    function rateconcert() {
 
-            });
+        console.log("test")
+        var $rating = $("#rating").val();
+        //MAake AJAX post request
+        $.ajaxSetup({
+            headers: { "X-CSRFToken": '{{csrf_token}}' }
+        });
+        console.log("ajax")
+        $.ajax({
+            type: 'POST',
+            url:'{% url "rateconcert" %}',
+            data: {'data':$rating,'id':'{{concert.concertID}}'},
+            credentials: 'include',
+            dataType: 'json',
+            success:function(data){
+                toastr.success('Rating succesfully recorded');
+                $('#ratingdiv').replaceWith('<p style = "float:right"> Thank you for rating!</p>')
+                
+            },
 
-
-
-        
+            error: function(data) {
+                toastr.error('Rating not recorded');
+            }
+        });   
     };
 
+    function removebookmark(concertid) {
+          $.get('/concert/removebookmark/', {concertid: concertid});
+          toastr.error('Bookmark removed!');
+          $('#bookmarkbutton').replaceWith('<button class="btn btn-outline-success navbar-right pull-right" id = "bookmarkbutton" onclick="bookmark({{ concert.concertID }})" >Bookmark</button></p>')
+    };
 
->>>>>>> 5b5b60d90d0383f0846b1eb1cf21c1075803f333
->>>>>>> master
+    function bookmark(concertid) {
+            $.get('/concert/bookmark/', {concertid: concertid}); 
+            toastr.success('Concert bookmarked!');
+            $('#bookmarkbutton').replaceWith('<button class="btn btn-outline-danger navbar-right pull-right" id = "bookmarkbutton" onclick="removebookmark({{ concert.concertID }})" >Remove Bookmark</button></p>')
+
+            //Start by bookmarking the concert
+    };
+
 </script>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA80wEVfNDR49oTo3yede1S6Nik_Lw6PyY&libraries=places&callback=initMap" async defer></script>
 
 {% endblock %}

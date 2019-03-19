@@ -5,9 +5,8 @@
 {% block title %} {{ block.super }} {% endblock %}
 
 {% block body_block %}
-    <br>
     <div class="container">
-        <h1>Add a Concert</h1>
+        <h1 class="display-4">Add a Concert</h1>
 
         <form id="concertform" action="/venues/addconcert/" method="POST" enctype="multipart/form-data">
             {% csrf_token %}

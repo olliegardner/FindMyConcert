@@ -10,6 +10,8 @@ from django.utils.translation import gettext as _
 
 
 class User(AbstractUser):
+    #This is the base user class which giggoers and venues create a
+    #one to one field to
     email     = models.EmailField(max_length=70)
     is_venue  = models.BooleanField(default=False)
 
@@ -18,7 +20,8 @@ class User(AbstractUser):
     
 
 class Venue(models.Model):
-    user         = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    #Venue object and fiels
+    user         = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True) #Parent object
     venue_name   = models.CharField(max_length=128) 
     location     = models.CharField(max_length=128) 
     website      = models.URLField()
@@ -34,7 +37,7 @@ class Venue(models.Model):
 class Concert(models.Model):
     concertID   = models.AutoField(primary_key=True)
     artist      = models.CharField(max_length=128,) 
-    date        = models.DateField(_("Date"))
+    date        = models.DateField()
     start_time  = models.TimeField(_("Start Time"))
     end_time    = models.TimeField(_("End Time"))
     image       = models.ImageField(upload_to='concert_images', null=True)
@@ -47,7 +50,7 @@ class Concert(models.Model):
         ordering = ['-date']
 
     def is_future(self):
-        print(datetime.date.today() )
+        #This checks if the concert is in the future (or today)
         if self.date >= datetime.date.today():
            return True 
         else:
@@ -58,12 +61,7 @@ class Concert(models.Model):
 
 
 class Comment(models.Model):
-    rating = models.IntegerField(default=5,
-    validators=[
-        MaxValueValidator(5),
-        MinValueValidator(1)
-        ])
-    user        = models.ForeignKey(User, related_name='user', on_delete=models.CASCADE)
+    user        = models.ForeignKey(User, related_name='user', on_delete=models.CASCADE) #Both user types can comment
     text        = models.CharField(max_length=560, null = True)
     commentID   = models.AutoField(primary_key=True)
     concert     = models.ForeignKey(Concert, on_delete=models.CASCADE, related_name='comment')
@@ -78,9 +76,19 @@ class Comment(models.Model):
 
 
 class GigGoer(models.Model):
-    user      = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    user      = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True) #Parent class
     image     = models.ImageField(upload_to='profile_images', blank=True) 
     bookmarks = models.ManyToManyField(Concert, related_name='bookmarks')
 
     def __str__(self):
         return self.user.username
+
+
+class Rating(models.Model):
+    #Theoretically a user could rate a concert several times, but this is unlikely sicne it requires an AJAX request
+    ratingID   = models.AutoField(primary_key=True)
+    user       = models.OneToOneField(User, related_name='rating', on_delete=models.CASCADE)
+    concert    = models.ForeignKey(Concert, related_name='rating', on_delete=models.CASCADE)
+    score      = models.IntegerField(default=5, validators=[MaxValueValidator(5), MinValueValidator(1)])
+    
+

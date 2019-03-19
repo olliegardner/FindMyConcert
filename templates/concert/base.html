@@ -36,11 +36,19 @@
             $bg = $bg.replace('replace',$img);
             $('#randImage').css('background-image', $bg);
 
+
         };
     </script>
 
-    <body onload = 'getRandomImage()'>
+    
         
+
+        <link rel="stylesheet" type="text/css" href="{% static 'css/toastr.min.css' %}">
+    </head>
+
+    <body ontouchstart="" onload= "getRandomImage()">
+
+
         <!-- NAVBAR START -->
         <div class="navbar-container line text size">
             <nav class="navbar navbar-expand-lg navbar-light navbar-trans nav-colour-collapsed ">
@@ -48,9 +56,9 @@
                     <i class="fas fa-music" style="padding-right: 3%"></i>
 
                     {% if user.is_authenticated and user.is_venue %}
-                        <a class="navbar-brand" href="{% url 'index'%}"><b>AddMyConcert</b></a>
+                        <a class="text" href="{% url 'index'%}"><b>AddMyConcert&nbsp;&nbsp;&nbsp;</b></a>
                     {% else %}
-                        <a class="navbar-brand" href="{% url 'index'%}"><b>FindMyConcert</b></a> 
+                        <a class="text" href="{% url 'index'%}"><b>FindMyConcert&nbsp;&nbsp;&nbsp;</b></a> 
                     {% endif %}
                 </div>
 
@@ -126,8 +134,18 @@
         </div>
 
 
+        <!-- FOOTER -->
+        <footer class="footer">
+            <!-- TODO add footer contents -->
+        </footer>
+        <!-- FOOTER END -->
+
+
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script> <!-- JS cookie library for csrf tokens-->
-    </body> 
+
+        <script src="{% static 'js/toastr.min.js' %}"></script>
+    </body>
 </html>
+
