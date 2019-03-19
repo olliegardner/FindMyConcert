@@ -86,6 +86,14 @@
                             <a class="dropdown-toggle btn btn-primary-outline navbar-right text" href="#" data-toggle="dropdown" role="button">Sign in</a>
 
                             <div class="dropdown-menu dropdown-menu-right">
+                                {% if messages %}
+                                    {% for message in messages %}
+                                        <div id="login-toast" data="{{ message }}">
+                                            <!-- load div element if login fails and parse message -->
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+
                                 <form class="px-4 py-3" method="post" novalidate enctype="multipart/form-data">
                                     {% csrf_token %}
                                     {{ loginform|crispy }}
@@ -123,5 +131,8 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script> <!-- JS cookie library for csrf tokens-->
         <script src="{% static 'js/toastr.min.js' %}"></script>
+
+        <script src="{% static 'js/base.js' %}"></script>
+
     </body>
 </html>

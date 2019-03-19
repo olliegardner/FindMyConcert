@@ -6,7 +6,7 @@ This is a univerisity project created by Ollie Gardner, Axel Stjerngren, Robert 
 at the University of Glasgow. The premise of the website is to allow users to find concerts in their 
 local area and for venues to be able to easily add new concerts.
 
-###Installation
+### Installation
 
 First clone the repository and then navigate to the FindMyConcert source folder.
 
@@ -18,7 +18,7 @@ python manage.py makemigrations concert
 python manage.py migrate
 ```
 
-(Optional )Now you can run the population script. Please note that db.sqlite3 has to be deleted each time you run this script as the data base does not allow duplicate entries.
+(Optional )Now you can run the population script. Please note that db.sqlite3 has to be deleted each time you run this script as the database does not allow duplicate entries.
 ```python populate.py```
 
 Now run the server!
@@ -27,4 +27,45 @@ python manage.py runserver
 ```
 
 Now if you navigate to http://127.0.0.1:8000/ you should be greeted by a view which looks like this:
-###TODO: add screenshot of index
+![Screenshot of index page](https://i.imgur.com/yPSk2fh.jpg)
+
+### Feautures
+* Ability to register as 2 user types - GigGoers and Venues
+* Email verficiation
+* Password reset via email link
+
+#### Concert Information Page
+* See the venue location using a google map
+* Listen to songs by the artist using an embedded spotify widget
+* Comment on the concert if logged in as a GigGoer or Venue
+* Leave a rating on a concert from 1-5 if logged in as a GigGoer (disabled for venues)
+* See the average rating for the concert
+* View other GigGoers that have also bookmarked the concert
+* Access a URL to tickets on an external site
+* See description about a venue
+* See concert details
+* Add/remove bookmarks on concerts
+![Screenshot of concert page](https://i.gyazo.com/67900ecc2e4d49b659be2d5e9c02c20e.jpg)
+
+### Using FindMyConcert
+
+
+### Using AddMyConcert
+
+### External Sources
+* django 1.11.17 | https://www.djangoproject.com | backend as specified by project specification
+* django-crispy-forms | https://django-crispy-forms.readthedocs.io/en/latest/ | beautify forms in accordance to bootstrap
+* django-bootstrap-datepicker-plus | https://pypi.org/project/django-bootstrap-datepicker-plus/ | date and time pickers for adding and editing concerts
+* Bootstrap 4 | https://getbootstrap.com | CSS framework for all pages
+* Toastr | https://codeseven.github.io/toastr/ | javascript framework for notification toasts
+* IP-API | http://ip-api.com | geolocation API to retrieve your current location for events page
+* Google Maps API | https://developers.google.com/maps/documentation/ | maps API to display location of venue on concert pages
+* Spotify Webplayer | https://developer.spotify.com/documentation/widgets/ | emebedded Spotify player on concert pages
+* SciPy | https://www.scipy.org | used for singular value decomposition of rating matrix to predict and recommend artists that users might like
+* NumPy | http://www.numpy.org | used for matrix calculations
+* bcrypt | https://pypi.org/project/bcrypt/ | password hashing algorithm for user authentication
+* pillow | https://pypi.org/project/Pillow/ | python imaging library for storing images in django database
+* pandas | http://pandas.pydata.org/pandas-docs/version/0.15/tutorials.html | dataframe manipulation in recommendation engine
+
+TODO: explain that concert is related to event
+
