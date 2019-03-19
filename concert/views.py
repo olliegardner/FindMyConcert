@@ -70,16 +70,15 @@ def index(request):
     return render(request, 'concert/index.html', {'loginform': loginForm})
 
 def events(request):
-
     loginForm = user_login(request)
     concert_list = Concert.objects.all() #Get all concerts
 
     #Try to find the location using ip-api
     try:
-        location = urllib.request.urlopen("http://ip-api.com/json/")
+        location = urllib.request.urlopen("http://ip-api.com/json/", timeout=3)
         location_json = json.load(location)
     except:
-        location_json = "Unknown"
+        location_json = {'city': "Error"}
 
     #See if a quesry has been sent
     query = request.GET.get("q")
