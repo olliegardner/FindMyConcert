@@ -1,0 +1,13 @@
+
+/* Let cards inherit parent color*/
+.inherit-color {
+	color: inherit;
+}
+
+.right {
+	float: right;
+}
+
+.top-padding {
+	padding-top: 3%
+}

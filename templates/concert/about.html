@@ -4,28 +4,131 @@
 {% block title %} {{ block.super }} - About {% endblock %}
 
 {% block body_block %}
-    <div class="container jumbotron">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/about.css' %}">
+
+    <div class="container">
         <h1 class="display-4">About</h1>
 
-        <p>FindMyConcert is a 2nd year univerisity project for the Web Application Development course at the University of Glasgow. The premise of the website is to allow users to find concerts in their local area and for venues to be able to easily add new concerts.</p>
+        <p>Welcome to FindMyConcert! This is a univerisity project created for the Web Application Development course at the University of Glasgow. The premise of the website is to allow users to find concerts in their local area and for venues to be able to easily add new concerts.</p>
 
-        <p>
-        	FindMyConcert was developed by:
-        	<ul style="list-style-type: circle;">
-        		<li>Ollie Gardner</li>
-        		<li>Axel Stjerngren</li>
-        		<li>Robert Pringle</li>
-        		<li>Patryk Kaczmarczyk</li>
-        		<li>Andrew Finlayson</li>
-        	</ul>
-        </p>
+        <p>FindMyConcert was developed by:</p>
+
+        <div class="row">
+        	<div class="col-12 col-md-6 col-lg-3">
+                <div class="card">
+                    <img class="card-img-top" src="{% static 'images/ollie.jpg' %}">
+ 
+                    <div class="card-body">
+                        <h5 class="card-title">Ollie Gardner</h5>
+ 						
+ 						<a href="https://github.com/olliegardner" class = "inherit-color">
+                            <i class="fab fa-github fa-2x"></i>
+                        </a>
+ 						
+                        <a href="https://www.facebook.com/olliegardner2" class = "inherit-color">
+                            <i class="fab fa-facebook fa-2x"></i>
+                        </a>
+        				<a href="mailto:olliegardner@gmail.com" class = "inherit-color">
+                            <i class="fas fa-envelope fa-2x"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="card">
+                    <img class="card-img-top" src="{% static 'images/axel.jpg' %}">
+ 
+                    <div class="card-body">
+                        <h5 class="card-title">Axel Stjerngren</h5>
+ 						<a href="https://github.com/axelstjerngren" class ="inherit-color">
+                            <i class="fab fa-github fa-2x"></i>
+                        </a>
+ 						<a href="https://www.facebook.com/axel.stjerngren" class ="inherit-color">
+                            <i class="fab fa-facebook fa-2x"></i>
+                        </a>
+ 						<a href="https://www.linkedin.com/in/axel-stjerngren/" class ="inherit-color">
+                            <i class="fab fa-linkedin fa-2x"></i>
+                        </a>
+        				<a href="mailto:a.stjerngr@gmail.com" class ="inherit-color">
+                            <i class="fas fa-envelope fa-2x"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="card">
+                    <img class="card-img-top" src="{% static 'images/robert.jpg' %}">
+ 
+                    <div class="card-body">
+                        <h5 class="card-title">Robert Pringle</h5>
+ 						
+ 						<a href="https://github.com/2304777P" class ="inherit-color">
+                            <i class="fab fa-github fa-2x"></i>
+                        </a>
+ 						<a href="https://www.facebook.com/robert.pringle.7503" class ="inherit-color">
+                            <i class="fab fa-facebook fa-2x"></i>
+                        </a>
+        				<a href="mailto:pringle@live.co.uk" class ="inherit-color">
+                            <i class="fas fa-envelope fa-2x"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="card">
+                    <img class="card-img-top" src="{% static 'images/patryk.jpg' %}">
+ 
+                    <div class="card-body">
+                        <h5 class="card-title">Patryk Kaczmarczyk</h5>
+ 						
+ 						<a href="https://github.com/Patsonical" class ="inherit-color">
+                            <i class="fab fa-github fa-2x"></i>
+                        </a>
+ 						<a href="https://www.facebook.com/patryk.kaczmarczyk4" class ="inherit-color">
+                            <i class="fab fa-facebook fa-2x"></i>
+                        </a>
+        				<a href="mailto:patryk.kaczmarczyk.mail@gmail.com" class ="inherit-color">
+                            <i class="fas fa-envelope fa-2x"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-3" class="top-padding">
+                <div class="card">
+                    <img class="card-img-top" src="{% static 'images/andrew.jpg' %}">
+ 
+                    <div class="card-body">
+                        <h5 class="card-title">Andrew Finlayson</h5>
+ 						
+ 						<a href="https://github.com/Annddrew" class ="inherit-color">
+                            <i class="fab fa-github fa-2x"></i>
+                        </a>
+ 						<a href="https://www.facebook.com/andrew.finlayson.180" class ="inherit-color">
+                            <i class="fab fa-facebook fa-2x"></i>
+                        </a>
+        				<a href="mailto:andrewfinlayson@live.com" class ="inherit-color">
+                            <i class="fas fa-envelope fa-2x"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <br>
         <hr>
-        
-        <div style="float: right;">
-        	<a href="https://github.com/olliegardner/FindMyConcert" style="color: inherit;"><i class="fab fa-github fa-2x"></i></a>
-        	<a href="mailto:findmyconcert.wadproject@gmail.com" style="color: inherit;"><i class="fas fa-envelope fa-2x"></i></a>
+
+        <div class = "right">
+        	<a href="https://github.com/olliegardner/FindMyConcert" class ="inherit-color">
+                <i class="fab fa-github fa-2x"></i>
+            </a>
+        	<a href="mailto:findmyconcert.wadproject@gmail.com" class ="inherit-color">
+                <i class="fas fa-envelope fa-2x"></i>
+            </a>
     	</div>
+    </div>br>
     </div>
 {% endblock %}

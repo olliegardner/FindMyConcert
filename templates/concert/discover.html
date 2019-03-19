@@ -1,0 +1,39 @@
+{% extends 'concert/base.html' %}
+{% load staticfiles %}
+
+{% block title %} {{ block.super }} {% endblock %}
+
+{% block body_block %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/discover.css' %}">
+
+<div class = "container">
+    <h1 class="display-4">Discover</h1>
+    <hr>
+    <div class="row">
+        {% for concert in concerts%}  <!-- Loop through concerts -->
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="card"> <!-- Add a card-->
+                    <img class="card-img-top concert-image" src="{{concert.image.url}}">
+
+                    <div class="card-body">
+                        <h5 class="card-title">{{ concert.artist }}</h5>
+                        <span> 
+                            <a href = "{% url 'view' concert.concertID %}" >
+                                <button class="btn btn-outline-dark" >View</button>
+                            </a> 
+                            <button data = "{{ concert.concertID }}" class="btn btn-success bookmarkbutton"> Bookmark</button>
+                        </span>
+                        <p class="card-text "><i>{{concert.description}}</i></p>
+
+                    </div>
+                </div>
+            </div>
+        {%endfor %}
+    </div>
+</div>
+
+<!--Load javascript file to handle bookmarking and toastrs-->
+<script src="{% static 'js/discover.js' %}"> </script>
+
+{% endblock %}

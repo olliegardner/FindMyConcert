@@ -67,6 +67,12 @@ nav .navbar-nav li a{
     white-space: nowrap;
 }
 
+/* handles the position of the view concert button when user is not logged in/venue account */
+.lonely-view-button {
+    position: absolute;
+    top: 90%;
+    left: 32%;
+}
 
 
 .background {
@@ -99,6 +105,10 @@ nav .navbar-nav li a{
     font-size: 5.9vw;
 }
 
+/*This is used to add padding to FindMyConcert/AddMyConcert in navbar*/
+.logo_padding {
+    padding-right: 3%;
+}
 
 #box {
     z-index: 6;

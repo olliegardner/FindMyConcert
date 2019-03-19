@@ -18,12 +18,15 @@ def venueIndex(request):
 def addConcert(request):
     form = ConcertForm()
 
+
     if request.method == 'POST':
         form = ConcertForm(request.POST, request.FILES)
-        print(request.FILES)
-        if form.is_valid():
-            concert = Concert()
-            print(form.cleaned_data)
+        #Get the form
+
+        if form.is_valid(): #Check CSRF
+            concert = Concert() #Create a new concert
+
+            #Add all the data to concert
             concert.artist       = form.cleaned_data['artist']
             concert.date         = form.cleaned_data['date']
             concert.start_time   = form.cleaned_data['start_time']
@@ -32,17 +35,20 @@ def addConcert(request):
             concert.url          = form.cleaned_data['url']
             concert.description  = form.cleaned_data['description']
             concert.venue        = request.user.venue
-            concert.save()
+            concert.save() # Save the new concert
 
 
             return render(request, 'venues/index.html')
     return render(request, 'venues/addConcert.html', {'form': form})
 
+
 @login_required
 @venue_required
 def deleteConcert(request, id): 
-    print("Delete concert view initalised")
+
     new_to_delete = get_object_or_404(Concert, concertID=id)
+
+    #Check if the requesting user actually owns this concert
     if (new_to_delete.venue != request.user.venue):
         return HttpResponseRedirect(reverse('/')) 
 
@@ -51,29 +57,40 @@ def deleteConcert(request, id):
         form = DeleteConcertForm(request.POST, instance=new_to_delete)
 
         if form.is_valid(): 
-            print("Deleting object")
-            new_to_delete.delete()
+            new_to_delete.delete() #Delete the concert
             return HttpResponseRedirect(reverse(events))
-        else:
-            print(form.errors)
 
-    else:
-        print("No POST request") 
-        form = DeleteConcertForm(instance=new_to_delete)
-
+    #If no post request, return the appropiate form
+    form = DeleteConcertForm(instance=new_to_delete)
     template_vars = {'form': form}
     return render(request, 'concert/myEvents.html', template_vars)
+
 
 @login_required
 @venue_required
 def editConcert(request, id):
+
+    #Get the concert
     concert = get_object_or_404(Concert, concertID=id)
+
+    #Check if user.venue owns concert
     if (concert.venue != request.user.venue):
         return HttpResponseRedirect(reverse('/')) 
+
 
     if request.method == 'POST':
         form = EditConcertForm(request.POST, request.FILES)
 
+
+        """ 
+        Here we have to check which fields in the form the user has filled in.
+        We can't user the normal form.save() as we are saving to two different models
+        (Giggoer and User).
+
+        This function could also have been implemented by overriding save() in 
+        EditConcertForm
+        """
+                    
         if form.is_valid(): 
             if (form.cleaned_data.get('artist') != ""):
                 concert.artist      = form.cleaned_data['artist']
@@ -92,8 +109,7 @@ def editConcert(request, id):
             concert.save()
 
             return HttpResponseRedirect(reverse(events)) 
-        else:
-            print(form.errors)
+
     form = EditConcertForm
     return render(request, 'venues/editConcert.html', {'form': form, 'id' : id})
 

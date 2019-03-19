@@ -115,9 +115,14 @@
                                                             <br>
                                                         </h6>
                                                         <br>
-                                                        <a href="{% url 'view' concert.concertID %}"><button class="btn btn-outline-dark">View</button></a>
+                                                        
                                                         {% if not user.is_venue %}
+                                                            <a href="{% url 'view' concert.concertID %}"><button class="btn btn-outline-dark">View</button></a>
                                                             <button class="btn btn-success" onclick="bookmark({{ concert.concertID }})">Bookmark</button>
+                                                        {% else %}
+                                                            <div class="lonely-view-button">
+                                                                <a href="{% url 'view' concert.concertID %}"><button class="btn btn-outline-dark">View</button></a>
+                                                            </div>
                                                         {% endif %}
                                                     </div>
                                                 </div>
@@ -166,16 +171,19 @@
                                                                     <br>
                                                                 </h6>
                                                                 <br>
-                                                                <a href="{% url 'view' concert.concertID %}">
-                                                                    <button class="btn btn-outline-info">View</button>
-                                                                </a>
-                                                                <a href="{% url 'edit' concert.concertID%}">
-                                                                    <button class="button btn button-blue button-bordered btn-primary">Edit</button>
-                                                                </a>
-                                                                <form action="{% url 'delete' concert.concertID%}" method="post">
-                                                                    {% csrf_token %}
-                                                                    <button class = "btn-danger btn "type="submit" >Delete</button>
-                                                                </form>
+                                                                
+                                                                <div class="row">
+                                                                    <a href="{% url 'view' concert.concertID %}" style="padding-right: 3px">
+                                                                        <button class="btn btn-outline-dark">View</button>
+                                                                    </a>
+                                                                    <a href="{% url 'edit' concert.concertID %}" style="padding-right: 3px">
+                                                                        <button class="button btn button-blue button-bordered btn-primary">Edit</button>
+                                                                    </a>
+                                                                    <form action="{% url 'delete' concert.concertID%}" method="post">
+                                                                        {% csrf_token %}
+                                                                        <button class = "btn-danger btn "type="submit" >Delete</button>
+                                                                    </form>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>                          
@@ -268,16 +276,19 @@
                                                                     <br>
                                                                 </h6>
                                                                 <br>
-                                                                <a href="{% url 'view' concert.concertID %}">
-                                                                    <button class="btn btn-outline-dark">View</button>
-                                                                </a>
-                                                                <a href="{% url 'edit' concert.concertID %}">
-                                                                    <button class="button btn button-blue button-bordered btn-primary">Edit</button>
-                                                                </a>
-                                                                <form action="{% url 'delete' concert.concertID %}" method="post">
-                                                                    {% csrf_token %}
-                                                                    <button class="btn btn-danger"type="submit" >Delete</button>
-                                                                </form>
+
+                                                                <div class="row">
+                                                                    <a href="{% url 'view' concert.concertID %}" style="padding-right: 3px">
+                                                                        <button class="btn btn-outline-dark">View</button>
+                                                                    </a>
+                                                                    <a href="{% url 'edit' concert.concertID %}" style="padding-right: 3px">
+                                                                        <button class="button btn button-blue button-bordered btn-primary">Edit</button>
+                                                                    </a>
+                                                                    <form action="{% url 'delete' concert.concertID%}" method="post">
+                                                                        {% csrf_token %}
+                                                                        <button class = "btn-danger btn "type="submit" >Delete</button>
+                                                                    </form>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>                          
@@ -433,7 +444,9 @@
                                                     <br>
                                                 </h6>
                                                 <br>
-                                                <a href="{% url 'view' concert.concertID %}"><button class="btn btn-outline-dark">View</button></a>
+                                                <div class="lonely-view-button">
+                                                    <a href="{% url 'view' concert.concertID %}"><button class="btn btn-outline-dark">View</button></a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>                          
