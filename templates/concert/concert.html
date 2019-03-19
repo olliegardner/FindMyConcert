@@ -49,7 +49,7 @@
         
             <p>{{ concert.venue.venue_name }} , {{ concert.venue.location }}<br>{{ concert.start_time }} - {{ concert.end_time }}   {{ concert.date }}</p>
             <p>
-                <a href="{{ concert.url }}" target="_blank" >Tickets</a>  
+                <a href="{{ concert.url }}" target="_blank">Tickets</a>  
                 {% if user.is_authenticated and not user.is_venue %}
                     {% if not bookmarked %}
                         <button class="btn btn-outline-success navbar-right pull-right" id = "bookmarkbutton" onclick="bookmark({{ concert.concertID }})" >Bookmark</button> 
@@ -203,7 +203,7 @@
                 </div>
                 <div id="venue" class="tab-pane fade"> <!-- This tab contains a venue description -->
                     <br>
-                    <h2>{{ concert.venue.venue_name }}</h2>
+                        <a href="{% url 'profile' concert.venue.user.username %}"><h2>{{ concert.venue.venue_name }}</h2></a>
                     <img class = "img-fluid "src="{{ concert.venue.image.url }}">
                     <p>{{ concert.venue.description }}</p>
                 </div>
