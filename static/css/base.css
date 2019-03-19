@@ -39,6 +39,22 @@ body, html {
     float: right;
 }
 
+.parallax{
+    /* Set a specific height */
+  
+
+    left: 0px; 
+    top: 0px; 
+    z-index: 0;
+
+  /* Create the parallax scrolling effect */
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+
 
 @media (max-width:991px) {
     .nav-colour-collapsed {
@@ -72,6 +88,7 @@ nav .navbar-nav li a{
 
     white-space: nowrap;
 }
+
 
 
 
