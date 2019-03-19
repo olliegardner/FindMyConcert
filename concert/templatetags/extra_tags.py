@@ -1,7 +1,9 @@
 from django import template
 register = template.Library()
 
-from concert.models import Concert, User
+
+from concert.models import Concert, User, Rating
+
 
 @register.simple_tag
 def enough_ratings(concertID):
@@ -29,23 +31,43 @@ def get_rating(concertID):
 @register.simple_tag
 def get_upcoming_concert_count(username):
     #This counts how many upcoming concerts a user has
-    giggoer = User.objects.get(username=username).giggoer
+    user = User.objects.get(username=username)
     upcoming = 0
 
-    for concert in giggoer.bookmarks.all():
-        if concert.is_future():
-            upcoming = upcoming + 1
+    if not user.is_venue:
+        for concert in user.giggoer.bookmarks.all():
+            if concert.is_future():
+                upcoming = upcoming + 1
+    else:
+        for concert in user.venue.concert.all():
+            if concert.is_future():
+                upcoming = upcoming + 1
 
     return upcoming
 
 @register.simple_tag
 def get_past_concert_count(username):
     #This counts how many past concerts a user has
-    giggoer = User.objects.get(username=username).giggoer
+    user = User.objects.get(username=username)
     past = 0
 
-    for concert in giggoer.bookmarks.all():
-        if not concert.is_future():
-            past = past + 1
+    if not user.is_venue:
+        for concert in user.giggoer.bookmarks.all():
+            if not concert.is_future():
+                past = past + 1
+    else:
+        for concert in user.venue.concert.all():
+            if not concert.is_future():
+                past = past + 1
     
     return past
+
+@register.simple_tag
+def check_no_rating(username, concertID):
+    user    = User.objects.get(username = username)
+    concert = Concert.objects.get(concertID = concertID)
+    for rating in concert.rating.all():
+        if rating.user == user:
+            return False
+    return True
+
