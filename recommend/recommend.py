@@ -62,6 +62,16 @@ def recommendation(request):
     engine = recommendationEngine(str(user.username))
     recommendation_list = engine.recommendation_list
 
+    concert_list = Concert.objects.all()
+    concert_list = concert_list.filter(
+            Q(artist__icontains=query) |
+            Q(date__icontains=query) |
+            Q(start_time__icontains=query) |
+            Q(end_time__icontains=query) |
+            Q(description__icontains=query) |
+            Q(venue__venue_name__icontains=query) |
+            Q(venue__location__icontains=query)
+            ).distinct()
 
     concert_objects = []
     for artist in recommendation_list:
