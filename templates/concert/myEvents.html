@@ -31,13 +31,35 @@
                                     <div class="col-auto" style="margin-right: 0.3%">
                                         <button class="btn btn-lg btn-outline-dark dropdown-toggle" type="button" data-toggle="dropdown"><i class="fas fa-filter"></i></button>
 
-                                        <ul class="dropdown-menu" role="menu">
-                                            <span class="dropdown-item-text">some filters</span>
-                                            <div class="dropdown-divider"></div>
-                                            <span class="dropdown-item-text">will go</span>    
-                                            <div class="dropdown-divider"></div>
-                                            <span class="dropdown-item-text">here maybe</span>
-                                        </ul>
+                                        <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
+
+												<li class="dropdown-submenu">
+												<a  class="dropdown-item" tabindex="-1" href="#">Dates</a>
+												<ul class="dropdown-menu">
+													<button class="btn btn-lg" type="submit" data-toggle="tooltip" data-placement="top" title="January" onclick="document.getElementById('search-concert').value='January';"><p>January</p></button>
+													<button class="btn btn-lg" type="submit" data-toggle="tooltip" data-placement="top" title="February" onclick="document.getElementById('search-concert').value='February';"><p>February</p></button>
+													<button class="btn btn-lg" type="submit" data-toggle="tooltip" data-placement="top" title="March" onclick="document.getElementById('search-concert').value='March';"><p>March</p></button>
+													<button class="btn btn-lg" type="submit" data-toggle="tooltip" data-placement="top" title="April" onclick="document.getElementById('search-concert').value='April';"><p>April	</p></button>
+													<button class="btn btn-lg" type="submit" data-toggle="tooltip" data-placement="top" title="May" onclick="document.getElementById('search-concert').value='May';"><p>May</p></button>
+													<button class="btn btn-lg" type="submit" data-toggle="tooltip" data-placement="top" title="June" onclick="document.getElementById('search-concert').value='June';"><p>June		</p></button>
+													<button class="btn btn-lg" type="submit" data-toggle="tooltip" data-placement="top" title="July" onclick="document.getElementById('search-concert').value='July';"><p>July</p></button>
+													<button class="btn btn-lg" type="submit" data-toggle="tooltip" data-placement="top" title="August" onclick="document.getElementById('search-concert').value='August';"><p>August</p></button>
+													<button class="btn btn-lg" type="submit" data-toggle="tooltip" data-placement="top" title="September" onclick="document.getElementById('search-concert').value='September';"><p>September</p></button>
+													<button class="btn btn-lg" type="submit" data-toggle="tooltip" data-placement="top" title="October" onclick="document.getElementById('search-concert').value='October';"><p>October</p></button>
+													<button class="btn btn-lg" type="submit" data-toggle="tooltip" data-placement="top" title="November" onclick="document.getElementById('search-concert').value='November';"><p>November</p></button>
+													<button class="btn btn-lg" type="submit" data-toggle="tooltip" data-placement="top" title="December" onclick="document.getElementById('search-concert').value='December';"><p>December</p></button>
+												</ul>
+												</li>
+												
+												<li class="dropdown-submenu">
+												<a  class="dropdown-item" tabindex="-1" href="#">Popular venues</a>
+												<ul class="dropdown-menu">
+													<button class="btn btn-lg" type="submit" data-toggle="tooltip" data-placement="top" title="SEC" onclick="document.getElementById('search-concert').value='SEC Armadillo';"><p>SEC Armadillo</p></button>
+													<button class="btn btn-lg" type="submit" data-toggle="tooltip" data-placement="top" title="SSE" onclick="document.getElementById('search-concert').value='SSE Hydro';"><p>SSE Hydro</p></button>
+												</ul>
+												</li>
+											</ul>											
+									</div>
                                     </div>
                                     <!--end of col-->
                                     <div class="col">
