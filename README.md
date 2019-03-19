@@ -18,13 +18,39 @@ python manage.py makemigrations concert
 python manage.py migrate
 ```
 
-(Optional )Now you can run the population script. Please note that db.sqlite3 has to be deleted each time you run this script as the data base does not allow duplicate entries.
+(Optional )Now you can run the population script. Please note that db.sqlite3 has to be deleted each time you run this script as the database does not allow duplicate entries.
 ```python populate.py```
 
 Now run the server!
 ```
 python manage.py runserver
 ```
+
+Now if you navigate to http://127.0.0.1:8000/ you should be greeted by a view which looks like this:
+![Screenshot of index page](https://i.imgur.com/yPSk2fh.jpg)
+
+### Feautures
+* Ability to register as 2 user types - GigGoers and Venues
+* Email verficiation
+* Password reset via email link
+
+#### Concert Information Page
+* See the venue location using a google map
+* Listen to songs by the artist using an embedded spotify widget
+* Comment on the concert if logged in as a GigGoer or Venue
+* Leave a rating on a concert from 1-5 if logged in as a GigGoer (disabled for venues)
+* See the average rating for the concert
+* View other GigGoers that have also bookmarked the concert
+* Access a URL to tickets on an external site
+* See description about a venue
+* See concert details
+* Add/remove bookmarks on concerts
+![Screenshot of concert page](https://i.gyazo.com/67900ecc2e4d49b659be2d5e9c02c20e.jpg)
+
+### Using FindMyConcert
+
+
+### Using AddMyConcert
 
 ### External Sources
 * django 1.11.17 | https://www.djangoproject.com | backend as specified by project specification
@@ -43,5 +69,3 @@ python manage.py runserver
 
 TODO: explain that concert is related to event
 
-Now if you navigate to http://127.0.0.1:8000/ you should be greeted by a view which looks like this:
-![alt text](https://i.imgur.com/yPSk2fh.jpg)
