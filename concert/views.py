@@ -4,6 +4,7 @@ from concert.tokens import accountActivationToken
 
 from datetime import datetime
 
+from django.contrib import messages 
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
@@ -57,9 +58,9 @@ def user_login(request):
                         login(request, user)
                         return render(request, 'concert/index.html')
                     else:
-                        return HttpResponse("Your account is currently disabled")
+                        messages.error(request, "Your account is currently disabled")
                 else:
-                    return HttpResponse("Incorrect username or password")
+                    messages.error(request, "Incorrect username or password")
 
     #If no post, return the form 
     return loginForm
