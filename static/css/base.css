@@ -105,6 +105,10 @@ nav .navbar-nav li a{
     font-size: 5.9vw;
 }
 
+/*This is used to add padding to FindMyConcert/AddMyConcert in navbar*/
+.logo_padding {
+    padding-right: 3%;
+}
 
 #box {
     z-index: 6;
