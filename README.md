@@ -2,7 +2,7 @@
 
 
 Welcome to FindMyConcert!
-This is a univerisity project created by Ollie Gardner, Axel Stjerngren, Robert Pringle, Patryk Kaczmarczyk and Andrew Finlayson for the Web Application Development course 
+This is a university project created by Ollie Gardner, Axel Stjerngren, Robert Pringle, Patryk Kaczmarczyk and Andrew Finlayson for the Web Application Development course 
 at the University of Glasgow. The premise of the website is to allow users to find concerts in their 
 local area and for venues to be able to easily add new concerts.
 
