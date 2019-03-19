@@ -24,7 +24,8 @@ class train_network:
 
     def load_files(self):
         #Read in the matrix we are using
-        ratings_matrix = pd.read_csv('neural_data.csv')
+        ratings_matrix = pd.read_csv('ratings.csv', index_col = 0)
+        print(ratings_matrix)
         return ratings_matrix
 
     def clean_data(self, ratings_matrix):
@@ -48,8 +49,10 @@ class train_network:
         sigma = np.diag(sigma)
         
         all_predicted_ratings = np.dot(np.dot(U, sigma), Vt) + ratings_mean.reshape(-1, 1)
-        preds_df = pd.DataFrame(all_predicted_ratings)
-        print(preds_df)
+        preds_df = pd.DataFrame(all_predicted_ratings, index = users, columns = items)
+        sorted_dataframe = preds_df.loc[['giggoer2']].transpose().sort_values(by = 'giggoer2', ascending = False)
+        recommendation_list = sorted_dataframe.index.values
+        print(recommendation_list)
         
 
 train_network()

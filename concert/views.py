@@ -23,7 +23,7 @@ from django.views.decorators.csrf import requires_csrf_token
 from FindMyConcert.custom_decorators import giggoer_required
 
 import json
-from recommend.recommend import recommendationEngine
+from recommend.recommend import recommendation
 import urllib.request
 
 def error_404(request):
@@ -397,7 +397,7 @@ def postComment(request):
 @giggoer_required
 def discover(request):
     loginForm = user_login(request)
-    concert_list = recommendationEngine(request) #Get recommendation from recommendation engine
+    concert_list = recommendation(request) #Get recommendation from recommendation engine
     return render(request, 'concert/discover.html', {'loginform': loginForm, 'concerts': concert_list})
 
 
