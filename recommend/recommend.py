@@ -11,19 +11,37 @@ import os
 import pandas as pd
 import numpy as np
 from scipy.sparse.linalg import svds
+from django.db.models import Q
 
 class recommendationEngine:
 
     def __init__(self, user):
         
         ratings_matrix = self.load_files()
+        ratings_matrix = self.check_user(user, ratings_matrix)
+
         #Clean the data we need
         users, artists, ratings_matrix_demeaned, ratings_mean = self.clean_data(ratings_matrix)
-        self.recommendation_list = self.recommend(users, artists, ratings_matrix_demeaned, ratings_mean,user)
+        self.recommendation_list = self.recommend(users, artists, ratings_matrix_demeaned, ratings_mean,user.username)
 
     def load_files(self):
         #Read in the matrix we are using
         ratings_matrix = pd.read_csv(os.getcwd()+'/recommend/ratings.csv', index_col = 0)
+        return ratings_matrix
+
+    def check_user(self, user, ratings_matrix):
+        if user.username in ratings_matrix.index.values:
+            ratings_matrix = ratings_matrix.drop(index=user.username)
+        
+        ratings_matrix = ratings_matrix.reindex(ratings_matrix.index.values.tolist()+[user.username])
+        ratings = []
+        for artist in ratings_matrix.columns.values:
+            for rating in user.rating.all():
+                if rating.concert.artist == artist:
+                    ratings_matrix.at[user.username, artist] = rating.score
+        
+
+
         return ratings_matrix
 
     def clean_data(self, ratings_matrix):
@@ -42,13 +60,13 @@ class recommendationEngine:
         return users, items, ratings_matrix_demeaned, ratings_mean
    
 
-    def recommend(self, users, items, ratings_matrix_demeaned, ratings_mean,user):
+    def recommend(self, users, items, ratings_matrix_demeaned, ratings_mean,username):
         U, sigma, Vt = svds(ratings_matrix_demeaned, k = 5)
         sigma = np.diag(sigma)
         
         all_predicted_ratings = np.dot(np.dot(U, sigma), Vt) + ratings_mean.reshape(-1, 1)
         preds_df = pd.DataFrame(all_predicted_ratings, index = users, columns = items)
-        sorted_dataframe = preds_df.loc[[user]].transpose().sort_values(by = user, ascending = False)
+        sorted_dataframe = preds_df.loc[[username]].transpose().sort_values(by = username, ascending = False)
         recommendation_list = sorted_dataframe.index.values
 
 
@@ -58,28 +76,14 @@ class recommendationEngine:
 def recommendation(request):
     user = request.user
     ratings = user.rating.all()
-    print(request.user)
-    engine = recommendationEngine(str(user.username))
+    engine = recommendationEngine(user)
     recommendation_list = engine.recommendation_list
 
     concert_list = Concert.objects.all()
-    concert_list = concert_list.filter(
-            Q(artist__icontains=query) |
-            Q(date__icontains=query) |
-            Q(start_time__icontains=query) |
-            Q(end_time__icontains=query) |
-            Q(description__icontains=query) |
-            Q(venue__venue_name__icontains=query) |
-            Q(venue__location__icontains=query)
-            ).distinct()
 
     concert_objects = []
     for artist in recommendation_list:
-        try:
-            concert = Concert.objects.get(artist = artist)
-        except Concert.DoesNotExist:
-            concert = None
-        if concert:
+        for concert in concert_list.filter(Q(artist__icontains=artist)):
             concert_objects.append(concert)
 
     

@@ -52,7 +52,7 @@ class train_network:
         preds_df = pd.DataFrame(all_predicted_ratings, index = users, columns = items)
         sorted_dataframe = preds_df.loc[['giggoer2']].transpose().sort_values(by = 'giggoer2', ascending = False)
         recommendation_list = sorted_dataframe.index.values
-        print(recommendation_list)
+        print(preds_df)
         
 
 train_network()
