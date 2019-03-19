@@ -91,11 +91,6 @@ Now if you navigate to http://127.0.0.1:8000/ you should be greeted by a view wh
 * To access this page you must be logged in as a venue
 * Allows venues to add concerts which they are hosting
 
-### Using FindMyConcert
-
-
-### Using AddMyConcert
-
 ### External Sources
 * django 1.11.17 | https://www.djangoproject.com | backend as specified by project specification
 * django-crispy-forms | https://django-crispy-forms.readthedocs.io/en/latest/ | beautify forms in accordance to bootstrap
