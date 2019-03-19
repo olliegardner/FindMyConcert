@@ -59,7 +59,8 @@ def user_login(request):
                     else:
                         return HttpResponse("Your account is currently disabled")
                 else:
-                    print("Invalid login details: {0}, {1}".format(username, password))
+                    return HttpResponse("Incorrect username or password")
+
     #If no post, return the form 
     return loginForm
 
