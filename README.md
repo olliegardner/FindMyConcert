@@ -6,7 +6,7 @@ This is a univerisity project created by Ollie Gardner, Axel Stjerngren, Robert 
 at the University of Glasgow. The premise of the website is to allow users to find concerts in their 
 local area and for venues to be able to easily add new concerts.
 
-### Installation
+## Installation
 
 First clone the repository and then navigate to the FindMyConcert source folder.
 
@@ -19,7 +19,9 @@ python manage.py migrate
 ```
 
 (Optional )Now you can run the population script. Please note that db.sqlite3 has to be deleted each time you run this script as the database does not allow duplicate entries.
-```python populate.py```
+```
+python populate.py
+```
 
 Now run the server!
 ```
@@ -29,12 +31,24 @@ python manage.py runserver
 Now if you navigate to http://127.0.0.1:8000/ you should be greeted by a view which looks like this:
 ![Screenshot of index page](https://i.imgur.com/yPSk2fh.jpg)
 
-### Feautures
+## Feautures
 * Ability to register as 2 user types - GigGoers and Venues
 * Email verficiation
 * Password reset via email link
 
-#### Concert Information Page
+#### Events
+* Search available concerts (also by location using ip-api)
+* Filter avaiable concerts
+* Clear search
+* See available concerts in tile form
+* Hover over tile and watch it flip over to reveal concert details/view button/bookmark button (if logged in as GigGoer)
+* Switch between all/upcoming/past concerts (if logged in)
+* Edit/delete buttons 
+
+
+#### Discover
+
+#### Concert Information
 * See the venue location using a google map
 * Listen to songs by the artist using an embedded spotify widget
 * Comment on the concert if logged in as a GigGoer or Venue
@@ -45,7 +59,7 @@ Now if you navigate to http://127.0.0.1:8000/ you should be greeted by a view wh
 * See description about a venue
 * See concert details
 * Add/remove bookmarks on concerts
-![Screenshot of concert page](https://i.gyazo.com/67900ecc2e4d49b659be2d5e9c02c20e.jpg)
+![Screenshot of concert page](https://i.imgur.com/e3WQS4c.jpg)
 
 ### Using FindMyConcert
 
