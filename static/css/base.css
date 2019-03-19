@@ -67,6 +67,12 @@ nav .navbar-nav li a{
     white-space: nowrap;
 }
 
+/* handles the position of the view concert button when user is not logged in/venue account */
+.lonely-view-button {
+    position: absolute;
+    top: 90%;
+    left: 32%;
+}
 
 
 .background {
