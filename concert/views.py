@@ -87,17 +87,22 @@ def events(request):
         months = {'December':'12', 'November':'11', 'October':'10', 'September':'9',
                   'August':'8', 'July':'7', 'June':'6', 'May':'5', 'April':'4', 'March':'3',
                   'February':'2', 'January':'1'}
+        
         if query in months.keys():
             query = months[query]
-        #If query, return only filtered concerts
-        concert_list = concert_list.filter(
-            Q(artist__icontains=query) |
-            Q(date__icontains=query) |
-            Q(start_time__icontains=query) |
-            Q(end_time__icontains=query) |
-            Q(venue__venue_name__icontains=query) |
-            Q(venue__location__icontains=query)
-            ).distinct()
+            
+            concert_list = concert_list.filter(
+                Q(date__month=query)).distinct()
+        else:
+            #If query, return only filtered concerts
+            concert_list = concert_list.filter(
+                Q(artist__icontains=query) |
+                Q(date__icontains=query) |
+                Q(start_time__icontains=query) |
+                Q(end_time__icontains=query) |
+                Q(venue__venue_name__icontains=query) |
+                Q(venue__location__icontains=query)
+                ).distinct()
 
     context_dict = {'concerts': concert_list, 'location': location_json, 'loginform': loginForm}
     return render(request, 'concert/myEvents.html', context_dict)
