@@ -140,9 +140,10 @@
 
                         <!-- Section for all the comments, show all comments associated with this conncert -->
                         <ul class = "comments" id ="allcomments">
-                            {% for comment in concert.comment.all%}
+                            {% for comment in concert.comment.all %}
                                 <li class="media">
-                                    <a href="{ % url 'profile' comment.user.username‰}" class="pull-left">
+
+                                    <a href="{% url 'profile' comment.user.username %}" class="pull-left">
                                         {% if comment.user.is_venue and comment.user.venue.image != "" %}
                                             <img src="{{ comment.user.venue.image.url }}" alt="Avatar" class="avatar">
                                         {% elif not comment.user.is_venue and comment.user.giggoer.image != "" %}
@@ -154,7 +155,7 @@
 
 
                                     <div class="media-body"> <!-- Comment body starts here -->
-                                        <a href="{ % url 'profile' comment.user.username ‰}"><strong class="text-success">&nbsp;&nbsp;{{comment.user.username}}</strong></a>
+                                        <a href="{% url 'profile' comment.user.username %}"><strong class="text-success">&nbsp;&nbsp;{{comment.user.username}}</strong></a>
                                         <p>&nbsp;{{ comment.text }}</p>
                                     </div>
                                 </li>
