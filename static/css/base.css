@@ -16,6 +16,19 @@ body, html {
   object-fit: cover;
 }
 
+/*seems to break on safari, so need to find solution*/
+.parallax{
+    height: 100%;
+
+  
+
+  /* Create the parallax scrolling effect */
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
 .navbar {
     z-index: 1;
 
