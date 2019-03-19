@@ -23,7 +23,7 @@ from django.views.decorators.csrf import requires_csrf_token
 from FindMyConcert.custom_decorators import giggoer_required
 
 import json
-from tensor.recommend import recommendationEngine
+from recommend.recommend import recommendationEngine
 import urllib.request
 
 def error_404(request):
