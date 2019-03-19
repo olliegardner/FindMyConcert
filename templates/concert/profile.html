@@ -70,7 +70,8 @@
 
                         {% if selecteduser.is_venue %}
                             <!-- TODO implement discover for venue users -->
-                        {% else% }
+                            <p>content for venue users will go here</p>
+                        {% else %}
                             <ul class="nav nav-tabs" id="myTab" role="tablist">
                                 <li class="nav-item">
                                     <a class="nav-link active" id="upcoming-tab" data-toggle="tab" href="#upcoming" role="tab" aria-controls="upcoming" aria-selected="false">Upcoming <span class="badge badge-info">{% get_upcoming_concert_count selecteduser.username %}</span></a>
