@@ -113,6 +113,7 @@
                 <div class="tab-pane fade" id="upcoming" role="tabpanel" aria-labelledby="upcoming-tab">
                     <!-- upcoming concerts for venues -->
                     {% if user.is_venue %}
+                    <!--
                         <div class="row">
                             {% if user.venue.concert %}
                                 {% for concert in user.venue.concert.all %}
@@ -156,7 +157,7 @@
                                                                 </form>
                                                             </div>
                                                         </div>
-                                                    </div>                          
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -164,8 +165,48 @@
                                 {% endfor %}
                             {% endif %}  
                         </div>
+                        -->
+                        <div>
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Artist</th>
+                                        <th scope="col">Location</th>
+                                        <th scope="col">Date</th>
+                                        <th scope="col">Time</th>
+                                        <th scope="col" colspan="2">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% if user.venue.concert %}
+                                        {% for concert in user.venue.concert.all %}
+                                            {% if concert.is_future %}
+                                                <tr>
+                                                    <td>{{ concert.artist }}</td>
+                                                    <td>{{ concert.venue.location }}</td>
+                                                    <td>{{ concert.date }}</td>
+                                                    <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
+                                                    <td colspan="2">
+                                                        <a href="{% url 'view' concert.concertID %}">
+                                                            <button class="btn btn-outline-info">View</button>
+                                                        </a>&nbsp
+                                                        <a href="{% url 'edit' concert.concertID%}">
+                                                            <button class="button btn button-blue button-bordered btn-primary">Edit</button>
+                                                        </a>&nbsp
+                                                        <form action="{% url 'delete' concert.concertID%}" method="post" style="display: inline;">
+                                                            {% csrf_token %}
+                                                            <button class = "btn-danger btn "type="submit" >Delete</button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
                     {% else %} 
-                        <!-- upcoming concerts for Giggoers--->
+                        <!-- upcoming concerts for Giggoers-->
                         <div class="row" id = "futureevents">
                             {% if user.giggoer.bookmarks %}
                                 {% for concert in user.giggoer.bookmarks.all %}

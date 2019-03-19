@@ -9,8 +9,9 @@ from django.utils.translation import gettext as _
 class User(AbstractUser):
     #This is the base user class which giggoers and venues create a
     #one to one field to
-    email     = models.EmailField(max_length=70)
-    is_venue  = models.BooleanField(default=False)
+    email        = models.EmailField(max_length=70)
+    is_venue     = models.BooleanField(default=False)
+    pretty_mode  = models.BooleanField(default=True)
 
     def isVenue():
         return is_venue    
@@ -47,7 +48,10 @@ class Concert(models.Model):
         ordering = ['-date']
 
     def is_future(self):
+<<<<<<< Updated upstream
         #This checks if the concert is in the future (or today)
+=======
+>>>>>>> Stashed changes
         if self.date >= datetime.date.today():
            return True 
         else:
