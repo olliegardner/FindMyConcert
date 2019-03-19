@@ -65,6 +65,7 @@ Now if you navigate to http://127.0.0.1:8000/ you should be greeted by a view wh
 
 #### Contact
 * Contact form to send a message to us
+![Screenshot of contact page](https://i.imgur.com/kyaqzpS.png)
 
 #### FAQ
 * See a list of frequently asked questions with answers
@@ -75,6 +76,7 @@ Now if you navigate to http://127.0.0.1:8000/ you should be greeted by a view wh
 * See events which the user has bookmarked
 * See events that venues are hosting
 * Edit your own profile (if logged in)
+![Screenshot of contact page](https://i.imgur.com/BoMnGlD.png)
 
 #### Concert Information
 * See the venue location using a google map
