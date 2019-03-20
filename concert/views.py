@@ -89,7 +89,7 @@ def events(request):
                   'August':'8', 'July':'7', 'June':'6', 'May':'5', 'April':'4', 'March':'3',
                   'February':'2', 'January':'1'}
 
-        if query == 'default':
+        if query == ' ':
             #default filter shows only events in future
             concert_list = concert_list.filter(
                 Q(date__gte=datetime.today())).distinct()
