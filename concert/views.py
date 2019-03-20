@@ -284,6 +284,8 @@ def profile(request, username):
                         user.venue.image = form.cleaned_data.get('image')
                     if (form.cleaned_data.get('password') != ""):
                         user.venue.password = form.cleaned_data.get('password')
+                    if (form.cleaned_data.get('pretty_mode') != None):
+                        user.pretty_mode = form.cleaned_data.get('pretty_mode')
                     if (form.cleaned_data.get('venue_name') != ""):
                         user.venue.venue_name = form.cleaned_data.get('venue_name')
                     if (form.cleaned_data.get('location') != ""):
@@ -322,6 +324,8 @@ def profile(request, username):
                         user.giggoer.image = form.cleaned_data.get('image')
                     if (form.cleaned_data.get('password') != ""):
                         user.giggoer.password = form.cleaned_data.get('password')
+                    if (form.cleaned_data.get('pretty_mode') != None):
+                        user.pretty_mode = form.cleaned_data.get('pretty_mode')
                     user.giggoer.save()
                     user.save()  
                     return render(request, 'concert/profile.html', {'selecteduser': user, 'form': EditGigGoerForm, 'loginform': loginForm})
