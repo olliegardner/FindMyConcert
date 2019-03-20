@@ -113,7 +113,7 @@
                             </div>
                         {% else %}                      <!-- Compact Mode -->
                             <div>
-                                <table class="table table-striped">
+                                <table class="table">
                                     <thead>
                                         <tr>
                                             <th scope="col">Artist</th>
@@ -209,7 +209,7 @@
                                 </div>
                         {% else %}                      <!-- Compact Mode -->
                             <div>
-                                <table class="table table-striped">
+                                <table class="table">
                                     <thead>
                                         <tr>
                                             <th scope="col">Artist</th>
@@ -295,8 +295,8 @@
                                 {% endif %}
                             </div>
                         {% else %}                      <!-- Compact Mode -->
-                            <div id = "futureevents">
-                                <table class="table table-striped">
+                            <div>
+                                <table class="table">
                                     <thead>
                                         <tr>
                                             <th scope="col">Artist</th>
@@ -306,7 +306,7 @@
                                             <th scope="col" colspan="2">Actions</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody id = "futureevents">
                                         {% if user.giggoer.bookmarks %}
                                             {% for concert in user.giggoer.bookmarks.all %}
                                                 {% if concert.is_future %}
@@ -389,7 +389,7 @@
                             </div>
                         {% else %}                      <!-- Compact Mode -->
                             <div>
-                                <table class="table table-striped">
+                                <table class="table">
                                     <thead>
                                         <tr>
                                             <th scope="col">Artist</th>
@@ -477,8 +477,8 @@
                                 {% endif %}  
                             </div>
                         {% else %}                      <!-- Compact Mode -->
-                            <div id = "pastevents">
-                                <table class="table table-striped">
+                            <div>
+                                <table class="table">
                                     <thead>
                                         <tr>
                                             <th scope="col">Artist</th>
@@ -488,7 +488,7 @@
                                             <th scope="col" colspan="2">Actions</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody id = "pastevents">
                                         {% if user.giggoer.bookmarks %}
                                             {% for concert in user.giggoer.bookmarks.all %}
                                                 {% if not concert.is_future %}
@@ -686,11 +686,11 @@
                         $concerturl = $concerturl.replace('1',concertid);
                         if (res[0].isfuture == "True") {
                             $.each(res, function(i, item) {
-                                $('<tbody>').append('<tr><td>'+item.artist+'</td><td colspan="2">'+item.venuename+', '+item.location+'</td><td>'+item.date+'</td><td>'+item.starttime+' - '+item.endtime+'<td colspan="2">'+$concerturl+'<button class="btn btn-outline-dark">View</button></a><button class="btn btn-outline-danger" onclick = "removebookmark('+ concertid+');hideparent(this);">Remove Bookmark</button></td></tr>').appendTo('#futureevents');
+                                $('<tr>').append('<td>'+item.artist+'</td><td colspan="2">'+item.venuename+', '+item.location+'</td><td>'+item.date+'</td><td>'+item.starttime+' - '+item.endtime+'<td colspan="2">'+$concerturl+'<button class="btn btn-outline-dark">View</button></a>&nbsp<button class="btn btn-danger" onclick = "removebookmark('+ concertid+');hideparent(this);">Remove Bookmark</button></td>').appendTo('#futureevents');
                             });
                         } else {
                             $.each(res, function(i, item) {
-                                $('<tbody>').append('<tr><td>'+item.artist+'</td><td colspan="2">'+item.venuename+', '+item.location+'</td><td>'+item.date+'</td><td>'+item.starttime+' - '+item.endtime+'<td colspan="2">'+$concerturl+'<button class="btn btn-outline-dark">View</button></a><button class="btn btn-outline-danger" onclick = "removebookmark('+ concertid+');hideparent(this);">Remove Bookmark</button></td></tr>').appendTo('#pastevents');
+                                $('<tr>').append('<td>'+item.artist+'</td><td colspan="2">'+item.venuename+', '+item.location+'</td><td>'+item.date+'</td><td>'+item.starttime+' - '+item.endtime+'<td colspan="2">'+$concerturl+'<button class="btn btn-outline-dark">View</button></a>&nbsp<button class="btn btn-danger" onclick = "removebookmark('+ concertid+');hideparent(this);">Remove Bookmark</button></td>').appendTo('#pastevents');
                             });
                         }
                     }
