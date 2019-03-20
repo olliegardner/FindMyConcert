@@ -6,6 +6,8 @@ This is a university project created by Ollie Gardner, Axel Stjerngren, Robert P
 at the University of Glasgow. The premise of the website is to allow users to find concerts in their 
 local area and for venues to be able to easily add new concerts.
 
+If you don't want to run the site locally then you can visit FindMyConcert @ https://findmyconcert.pythonanywhere.com
+
 ## Installation
 
 First clone the repository and then navigate to the FindMyConcert source folder.
@@ -44,7 +46,7 @@ Now if you navigate to http://127.0.0.1:8000/ you should be greeted by a view wh
 
 #### Events
 * Search available concerts (also by location using ip-api)
-* Filter avaiable concerts
+* Filter available concerts
 * Clear search
 * See available concerts in tile form
 * Hover over tile and watch it flip over to reveal concert details/view button/bookmark button (if logged in as GigGoer)

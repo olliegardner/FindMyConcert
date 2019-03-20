@@ -16,9 +16,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 class Populate():
     def __init__(self):
-        self.populate_giggoers()
         self.populate_venues()
         self.populate_concerts()
+        self.populate_giggoers()
 
     def populate_giggoers(self):
         path = os.path.join(os.getcwd(), 'population_files', 'giggoers.csv')
@@ -39,6 +39,25 @@ class Populate():
             giggoer = GigGoer.objects.create(user = user)
             giggoer.image.save(str(ir[4]), File(open(imgpath, 'rb')))
 
+
+            bookmarks = list(map(int, ir[5].split(',')))
+            for concertID in bookmarks:
+                try:
+                    concert = Concert.objects.get(concertID = concertID)
+                    giggoer.bookmarks.add(concert)
+                    print(concertID + " bookmarked")
+                except:
+                    print("""
+
+
+                            WARNING!
+
+                            A bookmark could not be appended, are you sure you are running this in a fresh database?
+
+                            Please delte db.sqlite3 and try again
+
+
+                            """)
             user.save()
             giggoer.save()
 
