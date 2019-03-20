@@ -95,14 +95,14 @@
                                                             </h6>
                                                             <br>
                                                         
-                                                            {% if not user.is_venue %}
+                                                        {% if not user.is_venue %}
                                                             <a href="{% url 'view' concert.concertID %}"><button class="btn btn-outline-dark">View</button></a>
                                                                 <button class="btn btn-success" onclick="bookmark({{ concert.concertID }})">Bookmark</button>
                                                         {% else %}
                                                             <div class="lonely-view-button">
                                                                 <a href="{% url 'view' concert.concertID %}"><button class="btn btn-outline-dark">View</button></a>
                                                             </div>
-                                                            {% endif %}
+                                                        {% endif %}
                                                         </div>
                                                     </div>
                                                 </div>                          
@@ -117,7 +117,7 @@
                                     <thead>
                                         <tr>
                                             <th scope="col">Artist</th>
-                                            <th scope="col">Location</th>
+                                            <th scope="col" colspan="2">Location</th>
                                             <th scope="col">Date</th>
                                             <th scope="col">Time</th>
                                             <th scope="col" colspan="2">Actions</th>
@@ -127,7 +127,7 @@
                                         {% for concert in concerts %}
                                             <tr>
                                                 <td>{{ concert.artist }}</td>
-                                                <td>{{ concert.venue.location }}</td>
+                                                <td colspan="2">{{ concert.venue.venue_name }}, {{ concert.venue.location }}</td>
                                                 <td>{{ concert.date }}</td>
                                                 <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
                                                 <td colspan="2">
@@ -185,18 +185,18 @@
                                                                         </h6>
                                                                         <br>
                                                                 
-								                                                        <div class="row">
-								                                                            <a href="{% url 'view' concert.concertID %}" style="padding-right: 3px">
-								                                                                <button class="btn btn-outline-dark">View</button>
-								                                                            </a>
-				                                                                		<a href="{% url 'edit' concert.concertID %}" style="padding-right: 3px">
-				                                                                        <button class="button btn button-blue button-bordered btn-primary">Edit</button>
-				                                                                    </a>
-				                                                                    <form action="{% url 'delete' concert.concertID%}" method="post">
-				                                                                        {% csrf_token %}
-				                                                                        <button class = "btn-danger btn "type="submit" >Delete</button>
-				                                                                    </form>
-																																				</div>
+                                                                        <div class="row">
+                                                                            <a href="{% url 'view' concert.concertID %}" style="padding-right: 3px">
+                                                                                <button class="btn btn-outline-dark">View</button>
+                                                                            </a>
+                                                                            <a href="{% url 'edit' concert.concertID %}" style="padding-right: 3px">
+                                                                                <button class="button btn button-blue button-bordered btn-primary">Edit</button>
+                                                                            </a>
+                                                                            <form action="{% url 'delete' concert.concertID%}" method="post">
+                                                                                {% csrf_token %}
+                                                                                <button class = "btn-danger btn "type="submit" >Delete</button>
+                                                                            </form>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -295,12 +295,12 @@
                                 {% endif %}
                             </div>
                         {% else %}                      <!-- Compact Mode -->
-                            <div>
+                            <div id = "futureevents">
                                 <table class="table table-striped">
                                     <thead>
                                         <tr>
                                             <th scope="col">Artist</th>
-                                            <th scope="col">Location</th>
+                                            <th scope="col" colspan="2">Location</th>
                                             <th scope="col">Date</th>
                                             <th scope="col">Time</th>
                                             <th scope="col" colspan="2">Actions</th>
@@ -312,7 +312,7 @@
                                                 {% if concert.is_future %}
                                                     <tr>
                                                         <td>{{ concert.artist }}</td>
-                                                        <td>{{ concert.venue.location }}</td>
+                                                        <td colspan="2">{{ concert.venue.venue_name }}, {{ concert.venue.location }}</td>
                                                         <td>{{ concert.date }}</td>
                                                         <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
                                                         <td colspan="2">
@@ -365,19 +365,18 @@
                                                                         <br>
                                                                     </h6>
                                                                     <br>
-
-				                                                            <div class="row">
-				                                                                <a href="{% url 'view' concert.concertID %}" style="padding-right: 3px">
-				                                                                    <button class="btn btn-outline-dark">View</button>
-				                                                                </a>
-				                                                                <a href="{% url 'edit' concert.concertID %}" style="padding-right: 3px">
-				                                                                    <button class="button btn button-blue button-bordered btn-primary">Edit</button>
-				                                                                </a>
-				                                                                <form action="{% url 'delete' concert.concertID %}" method="post">
-				                                                                    {% csrf_token %}
-				                                                                    <button class = "btn-danger btn "type="submit" >Delete</button>
-				                                                                </form>
-																																		</div>
+                                                                    <div class="row">
+                                                                        <a href="{% url 'view' concert.concertID %}" style="padding-right: 3px">
+                                                                            <button class="btn btn-outline-dark">View</button>
+                                                                        </a>
+                                                                        <a href="{% url 'edit' concert.concertID %}" style="padding-right: 3px">
+                                                                            <button class="button btn button-blue button-bordered btn-primary">Edit</button>
+                                                                        </a>
+                                                                        <form action="{% url 'delete' concert.concertID %}" method="post">
+                                                                            {% csrf_token %}
+                                                                            <button class = "btn-danger btn "type="submit" >Delete</button>
+                                                                        </form>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>                          
@@ -478,12 +477,12 @@
                                 {% endif %}  
                             </div>
                         {% else %}                      <!-- Compact Mode -->
-                            <div>
+                            <div id = "pastevents">
                                 <table class="table table-striped">
                                     <thead>
                                         <tr>
                                             <th scope="col">Artist</th>
-                                            <th scope="col">Location</th>
+                                            <th scope="col" colspan="2">Location</th>
                                             <th scope="col">Date</th>
                                             <th scope="col">Time</th>
                                             <th scope="col" colspan="2">Actions</th>
@@ -495,7 +494,7 @@
                                                 {% if not concert.is_future %}
                                                     <tr>
                                                         <td>{{ concert.artist }}</td>
-                                                        <td>{{ concert.venue.location }}</td>
+                                                        <td colspan="2">{{ concert.venue.venue_name }}, {{ concert.venue.location }}</td>
                                                         <td>{{ concert.date }}</td>
                                                         <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
                                                         <td colspan="2">
@@ -600,55 +599,106 @@
     </div>
 
 
-    <script>
-        $(document).ready(function() {
-            $('html, body').animate({
-            'scrollTop' : $("#events_title").position().top
+    {% if user.pretty_mode %}       <!-- Pretty Mode Add Bookmark -->
+        <script>
+            $(document).ready(function() {
+                $('html, body').animate({
+                'scrollTop' : $("#events_title").position().top
+                });
+                $('[data-toggle="tooltip"]').tooltip(); 
             });
-            $('[data-toggle="tooltip"]').tooltip(); 
-        });
 
-        function removebookmark(concertid) {
-            $.get('/concert/removebookmark/', {concertid: concertid});
-            toastr.error('Bookmark removed!');
-        };
+            function removebookmark(concertid) {
+                $.get('/concert/removebookmark/', {concertid: concertid});
+                toastr.error('Bookmark removed!');
+            };
 
-        function hideparent(elem) {
-            $(elem).parent().parent().parent().parent().parent().parent().hide();
-        };
+            function hideparent(elem) {
+                $(elem).parent().parent().parent().parent().parent().parent().hide();
+            };
 
-        function bookmark(concertid) {
-            var $requesturl = '{% url "getconcert" 1%}'
-            $requesturl = $requesturl.replace('1',concertid);
-            var $button = '<button class="btn btn-outline-danger" onclick = "removebookmark(' +concertid+ ');hideparent(this);" >Remove Bookmark</button';
-        
-            //Now use AJAX to fetch the data for a the concert
-            $.ajax({
-                url: $requesturl ,
-                type: 'GET',
-                async: false,
-                dataType: 'json',
+            function bookmark(concertid) {
+                var $requesturl = '{% url "getconcert" 1%}'
+                $requesturl = $requesturl.replace('1',concertid);
+                var $button = '<button class="btn btn-outline-danger" onclick = "removebookmark(' +concertid+ ');hideparent(this);" >Remove Bookmark</button';
+            
+                //Now use AJAX to fetch the data for a the concert
+                $.ajax({
+                    url: $requesturl ,
+                    type: 'GET',
+                    async: false,
+                    dataType: 'json',
 
-                success: function(res){
-                    //Depending on the date of the conert, append to appropiate table
-                    var $concerturl ='<a href="{% url "view" 1 %}">'
-                    $concerturl = $concerturl.replace('1',concertid);
-                    if (res[0].isfuture == "True") {
-                        $.each(res, function(i, item) {
-                            $('<div class="col-12 col-md-6 col-lg-4 mt">').append('<div class="tile-container"><div class="tile"><div class="tile-front" style="background-image: url( '+item.image+'); background-size: cover; background-position: center;"><div class="bottom-left"><p>'+item.artist+'<br>'+item.venuename+'</p></div></div><div class="tile-back" style=" background-image: url('+item.image+'); background-size: cover; background-position: center;"><div class ="center-white-bg"style="background-color: rgba(256, 256, 256, 0.93);width:100%; height:340px; border-radius: 10%;"> <div class ="center"><h6>'+item.artist+'<br>'+item.venuename+', '+item.location+'<br>'+item.date+'<br>'+item.starttime+' - '+item.endtime+'<br></h6>   <br> ' + $concerturl + ' <button class="btn btn-outline-dark">View</button></a>  <button class="btn btn-outline-danger" onclick = "removebookmark('+ concertid+');hideparent(this);" >Remove Bookmark</button></div></div></div></div></div>'
-                            ).appendTo('#futureevents');
-                        });
-                    } else {
-                        $.each(res, function(i, item) {
-                            $('<div class="col-12 col-md-6 col-lg-4 mt">').append('<div class="tile-container"><div class="tile"><div class="tile-front" style="background-image: url( '+item.image+'); background-size: cover; background-position: center;"><div class="bottom-left"><p>'+item.artist+'<br>'+item.venuename+'</p></div></div><div class="tile-back" style=" background-image: url('+item.image+'); background-size: cover; background-position: center;"><div class ="center-white-bg"style="background-color: rgba(256, 256, 256, 0.93);width:100%; height:340px; border-radius: 10%;"> <div class ="center"><h6>'+item.artist+'<br>'+item.venuename+', '+item.location+'<br>'+item.date+'<br>'+item.starttime+' - '+item.endtime+'<br></h6>   <br> ' + $concerturl + ' <button class="btn btn-outline-dark">View</button></a>  <button class="btn btn-outline-danger" onclick = "removebookmark('+ concertid+');hideparent(this);" >Remove Bookmark</button></div></div></div></div></div>'
-                            ).appendTo('#pastevents');
-                        });
+                    success: function(res){
+                        //Depending on the date of the conert, append to appropiate table
+                        var $concerturl ='<a href="{% url "view" 1 %}">'
+                        $concerturl = $concerturl.replace('1',concertid);
+                        if (res[0].isfuture == "True") {
+                            $.each(res, function(i, item) {
+                                $('<div class="col-12 col-md-6 col-lg-4 mt">').append('<div class="tile-container"><div class="tile"><div class="tile-front" style="background-image: url( '+item.image+'); background-size: cover; background-position: center;"><div class="bottom-left"><p>'+item.artist+'<br>'+item.venuename+'</p></div></div><div class="tile-back" style=" background-image: url('+item.image+'); background-size: cover; background-position: center;"><div class ="center-white-bg"style="background-color: rgba(256, 256, 256, 0.93);width:100%; height:340px; border-radius: 10%;"> <div class ="center"><h6>'+item.artist+'<br>'+item.venuename+', '+item.location+'<br>'+item.date+'<br>'+item.starttime+' - '+item.endtime+'<br></h6>   <br> ' + $concerturl + ' <button class="btn btn-outline-dark">View</button></a>  <button class="btn btn-outline-danger" onclick = "removebookmark('+ concertid+');hideparent(this);" >Remove Bookmark</button></div></div></div></div></div>'
+                                ).appendTo('#futureevents');
+                            });
+                        } else {
+                            $.each(res, function(i, item) {
+                                $('<div class="col-12 col-md-6 col-lg-4 mt">').append('<div class="tile-container"><div class="tile"><div class="tile-front" style="background-image: url( '+item.image+'); background-size: cover; background-position: center;"><div class="bottom-left"><p>'+item.artist+'<br>'+item.venuename+'</p></div></div><div class="tile-back" style=" background-image: url('+item.image+'); background-size: cover; background-position: center;"><div class ="center-white-bg"style="background-color: rgba(256, 256, 256, 0.93);width:100%; height:340px; border-radius: 10%;"> <div class ="center"><h6>'+item.artist+'<br>'+item.venuename+', '+item.location+'<br>'+item.date+'<br>'+item.starttime+' - '+item.endtime+'<br></h6>   <br> ' + $concerturl + ' <button class="btn btn-outline-dark">View</button></a>  <button class="btn btn-outline-danger" onclick = "removebookmark('+ concertid+');hideparent(this);" >Remove Bookmark</button></div></div></div></div></div>'
+                                ).appendTo('#pastevents');
+                            });
+                        }
                     }
-                }
+                });
+                $.get('/concert/bookmark/', {concertid: concertid}); 
+                toastr.success('Concert bookmarked!');
+            };
+        </script>
+    {% else %}                      <!-- Compact Mode Add Bookmark -->
+        <script>
+            $(document).ready(function() {
+                $('html, body').animate({
+                'scrollTop' : $("#events_title").position().top
+                });
+                $('[data-toggle="tooltip"]').tooltip(); 
             });
-            $.get('/concert/bookmark/', {concertid: concertid}); 
-            toastr.success('Concert bookmarked!');
-        };
-    </script>
+
+            function removebookmark(concertid) {
+                $.get('/concert/removebookmark/', {concertid: concertid});
+                toastr.error('Bookmark removed!');
+            };
+
+            function hideparent(elem) {
+                $(elem).parent().parent().hide();
+            };
+
+            function bookmark(concertid) {
+                var $requesturl = '{% url "getconcert" 1%}'
+                $requesturl = $requesturl.replace('1',concertid);
+                var $button = '<button class="btn btn-outline-danger" onclick = "removebookmark(' +concertid+ ');hideparent(this);" >Remove Bookmark</button';
+            
+                //Now use AJAX to fetch the data for a the concert
+                $.ajax({
+                    url: $requesturl ,
+                    type: 'GET',
+                    async: false,
+                    dataType: 'json',
+
+                    success: function(res){
+                        //Depending on the date of the conert, append to appropiate table
+                        var $concerturl ='<a href="{% url "view" 1 %}">'
+                        $concerturl = $concerturl.replace('1',concertid);
+                        if (res[0].isfuture == "True") {
+                            $.each(res, function(i, item) {
+                                $('<tbody>').append('<tr><td>'+item.artist+'</td><td colspan="2">'+item.venuename+', '+item.location+'</td><td>'+item.date+'</td><td>'+item.starttime+' - '+item.endtime+'<td colspan="2">'+$concerturl+'<button class="btn btn-outline-dark">View</button></a><button class="btn btn-outline-danger" onclick = "removebookmark('+ concertid+');hideparent(this);">Remove Bookmark</button></td></tr>').appendTo('#futureevents');
+                            });
+                        } else {
+                            $.each(res, function(i, item) {
+                                $('<tbody>').append('<tr><td>'+item.artist+'</td><td colspan="2">'+item.venuename+', '+item.location+'</td><td>'+item.date+'</td><td>'+item.starttime+' - '+item.endtime+'<td colspan="2">'+$concerturl+'<button class="btn btn-outline-dark">View</button></a><button class="btn btn-outline-danger" onclick = "removebookmark('+ concertid+');hideparent(this);">Remove Bookmark</button></td></tr>').appendTo('#pastevents');
+                            });
+                        }
+                    }
+                });
+                $.get('/concert/bookmark/', {concertid: concertid}); 
+                toastr.success('Concert bookmarked!');
+            };
+        </script>
+    {% endif %}
     
 {% endblock %}
