@@ -244,6 +244,8 @@
                             <br>
                             {% if selecteduser.is_venue %}
                                 User Type: Venue
+                                <br>
+                                Venue Name: {{ selecteduser.venue.venue_name }}
                             {% else %}
                                 User Type: GigGoer
                             {% endif %}
