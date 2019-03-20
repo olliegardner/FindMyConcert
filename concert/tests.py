@@ -1,19 +1,17 @@
 from django.test import TestCase
+from concert.forms import GigGoerSignUpForm, VenueSignUpForm, LoginForm
 from concert.models import User, GigGoer, Venue
 from django.core.files import File
 import os
-
-
-from concert.forms import GigGoerSignUpForm, VenueSignUpForm
-
 
 '''
 tests are located in here and also venue/tests.py
 '''
 
+# all unit tests for giggoer users
 class GigGoerTests(TestCase):
     def setUp(self):
-        user = User.objects.create(username="giggoer1", password="strongpass123", email="giggoer1@giggoer1.com", is_venue=False)
+        user = User.objects.create(username="giggoer1", email="giggoer1@giggoer1.com", password="strongpass123", is_venue=False)
         user.save()
 
         giggoer = GigGoer.objects.create(user=user)
@@ -25,27 +23,66 @@ class GigGoerTests(TestCase):
 
     def test_register_giggoer(self):
         # TODO register with image and not image and test if image is default one if not uploaded
+
+        # tests if the register form works for giggoer users
         form_data = {
-            'username': 'test_giggoer',
-            'email': 'testgiggoer@testgiggoer.com',
+            'username': 'giggoer2',
+            'email': 'giggoer2@giggoer2.com',
             'password1': 'strongpass123',
             'password2': 'strongpass123'
         }
         form = GigGoerSignUpForm(data=form_data)
         self.assertTrue(form.is_valid())
 
+    def test_register_giggoer_duplicate(self):
+        # tests if the register form does not let users register a giggoer account that already exists
+        form_data = {
+            'username': 'giggoer1',
+            'email': 'giggoer1@giggoer1.com',
+            'password1': 'strongpass123',
+            'password2': 'strongpass123'
+        }
+        form = GigGoerSignUpForm(data=form_data)
+        # return false as this giggoer already exists
+        self.assertFalse(form.is_valid())
+
+    def test_register_giggoer_invalid_password(self):
+        # tests if the register form does not let users register a giggoer account with different passwords
+        form_data = {
+            'username': 'giggoer3',
+            'email': 'giggoer3@giggoer3.com',
+            'password1': 'strongpass123',
+            'password2': 'strongpass124'
+        }
+        form = GigGoerSignUpForm(data=form_data)
+        # return false as user's passwords must match
+        self.assertFalse(form.is_valid())
+
+
+    def test_giggoer_sign_in(self):
+        # tests if the sign in form works when signing in as a giggoer user
+        form_data = {
+            'username': 'giggoer1',
+            'password': 'strongpass123'
+        }
+        form = LoginForm(data=form_data)
+        self.assertTrue(form.is_valid())
+
     def test_user_is_giggoer(self):
+        # tests if the user object is a giggoer
         giggoer1 = User.objects.get(username="giggoer1")
         self.assertEqual(giggoer1.is_venue, False)
 
-    def test_giggoer_sign_in(self):
-        print("test")
+    def test_default_giggoer_image(self):
+        # tests if once a user is created, the default image is assigned
+        giggoer1 = User.objects.get(username="giggoer1").giggoer
+        self.assertIn('default-pic', giggoer1.image.url)
 
 
-
+# all unit tests for venue users
 class VenueTests(TestCase):
     def setUp(self):
-        user = User.objects.create(username="venue1", password="strongpass123", email="venue1@venue1.com", is_venue=True)
+        user = User.objects.create(username="venue1",  email="venue1@venue1.com", password="strongpass123", is_venue=True)
         user.save()
 
         venue = Venue.objects.create(user=user)
@@ -54,9 +91,10 @@ class VenueTests(TestCase):
         venue.save()
 
     def test_register_venue(self):
+        # tests if the register form works for venue users
         form_data = {
-            'username': 'test_venue',
-            'email': 'testvenue@testvenue.com',
+            'username': 'venue2',
+            'email': 'venue2@venue2.com',
             'password1': 'strongpass123',
             'password2': 'strongpass123',
             'venue_name': 'Test Venue',
@@ -69,16 +107,58 @@ class VenueTests(TestCase):
         form = VenueSignUpForm(data=form_data)
         self.assertTrue(form.is_valid())
 
+    def test_register_venue_duplicate(self):
+        # tests if the register form does not let users register a venue account that already exists
+        form_data = {
+            'username': 'venue1',
+            'email': 'venue1@venue1.com',
+            'password1': 'strongpass123',
+            'password2': 'strongpass123'
+        }
+        form = VenueSignUpForm(data=form_data)
+        # return false as this venue already exists
+        self.assertFalse(form.is_valid())
+
+    def test_register_venue_invalid_password(self):
+        # tests if the register form does not let users register a venue account with different passwords
+        form_data = {
+            'username': 'venue3',
+            'email': 'venue3@venue3.com',
+            'password1': 'strongpass123',
+            'password2': 'strongpass124'
+        }
+        form = VenueSignUpForm(data=form_data)
+        # return false as user's passwords must match
+        self.assertFalse(form.is_valid())
+
+    def test_venue_sign_in(self):
+        # tests if the sign in form works when signing in as a venue user
+        form_data = {
+            'username': 'venue1',
+            'password': 'strongpass123'
+        }
+        form = LoginForm(data=form_data)
+        self.assertTrue(form.is_valid())
+
     def test_user_is_venue(self):
+        # tests if the user object is a venue
         venue1 = User.objects.get(username="venue1")
         self.assertEqual(venue1.is_venue, True)
+
+    def test_default_venue_image(self):
+        # tests if once a user is created, the default image is assigned
+        venue1 = User.objects.get(username="venue1").venue
+        self.assertIn('default-pic', venue1.image.url)
+
 
 
 class CommentTests(TestCase):
     print("hi")
 
+
 class RatingTests(TestCase):
     print("yo")
+
 
 class ConcertTests(TestCase): # put in venues app
     print("krnfe")
