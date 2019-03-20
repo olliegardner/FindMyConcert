@@ -16,18 +16,7 @@ body, html {
   object-fit: cover;
 }
 
-/*seems to break on safari, so need to find solution*/
-.parallax{
-    height: 100%;
 
-  
-
-  /* Create the parallax scrolling effect */
-  background-attachment: fixed;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
 
 .navbar {
     z-index: 1;
@@ -87,6 +76,40 @@ nav .navbar-nav li a{
     left: 32%;
 }
 
+.parallax{
+    width: 100%; 
+    height: 100%;  
+    left: 0px; 
+    top: 0px; 
+    z-index: 0;
+
+
+     
+  /* Create the parallax scrolling effect */
+
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.background-scroll {
+    width: 100%; 
+    height: 100%; 
+    
+    left: 0px; 
+    top: 0px; 
+    z-index: 0;
+   
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    
+
+}
+
+
 
 .background {
     width: 100%; 
@@ -95,12 +118,14 @@ nav .navbar-nav li a{
     left: 0px; 
     top: 0px; 
     z-index: 0;
+    
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
 }
 
 .background-cover {
+
   object-fit: cover;
   width: 100%;
   height: 100%;
