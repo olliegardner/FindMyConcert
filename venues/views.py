@@ -90,7 +90,7 @@ def editConcert(request, id):
         This function could also have been implemented by overriding save() in 
         EditConcertForm
         """
-                    
+
         if form.is_valid(): 
             if (form.cleaned_data.get('artist') != ""):
                 concert.artist      = form.cleaned_data['artist']
@@ -112,6 +112,3 @@ def editConcert(request, id):
 
     form = EditConcertForm
     return render(request, 'venues/editConcert.html', {'form': form, 'id' : id})
-
-
-
