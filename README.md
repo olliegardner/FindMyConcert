@@ -6,6 +6,8 @@ This is a university project created by Ollie Gardner, Axel Stjerngren, Robert P
 at the University of Glasgow. The premise of the website is to allow users to find concerts in their 
 local area and for venues to be able to easily add new concerts.
 
+If you don't want to run the site locally then you can visit FindMyConcert @ https://findmyconcert.pythonanywhere.com
+
 ## Installation
 
 First clone the repository and then navigate to the FindMyConcert source folder.
