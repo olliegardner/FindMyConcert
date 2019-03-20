@@ -4,7 +4,7 @@ from django.core.files import File
 import os
 
 
-from concert.forms import GigGoerSignUpForm, VenueSignUpForm
+from concert.forms import GigGoerSignUpForm, VenueSignUpForm, LoginForm
 
 
 '''
@@ -25,6 +25,7 @@ class GigGoerTests(TestCase):
 
     def test_register_giggoer(self):
         # TODO register with image and not image and test if image is default one if not uploaded
+        # tests if the register form works for giggoer users
         form_data = {
             'username': 'test_giggoer',
             'email': 'testgiggoer@testgiggoer.com',
@@ -34,12 +35,19 @@ class GigGoerTests(TestCase):
         form = GigGoerSignUpForm(data=form_data)
         self.assertTrue(form.is_valid())
 
+    def test_giggoer_sign_in(self):
+        # tests if the sign in form works when signing in as a giggoer user
+        form_data = {
+            'username': 'giggoer1',
+            'password': 'strongpass123'
+        }
+        form = LoginForm(data=form_data)
+        self.assertTrue(form.is_valid())
+
     def test_user_is_giggoer(self):
+        # tests if the user object is a giggoer
         giggoer1 = User.objects.get(username="giggoer1")
         self.assertEqual(giggoer1.is_venue, False)
-
-    def test_giggoer_sign_in(self):
-        print("test")
 
 
 
@@ -54,6 +62,7 @@ class VenueTests(TestCase):
         venue.save()
 
     def test_register_venue(self):
+        # tests if the register form works for venue users
         form_data = {
             'username': 'test_venue',
             'email': 'testvenue@testvenue.com',
@@ -69,7 +78,17 @@ class VenueTests(TestCase):
         form = VenueSignUpForm(data=form_data)
         self.assertTrue(form.is_valid())
 
+    def test_venue_sign_in(self):
+        # tests if the sign in form works when signing in as a venue user
+        form_data = {
+            'username': 'venue1',
+            'password': 'strongpass123'
+        }
+        form = LoginForm(data=form_data)
+        self.assertTrue(form.is_valid())
+
     def test_user_is_venue(self):
+        # tests if the user object is a venue
         venue1 = User.objects.get(username="venue1")
         self.assertEqual(venue1.is_venue, True)
 
