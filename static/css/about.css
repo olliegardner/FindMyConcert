@@ -1,0 +1,9 @@
+
+/* Let cards inherit parent color*/
+.inherit-color {
+	color: inherit;
+}
+
+.top-padding {
+	padding-top: 3%
+}

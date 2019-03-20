@@ -5,31 +5,26 @@
 
 {% block body_block %}
 
-<style>
-    .concert-image { 
-        max-width: 100%;
-        width : 100%;
-        height: auto;
-        max-height: 250px;
-        object-fit: cover;
+<link rel="stylesheet" type="text/css" href="{% static 'css/discover.css' %}">
 
-    }
-</style>
 <div class = "container">
     <h1 class="display-4">Discover</h1>
+    <p class="lead">Find artists similar to the ones you like!</p>
     <hr>
-    <div class="row">
-        {% for concert in concerts%}
+    {% if concerts %}
+        <div class="row">
+        {% for concert in concerts%}  <!-- Loop through concerts -->
             <div class="col-12 col-md-6 col-lg-4">
-                <div class="card">
+                <div class="card"> <!-- Add a card-->
                     <img class="card-img-top concert-image" src="{{concert.image.url}}">
 
                     <div class="card-body">
-
                         <h5 class="card-title">{{ concert.artist }}</h5>
                         <span> 
-                            <button class="btn btn-outline-dark" >View</button>
-                            <button data = "{{ concert.concertID }}" class="btn btn-success bookmarkbutton"> Bookmark</button> 
+                            <a href = "{% url 'view' concert.concertID %}" >
+                                <button class="btn btn-outline-dark" >View</button>
+                            </a> 
+                            <button data = "{{ concert.concertID }}" class="btn btn-success bookmarkbutton"> Bookmark</button>
                         </span>
                         <p class="card-text "><i>{{concert.description}}</i></p>
 
@@ -38,49 +33,14 @@
             </div>
         {%endfor %}
     </div>
+    {% else %} <!-- If every single concert has been bookmarked -->
+        <h2 class="display-4">You have nothing left to discover!</h2>
+        <p>Please comeback to this page in the future for new concerts to discover </p>
+        <iframe src="https://open.spotify.com/embed/track/0j0DNujXWeupLpZobbABoo" width="300" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media" ></iframe>
+    {% endif %}
 </div>
 
-<script>
-
-    var bookmarkButtons = document.querySelectorAll(".bookmarkbutton");
-
-    bookmarkButtons.forEach(function(element) {
-        element.addEventListener("click", bookmark);
-    });
-
-    function bookmark() {
-            var concertid = (this).getAttribute('data');
-            $.get('/concert/bookmark/', {concertid: concertid}); 
-            toastr.success('Concert bookmarked!');
-
-            var newElement = $(this).replaceWith('<button class="btn btn-outline-danger removebookmarkbutton" data="'+concertid+'">Remove Bookmark</button>');
-
-            var removeBookmarkButtons = document.querySelectorAll(".removebookmarkbutton");
-
-            removeBookmarkButtons.forEach(function(element) {
-                    element.addEventListener("click", removebookmark);
-            });
-
-
-            //Start by bookmarking the concert
-    };
-
-
-    function removebookmark() {
-            var concertid = (this).getAttribute('data');
-            $.get('/concert/removebookmark/', {concertid: concertid});
-            toastr.error('Bookmark removed!');
-
-            $(this).replaceWith('<button class="btn btn-success bookmarkbutton" data = "'+concertid+'"> Bookmark</button> ');
-
-            var bookmarkButtons = document.querySelectorAll(".bookmarkbutton");
-
-            bookmarkButtons.forEach(function(element) {
-                element.addEventListener("click", bookmark);
-            });
-
-    };
-
-</script>
+<!--Load javascript file to handle bookmarking and toastrs-->
+<script src="{% static 'js/discover.js' %}"> </script>
 
 {% endblock %}

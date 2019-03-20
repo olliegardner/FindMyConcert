@@ -1,0 +1,10 @@
+ 
+/* Make the concert image look better*/
+.concert-image { 
+        max-width: 100%;
+        width : 100%;
+        height: auto;
+        max-height: 250px;
+        object-fit: cover;
+
+}

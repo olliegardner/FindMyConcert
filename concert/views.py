@@ -4,6 +4,7 @@ from concert.tokens import accountActivationToken
 
 from datetime import datetime
 
+from django.contrib import messages 
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
@@ -23,7 +24,7 @@ from django.views.decorators.csrf import requires_csrf_token
 from FindMyConcert.custom_decorators import giggoer_required
 
 import json
-from tensor.recommend import recommendationEngine
+from recommend.recommend import recommendation
 import urllib.request
 
 def error_404(request):
@@ -57,9 +58,10 @@ def user_login(request):
                         login(request, user)
                         return render(request, 'concert/index.html')
                     else:
-                        return HttpResponse("Your account is currently disabled")
+                        messages.error(request, "Your account is currently disabled")
                 else:
-                    print("Invalid login details: {0}, {1}".format(username, password))
+                    messages.error(request, "Incorrect username or password")
+
     #If no post, return the form 
     return loginForm
 
@@ -70,16 +72,15 @@ def index(request):
     return render(request, 'concert/index.html', {'loginform': loginForm})
 
 def events(request):
-
     loginForm = user_login(request)
     concert_list = Concert.objects.all() #Get all concerts
 
     #Try to find the location using ip-api
     try:
-        location = urllib.request.urlopen("http://ip-api.com/json/")
+        location = urllib.request.urlopen("http://ip-api.com/json/", timeout=3)
         location_json = json.load(location)
     except:
-        location_json = "Unknown"
+        location_json = {'city': "Error"}
 
     #See if a quesry has been sent
     query = request.GET.get("q")
@@ -397,7 +398,7 @@ def postComment(request):
 @giggoer_required
 def discover(request):
     loginForm = user_login(request)
-    concert_list = recommendationEngine(request) #Get recommendation from recommendation engine
+    concert_list = recommendation(request) #Get recommendation from recommendation engine
     return render(request, 'concert/discover.html', {'loginform': loginForm, 'concerts': concert_list})
 
 
