@@ -48,10 +48,7 @@ class Concert(models.Model):
         ordering = ['-date']
 
     def is_future(self):
-<<<<<<< Updated upstream
         #This checks if the concert is in the future (or today)
-=======
->>>>>>> Stashed changes
         if self.date >= datetime.date.today():
            return True 
         else:
