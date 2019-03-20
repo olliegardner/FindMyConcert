@@ -46,7 +46,7 @@ Now if you navigate to http://127.0.0.1:8000/ you should be greeted by a view wh
 
 #### Events
 * Search available concerts (also by location using ip-api)
-* Filter avaiable concerts
+* Filter available concerts
 * Clear search
 * See available concerts in tile form
 * Hover over tile and watch it flip over to reveal concert details/view button/bookmark button (if logged in as GigGoer)
