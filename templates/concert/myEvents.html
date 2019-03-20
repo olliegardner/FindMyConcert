@@ -4,6 +4,8 @@
 {% block title %} {{ block.super }} {% endblock %}
 
 {% block body_block %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/events.css' %}">
+
     <div class="container">
         <h1 class="display-4" id = "events_title">Events</h1>
         <p class="lead">View all of the events going on around you</p>
@@ -596,8 +598,11 @@
                 </div>
             {% endif %}
         {% endif %}
+
+        <button onclick="topFunction()" id="go-top">Top</button>
     </div>
 
+    <script src="{% static 'js/events.js' %}" ></script>
 
     {% if user.pretty_mode %}       <!-- Pretty Mode Add Bookmark -->
         <script>
