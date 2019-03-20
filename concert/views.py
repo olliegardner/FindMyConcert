@@ -295,7 +295,7 @@ def profile(request, username):
                     if (form.cleaned_data.get('description') != ""):
                         user.venue.description = form.cleaned_data.get('description')
                     if (form.cleaned_data.get('capacity') != None):
-                        user.venue.capacity = form.cleaned_data.get('capacity')                  
+                        user.venue.capacity = form.cleaned_data.get('capacity')
                     
                     #Save the new updated models
                     user.save()
@@ -361,7 +361,7 @@ def getConcert(request ,id):
     concert_json['image']      = concert.image.url
     results.append(concert_json) #Append to a list (in case we want several concerts in the future)
     data = json.dumps(results)  #Dump to JSON
-    return HttpResponse(data, 'application/json')    
+    return HttpResponse(data, 'application/json')
 
 
 @requires_csrf_token
@@ -445,5 +445,3 @@ def password_reset_confirm(request):
 def password_reset_done(request):
     loginForm = user_login(request)
     return render(request, 'registration/password_reset_done.html', {'loginform': loginForm})'''
-
-

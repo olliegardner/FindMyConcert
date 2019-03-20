@@ -14,7 +14,7 @@ class User(AbstractUser):
     pretty_mode  = models.BooleanField(default=True)
 
     def isVenue():
-        return is_venue    
+        return is_venue
     
 
 class Venue(models.Model):
@@ -88,5 +88,3 @@ class Rating(models.Model):
     user       = models.ForeignKey(User, related_name='rating', on_delete=models.CASCADE)
     concert    = models.ForeignKey(Concert, related_name='rating', on_delete=models.CASCADE)
     score      = models.IntegerField(default=5, validators=[MaxValueValidator(5), MinValueValidator(1)])
-    
-

@@ -128,8 +128,3 @@ class EditVenueForm(forms.ModelForm):
     class Meta:
         model = Venue
         fields = []
-
-
-
-
-

@@ -190,5 +190,3 @@ class RatingTests(TestCase):
 
 class ConcertTests(TestCase): # put in venues app
     print("krnfe")
-
-
