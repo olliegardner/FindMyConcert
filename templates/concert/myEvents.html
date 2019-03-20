@@ -51,6 +51,7 @@
 												</ul>
 												</li>
 												
+												<!--
 												<li class="dropdown-submenu">
 												<a  class="dropdown-item" tabindex="-1" href="#">Popular venues</a>
 												<ul class="dropdown-menu">
@@ -58,6 +59,17 @@
 													<button class="btn btn-lg" type="submit" data-toggle="tooltip" data-placement="top" title="SSE" onclick="document.getElementById('search-concert').value='SSE Hydro';"><p>SSE Hydro</p></button>
 												</ul>
 												</li>
+												-->
+												
+												<li class="dropdown-submenu">
+												<a  class="dropdown-item" tabindex="-1" href="#">Popular venues</a>
+												<ul class="dropdown-menu">
+													{% for place in popular_venues %}
+														<button class="btn btn-lg" type="submit" data-toggle="tooltip" data-placement="top" title='{{ place }}' onclick="document.getElementById('search-concert').value='{{ place }}';"><p>{{ place }}</p></button>
+													{% endfor %}
+												</ul>
+												</li>
+												
 												<div class="dropdown-divider"></div>
 												<button class="btn btn-lg" type="submit" data-toggle="tooltip" data-placement="top" title="Past" onclick="document.getElementById('search-concert').value='date_past';"><p>Past</p></button>
 												<div class="dropdown-divider"></div>
@@ -385,13 +397,25 @@
 												</ul>
 												</li>
 												
+												<!--
 												<li class="dropdown-submenu">
 												<a  class="dropdown-item" tabindex="-1" href="#">Popular venues</a>
 												<ul class="dropdown-menu">
 													<button class="btn btn-lg" type="submit" data-toggle="tooltip" data-placement="top" title="SEC" onclick="document.getElementById('search-concert').value='SEC Armadillo';"><p>SEC Armadillo</p></button>
 													<button class="btn btn-lg" type="submit" data-toggle="tooltip" data-placement="top" title="SSE" onclick="document.getElementById('search-concert').value='SSE Hydro';"><p>SSE Hydro</p></button>
 												</ul>
+												</li> 
+												-->
+												
+												<li class="dropdown-submenu">
+												<a  class="dropdown-item" tabindex="-1" href="#">Popular venues</a>
+												<ul class="dropdown-menu">
+													{% for place in popular_venues %}
+														<button class="btn btn-lg" type="submit" data-toggle="tooltip" data-placement="top" title='{{ place }}' onclick="document.getElementById('search-concert').value='{{ place }}';"><p>{{ place }}</p></button>
+													{% endfor %}
+												</ul>
 												</li>
+												
 												<div class="dropdown-divider"></div>
 												<button class="btn btn-lg" type="submit" data-toggle="tooltip" data-placement="top" title="Past" onclick="document.getElementById('search-concert').value='date_past';"><p>Past</p></button>
 												<div class="dropdown-divider"></div>

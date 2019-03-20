@@ -1,8 +1,9 @@
 from concert.forms import GigGoerSignUpForm, VenueSignUpForm, EditGigGoerForm, EditVenueForm, LoginForm
 from concert.models import User, Concert, Comment, Rating
 from concert.tokens import accountActivationToken
-
+from collections import Counter
 from datetime import datetime
+from heapq import nlargest
 
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
@@ -76,6 +77,12 @@ def events(request):
         Q(date__lt=datetime.today())).distinct()
         #Get all concerts
 
+    counts = dict()
+    for i in concert_list:
+        counts[i.venue.venue_name] = counts.get(i, 0) + 1
+    #most_popular = dict(Counter(counts).most_common(3))
+    most_popular = nlargest(3, counts, key=counts.get)
+
     #backup list of all concerts
     concert_list_all = Concert.objects.all()
 
@@ -115,7 +122,7 @@ def events(request):
                 Q(venue__location__icontains=query)
                 ).distinct()
 
-    context_dict = {'concerts': concert_list, 'location': location_json, 'loginform': loginForm}
+    context_dict = {'concerts': concert_list, 'location': location_json, 'loginform': loginForm, "popular_venues" : most_popular}
     return render(request, 'concert/myEvents.html', context_dict)
 
 
