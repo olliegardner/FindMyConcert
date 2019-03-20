@@ -237,51 +237,20 @@
                     </div>
  
                     <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
-                        <p>
-                            Username: {{ selecteduser.username }}
-                            <br>
-                            Email: {{ selecteduser.email }}
-                            <br>
-                            {% if selecteduser.is_venue %}
-                                User Type: Venue
-                            {% else %}
-                                User Type: GigGoer
-                            {% endif %}
-                        </p>
-
-                        <div class="col-md-6 col-md-offset-2 col-sm-12 col-lg-12">
+                    <br>
+                    <h2> Discussion</h2>
+                    <div class="col-md-6 col-md-offset-2 col-sm-12 col-lg-12">
                         <!-- Comment input area start -->
-                     
-                            <textarea id = "commentbox" class="form-control" placeholder="post a message on their profile..." rows="3"></textarea>
+                       
+                            <textarea id = "commentbox" class="form-control" placeholder="write a comment..." rows="3"></textarea>
                             <br>
                             <form method="post" class="left" id ="post-form">
                                 <meta name="csrf-token" content="{{ csrf_token }}">
                                 <button type="button" class="btn btn-info" id = "postcomment" data ="{{concert.concertID}}" data-url = "{% url 'postcomment' %}" >Post</button>
                             </form>
-                            <ul class = "comments" id ="allcomments">
-                            {% for comment in concert.comment.all %}
-                                <li class="media">
-
-                                    <a href="{% url 'profile' comment.user.username %}" class="pull-left">
-                                        {% if comment.user.is_venue and comment.user.venue.image != "" %}
-                                            <img src="{{ comment.user.venue.image.url }}" alt="Avatar" class="avatar">
-                                        {% elif not comment.user.is_venue and comment.user.giggoer.image != "" %}
-                                            <img src="{{comment.user.giggoer.image.url }}" alt="Avatar" class="avatar">
-                                        {% else %}
-                                            <i class="far fa-user fa-lg"></i>
-                                        {% endif %}
-                                    </a> <!-- Handle profile pic and wrap in link to profile -->
-
-
-                                    <div class="media-body"> <!-- Comment body starts here -->
-                                        <a href="{% url 'profile' comment.user.username %}"><strong class="text-success">&nbsp;&nbsp;{{comment.user.username}}</strong></a>
-                                        <p>&nbsp;{{ comment.text }}</p>
-                                    </div>
-                                </li>
-                            {% endfor %}       
-                        </ul>
-
-
+                                
+                           
+                        
 
 
                             

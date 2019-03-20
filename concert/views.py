@@ -394,6 +394,39 @@ def postComment(request):
     return HttpResponse(json.dumps(payload), content_type='application/json')
 
 
+'''@requires_csrf_token
+def postUserComment(request):
+    #This view is used so that a comment can be posted using AJAX
+
+    user = request.user
+    text = request.POST.get('data') #Get the text data
+    profileID = request.POST.get('id')
+
+    #Check if empty comment and return false success if empty
+    if text == "" or text == None:
+        payload = {'success': "False"}
+    else:
+        profile = get_object_or_404(Concert, profileID=profileID)
+
+        #Create a new comment object
+        commentProfile = ProfileComment.objects.create(
+            user = user,
+            text = text,
+            profile = profile,
+            time = datetime.now())
+
+        comment.save() #Make sure comment is saved in database
+
+        #Return the appropiate comment image depending on usertype
+        if user.is_venue:
+            image = user.venue.image.url
+        else:
+            image = user.giggoer.image.url
+
+        payload = {'success': "True", 'username':user.username, 'image':image}
+
+    return HttpResponse(json.dumps(payload), content_type='application/json')'''
+
 @login_required
 @giggoer_required
 def discover(request):
