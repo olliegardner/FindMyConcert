@@ -72,7 +72,12 @@ def index(request):
 
 def events(request):
     loginForm = user_login(request)
-    concert_list = Concert.objects.all() #Get all concerts
+    concert_list = Concert.objects.all().exclude(
+        Q(date__lt=datetime.today())).distinct()
+        #Get all concerts
+
+    #backup list of all concerts
+    concert_list_all = Concert.objects.all()
 
     #Try to find the location using ip-api
     try:
@@ -89,18 +94,15 @@ def events(request):
                   'August':'8', 'July':'7', 'June':'6', 'May':'5', 'April':'4', 'March':'3',
                   'February':'2', 'January':'1'}
 
-        if query == ' ':
-            #default filter shows only events in future
-            concert_list = concert_list.filter(
-                Q(date__gte=datetime.today())).distinct()
+        if query == "All concerts":
+            concert_list = concert_list_all
         elif query in months.keys():
             #If query is a month, use its numerical value in comparison
             query = months[query]
             concert_list = concert_list.filter(
-                Q(date__month=query)).exclude(
-                    Q(date__lt=datetime.today())).distinct()
+                Q(date__month=query)).distinct()
         elif query == "date_past":
-            concert_list = concert_list.filter(
+            concert_list = concert_list_all.filter(
                 Q(date__lt=datetime.today())).distinct()
         else:
             #If query, return only filtered concerts
