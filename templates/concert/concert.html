@@ -5,41 +5,7 @@
 
 {% block body_block %}
 
-<style>
-
-    /* Always set the map height explicitly to define the size of the div
-    * element that contains the map. */
-    #google-map {
-        height: 400px;
-    }
-
-    .concert-image { 
-        max-width: 100%;
-        width : 100%;
-        height: auto;
-        max-height:340px;
-        object-fit: cover;
-
-    }
-    .notbold{
-        font-size: 22px;
-    }​
-    span.line {
-      display: inline-block;
-
-
-    }
-
-    .tile-container, .tile-front, .tile-back {
-        width: 100%;
-        height: 100px;
-        border-radius: 10%;
-    }
-    .checked {
-        color:orange;
-    }
-
-</style>
+<link rel="stylesheet" type="text/css" href="{% static 'css/concert.css' %}">
 
 <div class="container">
     <br>
@@ -49,7 +15,7 @@
         
             <p>{{ concert.venue.venue_name }} , {{ concert.venue.location }}<br>{{ concert.start_time }} - {{ concert.end_time }}   {{ concert.date }}</p>
             <p>
-                <a href="{{ concert.url }}" target="_blank" >Tickets</a>  
+                <a href="{{ concert.url }}" target="_blank">Tickets</a>  
                 {% if user.is_authenticated and not user.is_venue %}
                     {% if not bookmarked %}
                         <button class="btn btn-outline-success navbar-right pull-right" id = "bookmarkbutton" onclick="bookmark({{ concert.concertID }})" >Bookmark</button> 
@@ -109,15 +75,15 @@
                         {% if user.is_authenticated %}
                             <textarea id = "commentbox" class="form-control" placeholder="write a comment..." rows="3"></textarea>
                             <br>
-                            <form method="post" style ="float:left;" >{% csrf_token %}
-                                
-                                <button type="button" class="btn btn-info" id = "postcomment" >Post</button>
+                            <form method="post" class="left" id ="post-form">
+                                <meta name="csrf-token" content="{{ csrf_token }}">
+                                <button type="button" class="btn btn-info" id = "postcomment" data ="{{concert.concertID}}" data-url = "{% url 'postcomment' %}" >Post</button>
                             </form>
                                 {% if not user.is_venue %}
                                     {% check_no_rating user.username concert.concertID as not_rated %}
                                     {% if not_rated %}
-                                        <div class="form-inline" style ="float:right;" id = "ratingdiv" >
-                                            <form method="post" class="form-inline">{% csrf_token %}
+                                        <div class="form-inline right"  id = "ratingdiv" >
+                                            <form method="post" class="form-inline">
                                                 <select id="rating" class="custom-select">
                                                 <option value="5">5 - Excellent</option>
                                                 <option value="4">4 - Good</option>
@@ -125,11 +91,11 @@
                                                 <option value="2">2 - Bad </option>
                                                 <option value="1">1 - Awful </option>
                                                 </select>
-                                                <button type= "button" id = "ratingbutton" class="btn btn-info" style ="float:right;">Rate</button>
+                                                <button type= "button" id = "ratingbutton" class="btn btn-info right" data-url = "{% url 'rateconcert' %} ">Rate</button>
                                             </form>
                                         </div>
                                     {% else %}
-                                        <p style = "float:right"> Thank you for rating!</p>
+                                        <p class = "right"> Thank you for rating!</p>
                                     {% endif %}
                                 {% endif %}
                             {% endif %}
@@ -182,7 +148,7 @@
                                         </div>
 
                                         <div class="tile-back" style=" background-image: url({{ giggoer.image.url  }}); background-size: cover; background-position: center;">
-                                            <div class ="center-white-bg"style="background-color: rgba(256, 256, 256, 0.93);width:100%; height:100px; border-radius: 10%;">
+                                            <div class ="center-white-bg back-tile">
                                                 <div class ="center">
                                                     <a href="{% url 'profile' giggoer.user %}">
                                                         <button class="btn btn-outline-info">View</button>
@@ -203,7 +169,7 @@
                 </div>
                 <div id="venue" class="tab-pane fade"> <!-- This tab contains a venue description -->
                     <br>
-                    <h2>{{ concert.venue.venue_name }}</h2>
+                        <a href="{% url 'profile' concert.venue.user.username %}"><h2>{{ concert.venue.venue_name }}</h2></a>
                     <img class = "img-fluid "src="{{ concert.venue.image.url }}">
                     <p>{{ concert.venue.description }}</p>
                 </div>
@@ -215,7 +181,7 @@
 
                 <div id="map" class="tab-pane fade show">
                     <br>
-                    <div id="google-map">
+                    <div id="google-map" data-venuename ="{{ concert.venue.venue_name }}" data-location = "{{ concert.venue.location }}">
                     </div>
                 </div>
             </div>
@@ -223,156 +189,8 @@
     </div>
 </div> 
 
-<script>
-    var map;
-    var service;
-    var infowindow;
+<script src="{% static 'js/concert.js' %}"></script>
 
-    function initMap() {
-        var venue_location = new google.maps.LatLng(-33.867, 151.195);
-        infowindow = new google.maps.InfoWindow();
-        map = new google.maps.Map(document.getElementById('google-map'), {center: venue_location, zoom: 15});
-
-        var request = {
-            query: '{{ concert.venue.venue_name }}, {{ concert.venue.location }}',
-            fields: ['name', 'geometry'],
-        };
-
-        service = new google.maps.places.PlacesService(map);
-
-        service.findPlaceFromQuery(request, function(results, status) {
-            if (status === google.maps.places.PlacesServiceStatus.OK) {
-                for (var i = 0; i < results.length; i++) {
-                    createMarker(results[i]);
-                }
-                map.setCenter(results[0].geometry.location);
-            }
-        });
-    }
-
-    function createMarker(place) {
-        var marker = new google.maps.Marker({
-            map: map,
-            position: place.geometry.location
-        });
-
-        google.maps.event.addListener(marker, 'click', function() {
-            infowindow.setContent(place.name);
-            infowindow.open(map, this);
-        });
-    }
-
-
-
-    $(document).ready(function() {
-        $('html, body').animate({
-        'scrollTop' : $("#concert_title").position().top
-        });
-
-        //Add rating if applicable
-        var filledStars = document.getElementById('stars').getAttribute('data');
-        var emptyStars = 5 - filledStars;
-
-        var i;
-        for (i = 0; i < filledStars; i++) { 
-            $('<span class="fa fa-star checked "></span>').appendTo('#stars'); 
-        }
-
-        for (i = 0; i < emptyStars; i++) { 
-            $('<span class="fa fa-star"></span>').appendTo('#stars'); 
-        }
-        
-    });
-
-
-    document.getElementById("postcomment").addEventListener("click", postcomment);
-
-
-    function postcomment() {
-
-        //MAake AJAX post request
-        $.ajaxSetup({
-            headers: { "X-CSRFToken": '{{csrf_token}}' }
-        });
-        $.ajax({
-            type: 'POST',
-            url:'{% url "postcomment" %}',
-            data: {'data':$('#commentbox').val(),'id':'{{concert.concertID}}'},
-            credentials: 'include',
-            dataType: 'json',
-            success:function(data){
-                if (data.success == "True") {
-                var $text = $('#commentbox').val();
-                toastr.success('Comment posted succesfully');
-                    $("#commentbox").val(''); //Clear the comment box
-
-
-                    //Next part is a mess, this appens the new comment to the html code
-                    //The links are left blank deliberately for the sake of simplicity and time constraints
-                    //The user will have to relaod to access more fucntions
-                    $('<li class="media">').append(
-                        $('<a href="#" class="pull-left"><img src="' +data.image+'" class="avatar"></a>'),
-                        $('<div class="media-body"><a href="#"<strong class="text-success">&nbsp;&nbsp;'+data.username +'</strong></a><p>&nbsp;&nbsp;' +$text +'</p>')
-                        ).appendTo('#allcomments');      
-
-                    $('#allcomments').animate({ scrollTop: 10000000000000000 }, 50); //This is hack, scrolling too far scrolls to the bottom
-                    } else {
-                        toastr.error('Comment not sent!');
-                    }      
-                },
-
-                error: function(data) {
-                    toastr.error('Comment not sent!');
-            }
-        });   
-    };
-    
-
-    document.getElementById("ratingbutton").addEventListener("click", rateconcert);
-    
-    function rateconcert() {
-
-        console.log("test")
-        var $rating = $("#rating").val();
-        //MAake AJAX post request
-        $.ajaxSetup({
-            headers: { "X-CSRFToken": '{{csrf_token}}' }
-        });
-        console.log("ajax")
-        $.ajax({
-            type: 'POST',
-            url:'{% url "rateconcert" %}',
-            data: {'data':$rating,'id':'{{concert.concertID}}'},
-            credentials: 'include',
-            dataType: 'json',
-            success:function(data){
-                toastr.success('Rating succesfully recorded');
-                $('#ratingdiv').replaceWith('<p style = "float:right"> Thank you for rating!</p>')
-                
-            },
-
-            error: function(data) {
-                toastr.error('Rating not recorded');
-            }
-        });   
-    };
-
-    function removebookmark(concertid) {
-          $.get('/concert/removebookmark/', {concertid: concertid});
-          toastr.error('Bookmark removed!');
-          $('#bookmarkbutton').replaceWith('<button class="btn btn-outline-success navbar-right pull-right" id = "bookmarkbutton" onclick="bookmark({{ concert.concertID }})" >Bookmark</button></p>')
-    };
-
-    function bookmark(concertid) {
-            $.get('/concert/bookmark/', {concertid: concertid}); 
-            toastr.success('Concert bookmarked!');
-            $('#bookmarkbutton').replaceWith('<button class="btn btn-outline-danger navbar-right pull-right" id = "bookmarkbutton" onclick="removebookmark({{ concert.concertID }})" >Remove Bookmark</button></p>')
-
-            //Start by bookmarking the concert
-    };
-
-</script>
-
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA80wEVfNDR49oTo3yede1S6Nik_Lw6PyY&libraries=places&callback=initMap" async defer></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA80wEVfNDR49oTo3yede1S6Nik_Lw6PyY&libraries=places&callback=initMap" async defer></script>
 
 {% endblock %}
