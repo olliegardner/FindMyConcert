@@ -3,14 +3,16 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE',
                       'FindMyConcert.settings')
 import django
 django.setup()
+from concert.models import GigGoer, User, Venue, Concert, Comment
 
-import pandas as pd
-import shutil
-from concert.models import GigGoer, User, Venue, Concert
+from datetime import datetime
+
 from django.db import models 
 from django.contrib.auth.hashers import make_password
 from django.core.files import File
 
+import pandas as pd
+import shutil
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -19,6 +21,7 @@ class Populate():
         self.populate_venues()
         self.populate_concerts()
         self.populate_giggoers()
+        self.populate_comments()
 
     def populate_giggoers(self):
         path = os.path.join(os.getcwd(), 'population_files', 'giggoers.csv')
@@ -45,7 +48,6 @@ class Populate():
                 try:
                     concert = Concert.objects.get(concertID = concertID)
                     giggoer.bookmarks.add(concert)
-                    print(concertID + " bookmarked")
                 except:
                     print("""
 
@@ -54,7 +56,7 @@ class Populate():
 
                             A bookmark could not be appended, are you sure you are running this in a fresh database?
 
-                            Please delte db.sqlite3 and try again
+                            Please delete db.sqlite3 and try again
 
 
                             """)
@@ -94,7 +96,6 @@ class Populate():
 
 
         for ir in data.itertuples():
-            print(ir)
             imgpath = os.path.join(os.getcwd(), 'population_files', 'images', str(ir[5]) + ".jpg")
             concert = Concert.objects.create(
             artist = ir[1],
@@ -109,6 +110,54 @@ class Populate():
 
             concert.image.save(str(ir[5]), File(open(imgpath, 'rb')))
             concert.save()
+
+    def populate_comments(self):
+        path = os.path.join(os.getcwd(), 'population_files', 'comments.csv')
+        data = pd.read_csv(path)
+
+        for ir in data.itertuples():
+            username  = ir[1]
+            concertID = int(ir[2])
+            text      = ir[3]
+
+            try:
+                concert = Concert.objects.get(concertID = concertID)
+            except:
+                print("""
+
+                        WARNING!
+
+                        A concert could not be found!
+
+                        Please delete db.sqlite3 and try again
+
+                        """)
+                concert = None
+
+
+            try:
+                user = User.objects.get(username = username)
+            except:
+                print("""
+
+                        WARNING!
+
+                        A concert could not be found!
+
+                        Please delete db.sqlite3 and try again
+
+                        """)
+                user = None
+
+            if concert != None and user != None:
+                comment = Comment.objects.create(
+                    user = user,
+                    concert = concert,
+                    text = text,
+                    time = datetime.now()
+                )
+
+                comment.save()
 
 if __name__ == "__main__":
   Populate()
