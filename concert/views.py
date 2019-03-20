@@ -284,6 +284,8 @@ def profile(request, username):
                         user.venue.image = form.cleaned_data.get('image')
                     if (form.cleaned_data.get('password') != ""):
                         user.venue.password = form.cleaned_data.get('password')
+                    if (form.cleaned_data.get('pretty_mode') != None):
+                        user.pretty_mode = form.cleaned_data.get('pretty_mode')
                     if (form.cleaned_data.get('venue_name') != ""):
                         user.venue.venue_name = form.cleaned_data.get('venue_name')
                     if (form.cleaned_data.get('location') != ""):
@@ -293,7 +295,7 @@ def profile(request, username):
                     if (form.cleaned_data.get('description') != ""):
                         user.venue.description = form.cleaned_data.get('description')
                     if (form.cleaned_data.get('capacity') != None):
-                        user.venue.capacity = form.cleaned_data.get('capacity')                  
+                        user.venue.capacity = form.cleaned_data.get('capacity')
                     
                     #Save the new updated models
                     user.save()
@@ -322,6 +324,8 @@ def profile(request, username):
                         user.giggoer.image = form.cleaned_data.get('image')
                     if (form.cleaned_data.get('password') != ""):
                         user.giggoer.password = form.cleaned_data.get('password')
+                    if (form.cleaned_data.get('pretty_mode') != None):
+                        user.pretty_mode = form.cleaned_data.get('pretty_mode')
                     user.giggoer.save()
                     user.save()  
                     return render(request, 'concert/profile.html', {'selecteduser': user, 'form': EditGigGoerForm, 'loginform': loginForm})
@@ -357,7 +361,7 @@ def getConcert(request ,id):
     concert_json['image']      = concert.image.url
     results.append(concert_json) #Append to a list (in case we want several concerts in the future)
     data = json.dumps(results)  #Dump to JSON
-    return HttpResponse(data, 'application/json')    
+    return HttpResponse(data, 'application/json')
 
 
 @requires_csrf_token
@@ -474,5 +478,3 @@ def password_reset_confirm(request):
 def password_reset_done(request):
     loginForm = user_login(request)
     return render(request, 'registration/password_reset_done.html', {'loginform': loginForm})'''
-
-

@@ -69,7 +69,6 @@ class recommendationEngine:
         sorted_dataframe = preds_df.loc[[username]].transpose().sort_values(by = username, ascending = False)
         recommendation_list = sorted_dataframe.index.values
 
-
         return recommendation_list
         
 
@@ -91,7 +90,7 @@ def recommendation(request):
     i = 0
     concert_count = 0
     while i < 9 and concert_count < len(concert_objects):      
-        if concert_objects[concert_count] not in user.giggoer.bookmarks.all():
+        if concert_objects[concert_count] not in user.giggoer.bookmarks.all() and concert_objects[concert_count].is_future():
             concert_list.append(concert_objects[concert_count])
             i += 1
         concert_count += 1

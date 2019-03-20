@@ -105,6 +105,7 @@ class EditGigGoerForm(forms.ModelForm):
     email    = forms.EmailField(required=False)
     image    = forms.ImageField(required=False)
     password = forms.CharField(required=False, widget=forms.PasswordInput(render_value=False))
+    pretty_mode = forms.BooleanField(required=False)
 
     class Meta:
         model = GigGoer
@@ -116,6 +117,7 @@ class EditVenueForm(forms.ModelForm):
     email        = forms.EmailField(required=False)
     image        = forms.ImageField(required=False)
     password     = forms.CharField(required=False, widget=forms.PasswordInput(render_value=False))
+    pretty_mode  = forms.BooleanField(required=False)
     venue_name   = forms.CharField(max_length=128, required=False) 
     location     = forms.CharField(max_length=128, required=False) 
     website      = forms.URLField(required=False)
@@ -126,8 +128,3 @@ class EditVenueForm(forms.ModelForm):
     class Meta:
         model = Venue
         fields = []
-
-
-
-
-
