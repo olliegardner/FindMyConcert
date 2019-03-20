@@ -1,5 +1,5 @@
 from django.test import TestCase
-from concert.forms import GigGoerSignUpForm, VenueSignUpForm, LoginForm
+from concert.forms import GigGoerSignUpForm, VenueSignUpForm, LoginForm, EditGigGoerForm, EditVenueForm
 from concert.models import User, GigGoer, Venue
 from django.core.files import File
 import os
@@ -19,7 +19,7 @@ class GigGoerTests(TestCase):
         giggoer.image.save('default-pic', File(open(imgpath, 'rb')))
         giggoer.save()
 
-        # test bookmarks, sign out, sign in, registration, test change email, test change image
+        # test bookmarks, sign out, sign in, registration, test change email, test change image, edit user forms
 
     def test_register_giggoer(self):
         # TODO register with image and not image and test if image is default one if not uploaded
@@ -77,6 +77,17 @@ class GigGoerTests(TestCase):
         # tests if once a user is created, the default image is assigned
         giggoer1 = User.objects.get(username="giggoer1").giggoer
         self.assertIn('default-pic', giggoer1.image.url)
+
+    def test_edit_giggoer(self):
+        # tests if a giggoer can successfully edit their profile
+        imgpath = os.path.join(os.getcwd(), 'static', 'images', 'concert' + ".jpg")
+        form_data = {
+            'email': 'newemail@giggoer1.com',
+            'image': File(open(imgpath, 'rb')),
+            'password': 'newpassword123'
+        }
+        form = EditGigGoerForm(data=form_data)
+        self.assertTrue(form.is_valid())
 
 
 # all unit tests for venue users
@@ -150,6 +161,23 @@ class VenueTests(TestCase):
         venue1 = User.objects.get(username="venue1").venue
         self.assertIn('default-pic', venue1.image.url)
 
+    def test_edit_venue(self):
+        # tests if a venue can successfully edit their profile
+        imgpath = os.path.join(os.getcwd(), 'static', 'images', 'concert' + ".jpg")
+        form_data = {
+            'email': 'newemail@venue1.com',
+            'image': File(open(imgpath, 'rb')),
+            'password': 'newpassword123',
+            'venue_name': 'New Venue Name',
+            'location': 'A different location',
+            'website': 'https://www.blank.org',
+            'description': 'This is a new description for the venue',
+            'phone_number': '9876543210',
+            'capacity': '12345'
+        }
+        form = EditVenueForm(data=form_data)
+        self.assertTrue(form.is_valid())
+
 
 
 class CommentTests(TestCase):
@@ -162,5 +190,3 @@ class RatingTests(TestCase):
 
 class ConcertTests(TestCase): # put in venues app
     print("krnfe")
-
-
