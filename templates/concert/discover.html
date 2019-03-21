@@ -7,11 +7,12 @@
 
 <link rel="stylesheet" type="text/css" href="{% static 'css/discover.css' %}">
 
-<br>
 <div class = "container">
+    <br>
     <h1 class="display-4">Discover</h1>
     <p class="lead">Find artists similar to the ones you like!</p>
     <hr>
+    
     {% if concerts %}
         <div class="row">
         {% for concert in concerts%}  <!-- Loop through concerts -->
