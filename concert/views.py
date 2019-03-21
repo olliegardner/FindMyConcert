@@ -485,6 +485,10 @@ def rateConcert(request):
 
     return HttpResponse(json.dumps(payload), content_type='application/json')
 
+def switchView(request):
+    request.user.pretty_mode = not request.user.pretty_mode
+    request.user.save()
+    return events(request)
 
 # PASSWORD RESET VIEWS
 '''def password_reset(request):
