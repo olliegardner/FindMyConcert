@@ -138,7 +138,6 @@ function rateconcert() {
             $('#ratingdiv').replaceWith('<p style = "float:right"> Thank you for rating!</p>');
             console.log('get rating data back')
             var filledStars = data.filledStars;
-            console.log(filledStars)
             var emptyStars = 5 - filledStars;
 
             for (var i = 0; i < filledStars; i++) { 

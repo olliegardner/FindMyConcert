@@ -19,3 +19,20 @@ html {
 .mr {
     margin-right: 0.3% !important;
 }
+
+/* Background position for tilefront*/
+.tilefront {
+
+    background-size: cover; 
+    background-position: center;"
+
+}
+
+.tileback {
+    background-color: rgba(256, 256, 256, 0.93);
+    width:100%;
+    height:340px;
+    border-radius: 10%;
+
+}
+
