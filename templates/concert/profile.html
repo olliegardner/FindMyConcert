@@ -4,8 +4,8 @@
 {% load extra_tags %}
  
 {% block body_block %}
-
     <link rel="stylesheet" type="text/css" href="{% static 'css/profile.css' %}">
+
     <style>
         /* overrides css in tiles.css so that they are smaller */
         .tile-container, .tile-front, .tile-back {
@@ -297,7 +297,7 @@
  
                             <form method="post" class="left" id ="post-form">
                                 <meta name="csrf-token" content="{{ csrf_token }}">
-                                <button type="button" class="btn btn-info" id = "postusercomment" data ="{{selecteduser.username}}" data-url = "{% url 'postusercomment' %}" >Post</button>
+                                <button type="button" class="btn btn-info" id ="postusercomment" data ="{{selecteduser.username}}" data-url = "{% url 'postusercomment' %}" >Post</button>
                             </form> 
                         {% else %}
                             <p class = "lead">Please sign in to see this user's discussion feed</p>
@@ -325,14 +325,6 @@
         </div>
     </div>
 
-
-    <script>
-        $(document).ready(function() {
-            $('[data-toggle="tooltip"]').tooltip();
-        });
-    </script>
-
     <script src="{% static 'js/profile.js' %}"></script>
-
 
 {% endblock %}

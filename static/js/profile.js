@@ -2,6 +2,10 @@ var map;
 var service;
 var infowindow;
 
+$(document).ready(function() {
+    $('[data-toggle="tooltip"]').tooltip();
+});
+
 document.getElementById("postusercomment").addEventListener("click", postusercomment);
 
 function postusercomment() {

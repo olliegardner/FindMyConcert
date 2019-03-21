@@ -2,5 +2,4 @@
 	/*makes discussion comments tab expandable up to 325 pixel before it scrolls*/
 	max-height: 325px;
 	overflow-y: scroll;
-
 }
