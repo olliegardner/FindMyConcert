@@ -4,7 +4,6 @@ from concert.models import GigGoer, User, Venue, Concert
 from django.core.files import File
 import os
 
-
 class GigGoerSignUpForm(UserCreationForm):
     email = forms.EmailField(required=True)
     image = forms.ImageField(required=False)
@@ -39,6 +38,7 @@ class GigGoerSignUpForm(UserCreationForm):
         gigGoer.save()
 
         return user
+
 
 class VenueSignUpForm(UserCreationForm):
     email        = forms.EmailField(required=True)
@@ -93,18 +93,11 @@ class VenueSignUpForm(UserCreationForm):
         return user
 
 
-class LoginForm(forms.Form):
-    #This form is used to log in
-    username = forms.CharField(min_length=1, max_length=36)
-    password = forms.CharField(min_length=8, max_length=32, widget=forms.PasswordInput(render_value=False))
-
-
-
 class EditGigGoerForm(forms.ModelForm):
     #This form is used to edit giggoer profiles
-    email    = forms.EmailField(required=False)
-    image    = forms.ImageField(required=False)
-    password = forms.CharField(required=False, widget=forms.PasswordInput(render_value=False))
+    email       = forms.EmailField(required=False)
+    image       = forms.ImageField(required=False)
+    password    = forms.CharField(required=False, widget=forms.PasswordInput(render_value=False))
     pretty_mode = forms.BooleanField(required=False)
 
     class Meta:
@@ -128,3 +121,18 @@ class EditVenueForm(forms.ModelForm):
     class Meta:
         model = Venue
         fields = []
+
+
+class LoginForm(forms.Form):
+    #This form is used to log in
+    username = forms.CharField(min_length=1, max_length=36)
+    password = forms.CharField(min_length=8, max_length=32, widget=forms.PasswordInput(render_value=False))
+
+
+class ContactForm(forms.Form):
+    subject = forms.CharField(required=True)
+    name    = forms.CharField(required=True)
+    email   = forms.EmailField(required=True)
+    message = forms.CharField(widget=forms.Textarea, required=True)
+
+

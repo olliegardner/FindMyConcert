@@ -1,13 +1,25 @@
 {% extends 'concert/base.html' %}
 {% load staticfiles %}
+{% load crispy_forms_tags %}
 
 {% block title %} {{ block.super }} - Contact {% endblock %}
 
 {% block body_block %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/contact.css' %}">
 
+    <div class="container">
+        <h1 class="display-4">Contact</h1>
+        <p class="lead">Drop Us a Message</p>
 
-    <div class="container contact-form">
+        <form method="POST" novalidate enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ contactform|crispy }}
+            <input class="btn btn-success" type="submit" name="submit_contact" value="Send Message">
+        </form>
+    </div>
+
+
+    <!--<div class="container contact-form">
         <h1 class="display-4">Contact</h1>
 
         <form method="post">
@@ -35,5 +47,5 @@
                 </div>
             </div>
         </form>
-    </div>
+    </div>-->
 {% endblock %}
