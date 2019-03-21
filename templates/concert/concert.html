@@ -30,8 +30,9 @@
             <h2>{{ concert.artist }}  
                 {% enough_ratings concert.concertID as rated %}
                 {% if rated %}
-                    <span data = "{% get_rating concert.concertID%}"  class=" notbold line" id ="stars">
-                    </span>
+                    <span data-url="{% get_rating concert.concertID %}" class="notbold line" id="stars"></span>
+                {% else %}
+                    <span  class="notbold line" id="stars-not-rated"></span>
                 {% endif %}
             </h2>
             <p>{{ concert.description }}</p>
@@ -91,7 +92,7 @@
                                                 <option value="2">2 - Bad </option>
                                                 <option value="1">1 - Awful </option>
                                                 </select>
-                                                <button type= "button" id = "ratingbutton" class="btn btn-info right" data-url = "{% url 'rateconcert' %} ">Rate</button>
+                                                <button type= "button" id="ratingbutton" class="btn btn-info right" data-url = "{% url 'rateconcert' %} ">Rate</button>
                                             </form>
                                         </div>
                                     {% else %}
@@ -190,7 +191,5 @@
 </div> 
 
 <script src="{% static 'js/concert.js' %}"></script>
-
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA80wEVfNDR49oTo3yede1S6Nik_Lw6PyY&libraries=places&callback=initMap" async defer></script>
 
 {% endblock %}

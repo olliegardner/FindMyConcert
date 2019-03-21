@@ -5,8 +5,8 @@
 
 {% block body_block %}
 
+    <link rel="stylesheet" type="text/css" href="{% static 'css/events.css' %}">
 
-    <br>
     <div class="container">
         
         <h1 class="display-4" id = "events_title">Events</h1>
@@ -32,7 +32,7 @@
                         <div class="col-12 col-md-12 col-lg-12">
                             <form method="GET" action="">
                                 <div class="row no-gutters align-items-center">
-                                    <div class="col-auto" style="margin-right: 0.3%">
+                                    <div class="col-auto mr">
                                         <button class="btn btn-lg btn-outline-dark dropdown-toggle" type="button" data-toggle="dropdown"><i class="fas fa-filter"></i></button>
 
                                         <ul class="dropdown-menu" role="menu">
@@ -44,19 +44,19 @@
                                         </ul>
                                     </div>
                                     <!--end of col-->
-                                    <div class="col">
+                                    <div class="col mr">
                                         <input class="form-control form-control-lg form-control-borderless" id="search-concert" type="text" name="q" placeholder="Search Events" value="{{ request.GET.q }}">
                                     </div>
                                     <!--end of col-->
-                                    <div class="col-auto" style="margin-right: 0.3%">
+                                    <div class="col-auto mr">
                                         <button class="btn btn-lg btn-success" type="submit" data-toggle="tooltip" data-placement="top" title="Search"><i class="fas fa-search"></i></button>
                                     </div>
                                     <!--end of col-->
-                                    <div class="col-auto" style="margin-right: 0.3%">
+                                    <div class="col-auto mr">
                                         <button class="btn btn-lg btn-info" type="submit" data-toggle="tooltip" data-placement="top" title="Search by Location" onclick="document.getElementById('search-concert').value='{{ location.city }}';"><i class="fas fa-location-arrow"></i></button>
                                     </div>
                                     <!-- end of col -->
-                                    <div class="col-auto" style="margin-right: 0.3%">
+                                    <div class="col-auto mr">
                                         <button class="btn btn-lg btn-danger" type="submit" data-toggle="tooltip" data-placement="top" title="Clear Search" onclick="document.getElementById('search-concert').value='';"><i class="fas fa-times fa-lg"></i></button>
                                     </div>
                                      <!--end of col-->
@@ -74,7 +74,7 @@
                                     <div class="col-12 col-md-6 col-lg-4 mt">
                                         <div class="tile-container" id ="hint{{forloop.counter}}">
                                             <div class="tile">
-                                                <div class="tile-front" style="background-image: url({{ concert.image.url }}); background-size: cover; background-position: center;">
+                                                <div class="tile-front tilefront" style="background-image: url({{ concert.image.url }});">
                                                     <div class="bottom-left">
                                                         <p>
                                                             {{ concert.artist }}
@@ -85,7 +85,7 @@
                                                 </div>
 
                                                 <div class="tile-back" style=" background-image: url({{ concert.image.url }}); background-size: cover; background-position: center;">
-                                                    <div class ="center-white-bg"style="background-color: rgba(256, 256, 256, 0.93);width:100%; height:340px; border-radius: 10%;">
+                                                    <div class ="center-white-bg tileback">
                                                         <div class ="center">
                                                             <h6>
                                                                 {{ concert.artist }}
@@ -101,7 +101,7 @@
                                                         
                                                         {% if not user.is_venue %}
                                                             <a href="{% url 'view' concert.concertID %}"><button class="btn btn-outline-dark">View</button></a>
-                                                                <button class="btn btn-success" onclick="bookmark({{ concert.concertID }})">Bookmark</button>
+                                                                <button class="btn btn-success" id="bookmarkButton" onclick="bookmark({{ concert.concertID }}, true)" data-url='{% url "getconcert" 1 %}'>Bookmark</button>
                                                         {% else %}
                                                             <div class="lonely-view-button">
                                                                 <a href="{% url 'view' concert.concertID %}"><button class="btn btn-outline-dark">View</button></a>
@@ -139,7 +139,7 @@
                                                         <button class="btn btn-outline-dark">View</button>
                                                     </a>
                                                     {% if not user.is_venue %}
-                                                        &nbsp<button class="btn btn-success" onclick="bookmark({{ concert.concertID }})">Bookmark</button>
+                                                        &nbsp<button class="btn btn-success" id="bookmarkButton" onclick="bookmark({{ concert.concertID }}, false)" data-url='{% url "getconcert" 1 %}'>Bookmark</button>
                                                     {% endif %}
                                                 </td>
                                             </tr>
@@ -164,7 +164,7 @@
                                                 <div class="col-12 col-md-6 col-lg-4 mt">
                                                     <div class="tile-container">
                                                         <div class="tile">
-                                                            <div class="tile-front" style="background-image: url({{ concert.image.url }}); background-size: cover; background-position: center;">
+                                                            <div class="tile-front tilefront" style="background-image: url({{ concert.image.url }}); "">
                                                                 <div class="bottom-left">
                                                                     <p>
                                                                         {{ concert.artist }}
@@ -175,7 +175,7 @@
                                                             </div>
 
                                                             <div class="tile-back" style=" background-image: url({{ concert.image.url }}); background-size: cover; background-position: center;">
-                                                                <div class ="center-white-bg"style="background-color: rgba(256, 256, 256, 0.93);width:100%; height:340px; border-radius: 10%;">
+                                                                <div class ="center-white-bg tileback">
                                                                     <div class ="center">
                                                                         <h6>
                                                                             {{ concert.artist }}
@@ -198,7 +198,7 @@
                                                                             </a>
                                                                             <form action="{% url 'delete' concert.concertID%}" method="post">
                                                                                 {% csrf_token %}
-                                                                                <button class = "btn-danger btn "type="submit" >Delete</button>
+                                                                                <button class="btn-danger btn" type="submit" onclick="deleteconcert()">Delete</button>
                                                                             </form>
                                                                         </div>
                                                                     </div>
@@ -241,7 +241,7 @@
                                                             </a>&nbsp
                                                             <form action="{% url 'delete' concert.concertID%}" method="post" style="display: inline;">
                                                                 {% csrf_token %}
-                                                                <button class = "btn-danger btn "type="submit" >Delete</button>
+                                                                <button class="btn-danger btn" type="submit" onclick="deleteconcert()">Delete</button>
                                                             </form>
                                                         </td>
                                                     </tr>
@@ -262,7 +262,7 @@
                                             <div class="col-12 col-md-6 col-lg-4 mt">
                                                 <div class="tile-container">
                                                     <div class="tile">
-                                                        <div class="tile-front" style="background-image: url({{ concert.image.url }}); background-size: cover; background-position: center;">
+                                                        <div class="tile-front tilefront" style="background-image: url({{ concert.image.url }});">
                                                             <div class="bottom-left">
                                                                 <p>
                                                                     {{ concert.artist }}
@@ -273,7 +273,7 @@
                                                         </div>
 
                                                         <div class="tile-back" style=" background-image: url({{ concert.image.url }}); background-size: cover; background-position: center;">
-                                                            <div class ="center-white-bg"style="background-color: rgba(256, 256, 256, 0.93);width:100%; height:340px; border-radius: 10%;">
+                                                            <div class ="center-white-bg tileback">
                                                                 <div class ="center">
                                                                     <h6>
                                                                         {{ concert.artist }}
@@ -287,7 +287,7 @@
                                                                     </h6>
                                                                     <br>
                                                                     <a href="{% url 'view' concert.concertID %}"><button class="btn btn-outline-dark">View</button></a>
-                                                                    <button class="btn btn-danger" onclick = "removebookmark({{ concert.concertID}});hideparent(this);" >Remove Bookmark</button>
+                                                                    <button class="btn btn-danger" onclick = "removebookmark({{ concert.concertID}});hideparent(this, true);" >Remove Bookmark</button>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -321,7 +321,7 @@
                                                         <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
                                                         <td colspan="2">
                                                             <a href="{% url 'view' concert.concertID %}"><button class="btn btn-outline-dark">View</button></a>
-                                                            <button class="btn btn-danger" onclick = "removebookmark({{ concert.concertID}});hideparent(this);" >Remove Bookmark</button>
+                                                            <button class="btn btn-danger" onclick = "removebookmark({{ concert.concertID}});hideparent(this, false);" >Remove Bookmark</button>
                                                         </td>
                                                     </tr>
                                                 {% endif %}
@@ -345,7 +345,7 @@
                                             <div class="col-12 col-md-6 col-lg-4 mt">
                                                 <div class="tile-container">
                                                     <div class="tile">
-                                                        <div class="tile-front" style="background-image: url({{ concert.image.url }}); background-size: cover; background-position: center;">
+                                                        <div class="tile-front tilefront" style="background-image: url({{ concert.image.url }});">
                                                             <div class="bottom-left">
                                                                 <p>
                                                                     {{ concert.artist }}
@@ -356,7 +356,7 @@
                                                         </div>
 
                                                         <div class="tile-back" style=" background-image: url({{ concert.image.url }}); background-size: cover; background-position: center;">
-                                                            <div class ="center-white-bg"style="background-color: rgba(256, 256, 256, 0.93);width:100%; height:340px; border-radius: 10%;">
+                                                            <div class ="center-white-bg tileback">
                                                                 <div class ="center">
                                                                     <h6>
                                                                         {{ concert.artist }}
@@ -378,7 +378,7 @@
                                                                         </a>
                                                                         <form action="{% url 'delete' concert.concertID %}" method="post">
                                                                             {% csrf_token %}
-                                                                            <button class = "btn-danger btn "type="submit" >Delete</button>
+                                                                            <button class="btn-danger btn" type="submit" onclick="deleteconcert()">Delete</button>
                                                                         </form>
                                                                     </div>
                                                                 </div>
@@ -421,7 +421,7 @@
                                                             </a>&nbsp
                                                             <form action="{% url 'delete' concert.concertID%}" method="post" style="display: inline;">
                                                                 {% csrf_token %}
-                                                                <button class = "btn-danger btn "type="submit" >Delete</button>
+                                                                <button class="btn-danger btn" type="submit" onclick="deleteconcert()">Delete</button>
                                                             </form>
                                                         </td>
                                                     </tr>
@@ -442,7 +442,7 @@
                                             <div class="col-12 col-md-6 col-lg-4 mt">
                                                 <div class="tile-container">
                                                     <div class="tile">
-                                                        <div class="tile-front" style="background-image: url({{ concert.image.url }}); background-size: cover; background-position: center;">
+                                                        <div class="tile-front tilefront" style="background-image: url({{ concert.image.url }});">
                                                             <div class="bottom-left">
                                                                 <p>
                                                                     {{ concert.artist }}
@@ -453,7 +453,7 @@
                                                         </div>
 
                                                         <div class="tile-back" style=" background-image: url({{ concert.image.url }}); background-size: cover; background-position: center;">
-                                                            <div class ="center-white-bg"style="background-color: rgba(256, 256, 256, 0.93);width:100%; height:340px; border-radius: 10%;">
+                                                            <div class ="center-white-bg tileback">
                                                                 <div class ="center">
                                                                     <h6>
                                                                         {{ concert.artist }}
@@ -468,7 +468,7 @@
                                                                     <br>
                                                                     <a href="{% url 'view' concert.concertID %}"><button class="btn btn-outline-dark">View</button></a>
                                                                     {% if user.is_authenticated %}
-                                                                        <button class="btn btn-danger" onclick = "removebookmark({{ concert.concertID}});hideparent(this);" >Remove Bookmark</button>
+                                                                        <button class="btn btn-danger" onclick = "removebookmark({{ concert.concertID}});hideparent(this, true);" >Remove Bookmark</button>
                                                                     {% endif %}
                                                                 </div>
                                                             </div>
@@ -504,7 +504,7 @@
                                                         <td colspan="2">
                                                             <a href="{% url 'view' concert.concertID %}"><button class="btn btn-outline-dark">View</button></a>
                                                             {% if user.is_authenticated %}
-                                                                <button class="btn btn-danger" onclick = "removebookmark({{ concert.concertID}});hideparent(this);" >Remove Bookmark</button>
+                                                                <button class="btn btn-danger" onclick = "removebookmark({{ concert.concertID}});hideparent(this, false);" >Remove Bookmark</button>
                                                             {% endif %}
                                                         </td>
                                                     </tr>
@@ -524,7 +524,7 @@
                 <div class="col-12 col-md-12 col-lg-12">
                     <form method="GET" action="">
                         <div class="row no-gutters align-items-center">
-                            <div class="col-auto" style="margin-right: 0.3%">
+                            <div class="col-auto mr">
                                 <button class="btn btn-lg btn-outline-dark dropdown-toggle" type="button" data-toggle="dropdown"><i class="fas fa-filter"></i></button>
                                 <ul class="dropdown-menu" role="menu">
                                     <span class="dropdown-item-text">some filters</span>
@@ -535,19 +535,19 @@
                                 </ul>
                             </div>
                             <!--end of col-->
-                            <div class="col">
+                            <div class="col mr">
                                 <input class="form-control form-control-lg form-control-borderless" id="search-concert" type="text" name="q" placeholder="Search Events" value="{{ request.GET.q }}">
                             </div>
                             <!--end of col-->
-                            <div class="col-auto" style="margin-right: 0.3%">
+                            <div class="col-auto mr">
                                 <button class="btn btn-lg btn-success" type="submit" data-toggle="tooltip" data-placement="top" title="Search"><i class="fas fa-search"></i></button>
                             </div>
                             <!--end of col-->
-                            <div class="col-auto" style="margin-right: 0.3%">
+                            <div class="col-auto mr">
                                 <button class="btn btn-lg btn-info" type="submit" data-toggle="tooltip" data-placement="top" title="Search by Location" onclick="document.getElementById('search-concert').value='{{ location.city }}';"><i class="fas fa-location-arrow"></i></button>
                             </div>
                             <!-- end of col -->
-                            <div class="col-auto" style="margin-right: 0.3%">
+                            <div class="col-auto mr">
                                 <button class="btn btn-lg btn-danger" type="submit" data-toggle="tooltip" data-placement="top" title="Clear Search" onclick="document.getElementById('search-concert').value='';"><i class="fas fa-times fa-lg"></i></button>
                             </div>
                             <!--end of col-->
@@ -563,7 +563,7 @@
                         <div class="col-12 col-md-6 col-lg-4 mt">
                             <div class="tile-container" id ="hint{{forloop.counter}}">
                                 <div class="tile">
-                                    <div class="tile-front" style="background-image: url({{ concert.image.url }}); background-size: cover; background-position: center;">
+                                    <div class="tile-front tilefront" style="background-image: url({{ concert.image.url }});">
                                         <div class="bottom-left">
                                             <p>
                                                 {{ concert.artist }}
@@ -573,8 +573,8 @@
                                         </div>
                                     </div>
 
-                                    <div class="tile-back" style=" background-image: url({{ concert.image.url }}); background-size: cover; background-position: center;">
-                                        <div class ="center-white-bg"style="background-color: rgba(256, 256, 256, 0.93);width:100%; height:340px; border-radius: 10%;">
+                                    <div class="tile-back" style="background-image: url({{ concert.image.url }}); background-size: cover; background-position: center;">
+                                        <div class ="center-white-bg tileback">
                                             <div class ="center">
                                                 <h6>
                                                     {{ concert.artist }}
@@ -588,8 +588,8 @@
                                                 </h6>
                                                 <br>
                                                 <div class="lonely-view-button">
-                                                		<a href="{% url 'view' concert.concertID %}"><button class="btn btn-outline-dark">View</button></a>
-                                            		</div>
+                                                	<a href="{% url 'view' concert.concertID %}"><button class="btn btn-outline-dark">View</button></a>
+                                            	</div>
                                             </div>
                                         </div>
                                     </div>
@@ -600,112 +600,11 @@
                 </div>
             {% endif %}
         {% endif %}
+
+
+        <button class="btn btn-danger btn-lg" id="go-top" onclick="goTop()"><i class="fas fa-angle-up fa-lg"></i></button>
     </div>
 
-        
-
-
-
-    {% if user.pretty_mode %}       <!-- Pretty Mode Add Bookmark -->
-        <script>
-            $(document).ready(function() {
-                $('html, body').animate({
-                'scrollTop' : $("#events_title").position().top
-                });
-                $('[data-toggle="tooltip"]').tooltip(); 
-            });
-
-            function removebookmark(concertid) {
-                $.get('/concert/removebookmark/', {concertid: concertid});
-                toastr.error('Bookmark removed!');
-            };
-
-            function hideparent(elem) {
-                $(elem).parent().parent().parent().parent().parent().parent().hide();
-            };
-
-            function bookmark(concertid) {
-                var $requesturl = '{% url "getconcert" 1%}'
-                $requesturl = $requesturl.replace('1',concertid);
-                var $button = '<button class="btn btn-outline-danger" onclick = "removebookmark(' +concertid+ ');hideparent(this);" >Remove Bookmark</button';
-            
-                //Now use AJAX to fetch the data for a the concert
-                $.ajax({
-                    url: $requesturl ,
-                    type: 'GET',
-                    async: false,
-                    dataType: 'json',
-
-                    success: function(res){
-                        //Depending on the date of the conert, append to appropiate table
-                        var $concerturl ='<a href="{% url "view" 1 %}">'
-                        $concerturl = $concerturl.replace('1',concertid);
-                        if (res[0].isfuture == "True") {
-                            $.each(res, function(i, item) {
-                                $('<div class="col-12 col-md-6 col-lg-4 mt">').append('<div class="tile-container"><div class="tile"><div class="tile-front" style="background-image: url( '+item.image+'); background-size: cover; background-position: center;"><div class="bottom-left"><p>'+item.artist+'<br>'+item.venuename+'</p></div></div><div class="tile-back" style=" background-image: url('+item.image+'); background-size: cover; background-position: center;"><div class ="center-white-bg"style="background-color: rgba(256, 256, 256, 0.93);width:100%; height:340px; border-radius: 10%;"> <div class ="center"><h6>'+item.artist+'<br>'+item.venuename+', '+item.location+'<br>'+item.date+'<br>'+item.starttime+' - '+item.endtime+'<br></h6>   <br> ' + $concerturl + ' <button class="btn btn-outline-dark">View</button></a>  <button class="btn btn-outline-danger" onclick = "removebookmark('+ concertid+');hideparent(this);" >Remove Bookmark</button></div></div></div></div></div>'
-                                ).appendTo('#futureevents');
-                            });
-                        } else {
-                            $.each(res, function(i, item) {
-                                $('<div class="col-12 col-md-6 col-lg-4 mt">').append('<div class="tile-container"><div class="tile"><div class="tile-front" style="background-image: url( '+item.image+'); background-size: cover; background-position: center;"><div class="bottom-left"><p>'+item.artist+'<br>'+item.venuename+'</p></div></div><div class="tile-back" style=" background-image: url('+item.image+'); background-size: cover; background-position: center;"><div class ="center-white-bg"style="background-color: rgba(256, 256, 256, 0.93);width:100%; height:340px; border-radius: 10%;"> <div class ="center"><h6>'+item.artist+'<br>'+item.venuename+', '+item.location+'<br>'+item.date+'<br>'+item.starttime+' - '+item.endtime+'<br></h6>   <br> ' + $concerturl + ' <button class="btn btn-outline-dark">View</button></a>  <button class="btn btn-outline-danger" onclick = "removebookmark('+ concertid+');hideparent(this);" >Remove Bookmark</button></div></div></div></div></div>'
-                                ).appendTo('#pastevents');
-                            });
-                        }
-                    }
-                });
-                $.get('/concert/bookmark/', {concertid: concertid}); 
-                toastr.success('Concert bookmarked!');
-            };
-        </script>
-    {% else %}                      <!-- Compact Mode Add Bookmark -->
-        <script>
-            $(document).ready(function() {
-                $('html, body').animate({
-                'scrollTop' : $("#events_title").position().top
-                });
-                $('[data-toggle="tooltip"]').tooltip(); 
-            });
-
-            function removebookmark(concertid) {
-                $.get('/concert/removebookmark/', {concertid: concertid});
-                toastr.error('Bookmark removed!');
-            };
-
-            function hideparent(elem) {
-                $(elem).parent().parent().hide();
-            };
-
-            function bookmark(concertid) {
-                var $requesturl = '{% url "getconcert" 1%}'
-                $requesturl = $requesturl.replace('1',concertid);
-                var $button = '<button class="btn btn-outline-danger" onclick = "removebookmark(' +concertid+ ');hideparent(this);" >Remove Bookmark</button';
-            
-                //Now use AJAX to fetch the data for a the concert
-                $.ajax({
-                    url: $requesturl ,
-                    type: 'GET',
-                    async: false,
-                    dataType: 'json',
-
-                    success: function(res){
-                        //Depending on the date of the conert, append to appropiate table
-                        var $concerturl ='<a href="{% url "view" 1 %}">'
-                        $concerturl = $concerturl.replace('1',concertid);
-                        if (res[0].isfuture == "True") {
-                            $.each(res, function(i, item) {
-                                $('<tr>').append('<td>'+item.artist+'</td><td colspan="2">'+item.venuename+', '+item.location+'</td><td>'+item.date+'</td><td>'+item.starttime+' - '+item.endtime+'<td colspan="2">'+$concerturl+'<button class="btn btn-outline-dark">View</button></a>&nbsp<button class="btn btn-danger" onclick = "removebookmark('+ concertid+');hideparent(this);">Remove Bookmark</button></td>').appendTo('#futureevents');
-                            });
-                        } else {
-                            $.each(res, function(i, item) {
-                                $('<tr>').append('<td>'+item.artist+'</td><td colspan="2">'+item.venuename+', '+item.location+'</td><td>'+item.date+'</td><td>'+item.starttime+' - '+item.endtime+'<td colspan="2">'+$concerturl+'<button class="btn btn-outline-dark">View</button></a>&nbsp<button class="btn btn-danger" onclick = "removebookmark('+ concertid+');hideparent(this);">Remove Bookmark</button></td>').appendTo('#pastevents');
-                            });
-                        }
-                    }
-                });
-                $.get('/concert/bookmark/', {concertid: concertid}); 
-                toastr.success('Concert bookmarked!');
-            };
-        </script>
-    {% endif %}
+    <script src="{% static 'js/events.js' %}"></script>
     
 {% endblock %}
