@@ -5,7 +5,11 @@
 
 {% block body_block %}
 
-<link rel="stylesheet" type="text/css" href="{% static 'css/concert.css' %}">
+{% if user.is_authenticated and user.dark_mode %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/concertDark.css' %}">
+{% else %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/concert.css' %}">
+{% endif %}
 
 <div class="container">
     <br>
@@ -182,7 +186,7 @@
 
                 <div id="map" class="tab-pane fade show">
                     <br>
-                    <div id="google-map" data-venuename ="{{ concert.venue.venue_name }}" data-location = "{{ concert.venue.location }}">
+                    <div id="google-map" data-venuename ="{{ concert.venue.venue_name }}" data-location = "{{ concert.venue.location }}" data-api="{{ api_key }}">
                     </div>
                 </div>
             </div>

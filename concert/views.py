@@ -28,6 +28,9 @@ import json
 from recommend.recommend import recommendation
 import urllib.request
 
+from secret.secret_settings import GOOGLE_MAPS_API_KEY
+
+
 def error_404(request):
     #This function handles the 404 error page
     loginForm = user_login(request)
@@ -277,10 +280,9 @@ def viewConcert(request, id):
             if concert in request.user.giggoer.bookmarks.all():
                 bookmark_boolean  = True 
 
-    return render(request, 'concert/concert.html', {'concert': concert, 
-                                                    'loginform': loginForm, 
-                                                    'user': request.user, 
-                                                    'bookmarked':bookmark_boolean})
+    return render(request, 'concert/concert.html', {'concert': concert, 'loginform': loginForm,
+                                                    'user': request.user, 'bookmarked': bookmark_boolean,
+                                                    'api_key': GOOGLE_MAPS_API_KEY})
 
 
 def profile(request, username):
@@ -518,20 +520,4 @@ def switchView(request):
     request.user.pretty_mode = not request.user.pretty_mode
     request.user.save()
     return events(request)
-
-# PASSWORD RESET VIEWS
-'''def password_reset(request):
-    loginForm = user_login(request)
-    return render(request, 'registration/password_reset_form.html', {'loginform': loginForm})
-
-def password_reset_complete(request):
-    loginForm = user_login(request)
-    return render(request, 'registration/password_reset_complete.html', {'loginform': loginForm})
-
-def password_reset_confirm(request):
-    loginForm = user_login(request)
-    return render(request, 'registration/password_reset_confirm.html', {'loginform': loginForm})
-
-def password_reset_done(request):
-    loginForm = user_login(request)
-    return render(request, 'registration/password_reset_done.html', {'loginform': loginForm})'''
+    

@@ -12,6 +12,7 @@ class User(AbstractUser):
     email        = models.EmailField(max_length=70)
     is_venue     = models.BooleanField(default=False)
     pretty_mode  = models.BooleanField(default=True)
+    dark_mode    = models.BooleanField(default=False)
 
     def isVenue():
         return is_venue

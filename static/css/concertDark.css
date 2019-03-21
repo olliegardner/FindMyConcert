@@ -1,0 +1,52 @@
+/* Always set the map height explicitly to define the size of the div
+    * element that contains the map. */
+#google-map {
+    height: 400px;
+}
+
+.concert-image { 
+    max-width: 100%;
+    width : 100%;
+    height: auto;
+    max-height:340px;
+    object-fit: cover;
+
+}
+/* Make block not bold*/
+.notbold{
+    font-size: 22px;
+}​
+
+/* In line blocks */
+span.line {
+  display: inline-block;
+}
+
+/* Override container sizes*/
+.tile-container, .tile-front, .tile-back {
+    width: 100%;
+    height: 100px;
+    border-radius: 10%;
+}
+
+/* Make stars orange*/
+.checked {
+    color:orange;
+}
+
+/* Push elements right*/
+.right {
+    float:right;
+}
+
+/* Push elements left*/
+.left {
+    float:left;
+}
+
+.back-tile {
+    background-color: rgba(0, 0, 0, 0.73);
+    width:100%;
+    height:100px;
+    border-radius: 10%;
+}

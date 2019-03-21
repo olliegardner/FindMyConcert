@@ -6,14 +6,22 @@
     <head lang="en">
         <title>{% block title %}FindMyConcert{% endblock %}</title>
 
+        {% block styleoverride %}
+        {% endblock %}
+
         <meta name="viewport" content="width=device-width, initial-scale=1">   <!-- Device width -->
+        <link rel="shortcut icon" href="{% static 'images/note.png' %}"> <!-- sets icon in tab -->
 
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> <!-- Twitter Bootstrap 4 -->
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"> <!-- Public domain icons -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> <!-- AJAX -->
         {{ form.media }} <!-- Bootstrap DateTimePicker -->
 
-        <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
+        {% if user.is_authenticated and user.dark_mode %}
+            <link rel="stylesheet" type="text/css" href="{% static 'css/baseDark.css' %}">
+        {% else %}
+            <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
+        {% endif %}
         <link rel="stylesheet" type="text/css" href="{% static 'css/tables.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'css/tiles.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'css/search.css' %}">
@@ -27,12 +35,12 @@
         <div class="navbar-container line text size">
             <nav class="navbar navbar-expand-lg navbar-light navbar-trans nav-colour-collapsed">
                 <div class="line col-xs-10 ">
-                    <i class="fas fa-music logo_padding"></i>
+                    <i class="fas fa-music logo_padding"></i>&nbsp&nbsp
 
                     {% if user.is_authenticated and user.is_venue %}
-                        <a class="custom-navbar-brand " href="{% url 'index'%}"><b>AddMyConcert</b></a>
+                        <a class="custom-navbar-brand " href="{% url 'index'%}"><b>AddMyConcert</b></a>&nbsp&nbsp&nbsp
                     {% else %}
-                        <a class="custom-navbar-brand" href="{% url 'index'%}"><b>FindMyConcert</b></a> 
+                        <a class="custom-navbar-brand" href="{% url 'index'%}"><b>FindMyConcert</b></a>&nbsp&nbsp&nbsp
                     {% endif %}
                 </div>
 
