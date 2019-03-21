@@ -9,8 +9,10 @@
 
 <div class = "container">
     <h1 class="display-4">Discover</h1>
+    <p class="lead">Find artists similar to the ones you like!</p>
     <hr>
-    <div class="row">
+    {% if concerts %}
+        <div class="row">
         {% for concert in concerts%}  <!-- Loop through concerts -->
             <div class="col-12 col-md-6 col-lg-4">
                 <div class="card"> <!-- Add a card-->
@@ -31,6 +33,11 @@
             </div>
         {%endfor %}
     </div>
+    {% else %} <!-- If every single concert has been bookmarked -->
+        <h2 class="display-4">You have nothing left to discover!</h2>
+        <p>Please comeback to this page in the future for new concerts to discover </p>
+        <iframe src="https://open.spotify.com/embed/track/0j0DNujXWeupLpZobbABoo" width="300" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media" ></iframe>
+    {% endif %}
 </div>
 
 <!--Load javascript file to handle bookmarking and toastrs-->

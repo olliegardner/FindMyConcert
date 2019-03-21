@@ -5,14 +5,14 @@
 {% block title_block %} {{ block.super }} {% endblock %}
 
 {% block body_block %}
-	<div class="container">
-	    <h1>Sign in</h1>
+    <div class="container">
+        <h1>Sign in</h1>
 
-	    <form method="post" novalidate enctype="multipart/form-data">
-	        {% csrf_token %}
-	        {{ form|crispy }}
-	        <input type="submit" name="login" value="Sign in">
-	        <input type="hidden" name="next" value="{{ next }}">
-	    </form>
-	</div>
+        <form method="post" novalidate enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <input type="submit" name="login" value="Sign in">
+            <input type="hidden" name="next" value="{{ next }}">
+        </form>
+    </div>
 {% endblock %}

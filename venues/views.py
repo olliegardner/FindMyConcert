@@ -18,7 +18,6 @@ def venueIndex(request):
 def addConcert(request):
     form = ConcertForm()
 
-
     if request.method == 'POST':
         form = ConcertForm(request.POST, request.FILES)
         #Get the form
@@ -45,7 +44,6 @@ def addConcert(request):
 @login_required
 @venue_required
 def deleteConcert(request, id): 
-
     new_to_delete = get_object_or_404(Concert, concertID=id)
 
     #Check if the requesting user actually owns this concert
@@ -69,7 +67,6 @@ def deleteConcert(request, id):
 @login_required
 @venue_required
 def editConcert(request, id):
-
     #Get the concert
     concert = get_object_or_404(Concert, concertID=id)
 
@@ -81,7 +78,6 @@ def editConcert(request, id):
     if request.method == 'POST':
         form = EditConcertForm(request.POST, request.FILES)
 
-
         """ 
         Here we have to check which fields in the form the user has filled in.
         We can't user the normal form.save() as we are saving to two different models
@@ -90,7 +86,7 @@ def editConcert(request, id):
         This function could also have been implemented by overriding save() in 
         EditConcertForm
         """
-                    
+
         if form.is_valid(): 
             if (form.cleaned_data.get('artist') != ""):
                 concert.artist      = form.cleaned_data['artist']
@@ -106,12 +102,20 @@ def editConcert(request, id):
                 concert.url         = form.cleaned_data['url']
             if (form.cleaned_data.get('description') != ""):
                 concert.description = form.cleaned_data['description']
+            if (form.cleaned_data.get('spotify_URI') != ""):
+                concert.spotify_URI = form.cleaned_data['spotify_URI']
             concert.save()
 
             return HttpResponseRedirect(reverse(events)) 
 
-    form = EditConcertForm
+    form = EditConcertForm(initial={
+                            'artist': concert.artist,
+                            'date': concert.date,
+                            'start_time': concert.start_time,
+                            'end_time': concert.end_time,
+                            'url': concert.url,
+                            'description': concert.description,
+                            'spotify_URI': concert.spotify_URI
+                        })
+
     return render(request, 'venues/editConcert.html', {'form': form, 'id' : id})
-
-
-

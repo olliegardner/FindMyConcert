@@ -4,7 +4,6 @@ from concert.models import GigGoer, User, Venue, Concert
 from django.core.files import File
 import os
 
-
 class GigGoerSignUpForm(UserCreationForm):
     email = forms.EmailField(required=True)
     image = forms.ImageField(required=False)
@@ -39,6 +38,7 @@ class GigGoerSignUpForm(UserCreationForm):
         gigGoer.save()
 
         return user
+
 
 class VenueSignUpForm(UserCreationForm):
     email        = forms.EmailField(required=True)
@@ -93,18 +93,16 @@ class VenueSignUpForm(UserCreationForm):
         return user
 
 
-class LoginForm(forms.Form):
-    #This form is used to log in
-    username = forms.CharField(min_length=1, max_length=36)
-    password = forms.CharField(min_length=8, max_length=32, widget=forms.PasswordInput(render_value=False))
-
-
-
 class EditGigGoerForm(forms.ModelForm):
     #This form is used to edit giggoer profiles
-    email    = forms.EmailField(required=False)
-    image    = forms.ImageField(required=False)
-    password = forms.CharField(required=False, widget=forms.PasswordInput(render_value=False))
+    email       = forms.EmailField(required=False)
+    image       = forms.ImageField(required=False)
+    password    = forms.CharField(required=False, widget=forms.PasswordInput(render_value=False))
+    pretty_mode = forms.BooleanField(required=False)
+
+    '''def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.initial['email'] = 'testing@gmail.com'''
 
     class Meta:
         model = GigGoer
@@ -116,6 +114,7 @@ class EditVenueForm(forms.ModelForm):
     email        = forms.EmailField(required=False)
     image        = forms.ImageField(required=False)
     password     = forms.CharField(required=False, widget=forms.PasswordInput(render_value=False))
+    pretty_mode  = forms.BooleanField(required=False)
     venue_name   = forms.CharField(max_length=128, required=False) 
     location     = forms.CharField(max_length=128, required=False) 
     website      = forms.URLField(required=False)
@@ -128,6 +127,17 @@ class EditVenueForm(forms.ModelForm):
         fields = []
 
 
+class LoginForm(forms.Form):
+    #This form is used to log in
+    username = forms.CharField(min_length=1, max_length=36)
+    password = forms.CharField(min_length=8, max_length=32, widget=forms.PasswordInput(render_value=False))
 
+
+class ContactForm(forms.Form):
+    #This form is used to send a message to us
+    subject = forms.CharField(required=True)
+    name    = forms.CharField(required=True)
+    email   = forms.EmailField(required=True)
+    message = forms.CharField(widget=forms.Textarea, required=True)
 
 
