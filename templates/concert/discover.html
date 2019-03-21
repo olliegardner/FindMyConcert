@@ -24,7 +24,7 @@
                         <h5 class="card-title">{{ concert.artist }}</h5>
                         <span> 
                             <a href = "{% url 'view' concert.concertID %}" >
-                                <button class="btn btn-outline-dark" >View</button>
+                                <button class="btn btn-outline-info" >View</button>
                             </a> 
                             <button data = "{{ concert.concertID }}" class="btn btn-success bookmarkbutton"> Bookmark</button>
                         </span>
