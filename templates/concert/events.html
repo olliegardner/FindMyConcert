@@ -56,7 +56,7 @@
 												<a  class="dropdown-item" tabindex="-1" href="#">Popular venues</a>
 												<ul class="dropdown-menu">
 													{% for place in popular_venues %}
-														<button class="btn btn-lg" type="submit" data-toggle="tooltip" data-placement="top" title='{{ place }}' onclick="document.getElementById('search-concert').value='{{ place }}';"><p>{{ place }}</p></button>
+														<li><button class="btn btn-lg" type="submit" data-toggle="tooltip" data-placement="top" title='{{ place }}' onclick="document.getElementById('search-concert').value='{{ place }}';"><p>{{ place }}</p></button></li>
 													{% endfor %}
 												</ul>
 												</li>
@@ -393,7 +393,7 @@
 												<a  class="dropdown-item" tabindex="-1" href="#">Popular venues</a>
 												<ul class="dropdown-menu">
 													{% for place in popular_venues %}
-														<button class="btn btn-lg" type="submit" data-toggle="tooltip" data-placement="top" title='{{ place }}' onclick="document.getElementById('search-concert').value='{{ place }}';"><p>{{ place }}</p></button>
+														<li><button class="btn btn-lg" type="submit" data-toggle="tooltip" data-placement="top" title='{{ place }}' onclick="document.getElementById('search-concert').value='{{ place }}';"><p>{{ place }}</p></button></li>
 													{% endfor %}
 												</ul>
 												</li>

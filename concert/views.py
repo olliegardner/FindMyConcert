@@ -76,17 +76,18 @@ def index(request):
 
 def events(request):
     loginForm = user_login(request)
+
+    #As default, we only want to show concerts in the future
     concert_list = Concert.objects.all().exclude(
         Q(date__lt=datetime.today())).distinct()
-        #Get all concerts
 
+    #finds the most popular venues, i.e the venues with most concerts happening there
     counts = dict()
     for i in concert_list:
         counts[i.venue.venue_name] = counts.get(i, 0) + 1
-    #most_popular = dict(Counter(counts).most_common(3))
     most_popular = nlargest(3, counts, key=counts.get)
 
-    #backup list of all concerts
+    #backup list of all concerts, used for past and all filters
     concert_list_all = Concert.objects.all()
 
     #Try to find the location using ip-api
@@ -96,7 +97,7 @@ def events(request):
     except:
         location_json = {'city': "Error"}
 
-    #See if a quesry has been sent
+    #See if a query has been sent
     query = request.GET.get("q")
     
     if query:
