@@ -21,7 +21,7 @@
         <link rel="stylesheet" type="text/css" href="{% static 'css/toastr.min.css' %}">
     </head>
 
-    <body ontouchstart=""> <!-- ontouchstart allows touchscreen devices to interact with :active elements-->
+    <body ontouchstart="" onload= "getRandomImage()">  <!-- ontouchstart allows touchscreen devices to interact with :active elements-->
 
         <!-- NAVBAR START -->
         <div class="navbar-container line text size">
@@ -144,6 +144,28 @@
         <script src="{% static 'js/toastr.min.js' %}"></script>
 
         <script src="{% static 'js/base.js' %}"></script>
+
+        <script>
+            var $imageArray = new Array();
+            
+            $imageArray[0] = 'images/concert.jpg';
+            $imageArray[1] = 'images/bg2.jpg';
+            $imageArray[2] = 'images/bg5.jpg';
+            $imageArray[3] = 'images/bg7.jpg';
+            $imageArray[4] = 'images/bg9.jpeg';
+            $imageArray[5] = 'images/bg10.jpeg';
+            $imageArray[6] = 'images/bg1.png';
+
+            
+          
+            function getRandomImage() {
+                var $num = Math.floor( Math.random() * 7);
+                var $img = $imageArray[$num];
+                var $bg = "url({% static 'replace' %}) ";
+                $bg = $bg.replace('replace',$img);
+                $('#randImage').css('background-image', $bg);
+            };
+        </script>
 
     </body>
 </html>

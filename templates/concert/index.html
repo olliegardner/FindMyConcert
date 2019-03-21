@@ -7,7 +7,7 @@
 
     <div class="background">
         <!-- Set the background image-->
-        <img src="{% static 'images/concert.jpg' %}" class="background-cover">
+        <div id = "randImage"" class="background-cover">
 
         <!-- Different titles depending on concert or not-->
         {% if user.is_authenticated and user.is_venue %}
@@ -29,6 +29,7 @@
             </a> <!-- Superimpose text above box-->
 
         {% endif %}
+       </div>
     </div>
 
 
