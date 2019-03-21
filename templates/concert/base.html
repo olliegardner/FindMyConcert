@@ -84,6 +84,14 @@
                                     <span class="dropdown-item-text">Signed in as</span>
                                     <b><span class="dropdown-item-text">{{ user.username }}</span></b>
                                     <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="{% url 'lightdark' %}">
+                                        {% if user.dark_mode %}
+                                            <button type="button" class="btn btn-dark">&gt Light Mode</button>
+                                        {% else %}
+                                            <button type="button" class="btn btn-light">&gt Dark Mode</button>
+                                        {% endif %}
+                                    </a>
+                                    <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="{% url 'profile' user.username %}">Your profile</a>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="{% url 'logout' %}">Sign out</a>
