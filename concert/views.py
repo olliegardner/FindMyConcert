@@ -126,7 +126,7 @@ def events(request):
                 ).distinct()
 
     context_dict = {'concerts': concert_list, 'location': location_json, 'loginform': loginForm, "popular_venues" : most_popular}
-    return render(request, 'concert/myEvents.html', context_dict)
+    return render(request, 'concert/events.html', context_dict)
 
 
 
