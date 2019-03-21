@@ -49,7 +49,7 @@ $(document).ready(function() {
         var target = $(e.target).attr("href"); // activated tab
         if (target == "#map") {
             $.getScript("https://maps.googleapis.com/maps/api/js?key=AIzaSyA80wEVfNDR49oTo3yede1S6Nik_Lw6PyY&libraries=places&callback=initMap");
-        }
+        };
     });
 
     //Scroll to the top
@@ -58,7 +58,7 @@ $(document).ready(function() {
     });
 
     //Add rating if applicable
-    var filledStars = document.getElementById('stars').getAttribute('data');
+    var filledStars = document.getElementById('stars').getAttribute('data-url');
     var emptyStars = 5 - filledStars;
 
     for (var i = 0; i < filledStars; i++) { 
@@ -67,7 +67,7 @@ $(document).ready(function() {
 
     for (var i = 0; i < emptyStars; i++) { 
         $('<span class="fa fa-star"></span>').appendTo('#stars'); 
-    }    
+    }
 });
 
 

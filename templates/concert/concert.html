@@ -30,8 +30,7 @@
             <h2>{{ concert.artist }}  
                 {% enough_ratings concert.concertID as rated %}
                 {% if rated %}
-                    <span data = "{% get_rating concert.concertID%}"  class=" notbold line" id ="stars">
-                    </span>
+                    <span data-url="{% get_rating concert.concertID %}" class="notbold line" id="stars"></span>
                 {% endif %}
             </h2>
             <p>{{ concert.description }}</p>
@@ -91,7 +90,7 @@
                                                 <option value="2">2 - Bad </option>
                                                 <option value="1">1 - Awful </option>
                                                 </select>
-                                                <button type= "button" id = "ratingbutton" class="btn btn-info right" data-url = "{% url 'rateconcert' %} ">Rate</button>
+                                                <button type= "button" id="ratingbutton" class="btn btn-info right" data-url = "{% url 'rateconcert' %} ">Rate</button>
                                             </form>
                                         </div>
                                     {% else %}
