@@ -127,7 +127,7 @@ def contact(request):
                 subject = contactForm.cleaned_data['subject']
                 name = contactForm.cleaned_data['name']
                 email = contactForm.cleaned_data['email']
-                message = contactForm.cleaned_data['message']
+                message = "Name: " + name + "\nEmail: " + email + "\nMessage: " + contactForm.cleaned_data['message']
 
                 '''
                     for testing purposes, this has been implented backwards, meaning that emails
@@ -136,7 +136,7 @@ def contact(request):
                     i.e. user puts in their email address and their message is sent to findmyconcert
                     from their own email address
                 '''
-                email = EmailMessage(subject, message, to=[email])
+                email = EmailMessage(subject, message, to=["findmyconcert.wadproject@gmail.com"])
                 email.send()
 
                 return render(request, 'concert/index.html')
