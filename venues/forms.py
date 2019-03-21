@@ -34,4 +34,4 @@ class EditConcertForm(forms.ModelForm):
     
     class Meta:
         model = Concert
-        exclude = {'venue'}
+        exclude = {'venue', 'concertID'}

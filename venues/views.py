@@ -37,7 +37,7 @@ def addConcert(request):
             concert.save() # Save the new concert
 
 
-            return render(request, 'venues/index.html')
+            return events(request)
     return render(request, 'venues/addConcert.html', {'form': form})
 
 
@@ -61,7 +61,7 @@ def deleteConcert(request, id):
     #If no post request, return the appropiate form
     form = DeleteConcertForm(instance=new_to_delete)
     template_vars = {'form': form}
-    return render(request, 'concert/myEvents.html', template_vars)
+    return render(request, 'concert/events.html', template_vars)
 
 
 @login_required
@@ -91,6 +91,7 @@ def editConcert(request, id):
             if (form.cleaned_data.get('artist') != ""):
                 concert.artist      = form.cleaned_data['artist']
             if (form.cleaned_data.get('date') != None):
+                print(form.cleaned_data['date'])
                 concert.date        = form.cleaned_data['date']
             if (form.cleaned_data.get('start_time') != None):
                 concert.start_time  = form.cleaned_data['start_time']
@@ -105,7 +106,8 @@ def editConcert(request, id):
             if (form.cleaned_data.get('spotify_URI') != ""):
                 concert.spotify_URI = form.cleaned_data['spotify_URI']
             concert.save()
-
+        else:
+            print(form.errors)
             return HttpResponseRedirect(reverse(events)) 
 
     form = EditConcertForm(initial={
