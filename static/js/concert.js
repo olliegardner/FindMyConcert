@@ -44,11 +44,12 @@ function createMarker(place) {
 
 
 $(document).ready(function() {
+    var api_key = document.getElementById('google-map').getAttribute('data-api');
     // loads google map when tab is pressed
     $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
         var target = $(e.target).attr("href"); // activated tab
         if (target == "#map") {
-            $.getScript("https://maps.googleapis.com/maps/api/js?key=AIzaSyA80wEVfNDR49oTo3yede1S6Nik_Lw6PyY&libraries=places&callback=initMap");
+            $.getScript("https://maps.googleapis.com/maps/api/js?key=" + api_key + "&libraries=places&callback=initMap");
         };
     });
 
