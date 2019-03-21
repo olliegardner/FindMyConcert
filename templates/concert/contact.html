@@ -5,7 +5,6 @@
 {% block title %} {{ block.super }} - Contact {% endblock %}
 
 {% block body_block %}
-
     <div class="container">
     	<br>
         <h1 class="display-4">Contact</h1>
@@ -15,7 +14,7 @@
             {% csrf_token %}
 
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-12 col-md-6 col-lg-6">
                     <div class="form-group">
                         {{ contactform.subject|as_crispy_field }}
                     </div>
@@ -26,7 +25,8 @@
                         {{ contactform.email|as_crispy_field }}
                     </div>
                 </div>
-                <div class="col-md-6">
+                
+                <div class="col-12 col-md-6 col-lg-6">
                     <div class="form-group">
                         {{ contactform.message|as_crispy_field }}
                     </div>
