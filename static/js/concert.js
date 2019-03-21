@@ -135,7 +135,20 @@ function rateconcert() {
         dataType: 'json',
         success:function(data){
             toastr.success('Rating succesfully recorded');
-            $('#ratingdiv').replaceWith('<p style = "float:right"> Thank you for rating!</p>')
+            $('#ratingdiv').replaceWith('<p style = "float:right"> Thank you for rating!</p>');
+            console.log('get rating data back')
+            var filledStars = data.filledStars;
+            console.log(filledStars)
+            var emptyStars = 5 - filledStars;
+
+            for (var i = 0; i < filledStars; i++) { 
+                $('<span class="fa fa-star checked"></span>').appendTo('#stars-not-rated'); 
+                console.log('Appended')
+            }
+
+            for (var i = 0; i < emptyStars; i++) { 
+                $('<span class="fa fa-star"></span>').appendTo('#stars-not-rated'); 
+            }
             
         },
 
