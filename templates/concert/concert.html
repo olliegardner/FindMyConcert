@@ -5,7 +5,11 @@
 
 {% block body_block %}
 
-<link rel="stylesheet" type="text/css" href="{% static 'css/concert.css' %}">
+{% if user.is_authenticated and user.dark_mode %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/concertDark.css' %}">
+{% else %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/concert.css' %}">
+{% endif %}
 
 <div class="container">
     <br>

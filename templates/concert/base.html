@@ -13,7 +13,11 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> <!-- AJAX -->
         {{ form.media }} <!-- Bootstrap DateTimePicker -->
 
-        <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
+        {% if user.is_authenticated and user.dark_mode %}
+            <link rel="stylesheet" type="text/css" href="{% static 'css/baseDark.css' %}">
+        {% else %}
+            <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
+        {% endif %}
         <link rel="stylesheet" type="text/css" href="{% static 'css/tables.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'css/tiles.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'css/search.css' %}">
