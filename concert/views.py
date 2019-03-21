@@ -486,11 +486,10 @@ def rateConcert(request):
 def switchView(request):
     request.user.pretty_mode = not request.user.pretty_mode
     request.user.save()
-    return events(request)
+    return HttpResponseRedirect(request.META['HTTP_REFERER'])
     
 def lightDark(request):
     request.user.dark_mode = not request.user.dark_mode
     request.user.save()
     loginForm = user_login(request)
-    print(request.META['HTTP_REFERER'])
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
