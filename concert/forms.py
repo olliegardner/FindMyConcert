@@ -98,11 +98,6 @@ class EditGigGoerForm(forms.ModelForm):
     email       = forms.EmailField(required=False)
     image       = forms.ImageField(required=False)
     password    = forms.CharField(required=False, widget=forms.PasswordInput(render_value=False))
-    pretty_mode = forms.BooleanField(required=False)
-
-    '''def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.initial['email'] = 'testing@gmail.com'''
 
     class Meta:
         model = GigGoer

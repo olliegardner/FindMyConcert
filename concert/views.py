@@ -368,7 +368,7 @@ def profile(request, username):
                         user.venue.description = form.cleaned_data.get('description')
                     if (form.cleaned_data.get('capacity') != None):
                         user.venue.capacity = form.cleaned_data.get('capacity')
-                    
+
                     #Save the new updated models
                     user.save()
                     user.venue.save()
@@ -408,16 +408,12 @@ def profile(request, username):
                         user.giggoer.image = form.cleaned_data.get('image')
                     if (form.cleaned_data.get('password') != ""):
                         user.password = make_password(form.cleaned_data.get('password'))
-                    if (form.cleaned_data.get('pretty_mode') != None):
-                        user.pretty_mode = form.cleaned_data.get('pretty_mode')
+
                     user.giggoer.save()
                     user.save()  
                     return render(request, 'concert/profile.html', {'selecteduser': user, 'form': EditGigGoerForm, 'loginform': loginForm})
             else:
-                form = EditGigGoerForm(initial={
-                                            'email': user.email,
-                                            'pretty_mode': user.pretty_mode
-                                        })
+                form = EditGigGoerForm(initial={'email': user.email})
 
         return render(request, 'concert/profile.html', {'form': form, 'selecteduser': user, 'loginform': loginForm})
         #Subllime highlights the line above as a bug
