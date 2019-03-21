@@ -150,10 +150,16 @@
             
             $imageArray[0] = 'images/concert.jpg';
             $imageArray[1] = 'images/bg2.jpg';
+            $imageArray[2] = 'images/bg5.jpg';
+            $imageArray[3] = 'images/bg7.jpg';
+            $imageArray[4] = 'images/bg9.jpeg';
+            $imageArray[5] = 'images/bg10.jpeg';
+            $imageArray[6] = 'images/bg1.png';
+
             
           
             function getRandomImage() {
-                var $num = Math.floor( Math.random() * 2);
+                var $num = Math.floor( Math.random() * 7);
                 var $img = $imageArray[$num];
                 var $bg = "url({% static 'replace' %}) ";
                 $bg = $bg.replace('replace',$img);
