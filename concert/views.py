@@ -487,20 +487,4 @@ def switchView(request):
     request.user.pretty_mode = not request.user.pretty_mode
     request.user.save()
     return events(request)
-
-# PASSWORD RESET VIEWS
-'''def password_reset(request):
-    loginForm = user_login(request)
-    return render(request, 'registration/password_reset_form.html', {'loginform': loginForm})
-
-def password_reset_complete(request):
-    loginForm = user_login(request)
-    return render(request, 'registration/password_reset_complete.html', {'loginform': loginForm})
-
-def password_reset_confirm(request):
-    loginForm = user_login(request)
-    return render(request, 'registration/password_reset_confirm.html', {'loginform': loginForm})
-
-def password_reset_done(request):
-    loginForm = user_login(request)
-    return render(request, 'registration/password_reset_done.html', {'loginform': loginForm})'''
+    
