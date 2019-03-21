@@ -5,6 +5,7 @@ from collections import Counter
 from datetime import datetime
 from heapq import nlargest
 
+from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
@@ -64,9 +65,9 @@ def user_login(request):
                         login(request, user)
                         return render(request, 'concert/index.html')
                     else:
-                        return HttpResponse("Your account is currently disabled")
+                        messages.error(request, "Your account is currently disabled")
                 else:
-                    return HttpResponse("Incorrect username or password")
+                    messages.error(request, "Incorrect username or password")
 
     #If no post, return the form 
     return loginForm
@@ -130,7 +131,7 @@ def events(request):
                 Q(venue__location__icontains=query)
                 ).distinct()
 
-    context_dict = {'concerts': concert_list, 'location': location_json, 'loginform': loginForm, "popular_venues" : most_popular}
+    context_dict = {'concerts': concert_list, 'location': location_json, 'loginform': loginForm, 'popular_venues' : most_popular}
     return render(request, 'concert/events.html', context_dict)
 
 
@@ -230,7 +231,7 @@ def chooseSignUp(request):
                 return render(request, 'registration/confirmation_needed.html')
     
     #Return all the appropiate forms to be rendered    
-    return render(request, 'registration/signup.html', {'gigform': gigForm, 'venueform':venueForm, 'loginform': loginForm})
+    return render(request, 'registration/signup.html', {'gigform': gigForm, 'venueform': venueForm, 'loginform': loginForm})
 
 
 def activate(request, uidenc, token):
