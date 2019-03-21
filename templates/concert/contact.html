@@ -1,39 +1,21 @@
 {% extends 'concert/base.html' %}
 {% load staticfiles %}
+{% load crispy_forms_tags %}
 
 {% block title %} {{ block.super }} - Contact {% endblock %}
 
 {% block body_block %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/contact.css' %}">
 
+    <div class="container">
 
-    <div class="container contact-form">
         <h1 class="display-4">Contact</h1>
+        <p class="lead">Drop Us a Message</p>
 
-        <form method="post">
-            <p class="lead">Drop Us a Message</p>
-
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <input type="text" name="txtName" class="form-control" placeholder="Your Name *" value="" />
-                    </div>
-                    <div class="form-group">
-                        <input type="text" name="txtEmail" class="form-control" placeholder="Your Email *" value="" />
-                    </div>
-                    <div class="form-group">
-                        <input type="text" name="txtPhone" class="form-control" placeholder="Your Phone Number *" value="" />
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <textarea name="txtMsg" class="form-control text-area" placeholder="Your Message *"></textarea>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <input type="submit" name="btnSubmit" class="btn btn-success btnContact" value="Send Message" />
-                </div>
-            </div>
+        <form method="POST" novalidate enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ contactform|crispy }}
+            <input class="btn btn-success" type="submit" name="submit_contact" value="Send Message">
         </form>
     </div>
+    
 {% endblock %}

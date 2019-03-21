@@ -1,4 +1,4 @@
-from concert.forms import GigGoerSignUpForm, VenueSignUpForm, EditGigGoerForm, EditVenueForm, LoginForm
+from concert.forms import GigGoerSignUpForm, VenueSignUpForm, EditGigGoerForm, EditVenueForm, LoginForm, ContactForm
 from concert.models import User, Concert, Comment, Rating
 from concert.tokens import accountActivationToken
 
@@ -32,11 +32,13 @@ def error_404(request):
     loginForm = user_login(request)
     return render(request, 'concert/error.html', {'loginform': loginForm})
 
+
 @login_required
 def user_logout(request):
     #This fucntion handles logout requests
     logout(request)
     return HttpResponseRedirect(reverse('index')) # take user back to the index page
+
 
 def user_login(request): 
     loginForm = LoginForm
@@ -71,6 +73,7 @@ def index(request):
     loginForm = user_login(request)
     return render(request, 'concert/index.html', {'loginform': loginForm})
 
+
 def events(request):
     loginForm = user_login(request)
     concert_list = Concert.objects.all() #Get all concerts
@@ -98,20 +101,47 @@ def events(request):
             ).distinct()
 
     context_dict = {'concerts': concert_list, 'location': location_json, 'loginform': loginForm}
-    return render(request, 'concert/myEvents.html', context_dict)
+    return render(request, 'concert/events.html', context_dict)
 
 
 def about(request):
     loginForm = user_login(request)
     return render(request, 'concert/about.html', {'loginform': loginForm})
 
+
 def faq(request):
     loginForm = user_login(request)
     return render(request, 'concert/faq.html', {'loginform': loginForm})
 
+
 def contact(request):
     loginForm = user_login(request)
-    return render(request, 'concert/contact.html', {'loginform': loginForm})
+    contactForm = ContactForm()
+
+    if request.method == 'POST':
+        if 'submit_contact' in request.POST:
+            contactForm = ContactForm(request.POST)
+
+            if contactForm.is_valid():
+                subject = contactForm.cleaned_data['subject']
+                name = contactForm.cleaned_data['name']
+                email = contactForm.cleaned_data['email']
+                message = contactForm.cleaned_data['message']
+
+                '''
+                    for testing purposes, this has been implented backwards, meaning that emails
+                    are sent to 'email' from findmyconcert.wadproject@gmail.com but it should be
+                    the other way round in practice
+                    i.e. user puts in their email address and their message is sent to findmyconcert
+                    from their own email address
+                '''
+                email = EmailMessage(subject, message, to=[email])
+                email.send()
+
+                return render(request, 'concert/index.html')
+
+    return render(request, 'concert/contact.html', {'loginform': loginForm, 'contactform': contactForm})
+
 
 def chooseSignUp(request):
     if request.user.is_authenticated(): 
@@ -124,7 +154,6 @@ def chooseSignUp(request):
 
 
     if request.method == 'POST':
-
         #Check which signup form has been used (giggoer)
         if 'submit_giggoer' in request.POST:
             
@@ -179,6 +208,7 @@ def chooseSignUp(request):
     #Return all the appropiate forms to be rendered    
     return render(request, 'registration/signup.html', {'gigform': gigForm, 'venueform':venueForm, 'loginform': loginForm})
 
+
 def activate(request, uidenc, token):
     try:
         uid = force_text(urlsafe_base64_decode(uidenc))
@@ -194,9 +224,11 @@ def activate(request, uidenc, token):
     else:
         return HttpResponse("Error: Invalid Activation Link")
 
+
 def confirmation(request):
     loginForm = user_login(request)
     return render(request, 'registration/confirmation_needed.html', {'loginform': loginForm})
+
 
 @login_required
 def success(request):
@@ -302,7 +334,17 @@ def profile(request, username):
                     user.venue.save()
                     return render(request, 'concert/profile.html', {'selecteduser': user, 'form': EditVenueForm, 'loginform': loginForm})
             else:
-                form = EditVenueForm
+                form = EditVenueForm(initial={
+                                        'email': user.email,
+                                        'pretty_mode': user.pretty_mode,
+                                        'venue_name': user.venue.venue_name,
+                                        'location': user.venue.location,
+                                        'website': user.venue.website,
+                                        'description': user.venue.description,
+                                        'phone_number': user.venue.phone_number,
+                                        'capacity': user.venue.capacity
+                                    })
+
         else:
             if request.method == 'POST':
                 form = EditGigGoerForm(request.POST, request.FILES)
@@ -330,7 +372,10 @@ def profile(request, username):
                     user.save()  
                     return render(request, 'concert/profile.html', {'selecteduser': user, 'form': EditGigGoerForm, 'loginform': loginForm})
             else:
-                form = EditGigGoerForm
+                form = EditGigGoerForm(initial={
+                                            'email': user.email,
+                                            'pretty_mode': user.pretty_mode
+                                        })
 
         return render(request, 'concert/profile.html', {'form': form, 'selecteduser': user, 'loginform': loginForm})
         #Subllime highlights the line above as a bug
@@ -456,7 +501,19 @@ def rateConcert(request):
         concert = concert,)
 
     rating.save() #Save the new rating
-    payload = {'success': "True"}
+
+    #Calculate new average rating
+    sum = 0
+    for rating in concert.rating.all(): #Sum all the scores
+        sum = sum + rating.score
+
+    length = len(concert.rating.all()) #Error handling so that we can't get divide by 0 error
+    if length == 0:
+        length = 1
+
+    averageRating = round(sum/length)
+
+    payload = {'success': "True", 'filledStars' : averageRating}
     
 
     return HttpResponse(json.dumps(payload), content_type='application/json')
