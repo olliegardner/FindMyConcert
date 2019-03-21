@@ -334,7 +334,17 @@ def profile(request, username):
                     user.venue.save()
                     return render(request, 'concert/profile.html', {'selecteduser': user, 'form': EditVenueForm, 'loginform': loginForm})
             else:
-                form = EditVenueForm
+                form = EditVenueForm(initial={
+                                        'email': user.email,
+                                        'pretty_mode': user.pretty_mode,
+                                        'venue_name': user.venue.venue_name,
+                                        'location': user.venue.location,
+                                        'website': user.venue.website,
+                                        'description': user.venue.description,
+                                        'phone_number': user.venue.phone_number,
+                                        'capacity': user.venue.capacity
+                                    })
+
         else:
             if request.method == 'POST':
                 form = EditGigGoerForm(request.POST, request.FILES)
@@ -362,7 +372,10 @@ def profile(request, username):
                     user.save()  
                     return render(request, 'concert/profile.html', {'selecteduser': user, 'form': EditGigGoerForm, 'loginform': loginForm})
             else:
-                form = EditGigGoerForm
+                form = EditGigGoerForm(initial={
+                                            'email': user.email,
+                                            'pretty_mode': user.pretty_mode
+                                        })
 
         return render(request, 'concert/profile.html', {'form': form, 'selecteduser': user, 'loginform': loginForm})
         #Subllime highlights the line above as a bug
