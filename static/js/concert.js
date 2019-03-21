@@ -4,7 +4,7 @@ var infowindow;
 
 function initMap() {
     //This function initialises the map in the map tab
-    var venue_location = new google.maps.LatLng(-33.867, 151.195); //Default location
+    var venue_location = new google.maps.LatLng(55.873468, -4.292683); //Default location (boyd orr)
 
     //Get venuename and location
     var venuename = document.getElementById("google-map").getAttribute('data-venuename');
@@ -43,26 +43,31 @@ function createMarker(place) {
 }
 
 
-
 $(document).ready(function() {
+    // loads google map when tab is pressed
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+        var target = $(e.target).attr("href"); // activated tab
+        if (target == "#map") {
+            $.getScript("https://maps.googleapis.com/maps/api/js?key=AIzaSyA80wEVfNDR49oTo3yede1S6Nik_Lw6PyY&libraries=places&callback=initMap");
+        }
+    });
+
     //Scroll to the top
     $('html, body').animate({
-    'scrollTop' : $("#concert_title").position().top
+        'scrollTop' : $("#concert_title").position().top
     });
 
     //Add rating if applicable
     var filledStars = document.getElementById('stars').getAttribute('data');
     var emptyStars = 5 - filledStars;
 
-    var i;
-    for (i = 0; i < filledStars; i++) { 
-        $('<span class="fa fa-star checked "></span>').appendTo('#stars'); 
+    for (var i = 0; i < filledStars; i++) { 
+        $('<span class="fa fa-star checked"></span>').appendTo('#stars'); 
     }
 
-    for (i = 0; i < emptyStars; i++) { 
+    for (var i = 0; i < emptyStars; i++) { 
         $('<span class="fa fa-star"></span>').appendTo('#stars'); 
-    }
-    
+    }    
 });
 
 
