@@ -100,6 +100,10 @@ class EditGigGoerForm(forms.ModelForm):
     password    = forms.CharField(required=False, widget=forms.PasswordInput(render_value=False))
     pretty_mode = forms.BooleanField(required=False)
 
+    '''def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.initial['email'] = 'testing@gmail.com'''
+
     class Meta:
         model = GigGoer
         fields = []
@@ -130,6 +134,7 @@ class LoginForm(forms.Form):
 
 
 class ContactForm(forms.Form):
+    #This form is used to send a message to us
     subject = forms.CharField(required=True)
     name    = forms.CharField(required=True)
     email   = forms.EmailField(required=True)
