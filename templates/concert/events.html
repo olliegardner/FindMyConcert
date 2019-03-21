@@ -62,7 +62,7 @@
                             <form method="GET" action="">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col-auto mr">
-                                        <button class="btn btn-lg btn-outline-dark dropdown-toggle" type="button" data-toggle="dropdown"><i class="fas fa-filter"></i></button>
+                                        <button class="btn btn-lg btn-outline-info dropdown-toggle" type="button" data-toggle="dropdown"><i class="fas fa-filter"></i></button>
 
                                         <ul class="dropdown-menu" role="menu">
                                             <span class="dropdown-item-text">some filters</span>
@@ -132,7 +132,7 @@
                                                             {% if concert.venue == user.venue %} 
                                                                 <div class="row">
                                                                     <a href="{% url 'view' concert.concertID %}" style="padding-right: 3px">
-                                                                        <button class="btn btn-outline-dark">View</button>
+                                                                        <button class="btn btn-outline-info">View</button>
                                                                     </a>
                                                                     <a href="{% url 'edit' concert.concertID %}" style="padding-right: 3px">
                                                                         <button class="button btn button-blue button-bordered btn-primary">Edit</button>
@@ -144,11 +144,11 @@
                                                                 </div>
                                                             {% else %}
                                                                 <div class="lonely-view-button">
-                                                                    <a href="{% url 'view' concert.concertID %}"><button class="btn btn-outline-dark">View</button></a>
+                                                                    <a href="{% url 'view' concert.concertID %}"><button class="btn btn-outline-info">View</button></a>
                                                                 </div>
                                                             {% endif %}
                                                         {% else %}
-                                                            <a href="{% url 'view' concert.concertID %}"><button class="btn btn-outline-dark">View</button></a>
+                                                            <a href="{% url 'view' concert.concertID %}"><button class="btn btn-outline-info">View</button></a>
                                                             <button class="btn btn-success" id="bookmarkButton" onclick="bookmark({{ concert.concertID }}, true)" data-url='{% url "getconcert" 1 %}'>Bookmark</button>
                                                         {% endif %}
                                                         </div>
@@ -184,7 +184,7 @@
                                                 <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
                                                 <td colspan="2">
                                                     <a href="{% url 'view' concert.concertID %}">
-                                                        <button class="btn btn-outline-dark">View</button>
+                                                        <button class="btn btn-outline-info">View</button>
                                                     </a>
                                                     {% if user.is_venue %}
                                                         {% if concert.venue == user.venue %} 
@@ -249,7 +249,7 @@
 
                                                                         <div class="row">
                                                                             <a href="{% url 'view' concert.concertID %}" style="padding-right: 3px">
-                                                                                <button class="btn btn-outline-dark">View</button>
+                                                                                <button class="btn btn-outline-info">View</button>
                                                                             </a>
                                                                             <a href="{% url 'edit' concert.concertID %}" style="padding-right: 3px">
                                                                                 <button class="button btn button-blue button-bordered btn-primary">Edit</button>
@@ -348,7 +348,7 @@
                                                                         <br>
                                                                     </h6>
                                                                     <br>
-                                                                    <a href="{% url 'view' concert.concertID %}"><button class="btn btn-outline-dark">View</button></a>
+                                                                    <a href="{% url 'view' concert.concertID %}"><button class="btn btn-outline-info">View</button></a>
                                                                     <button class="btn btn-danger" onclick = "removebookmark({{ concert.concertID}});hideparent(this, true);" >Remove Bookmark</button>
                                                                 </div>
                                                             </div>
@@ -386,7 +386,7 @@
                                                         <td>{{ concert.date }}</td>
                                                         <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
                                                         <td colspan="2">
-                                                            <a href="{% url 'view' concert.concertID %}"><button class="btn btn-outline-dark">View</button></a>
+                                                            <a href="{% url 'view' concert.concertID %}"><button class="btn btn-outline-info">View</button></a>
                                                             <button class="btn btn-danger" onclick = "removebookmark({{ concert.concertID}});hideparent(this, false);" >Remove Bookmark</button>
                                                         </td>
                                                     </tr>
@@ -437,7 +437,7 @@
                                                                     <br>
                                                                     <div class="row">
                                                                         <a href="{% url 'view' concert.concertID %}" style="padding-right: 3px">
-                                                                            <button class="btn btn-outline-dark">View</button>
+                                                                            <button class="btn btn-outline-info">View</button>
                                                                         </a>
                                                                         <a href="{% url 'edit' concert.concertID %}" style="padding-right: 3px">
                                                                             <button class="button btn button-blue button-bordered btn-primary">Edit</button>
@@ -484,7 +484,7 @@
                                                         <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
                                                         <td colspan="2">
                                                             <a href="{% url 'view' concert.concertID %}">
-                                                                <button class="btn btn-outline-dark">View</button>
+                                                                <button class="btn btn-outline-info">View</button>
                                                             </a>&nbsp
                                                             <a href="{% url 'edit' concert.concertID%}">
                                                                 <button class="button btn button-blue button-bordered btn-primary">Edit</button>
@@ -536,7 +536,7 @@
                                                                         <br>
                                                                     </h6>
                                                                     <br>
-                                                                    <a href="{% url 'view' concert.concertID %}"><button class="btn btn-outline-dark">View</button></a>
+                                                                    <a href="{% url 'view' concert.concertID %}"><button class="btn btn-outline-info">View</button></a>
                                                                     {% if user.is_authenticated %}
                                                                         <button class="btn btn-danger" onclick = "removebookmark({{ concert.concertID}});hideparent(this, true);" >Remove Bookmark</button>
                                                                     {% endif %}
@@ -576,7 +576,7 @@
                                                         <td>{{ concert.date }}</td>
                                                         <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
                                                         <td colspan="2">
-                                                            <a href="{% url 'view' concert.concertID %}"><button class="btn btn-outline-dark">View</button></a>
+                                                            <a href="{% url 'view' concert.concertID %}"><button class="btn btn-outline-info">View</button></a>
                                                             {% if user.is_authenticated %}
                                                                 <button class="btn btn-danger" onclick = "removebookmark({{ concert.concertID}});hideparent(this, false);" >Remove Bookmark</button>
                                                             {% endif %}
@@ -599,7 +599,7 @@
                     <form method="GET" action="">
                         <div class="row no-gutters align-items-center">
                             <div class="col-auto mr">
-                                <button class="btn btn-lg btn-outline-dark dropdown-toggle" type="button" data-toggle="dropdown"><i class="fas fa-filter"></i></button>
+                                <button class="btn btn-lg btn-outline-info dropdown-toggle" type="button" data-toggle="dropdown"><i class="fas fa-filter"></i></button>
                                 <ul class="dropdown-menu" role="menu">
                                     <span class="dropdown-item-text">some filters</span>
                                     <div class="dropdown-divider"></div>
@@ -662,7 +662,7 @@
                                                 </h6>
                                                 <br>
                                                 <div class="lonely-view-button">
-                                                	<a href="{% url 'view' concert.concertID %}"><button class="btn btn-outline-dark">View</button></a>
+                                                	<a href="{% url 'view' concert.concertID %}"><button class="btn btn-outline-info">View</button></a>
                                             	</div>
                                             </div>
                                         </div>
