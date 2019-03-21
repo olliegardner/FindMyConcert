@@ -17,5 +17,5 @@ html {
 }
 
 .mr {
-    margin-right: 0.3%
+    margin-right: 0.3% !important;
 }
