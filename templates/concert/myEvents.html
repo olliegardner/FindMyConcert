@@ -30,7 +30,7 @@
                         <div class="col-12 col-md-12 col-lg-12">
                             <form method="GET" action="">
                                 <div class="row no-gutters align-items-center">
-                                    <div class="col-auto" style="margin-right: 0.3%">
+                                    <div class="col-auto mr">
                                         <button class="btn btn-lg btn-outline-dark dropdown-toggle" type="button" data-toggle="dropdown"><i class="fas fa-filter"></i></button>
 
                                         <ul class="dropdown-menu" role="menu">
@@ -42,19 +42,19 @@
                                         </ul>
                                     </div>
                                     <!--end of col-->
-                                    <div class="col">
+                                    <div class="col mr">
                                         <input class="form-control form-control-lg form-control-borderless" id="search-concert" type="text" name="q" placeholder="Search Events" value="{{ request.GET.q }}">
                                     </div>
                                     <!--end of col-->
-                                    <div class="col-auto" style="margin-right: 0.3%">
+                                    <div class="col-auto mr">
                                         <button class="btn btn-lg btn-success" type="submit" data-toggle="tooltip" data-placement="top" title="Search"><i class="fas fa-search"></i></button>
                                     </div>
                                     <!--end of col-->
-                                    <div class="col-auto" style="margin-right: 0.3%">
+                                    <div class="col-auto mr">
                                         <button class="btn btn-lg btn-info" type="submit" data-toggle="tooltip" data-placement="top" title="Search by Location" onclick="document.getElementById('search-concert').value='{{ location.city }}';"><i class="fas fa-location-arrow"></i></button>
                                     </div>
                                     <!-- end of col -->
-                                    <div class="col-auto" style="margin-right: 0.3%">
+                                    <div class="col-auto mr">
                                         <button class="btn btn-lg btn-danger" type="submit" data-toggle="tooltip" data-placement="top" title="Clear Search" onclick="document.getElementById('search-concert').value='';"><i class="fas fa-times fa-lg"></i></button>
                                     </div>
                                      <!--end of col-->
@@ -522,7 +522,7 @@
                 <div class="col-12 col-md-12 col-lg-12">
                     <form method="GET" action="">
                         <div class="row no-gutters align-items-center">
-                            <div class="col-auto" style="margin-right: 0.3%">
+                            <div class="col-auto mr">
                                 <button class="btn btn-lg btn-outline-dark dropdown-toggle" type="button" data-toggle="dropdown"><i class="fas fa-filter"></i></button>
                                 <ul class="dropdown-menu" role="menu">
                                     <span class="dropdown-item-text">some filters</span>
@@ -533,19 +533,19 @@
                                 </ul>
                             </div>
                             <!--end of col-->
-                            <div class="col">
+                            <div class="col mr">
                                 <input class="form-control form-control-lg form-control-borderless" id="search-concert" type="text" name="q" placeholder="Search Events" value="{{ request.GET.q }}">
                             </div>
                             <!--end of col-->
-                            <div class="col-auto" style="margin-right: 0.3%">
+                            <div class="col-auto mr">
                                 <button class="btn btn-lg btn-success" type="submit" data-toggle="tooltip" data-placement="top" title="Search"><i class="fas fa-search"></i></button>
                             </div>
                             <!--end of col-->
-                            <div class="col-auto" style="margin-right: 0.3%">
+                            <div class="col-auto mr">
                                 <button class="btn btn-lg btn-info" type="submit" data-toggle="tooltip" data-placement="top" title="Search by Location" onclick="document.getElementById('search-concert').value='{{ location.city }}';"><i class="fas fa-location-arrow"></i></button>
                             </div>
                             <!-- end of col -->
-                            <div class="col-auto" style="margin-right: 0.3%">
+                            <div class="col-auto mr">
                                 <button class="btn btn-lg btn-danger" type="submit" data-toggle="tooltip" data-placement="top" title="Clear Search" onclick="document.getElementById('search-concert').value='';"><i class="fas fa-times fa-lg"></i></button>
                             </div>
                             <!--end of col-->
@@ -571,7 +571,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="tile-back" style=" background-image: url({{ concert.image.url }}); background-size: cover; background-position: center;">
+                                    <div class="tile-back" style="background-image: url({{ concert.image.url }}); background-size: cover; background-position: center;">
                                         <div class ="center-white-bg"style="background-color: rgba(256, 256, 256, 0.93);width:100%; height:340px; border-radius: 10%;">
                                             <div class ="center">
                                                 <h6>
@@ -586,8 +586,8 @@
                                                 </h6>
                                                 <br>
                                                 <div class="lonely-view-button">
-                                                		<a href="{% url 'view' concert.concertID %}"><button class="btn btn-outline-dark">View</button></a>
-                                            		</div>
+                                                	<a href="{% url 'view' concert.concertID %}"><button class="btn btn-outline-dark">View</button></a>
+                                            	</div>
                                             </div>
                                         </div>
                                     </div>
