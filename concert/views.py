@@ -1,10 +1,11 @@
 from concert.forms import GigGoerSignUpForm, VenueSignUpForm, EditGigGoerForm, EditVenueForm, LoginForm, ContactForm
 from concert.models import User, Concert, Comment, Rating
 from concert.tokens import accountActivationToken
-
+from collections import Counter
 from datetime import datetime
+from heapq import nlargest
 
-from django.contrib import messages 
+from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
@@ -80,7 +81,21 @@ def index(request):
 
 def events(request):
     loginForm = user_login(request)
-    concert_list = Concert.objects.all() #Get all concerts
+
+    #concert_list = Concert.objects.all()
+
+    #As default, we only want to show concerts in the future
+    concert_list = Concert.objects.all().exclude(
+        Q(date__lt=datetime.today())).distinct()
+
+    #finds the most popular venues, i.e the venues with most concerts happening there
+    counts = dict()
+    for i in concert_list:
+        counts[i.venue.venue_name] = counts.get(i, 0) + 1
+    most_popular = nlargest(3, counts, key=counts.get)
+
+    #backup list of all concerts, used for past and all filters
+    concert_list_all = Concert.objects.all()
 
     #Try to find the location using ip-api
     try:
@@ -89,23 +104,52 @@ def events(request):
     except:
         location_json = {'city': "Error"}
 
-    #See if a quesry has been sent
+    #See if a query has been sent
     query = request.GET.get("q")
     
     if query:
-        #If query, return only filtered concerts
+        months = {'December':'12', 'November':'11', 'October':'10', 'September':'9',
+                  'August':'8', 'July':'7', 'June':'6', 'May':'5', 'April':'4', 'March':'3',
+                  'February':'2', 'January':'1'}
+
+        if query == "All concerts":
+            concert_list = concert_list_all
+        elif query in months.keys():
+            #If query is a month, use its numerical value in comparison
+            query = months[query]
+            concert_list = concert_list.filter(
+                Q(date__month=query)).distinct()
+        elif query == "date_past":
+            concert_list = concert_list_all.filter(
+                Q(date__lt=datetime.today())).distinct()
+        else:
+            #If query, return only filtered concerts
+            concert_list = concert_list.filter(
+                Q(artist__icontains=query) |
+                Q(date__icontains=query) |
+                Q(start_time__icontains=query) |
+                Q(end_time__icontains=query) |
+                Q(venue__venue_name__icontains=query) |
+                Q(venue__location__icontains=query)
+                ).distinct()
+
+    '''
+    if query:
         concert_list = concert_list.filter(
             Q(artist__icontains=query) |
             Q(date__icontains=query) |
             Q(start_time__icontains=query) |
             Q(end_time__icontains=query) |
-            Q(description__icontains=query) |
             Q(venue__venue_name__icontains=query) |
             Q(venue__location__icontains=query)
             ).distinct()
-
     context_dict = {'concerts': concert_list, 'location': location_json, 'loginform': loginForm}
+    '''
+
+    context_dict = {'concerts': concert_list, 'location': location_json, 'loginform': loginForm, 'popular_venues' : most_popular}
+
     return render(request, 'concert/events.html', context_dict)
+
 
 
 def about(request):
@@ -203,7 +247,7 @@ def chooseSignUp(request):
                 return render(request, 'registration/confirmation_needed.html')
     
     #Return all the appropiate forms to be rendered    
-    return render(request, 'registration/signup.html', {'gigform': gigForm, 'venueform':venueForm, 'loginform': loginForm})
+    return render(request, 'registration/signup.html', {'gigform': gigForm, 'venueform': venueForm, 'loginform': loginForm})
 
 
 def activate(request, uidenc, token):
