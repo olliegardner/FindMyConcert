@@ -22,9 +22,9 @@
                     <span class="right">
                         <a href="{% url 'switchview' %}">
                             {% if user.dark_mode %}
-                                <button type="button" class="btn btn-dark">Switch to Compact Mode</button>
+                                <button type="button" class="btn btn-dark btn-lg" data-toggle="tooltip" data-placement="top" title="Compact Mode"><i class="fas fa-stream"></i></button>
                             {% else %}
-                                <button type="button" class="btn btn-light">Switch to Compact Mode</button>
+                                <button type="button" class="btn btn-light btn-lg" data-toggle="tooltip" data-placement="top" title="Compact Mode"><i class="fas fa-stream"></i></button>
                             {% endif %}
                         </a>
                     </span>
@@ -32,9 +32,9 @@
                     <span class="right">
                         <a href="{% url 'switchview' %}">
                             {% if user.dark_mode %}
-                                <button type="button" class="btn btn-dark">Switch to Pretty Mode</button>
+                                <button type="button" class="btn btn-dark btn-lg" data-toggle="tooltip" data-placement="top" title="Pretty Mode"><i class="fas fa-th-large"></i></button>
                             {% else %}
-                                <button type="button" class="btn btn-light">Switch to Pretty Mode</button>
+                                <button type="button" class="btn btn-light btn-lg" data-toggle="tooltip" data-placement="top" title="Pretty Mode"><i class="fas fa-th-large"></i></button>
                             {% endif %}
                         </a>
                     </span>

@@ -22,6 +22,7 @@
         {% else %}
             <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
         {% endif %}
+
         <link rel="stylesheet" type="text/css" href="{% static 'css/tables.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'css/tiles.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'css/search.css' %}">
@@ -86,9 +87,9 @@
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="{% url 'lightdark' %}">
                                         {% if user.dark_mode %}
-                                            <button type="button" class="btn btn-dark">&gt Light Mode</button>
+                                            <button type="button" class="btn btn-dark"><i class="fas fa-sun"></i> Light Mode</button>
                                         {% else %}
-                                            <button type="button" class="btn btn-light">&gt Dark Mode</button>
+                                            <button type="button" class="btn btn-light"><i class="fas fa-moon"></i> Dark Mode</button>
                                         {% endif %}
                                     </a>
                                     <div class="dropdown-divider"></div>
@@ -172,8 +173,6 @@
             $imageArray[4] = 'images/bg9.jpeg';
             $imageArray[5] = 'images/bg10.jpeg';
             $imageArray[6] = 'images/bg1.png';
-
-            
           
             function getRandomImage() {
                 var $num = Math.floor( Math.random() * 7);

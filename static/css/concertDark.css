@@ -4,6 +4,10 @@
     height: 400px;
 }
 
+hr {
+    border-color: #383838;
+}
+
 .concert-image { 
     max-width: 100%;
     width : 100%;
