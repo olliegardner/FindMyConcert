@@ -46,7 +46,7 @@ class Concert(models.Model):
     venue       = models.ForeignKey(Venue, related_name='concert', on_delete=models.CASCADE)
 
     class Meta():
-        ordering = ['-date']
+        ordering = ['date'] #order so soonest concerts are first
 
     def is_future(self):
         #This checks if the concert is in the future (or today)
