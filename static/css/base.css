@@ -84,41 +84,6 @@ nav .navbar-nav li a{
 }
 
 
-.parallax { 
-  /* The image used */
-  
-
-  /* Full height */
-  height: 100%; 
-
-  /* Create the parallax scrolling effect */
-  background-attachment: fixed;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  padding-bottom = 500px;
-  
-}
-
-
-.background-scroll {
-    width: 100%; 
-    height: 100%; 
-    
-    left: 0px; 
-    top: 0px; 
-
-   
-    background-attachment: fixed;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    
-
-}
-
-
-
 
 .background {
     width: 100%; 
@@ -134,7 +99,8 @@ nav .navbar-nav li a{
 }
 
 .background-cover {
-
+  background-position: center;
+  background-size: cover;
   object-fit: cover;
   width: 100%;
   height: 100%;
