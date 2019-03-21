@@ -30,6 +30,12 @@ function removebookmark(concertid) {
 };
 
 
+// fire when concert is deleted
+function deleteconcert() {
+    toastr.error('Concert deleted!');
+}
+
+
 function hideparent(elem, pretty) {
     if (pretty) { // if user has pretty view enabled
         // hides tile

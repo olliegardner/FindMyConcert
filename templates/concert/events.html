@@ -196,7 +196,7 @@
                                                                             </a>
                                                                             <form action="{% url 'delete' concert.concertID%}" method="post">
                                                                                 {% csrf_token %}
-                                                                                <button class = "btn-danger btn "type="submit" >Delete</button>
+                                                                                <button class="btn-danger btn" type="submit" onclick="deleteconcert()">Delete</button>
                                                                             </form>
                                                                         </div>
                                                                     </div>
@@ -239,7 +239,7 @@
                                                             </a>&nbsp
                                                             <form action="{% url 'delete' concert.concertID%}" method="post" style="display: inline;">
                                                                 {% csrf_token %}
-                                                                <button class = "btn-danger btn "type="submit" >Delete</button>
+                                                                <button class="btn-danger btn" type="submit" onclick="deleteconcert()">Delete</button>
                                                             </form>
                                                         </td>
                                                     </tr>
@@ -376,7 +376,7 @@
                                                                         </a>
                                                                         <form action="{% url 'delete' concert.concertID %}" method="post">
                                                                             {% csrf_token %}
-                                                                            <button class = "btn-danger btn "type="submit" >Delete</button>
+                                                                            <button class="btn-danger btn" type="submit" onclick="deleteconcert()">Delete</button>
                                                                         </form>
                                                                     </div>
                                                                 </div>
@@ -419,7 +419,7 @@
                                                             </a>&nbsp
                                                             <form action="{% url 'delete' concert.concertID%}" method="post" style="display: inline;">
                                                                 {% csrf_token %}
-                                                                <button class = "btn-danger btn "type="submit" >Delete</button>
+                                                                <button class="btn-danger btn" type="submit" onclick="deleteconcert()">Delete</button>
                                                             </form>
                                                         </td>
                                                     </tr>
