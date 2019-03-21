@@ -8,6 +8,7 @@ from heapq import nlargest
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.hashers import make_password
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
 from django.core.urlresolvers import reverse
@@ -26,6 +27,9 @@ from FindMyConcert.custom_decorators import giggoer_required
 import json
 from recommend.recommend import recommendation
 import urllib.request
+
+from secret.secret_settings import GOOGLE_MAPS_API_KEY
+
 
 def error_404(request):
     #This function handles the 404 error page
@@ -153,16 +157,9 @@ def contact(request):
                 subject = contactForm.cleaned_data['subject']
                 name = contactForm.cleaned_data['name']
                 email = contactForm.cleaned_data['email']
-                message = contactForm.cleaned_data['message']
+                message = "Name: " + name + "\nEmail: " + email + "\nMessage: " + contactForm.cleaned_data['message']
 
-                '''
-                    for testing purposes, this has been implented backwards, meaning that emails
-                    are sent to 'email' from findmyconcert.wadproject@gmail.com but it should be
-                    the other way round in practice
-                    i.e. user puts in their email address and their message is sent to findmyconcert
-                    from their own email address
-                '''
-                email = EmailMessage(subject, message, to=[email])
+                email = EmailMessage(subject, message, to=["findmyconcert.wadproject@gmail.com"])
                 email.send()
 
                 return render(request, 'concert/index.html')
@@ -310,10 +307,9 @@ def viewConcert(request, id):
             if concert in request.user.giggoer.bookmarks.all():
                 bookmark_boolean  = True 
 
-    return render(request, 'concert/concert.html', {'concert': concert, 
-                                                    'loginform': loginForm, 
-                                                    'user': request.user, 
-                                                    'bookmarked':bookmark_boolean})
+    return render(request, 'concert/concert.html', {'concert': concert, 'loginform': loginForm,
+                                                    'user': request.user, 'bookmarked': bookmark_boolean,
+                                                    'api_key': GOOGLE_MAPS_API_KEY})
 
 
 def profile(request, username):
@@ -336,13 +332,13 @@ def profile(request, username):
                     This function could also have been implemented by overriding save() in 
                     EditVenueForm
                     """
-                
+
                     if (form.cleaned_data.get('email') != ""):
                         user.email = form.cleaned_data.get('email')
                     if (form.cleaned_data.get('image') != None):
                         user.venue.image = form.cleaned_data.get('image')
                     if (form.cleaned_data.get('password') != ""):
-                        user.venue.password = form.cleaned_data.get('password')
+                        user.password = make_password(form.cleaned_data.get('password'))
                     if (form.cleaned_data.get('pretty_mode') != None):
                         user.pretty_mode = form.cleaned_data.get('pretty_mode')
                     if (form.cleaned_data.get('venue_name') != ""):
@@ -360,6 +356,8 @@ def profile(request, username):
                     user.save()
                     user.venue.save()
                     return render(request, 'concert/profile.html', {'selecteduser': user, 'form': EditVenueForm, 'loginform': loginForm})
+                else:
+                    print(form.errors) #Print the errors
             else:
                 form = EditVenueForm(initial={
                                         'email': user.email,
@@ -392,7 +390,7 @@ def profile(request, username):
                     if (form.cleaned_data.get('image') != None):
                         user.giggoer.image = form.cleaned_data.get('image')
                     if (form.cleaned_data.get('password') != ""):
-                        user.giggoer.password = form.cleaned_data.get('password')
+                        user.password = make_password(form.cleaned_data.get('password'))
                     if (form.cleaned_data.get('pretty_mode') != None):
                         user.pretty_mode = form.cleaned_data.get('pretty_mode')
                     user.giggoer.save()
@@ -512,20 +510,8 @@ def rateConcert(request):
 
     return HttpResponse(json.dumps(payload), content_type='application/json')
 
-
-# PASSWORD RESET VIEWS
-'''def password_reset(request):
-    loginForm = user_login(request)
-    return render(request, 'registration/password_reset_form.html', {'loginform': loginForm})
-
-def password_reset_complete(request):
-    loginForm = user_login(request)
-    return render(request, 'registration/password_reset_complete.html', {'loginform': loginForm})
-
-def password_reset_confirm(request):
-    loginForm = user_login(request)
-    return render(request, 'registration/password_reset_confirm.html', {'loginform': loginForm})
-
-def password_reset_done(request):
-    loginForm = user_login(request)
-    return render(request, 'registration/password_reset_done.html', {'loginform': loginForm})'''
+def switchView(request):
+    request.user.pretty_mode = not request.user.pretty_mode
+    request.user.save()
+    return events(request)
+    
