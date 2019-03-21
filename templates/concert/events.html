@@ -10,7 +10,24 @@
     <div class="container">
         
         <h1 class="display-4" id = "events_title">Events</h1>
-        <p class="lead">View all of the events going on around you</p>
+        <p class="lead">
+            View all of the events going on around you
+            {% if user.is_authenticated %}
+                {% if user.pretty_mode %}
+                    <span class="right">
+                        <a href="{% url 'switchview' %}">
+                            <button type="button" class="btn btn-light">Switch to Compact Mode</button>
+                        </a>
+                    </span>
+                {% else %}
+                    <span class="right">
+                        <a href="{% url 'switchview' %}">
+                            <button type="button" class="btn btn-light">Switch to Pretty Mode</button>
+                        </a>
+                    </span>
+                {% endif %}
+            {% endif %}
+        </p>
 
         {% if user.is_authenticated %}
             <ul class="nav nav-tabs" id="myTab" role="tablist">
