@@ -1,7 +1,16 @@
 {% extends 'concert/base.html' %}
 {% load staticfiles %} 
-
 {% block title_block %} {{ block.super }} {% endblock %}
+
+{% block styleoverride %}
+    {% if user.is_authenticated and user.dark_mode %}
+        <style>
+            .navbar {
+                background-color: rgba(0,0,0,0.65) !important;
+            }
+        </style>
+    {% endif %}
+{% endblock %}
 
 {% block body_block %}
 

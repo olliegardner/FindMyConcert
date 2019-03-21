@@ -6,6 +6,9 @@
     <head lang="en">
         <title>{% block title %}FindMyConcert{% endblock %}</title>
 
+        {% block styleoverride %}
+        {% endblock %}
+
         <meta name="viewport" content="width=device-width, initial-scale=1">   <!-- Device width -->
         <link rel="shortcut icon" href="{% static 'images/note.png' %}"> <!-- sets icon in tab -->
 
@@ -33,12 +36,12 @@
         <div class="navbar-container line text size">
             <nav class="navbar navbar-expand-lg navbar-light navbar-trans nav-colour-collapsed">
                 <div class="line col-xs-10 ">
-                    <i class="fas fa-music logo_padding"></i>
+                    <i class="fas fa-music logo_padding"></i>&nbsp&nbsp
 
                     {% if user.is_authenticated and user.is_venue %}
-                        <a class="custom-navbar-brand " href="{% url 'index'%}"><b>AddMyConcert</b></a>
+                        <a class="custom-navbar-brand " href="{% url 'index'%}"><b>AddMyConcert</b></a>&nbsp&nbsp&nbsp
                     {% else %}
-                        <a class="custom-navbar-brand" href="{% url 'index'%}"><b>FindMyConcert</b></a> 
+                        <a class="custom-navbar-brand" href="{% url 'index'%}"><b>FindMyConcert</b></a>&nbsp&nbsp&nbsp
                     {% endif %}
                 </div>
 
