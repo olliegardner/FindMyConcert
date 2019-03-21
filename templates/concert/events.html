@@ -12,8 +12,9 @@
     {% endif %}
 
     <div class="container">
-        
+        <br>
         <h1 class="display-4" id = "events_title">Events</h1>
+        
         <p class="lead">
             View all of the events going on around you
             {% if user.is_authenticated %}
@@ -64,13 +65,40 @@
                                     <div class="col-auto mr">
                                         <button class="btn btn-lg btn-outline-dark dropdown-toggle" type="button" data-toggle="dropdown"><i class="fas fa-filter"></i></button>
 
-                                        <ul class="dropdown-menu" role="menu">
-                                            <span class="dropdown-item-text">some filters</span>
+                                        <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
+                                            <li class="dropdown-submenu">
+                                            <a  class="dropdown-item" tabindex="-1" href="#">Dates</a>
+                                            <ul class="dropdown-menu">
+                                                <li><button class="btn btn-lg" type="button" data-toggle="tooltip" data-placement="top" title="January" onclick="document.getElementById('search-concert').value='January';"><p>January</p></button></li>
+                                                <li><button class="btn btn-lg" type="button" data-toggle="tooltip" data-placement="top" title="February" onclick="document.getElementById('search-concert').value='February';"><p>February</p></button></li>
+                                                <li><button class="btn btn-lg" type="button" data-toggle="tooltip" data-placement="top" title="March" onclick="document.getElementById('search-concert').value='March';"><p>March</p></button></li>
+                                                <li><button class="btn btn-lg" type="button" data-toggle="tooltip" data-placement="top" title="April" onclick="document.getElementById('search-concert').value='April';"><p>April</p></button></li>
+                                                <li><button class="btn btn-lg" type="button" data-toggle="tooltip" data-placement="top" title="May" onclick="document.getElementById('search-concert').value='May';"><p>May</p></button></li>
+                                                <li><button class="btn btn-lg" type="button" data-toggle="tooltip" data-placement="top" title="June" onclick="document.getElementById('search-concert').value='June';"><p>June</p></button></li>
+                                                <li><button class="btn btn-lg" type="button" data-toggle="tooltip" data-placement="top" title="July" onclick="document.getElementById('search-concert').value='July';"><p>July</p></button></li>
+                                                <li><button class="btn btn-lg" type="button" data-toggle="tooltip" data-placement="top" title="August" onclick="document.getElementById('search-concert').value='August';"><p>August</p></button></li>
+                                                <li><button class="btn btn-lg" type="button" data-toggle="tooltip" data-placement="top" title="September" onclick="document.getElementById('search-concert').value='September';"><p>September</p></button></li>
+                                                <li><button class="btn btn-lg" type="button" data-toggle="tooltip" data-placement="top" title="October" onclick="document.getElementById('search-concert').value='October';"><p>October</p></button></li>
+                                                <li><button class="btn btn-lg" type="button" data-toggle="tooltip" data-placement="top" title="November" onclick="document.getElementById('search-concert').value='November';"><p>November</p></button></li>
+                                                <li><button class="btn btn-lg" type="button" data-toggle="tooltip" data-placement="top" title="December" onclick="document.getElementById('search-concert').value='December';"><p>December</p></button></li>
+                                            </ul>
+                                            </li>
+                                           
+                                           
+                                            <li class="dropdown-submenu">
+                                            <a  class="dropdown-item" tabindex="-1" href="#">Popular venues</a>
+                                            <ul class="dropdown-menu">
+                                                {% for place in popular_venues %}
+                                                    <li><button class="btn btn-lg" type="button" data-toggle="tooltip" data-placement="top" title='{{ place }}' onclick="document.getElementById('search-concert').value='{{ place }}';"><p>{{ place }}</p></button></li>
+                                                {% endfor %}
+                                            </ul>
+                                            </li>
+                                           
                                             <div class="dropdown-divider"></div>
-                                            <span class="dropdown-item-text">will go</span>
+                                            <button class="btn btn-lg" type="button" data-toggle="tooltip" data-placement="top" title="Past" onclick="document.getElementById('search-concert').value='date_past';"><p>Past Concerts</p></button>
                                             <div class="dropdown-divider"></div>
-                                            <span class="dropdown-item-text">here maybe</span>
-                                        </ul>
+                                            <button class="btn btn-lg" type="button" data-toggle="tooltip" data-placement="top" title="All" onclick="document.getElementById('search-concert').value='All concerts';"><p>All Concerts</p></button>
+                                        </ul>      
                                     </div>
                                     <!--end of col-->
                                     <div class="col mr">
@@ -600,13 +628,41 @@
                         <div class="row no-gutters align-items-center">
                             <div class="col-auto mr">
                                 <button class="btn btn-lg btn-outline-dark dropdown-toggle" type="button" data-toggle="dropdown"><i class="fas fa-filter"></i></button>
-                                <ul class="dropdown-menu" role="menu">
-                                    <span class="dropdown-item-text">some filters</span>
+
+                                <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
+                                    <li class="dropdown-submenu">
+                                    <a  class="dropdown-item" tabindex="-1" href="#">Dates</a>
+                                    <ul class="dropdown-menu">
+                                        <li><button class="btn btn-lg" type="button" data-toggle="tooltip" data-placement="top" title="January" onclick="document.getElementById('search-concert').value='January';"><p>January</p></button></li>
+                                        <li><button class="btn btn-lg" type="button" data-toggle="tooltip" data-placement="top" title="February" onclick="document.getElementById('search-concert').value='February';"><p>February</p></button></li>
+                                        <li><button class="btn btn-lg" type="button" data-toggle="tooltip" data-placement="top" title="March" onclick="document.getElementById('search-concert').value='March';"><p>March</p></button></li>
+                                        <li><button class="btn btn-lg" type="button" data-toggle="tooltip" data-placement="top" title="April" onclick="document.getElementById('search-concert').value='April';"><p>April</p></button></li>
+                                        <li><button class="btn btn-lg" type="button" data-toggle="tooltip" data-placement="top" title="May" onclick="document.getElementById('search-concert').value='May';"><p>May</p></button></li>
+                                        <li><button class="btn btn-lg" type="button" data-toggle="tooltip" data-placement="top" title="June" onclick="document.getElementById('search-concert').value='June';"><p>June</p></button></li>
+                                        <li><button class="btn btn-lg" type="button" data-toggle="tooltip" data-placement="top" title="July" onclick="document.getElementById('search-concert').value='July';"><p>July</p></button></li>
+                                        <li><button class="btn btn-lg" type="button" data-toggle="tooltip" data-placement="top" title="August" onclick="document.getElementById('search-concert').value='August';"><p>August</p></button></li>
+                                        <li><button class="btn btn-lg" type="button" data-toggle="tooltip" data-placement="top" title="September" onclick="document.getElementById('search-concert').value='September';"><p>September</p></button></li>
+                                        <li><button class="btn btn-lg" type="button" data-toggle="tooltip" data-placement="top" title="October" onclick="document.getElementById('search-concert').value='October';"><p>October</p></button></li>
+                                        <li><button class="btn btn-lg" type="button" data-toggle="tooltip" data-placement="top" title="November" onclick="document.getElementById('search-concert').value='November';"><p>November</p></button></li>
+                                        <li><button class="btn btn-lg" type="button" data-toggle="tooltip" data-placement="top" title="December" onclick="document.getElementById('search-concert').value='December';"><p>December</p></button></li>
+                                    </ul>
+                                    </li>
+                                   
+                                   
+                                    <li class="dropdown-submenu">
+                                    <a  class="dropdown-item" tabindex="-1" href="#">Popular venues</a>
+                                    <ul class="dropdown-menu">
+                                        {% for place in popular_venues %}
+                                            <li><button class="btn btn-lg" type="button" data-toggle="tooltip" data-placement="top" title='{{ place }}' onclick="document.getElementById('search-concert').value='{{ place }}';"><p>{{ place }}</p></button></li>
+                                        {% endfor %}
+                                    </ul>
+                                    </li>
+                                   
                                     <div class="dropdown-divider"></div>
-                                    <span class="dropdown-item-text">will go</span>
+                                    <button class="btn btn-lg" type="button" data-toggle="tooltip" data-placement="top" title="Past" onclick="document.getElementById('search-concert').value='date_past';"><p>Past Concerts</p></button>
                                     <div class="dropdown-divider"></div>
-                                    <span class="dropdown-item-text">here maybe</span>
-                                </ul>
+                                    <button class="btn btn-lg" type="button" data-toggle="tooltip" data-placement="top" title="All" onclick="document.getElementById('search-concert').value='All concerts';"><p>All Concerts</p></button>
+                                </ul>      
                             </div>
                             <!--end of col-->
                             <div class="col mr">

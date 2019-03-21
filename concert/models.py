@@ -73,6 +73,20 @@ class Comment(models.Model):
     def __str__(self): 
         return str(self.commentID)
 
+class ProfileComment(models.Model):
+    user        = models.ForeignKey(User, related_name='commentUser', on_delete=models.CASCADE) #Both user types can comment
+    text        = models.CharField(max_length=560, null = True)
+    commentID   = models.AutoField(primary_key=True)
+    profile     = models.ForeignKey(User, related_name='commentProfile', on_delete=models.CASCADE)
+    time        = models.DateTimeField(_("Comment Time"), default=timezone.now)
+
+    class Meta():
+        ordering = ['time']
+
+
+    def __str__(self): 
+        return str(self.commentID)
+
 
 class GigGoer(models.Model):
     user      = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True) #Parent class
