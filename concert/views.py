@@ -1,5 +1,5 @@
 from concert.forms import GigGoerSignUpForm, VenueSignUpForm, EditGigGoerForm, EditVenueForm, LoginForm, ContactForm
-from concert.models import User, Concert, Comment, Rating
+from concert.models import User, Concert, Comment, Rating, ProfileComment
 from concert.tokens import accountActivationToken
 
 from datetime import datetime
@@ -445,13 +445,13 @@ def postUserComment(request):
 
     user = request.user
     text = request.POST.get('data') #Get the text data
-    profileID = request.POST.get('id')
+    username = request.POST.get('id')
 
     #Check if empty comment and return false success if empty
     if text == "" or text == None:
         payload = {'success': "False"}
     else:
-        profile = get_object_or_404(Concert, profileID=profileID)
+        profile = get_object_or_404(User, username=username)
 
         #Create a new comment object
         commentProfile = ProfileComment.objects.create(
@@ -460,7 +460,7 @@ def postUserComment(request):
             profile = profile,
             time = datetime.now())
 
-        comment.save() #Make sure comment is saved in database
+        commentProfile.save() #Make sure comment is saved in database
 
         #Return the appropiate comment image depending on usertype
         if user.is_venue:

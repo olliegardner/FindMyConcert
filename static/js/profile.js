@@ -31,7 +31,7 @@ function postusercomment() {
                 $('<li class="media">').append(
                     $('<a href="#" class="pull-left"><img src="' +data.image+'" class="avatar"></a>'),
                     $('<div class="media-body"><a href="#"<strong class="text-success">&nbsp;&nbsp;'+data.username +'</strong></a><p>&nbsp;&nbsp;' +$text +'</p>')
-                    ).appendTo('#allcomments');      
+                ).appendTo('#allusercomments');      
 
                 $('#allusercomments').animate({ scrollTop: 10000000000000000 }, 50); //This is hack, scrolling too far scrolls to the bottom
                 } else {
