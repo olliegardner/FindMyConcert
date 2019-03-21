@@ -243,9 +243,16 @@
                     <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
                         <br>
                         <h2>Discussion</h2>
+                        {% if selecteduser.username == user.username %}
+
+                        <p class = lead>Look at what people are posting on your profile! <p> 
+                        {% elif  user.is_authenticated%}
+                        <p class = lead>Look at what people are posting on {{selecteduser.username}} profile! <p> 
+                        {% endif %}
 
                         <div class="col-md-6 col-md-offset-2 col-sm-12 col-lg-12">
                             <!-- Comment input area start -->
+
                             {% if user.is_authenticated %}
                                 <ul class="profile-comments" id="allusercomments">
                                     {% for comment in selecteduser.commentProfile.all %}
