@@ -34,6 +34,7 @@ urlpatterns = [
     url(r'^accounts/account_activated/$', views.success, name='account_activated'),
     url(r'^api/getconcert/(?P<id>\d+)/', views.getConcert, name='getconcert'),
     url(r'^api/postcomment/', views.postComment, name='postcomment'),
+    url(r'^api/postusercomment/', views.postUserComment, name='postusercomment'),
     url(r'^api/rateconcert/', views.rateConcert, name='rateconcert'),
     url(r'^api/switchview/', views.switchView, name='switchview'),
     url(r'^api/lightdark/', views.lightDark, name='lightdark'),

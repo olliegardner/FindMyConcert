@@ -1,5 +1,5 @@
 from concert.forms import GigGoerSignUpForm, VenueSignUpForm, EditGigGoerForm, EditVenueForm, LoginForm, ContactForm
-from concert.models import User, Concert, Comment, Rating
+from concert.models import User, Concert, Comment, Rating, ProfileComment
 from concert.tokens import accountActivationToken
 from collections import Counter
 from datetime import datetime
@@ -175,7 +175,7 @@ def contact(request):
                 name = contactForm.cleaned_data['name']
                 email = contactForm.cleaned_data['email']
                 message = "Name: " + name + "\nEmail: " + email + "\nMessage: " + contactForm.cleaned_data['message']
-
+                
                 email = EmailMessage(subject, message, to=["findmyconcert.wadproject@gmail.com"])
                 email.send()
 
@@ -484,6 +484,39 @@ def postComment(request):
 
     return HttpResponse(json.dumps(payload), content_type='application/json')
 
+
+@requires_csrf_token
+def postUserComment(request):
+    #This view is used so that a comment can be posted using AJAX
+
+    user = request.user
+    text = request.POST.get('data') #Get the text data
+    username = request.POST.get('id')
+
+    #Check if empty comment and return false success if empty
+    if text == "" or text == None:
+        payload = {'success': "False"}
+    else:
+        profile = get_object_or_404(User, username=username)
+
+        #Create a new comment object
+        commentProfile = ProfileComment.objects.create(
+            user = user,
+            text = text,
+            profile = profile,
+            time = datetime.now())
+
+        commentProfile.save() #Make sure comment is saved in database
+
+        #Return the appropiate comment image depending on usertype
+        if user.is_venue:
+            image = user.venue.image.url
+        else:
+            image = user.giggoer.image.url
+
+        payload = {'success': "True", 'username':user.username, 'image':image}
+
+    return HttpResponse(json.dumps(payload), content_type='application/json')
 
 @login_required
 @giggoer_required
