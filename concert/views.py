@@ -28,6 +28,9 @@ import json
 from recommend.recommend import recommendation
 import urllib.request
 
+from secret.secret_settings import GOOGLE_MAPS_API_KEY
+
+
 def error_404(request):
     #This function handles the 404 error page
     loginForm = user_login(request)
@@ -129,13 +132,6 @@ def contact(request):
                 email = contactForm.cleaned_data['email']
                 message = "Name: " + name + "\nEmail: " + email + "\nMessage: " + contactForm.cleaned_data['message']
 
-                '''
-                    for testing purposes, this has been implented backwards, meaning that emails
-                    are sent to 'email' from findmyconcert.wadproject@gmail.com but it should be
-                    the other way round in practice
-                    i.e. user puts in their email address and their message is sent to findmyconcert
-                    from their own email address
-                '''
                 email = EmailMessage(subject, message, to=["findmyconcert.wadproject@gmail.com"])
                 email.send()
 
@@ -284,10 +280,9 @@ def viewConcert(request, id):
             if concert in request.user.giggoer.bookmarks.all():
                 bookmark_boolean  = True 
 
-    return render(request, 'concert/concert.html', {'concert': concert, 
-                                                    'loginform': loginForm, 
-                                                    'user': request.user, 
-                                                    'bookmarked':bookmark_boolean})
+    return render(request, 'concert/concert.html', {'concert': concert, 'loginform': loginForm,
+                                                    'user': request.user, 'bookmarked': bookmark_boolean,
+                                                    'api_key': GOOGLE_MAPS_API_KEY})
 
 
 def profile(request, username):
