@@ -106,7 +106,7 @@ class EditGigGoerForm(forms.ModelForm):
 
     class Meta:
         model = GigGoer
-        fields = []
+        exclude = {'user','bookmarks'}
 
     
 class EditVenueForm(forms.ModelForm):
@@ -124,7 +124,8 @@ class EditVenueForm(forms.ModelForm):
 
     class Meta:
         model = Venue
-        fields = []
+        exclude = {'user'}
+
 
 
 class LoginForm(forms.Form):

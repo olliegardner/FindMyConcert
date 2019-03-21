@@ -8,6 +8,7 @@ from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.hashers import make_password
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
 from django.core.urlresolvers import reverse
@@ -126,16 +127,9 @@ def contact(request):
                 subject = contactForm.cleaned_data['subject']
                 name = contactForm.cleaned_data['name']
                 email = contactForm.cleaned_data['email']
-                message = contactForm.cleaned_data['message']
-
-                '''
-                    for testing purposes, this has been implented backwards, meaning that emails
-                    are sent to 'email' from findmyconcert.wadproject@gmail.com but it should be
-                    the other way round in practice
-                    i.e. user puts in their email address and their message is sent to findmyconcert
-                    from their own email address
-                '''
-                email = EmailMessage(subject, message, to=[email])
+                message = "Name: " + name + "\nEmail: " + email + "\nMessage: " + contactForm.cleaned_data['message']
+                
+                email = EmailMessage(subject, message, to=["findmyconcert.wadproject@gmail.com"])
                 email.send()
 
                 return render(request, 'concert/index.html')
@@ -309,13 +303,13 @@ def profile(request, username):
                     This function could also have been implemented by overriding save() in 
                     EditVenueForm
                     """
-                
+
                     if (form.cleaned_data.get('email') != ""):
                         user.email = form.cleaned_data.get('email')
                     if (form.cleaned_data.get('image') != None):
                         user.venue.image = form.cleaned_data.get('image')
                     if (form.cleaned_data.get('password') != ""):
-                        user.venue.password = form.cleaned_data.get('password')
+                        user.password = make_password(form.cleaned_data.get('password'))
                     if (form.cleaned_data.get('pretty_mode') != None):
                         user.pretty_mode = form.cleaned_data.get('pretty_mode')
                     if (form.cleaned_data.get('venue_name') != ""):
@@ -333,6 +327,8 @@ def profile(request, username):
                     user.save()
                     user.venue.save()
                     return render(request, 'concert/profile.html', {'selecteduser': user, 'form': EditVenueForm, 'loginform': loginForm})
+                else:
+                    print(form.errors) #Print the errors
             else:
                 form = EditVenueForm(initial={
                                         'email': user.email,
@@ -365,7 +361,7 @@ def profile(request, username):
                     if (form.cleaned_data.get('image') != None):
                         user.giggoer.image = form.cleaned_data.get('image')
                     if (form.cleaned_data.get('password') != ""):
-                        user.giggoer.password = form.cleaned_data.get('password')
+                        user.password = make_password(form.cleaned_data.get('password'))
                     if (form.cleaned_data.get('pretty_mode') != None):
                         user.pretty_mode = form.cleaned_data.get('pretty_mode')
                     user.giggoer.save()
@@ -518,6 +514,10 @@ def rateConcert(request):
 
     return HttpResponse(json.dumps(payload), content_type='application/json')
 
+def switchView(request):
+    request.user.pretty_mode = not request.user.pretty_mode
+    request.user.save()
+    return events(request)
 
 # PASSWORD RESET VIEWS
 '''def password_reset(request):
