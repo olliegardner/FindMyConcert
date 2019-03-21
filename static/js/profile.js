@@ -2,6 +2,8 @@ var map;
 var service;
 var infowindow;
 
+document.getElementById("postusercomment").addEventListener("click", postusercomment);
+
 function postusercomment() {
     var id = document.getElementById("postusercomment").getAttribute('data');
     var comment_url = document.getElementById("postusercomment").getAttribute('data-url');
@@ -12,14 +14,15 @@ function postusercomment() {
     $.ajax({
         type: 'POST',
         url: comment_url,
-        data: {'data':$('#commentbox').val(),'id':id},
+        data: {'data':$('#usercommentbox').val(),'id':id},
         credentials: 'include',
         dataType: 'json',
+
         success:function(data){
             if (data.success == "True") {
-            var $text = $('#commentbox').val();
+            var $text = $('#usercommentbox').val();
             toastr.success('Comment posted succesfully');
-                $("#commentbox").val(''); //Clear the comment box
+                $("#usercommentbox").val(''); //Clear the comment box
 
 
                 //Next part is a mess, this appens the new comment to the html code
@@ -30,7 +33,7 @@ function postusercomment() {
                     $('<div class="media-body"><a href="#"<strong class="text-success">&nbsp;&nbsp;'+data.username +'</strong></a><p>&nbsp;&nbsp;' +$text +'</p>')
                     ).appendTo('#allcomments');      
 
-                $('#allcomments').animate({ scrollTop: 10000000000000000 }, 50); //This is hack, scrolling too far scrolls to the bottom
+                $('#allusercomments').animate({ scrollTop: 10000000000000000 }, 50); //This is hack, scrolling too far scrolls to the bottom
                 } else {
                     toastr.error('Comment not sent!');
                 }      

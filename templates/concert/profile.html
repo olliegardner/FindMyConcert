@@ -269,12 +269,12 @@
                                     {% endfor %}       
                                 </ul>
 
-                            <textarea id = "commentbox" class="form-control" placeholder="Post a comment on this users profile..." rows="3"></textarea>
+                            <textarea id = "usercommentbox" class="form-control" placeholder="Post a comment on this users profile..." rows="3"></textarea>
                             <br>
  
                             <form method="post" class="left" id ="post-form">
                                 <meta name="csrf-token" content="{{ csrf_token }}">
-                                <button type="button" class="btn btn-info" id = "postusercomment" data ="{{user.username}}" data-url = "{% url 'postusercomment' %}" >Post</button>
+                                <button type="button" class="btn btn-info" id = "postusercomment" data ="{{selecteduser.username}}" data-url = "{% url 'postusercomment' %}" >Post</button>
                             </form> 
                         {% else %}
                             <p class = "lead">Please sign in to see this user's discussion feed</p>
@@ -308,5 +308,8 @@
             $('[data-toggle="tooltip"]').tooltip();
         });
     </script>
+
+    <script src="{% static 'js/profile.js' %}"></script>
+
 
 {% endblock %}
