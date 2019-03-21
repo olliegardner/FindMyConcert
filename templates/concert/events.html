@@ -5,7 +5,11 @@
 
 {% block body_block %}
 
-    <link rel="stylesheet" type="text/css" href="{% static 'css/events.css' %}">
+    {% if user.is_authenticated and user.dark_mode %}
+        <link rel="stylesheet" type="text/css" href="{% static 'css/eventsDark.css' %}">
+    {% else %}
+        <link rel="stylesheet" type="text/css" href="{% static 'css/events.css' %}">
+    {% endif %}
 
     <div class="container">
         
@@ -16,13 +20,21 @@
                 {% if user.pretty_mode %}
                     <span class="right">
                         <a href="{% url 'switchview' %}">
-                            <button type="button" class="btn btn-light">Switch to Compact Mode</button>
+                            {% if user.dark_mode %}
+                                <button type="button" class="btn btn-dark">Switch to Compact Mode</button>
+                            {% else %}
+                                <button type="button" class="btn btn-light">Switch to Compact Mode</button>
+                            {% endif %}
                         </a>
                     </span>
                 {% else %}
                     <span class="right">
                         <a href="{% url 'switchview' %}">
-                            <button type="button" class="btn btn-light">Switch to Pretty Mode</button>
+                            {% if user.dark_mode %}
+                                <button type="button" class="btn btn-dark">Switch to Pretty Mode</button>
+                            {% else %}
+                                <button type="button" class="btn btn-light">Switch to Pretty Mode</button>
+                            {% endif %}
                         </a>
                     </span>
                 {% endif %}
@@ -149,7 +161,11 @@
                             </div>
                         {% else %}                      <!-- Compact Mode -->
                             <div>
-                                <table class="table">
+                            {% if user.dark_mode %}
+                                <table class="table table-dark">
+                            {% else %}
+                                <table class="table table-light">
+                            {% endif %}
                                     <thead>
                                         <tr>
                                             <th scope="col">Artist</th>
@@ -255,7 +271,11 @@
                                 </div>
                         {% else %}                      <!-- Compact Mode -->
                             <div>
-                                <table class="table">
+                            {% if user.dark_mode %}
+                                <table class="table table-dark">
+                            {% else %}
+                                <table class="table table-light">
+                            {% endif %}
                                     <thead>
                                         <tr>
                                             <th scope="col">Artist</th>
@@ -342,7 +362,11 @@
                             </div>
                         {% else %}                      <!-- Compact Mode -->
                             <div>
-                                <table class="table">
+                            {% if user.dark_mode %}
+                                <table class="table table-dark">
+                            {% else %}
+                                <table class="table table-light">
+                            {% endif %}
                                     <thead>
                                         <tr>
                                             <th scope="col">Artist</th>
@@ -435,7 +459,11 @@
                             </div>
                         {% else %}                      <!-- Compact Mode -->
                             <div>
-                                <table class="table">
+                            {% if user.dark_mode %}
+                                <table class="table table-dark">
+                            {% else %}
+                                <table class="table table-light">
+                            {% endif %}
                                     <thead>
                                         <tr>
                                             <th scope="col">Artist</th>
@@ -524,7 +552,11 @@
                             </div>
                         {% else %}                      <!-- Compact Mode -->
                             <div>
-                                <table class="table">
+                            {% if user.dark_mode %}
+                                <table class="table table-dark">
+                            {% else %}
+                                <table class="table table-light">
+                            {% endif %}
                                     <thead>
                                         <tr>
                                             <th scope="col">Artist</th>
