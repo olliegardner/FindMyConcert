@@ -30,9 +30,9 @@
                     <i class="fas fa-music logo_padding"></i>
 
                     {% if user.is_authenticated and user.is_venue %}
-                        <a class="text" href="{% url 'index'%}"><b>AddMyConcert&nbsp;&nbsp;&nbsp;</b></a>
+                        <a class="text" href="{% url 'index'%}"><b>AddMyConcert</b></a>&nbsp;&nbsp;&nbsp;
                     {% else %}
-                        <a class="text" href="{% url 'index'%}"><b>FindMyConcert&nbsp;&nbsp;&nbsp;</b></a> 
+                        <a class="text" href="{% url 'index'%}"><b>FindMyConcert</b></a>&nbsp;&nbsp;&nbsp; 
                     {% endif %}
                 </div>
 
