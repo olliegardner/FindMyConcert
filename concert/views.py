@@ -488,3 +488,9 @@ def switchView(request):
     request.user.save()
     return events(request)
     
+def lightDark(request):
+    request.user.dark_mode = not request.user.dark_mode
+    request.user.save()
+    loginForm = user_login(request)
+    print(request.META['HTTP_REFERER'])
+    return HttpResponseRedirect(request.META['HTTP_REFERER'])
