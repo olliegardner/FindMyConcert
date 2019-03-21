@@ -31,6 +31,8 @@
                 {% enough_ratings concert.concertID as rated %}
                 {% if rated %}
                     <span data-url="{% get_rating concert.concertID %}" class="notbold line" id="stars"></span>
+                {% else %}
+                    <span  class="notbold line" id="stars-not-rated"></span>
                 {% endif %}
             </h2>
             <p>{{ concert.description }}</p>

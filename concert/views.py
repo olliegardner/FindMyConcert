@@ -455,7 +455,19 @@ def rateConcert(request):
         concert = concert,)
 
     rating.save() #Save the new rating
-    payload = {'success': "True"}
+
+    #Calculate new average rating
+    sum = 0
+    for rating in concert.rating.all(): #Sum all the scores
+        sum = sum + rating.score
+
+    length = len(concert.rating.all()) #Error handling so that we can't get divide by 0 error
+    if length == 0:
+        length = 1
+
+    averageRating = round(sum/length)
+
+    payload = {'success': "True", 'filledStars' : averageRating}
     
 
     return HttpResponse(json.dumps(payload), content_type='application/json')
