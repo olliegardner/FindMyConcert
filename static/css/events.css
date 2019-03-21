@@ -1,0 +1,21 @@
+html {
+    scroll-behavior: smooth;
+}
+
+#go-top {
+    display: none;
+    position: fixed;
+    bottom: 3%;
+    right: 3%;
+    z-index: 99; /* make sure button does not overlap */
+    border-radius: 50%;
+}
+
+#go-top:hover {
+    background-color: #555;
+    border-color: #555;
+}
+
+.mr {
+    margin-right: 0.3% !important;
+}
