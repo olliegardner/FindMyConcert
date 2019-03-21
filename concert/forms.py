@@ -100,13 +100,9 @@ class EditGigGoerForm(forms.ModelForm):
     password    = forms.CharField(required=False, widget=forms.PasswordInput(render_value=False))
     pretty_mode = forms.BooleanField(required=False)
 
-    '''def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.initial['email'] = 'testing@gmail.com'''
-
     class Meta:
         model = GigGoer
-        fields = []
+        exclude = {'user','bookmarks'}
 
     
 class EditVenueForm(forms.ModelForm):
@@ -124,7 +120,7 @@ class EditVenueForm(forms.ModelForm):
 
     class Meta:
         model = Venue
-        fields = []
+        exclude = {'user'}
 
 
 class LoginForm(forms.Form):

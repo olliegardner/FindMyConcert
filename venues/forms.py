@@ -31,6 +31,7 @@ class EditConcertForm(forms.ModelForm):
     image       = forms.ImageField(required = False)
     url         = forms.URLField(required = False)
     description = forms.CharField(max_length=1000, required = False)
+    
     class Meta:
         model = Concert
         exclude = {'venue'}
