@@ -4,8 +4,6 @@
 {% block title %} {{ block.super }} {% endblock %}
 
 {% block body_block %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/events.css' %}">
-
     <div class="container">
         <h1 class="display-4" id = "events_title">Events</h1>
         <p class="lead">View all of the events going on around you</p>
@@ -23,38 +21,76 @@
                 </li>
             </ul>
 
-            <div class="tab-content">
+            <div class="tab-content">		    	
                 <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="all-tab">
                     <br>
                     <div class="row">
                         <div class="col-12 col-md-12 col-lg-12">
                             <form method="GET" action="">
                                 <div class="row no-gutters align-items-center">
-                                    <div class="col-auto mr">
+                                    <div class="col-auto" style="margin-right: 0.3%">
                                         <button class="btn btn-lg btn-outline-dark dropdown-toggle" type="button" data-toggle="dropdown"><i class="fas fa-filter"></i></button>
 
-                                        <ul class="dropdown-menu" role="menu">
-                                            <span class="dropdown-item-text">some filters</span>
-                                            <div class="dropdown-divider"></div>
-                                            <span class="dropdown-item-text">will go</span>
-                                            <div class="dropdown-divider"></div>
-                                            <span class="dropdown-item-text">here maybe</span>
-                                        </ul>
+                                        <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
+
+												<li class="dropdown-submenu">
+												<a  class="dropdown-item" tabindex="-1" href="#">Dates</a>
+												<ul class="dropdown-menu">
+													<button class="btn btn-lg" type="submit" data-toggle="tooltip" data-placement="top" title="January" onclick="document.getElementById('search-concert').value='January';"><p>January</p></button>
+													<button class="btn btn-lg" type="submit" data-toggle="tooltip" data-placement="top" title="February" onclick="document.getElementById('search-concert').value='February';"><p>February</p></button>
+													<button class="btn btn-lg" type="submit" data-toggle="tooltip" data-placement="top" title="March" onclick="document.getElementById('search-concert').value='March';"><p>March</p></button>
+													<button class="btn btn-lg" type="submit" data-toggle="tooltip" data-placement="top" title="April" onclick="document.getElementById('search-concert').value='April';"><p>April	</p></button>
+													<button class="btn btn-lg" type="submit" data-toggle="tooltip" data-placement="top" title="May" onclick="document.getElementById('search-concert').value='May';"><p>May</p></button>
+													<button class="btn btn-lg" type="submit" data-toggle="tooltip" data-placement="top" title="June" onclick="document.getElementById('search-concert').value='June';"><p>June		</p></button>
+													<button class="btn btn-lg" type="submit" data-toggle="tooltip" data-placement="top" title="July" onclick="document.getElementById('search-concert').value='July';"><p>July</p></button>
+													<button class="btn btn-lg" type="submit" data-toggle="tooltip" data-placement="top" title="August" onclick="document.getElementById('search-concert').value='August';"><p>August</p></button>
+													<button class="btn btn-lg" type="submit" data-toggle="tooltip" data-placement="top" title="September" onclick="document.getElementById('search-concert').value='September';"><p>September</p></button>
+													<button class="btn btn-lg" type="submit" data-toggle="tooltip" data-placement="top" title="October" onclick="document.getElementById('search-concert').value='October';"><p>October</p></button>
+													<button class="btn btn-lg" type="submit" data-toggle="tooltip" data-placement="top" title="November" onclick="document.getElementById('search-concert').value='November';"><p>November</p></button>
+													<button class="btn btn-lg" type="submit" data-toggle="tooltip" data-placement="top" title="December" onclick="document.getElementById('search-concert').value='December';"><p>December</p></button>
+												</ul>
+												</li>
+												
+												<!--
+												<li class="dropdown-submenu">
+												<a  class="dropdown-item" tabindex="-1" href="#">Popular venues</a>
+												<ul class="dropdown-menu">
+													<button class="btn btn-lg" type="submit" data-toggle="tooltip" data-placement="top" title="SEC" onclick="document.getElementById('search-concert').value='SEC Armadillo';"><p>SEC Armadillo</p></button>
+													<button class="btn btn-lg" type="submit" data-toggle="tooltip" data-placement="top" title="SSE" onclick="document.getElementById('search-concert').value='SSE Hydro';"><p>SSE Hydro</p></button>
+												</ul>
+												</li>
+												-->
+												
+												<li class="dropdown-submenu">
+												<a  class="dropdown-item" tabindex="-1" href="#">Popular venues</a>
+												<ul class="dropdown-menu">
+													{% for place in popular_venues %}
+														<button class="btn btn-lg" type="submit" data-toggle="tooltip" data-placement="top" title='{{ place }}' onclick="document.getElementById('search-concert').value='{{ place }}';"><p>{{ place }}</p></button>
+													{% endfor %}
+												</ul>
+												</li>
+												
+												<div class="dropdown-divider"></div>
+												<button class="btn btn-lg" type="submit" data-toggle="tooltip" data-placement="top" title="Past" onclick="document.getElementById('search-concert').value='date_past';"><p>Past</p></button>
+												<div class="dropdown-divider"></div>
+												<button class="btn btn-lg" type="submit" data-toggle="tooltip" data-placement="top" title="All" onclick="document.getElementById('search-concert').value='All concerts';"><p>All Concerts</p></button>
+											</ul>											
+									</div>
                                     </div>
                                     <!--end of col-->
-                                    <div class="col mr">
+                                    <div class="col">
                                         <input class="form-control form-control-lg form-control-borderless" id="search-concert" type="text" name="q" placeholder="Search Events" value="{{ request.GET.q }}">
                                     </div>
                                     <!--end of col-->
-                                    <div class="col-auto mr">
+                                    <div class="col-auto" style="margin-right: 0.3%">
                                         <button class="btn btn-lg btn-success" type="submit" data-toggle="tooltip" data-placement="top" title="Search"><i class="fas fa-search"></i></button>
                                     </div>
                                     <!--end of col-->
-                                    <div class="col-auto mr">
+                                    <div class="col-auto" style="margin-right: 0.3%">
                                         <button class="btn btn-lg btn-info" type="submit" data-toggle="tooltip" data-placement="top" title="Search by Location" onclick="document.getElementById('search-concert').value='{{ location.city }}';"><i class="fas fa-location-arrow"></i></button>
                                     </div>
                                     <!-- end of col -->
-                                    <div class="col-auto mr">
+                                    <div class="col-auto" style="margin-right: 0.3%">
                                         <button class="btn btn-lg btn-danger" type="submit" data-toggle="tooltip" data-placement="top" title="Clear Search" onclick="document.getElementById('search-concert').value='';"><i class="fas fa-times fa-lg"></i></button>
                                     </div>
                                      <!--end of col-->
@@ -66,86 +102,52 @@
                     <br>
                     <!-- content for all concerts tab -->
                     {% if concerts %}
-                        {% if user.pretty_mode %}       <!-- Pretty Mode -->
-                            <div class="row">
-                                {% for concert in concerts %}
-                                    <div class="col-12 col-md-6 col-lg-4 mt">
-                                        <div class="tile-container" id ="hint{{forloop.counter}}">
-                                            <div class="tile">
-                                                <div class="tile-front tilefront" style="background-image: url({{ concert.image.url }});">
-                                                    <div class="bottom-left">
-                                                        <p>
+                        <div class="row">
+                            {% for concert in concerts %}
+                                <div class="col-12 col-md-6 col-lg-4 mt">
+                                    <div class="tile-container" id ="hint{{forloop.counter}}">
+                                        <div class="tile">
+                                            <div class="tile-front" style="background-image: url({{ concert.image.url }}); background-size: cover; background-position: center;">
+                                                <div class="bottom-left">
+                                                    <p>
+                                                        {{ concert.artist }}
+                                                        <br>
+                                                        {{ concert.venue.venue_name }}
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            <div class="tile-back" style=" background-image: url({{ concert.image.url }}); background-size: cover; background-position: center;">
+                                                <div class ="center-white-bg"style="background-color: rgba(256, 256, 256, 0.93);width:100%; height:340px; border-radius: 10%;">
+                                                    <div class ="center">
+                                                        <h6>
                                                             {{ concert.artist }}
                                                             <br>
-                                                            {{ concert.venue.venue_name }}
-                                                        </p>
-                                                    </div>
-                                                </div>
-
-                                                <div class="tile-back" style=" background-image: url({{ concert.image.url }}); background-size: cover; background-position: center;">
-                                                    <div class ="center-white-bg tileback">
-                                                        <div class ="center">
-                                                            <h6>
-                                                                {{ concert.artist }}
-                                                                <br>
-                                                                {{ concert.venue.venue_name }}, {{ concert.venue.location }}
-                                                                <br>
-                                                                {{ concert.date }}
-                                                                <br>
-                                                                {{ concert.start_time }} - {{ concert.end_time }}
-                                                                <br>
-                                                            </h6>
+                                                            {{ concert.venue.venue_name }}, {{ concert.venue.location }}
                                                             <br>
+                                                            {{ concert.date }}
+                                                            <br>
+                                                            {{ concert.start_time }} - {{ concert.end_time }}
+                                                            <br>
+                                                        </h6>
+                                                        <br>
                                                         
                                                         {% if not user.is_venue %}
                                                             <a href="{% url 'view' concert.concertID %}"><button class="btn btn-outline-dark">View</button></a>
-                                                                <button class="btn btn-success" id="bookmarkButton" onclick="bookmark({{ concert.concertID }}, true)" data-url='{% url "getconcert" 1 %}'>Bookmark</button>
+                                                            <button class="btn btn-success" onclick="bookmark({{ concert.concertID }})">Bookmark</button>
                                                         {% else %}
                                                             <div class="lonely-view-button">
                                                                 <a href="{% url 'view' concert.concertID %}"><button class="btn btn-outline-dark">View</button></a>
                                                             </div>
                                                         {% endif %}
-                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div>                          
                                         </div>
                                     </div>
-                                {% endfor %}
-                            </div>
-                        {% else %}                      <!-- Compact Mode -->
-                            <div>
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Artist</th>
-                                            <th scope="col" colspan="2">Location</th>
-                                            <th scope="col">Date</th>
-                                            <th scope="col">Time</th>
-                                            <th scope="col" colspan="2">Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {% for concert in concerts %}
-                                            <tr>
-                                                <td>{{ concert.artist }}</td>
-                                                <td colspan="2">{{ concert.venue.venue_name }}, {{ concert.venue.location }}</td>
-                                                <td>{{ concert.date }}</td>
-                                                <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
-                                                <td colspan="2">
-                                                    <a href="{% url 'view' concert.concertID %}">
-                                                        <button class="btn btn-outline-dark">View</button>
-                                                    </a>
-                                                    {% if not user.is_venue %}
-                                                        &nbsp<button class="btn btn-success" id="bookmarkButton" onclick="bookmark({{ concert.concertID }}, false)" data-url='{% url "getconcert" 1 %}'>Bookmark</button>
-                                                    {% endif %}
-                                                </td>
-                                            </tr>
-                                        {% endfor %}
-                                    </tbody>
-                                </table>
-                            </div>
-                        {% endif %}
+                                </div>
+                            {% endfor %}
+                        </div>
                     {% else %}
                         <strong>There are currently no concerts with those search fields</strong>
                     {% endif %}  
@@ -154,365 +156,212 @@
                 <div class="tab-pane fade" id="upcoming" role="tabpanel" aria-labelledby="upcoming-tab">
                     <!-- upcoming concerts for venues -->
                     {% if user.is_venue %}
-                        {% if user.pretty_mode %}       <!-- Pretty Mode -->
-                                <div class="row">
-                                    {% if user.venue.concert %}
-                                        {% for concert in user.venue.concert.all %}
-                                            {% if concert.is_future %}
-                                                <div class="col-12 col-md-6 col-lg-4 mt">
-                                                    <div class="tile-container">
-                                                        <div class="tile">
-                                                            <div class="tile-front tilefront" style="background-image: url({{ concert.image.url }}); "">
-                                                                <div class="bottom-left">
-                                                                    <p>
-                                                                        {{ concert.artist }}
-                                                                        <br>
-                                                                        {{ concert.venue.venue_name }}
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="tile-back" style=" background-image: url({{ concert.image.url }}); background-size: cover; background-position: center;">
-                                                                <div class ="center-white-bg tileback">
-                                                                    <div class ="center">
-                                                                        <h6>
-                                                                            {{ concert.artist }}
-                                                                            <br>
-                                                                            {{ concert.venue.venue_name }}, {{ concert.venue.location }}
-                                                                            <br>
-                                                                            {{ concert.date }}
-                                                                            <br>
-                                                                            {{ concert.start_time }} - {{ concert.end_time }}
-                                                                            <br>
-                                                                        </h6>
-                                                                        <br>
-
-                                                                        <div class="row">
-                                                                            <a href="{% url 'view' concert.concertID %}" style="padding-right: 3px">
-                                                                                <button class="btn btn-outline-dark">View</button>
-                                                                            </a>
-                                                                            <a href="{% url 'edit' concert.concertID %}" style="padding-right: 3px">
-                                                                                <button class="button btn button-blue button-bordered btn-primary">Edit</button>
-                                                                            </a>
-                                                                            <form action="{% url 'delete' concert.concertID%}" method="post">
-                                                                                {% csrf_token %}
-                                                                                <button class="btn-danger btn" type="submit" onclick="deleteconcert()">Delete</button>
-                                                                            </form>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
+                        <div class="row">
+                            {% if user.venue.concert %}
+                                {% for concert in user.venue.concert.all %}
+                                    {% if concert.is_future %}
+                                        <div class="col-12 col-md-6 col-lg-4 mt">
+                                            <div class="tile-container">
+                                                <div class="tile">
+                                                    <div class="tile-front" style="background-image: url({{ concert.image.url }}); background-size: cover; background-position: center;">
+                                                        <div class="bottom-left">
+                                                            <p>
+                                                                {{ concert.artist }}
+                                                                <br>
+                                                                {{ concert.venue.venue_name }}
+                                                            </p>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            {% endif %}
-                                        {% endfor %}
-                                    {% endif %}  
-                                </div>
-                        {% else %}                      <!-- Compact Mode -->
-                            <div>
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Artist</th>
-                                            <th scope="col">Location</th>
-                                            <th scope="col">Date</th>
-                                            <th scope="col">Time</th>
-                                            <th scope="col" colspan="2">Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {% if user.venue.concert %}
-                                            {% for concert in user.venue.concert.all %}
-                                                {% if concert.is_future %}
-                                                    <tr>
-                                                        <td>{{ concert.artist }}</td>
-                                                        <td>{{ concert.venue.location }}</td>
-                                                        <td>{{ concert.date }}</td>
-                                                        <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
-                                                        <td colspan="2">
-                                                            <a href="{% url 'view' concert.concertID %}">
-                                                                <button class="btn btn-outline-info">View</button>
-                                                            </a>&nbsp
-                                                            <a href="{% url 'edit' concert.concertID%}">
-                                                                <button class="button btn button-blue button-bordered btn-primary">Edit</button>
-                                                            </a>&nbsp
-                                                            <form action="{% url 'delete' concert.concertID%}" method="post" style="display: inline;">
-                                                                {% csrf_token %}
-                                                                <button class="btn-danger btn" type="submit" onclick="deleteconcert()">Delete</button>
-                                                            </form>
-                                                        </td>
-                                                    </tr>
-                                                {% endif %}
-                                            {% endfor %}
-                                        {% endif %}
-                                    </tbody>
-                                </table>
-                            </div>
-                        {% endif %}
-                    {% else %} 
-                        <!-- upcoming concerts for Giggoers-->
-                        {% if user.pretty_mode %}       <!-- Pretty Mode -->
-                            <div class="row" id = "futureevents">
-                                {% if user.giggoer.bookmarks %}
-                                    {% for concert in user.giggoer.bookmarks.all %}
-                                        {% if concert.is_future %}
-                                            <div class="col-12 col-md-6 col-lg-4 mt">
-                                                <div class="tile-container">
-                                                    <div class="tile">
-                                                        <div class="tile-front tilefront" style="background-image: url({{ concert.image.url }});">
-                                                            <div class="bottom-left">
-                                                                <p>
+
+                                                    <div class="tile-back" style=" background-image: url({{ concert.image.url }}); background-size: cover; background-position: center;">
+                                                        <div class ="center-white-bg"style="background-color: rgba(256, 256, 256, 0.93);width:100%; height:340px; border-radius: 10%;">
+                                                            <div class ="center">
+                                                                <h6>
                                                                     {{ concert.artist }}
                                                                     <br>
-                                                                    {{ concert.venue.venue_name }}
-                                                                </p>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="tile-back" style=" background-image: url({{ concert.image.url }}); background-size: cover; background-position: center;">
-                                                            <div class ="center-white-bg tileback">
-                                                                <div class ="center">
-                                                                    <h6>
-                                                                        {{ concert.artist }}
-                                                                        <br>
-                                                                        {{ concert.venue.venue_name }}, {{ concert.venue.location }}
-                                                                        <br>
-                                                                        {{ concert.date }}
-                                                                        <br>
-                                                                        {{ concert.start_time }} - {{ concert.end_time }}
-                                                                        <br>
-                                                                    </h6>
+                                                                    {{ concert.venue.venue_name }}, {{ concert.venue.location }}
                                                                     <br>
-                                                                    <a href="{% url 'view' concert.concertID %}"><button class="btn btn-outline-dark">View</button></a>
-                                                                    <button class="btn btn-danger" onclick = "removebookmark({{ concert.concertID}});hideparent(this, true);" >Remove Bookmark</button>
+                                                                    {{ concert.date }}
+                                                                    <br>
+                                                                    {{ concert.start_time }} - {{ concert.end_time }}
+                                                                    <br>
+                                                                </h6>
+                                                                <br>
+                                                                
+                                                                <div class="row">
+                                                                    <a href="{% url 'view' concert.concertID %}" style="padding-right: 3px">
+                                                                        <button class="btn btn-outline-dark">View</button>
+                                                                    </a>
+                                                                    <a href="{% url 'edit' concert.concertID %}" style="padding-right: 3px">
+                                                                        <button class="button btn button-blue button-bordered btn-primary">Edit</button>
+                                                                    </a>
+                                                                    <form action="{% url 'delete' concert.concertID%}" method="post">
+                                                                        {% csrf_token %}
+                                                                        <button class = "btn-danger btn "type="submit" >Delete</button>
+                                                                    </form>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    </div>                          
                                                 </div>
                                             </div>
-                                        {% endif %}
-                                    {% endfor %}
-                                {% endif %}
-                            </div>
-                        {% else %}                      <!-- Compact Mode -->
-                            <div>
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Artist</th>
-                                            <th scope="col" colspan="2">Location</th>
-                                            <th scope="col">Date</th>
-                                            <th scope="col">Time</th>
-                                            <th scope="col" colspan="2">Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id = "futureevents">
-                                        {% if user.giggoer.bookmarks %}
-                                            {% for concert in user.giggoer.bookmarks.all %}
-                                                {% if concert.is_future %}
-                                                    <tr>
-                                                        <td>{{ concert.artist }}</td>
-                                                        <td colspan="2">{{ concert.venue.venue_name }}, {{ concert.venue.location }}</td>
-                                                        <td>{{ concert.date }}</td>
-                                                        <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
-                                                        <td colspan="2">
-                                                            <a href="{% url 'view' concert.concertID %}"><button class="btn btn-outline-dark">View</button></a>
-                                                            <button class="btn btn-danger" onclick = "removebookmark({{ concert.concertID}});hideparent(this, false);" >Remove Bookmark</button>
-                                                        </td>
-                                                    </tr>
-                                                {% endif %}
-                                            {% endfor %}
-                                        {% endif %}
-                                    </tbody>
-                                </table>
-                            </div>
-                        {% endif %} 
+                                        </div>
+                                    {% endif %}   
+                                {% endfor %}
+                            {% endif %}  
+                        </div>
+                    {% else %} 
+                        <!-- upcoming concerts for Giggoers--->
+                        <div class="row" id = "futureevents">
+                            {% if user.giggoer.bookmarks %}
+                                {% for concert in user.giggoer.bookmarks.all %}
+                                    {% if concert.is_future %}
+                                        <div class="col-12 col-md-6 col-lg-4 mt">
+                                            <div class="tile-container">
+                                                <div class="tile">
+                                                    <div class="tile-front" style="background-image: url({{ concert.image.url }}); background-size: cover; background-position: center;">
+                                                        <div class="bottom-left">
+                                                            <p>
+                                                                {{ concert.artist }}
+                                                                <br>
+                                                                {{ concert.venue.venue_name }}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="tile-back" style=" background-image: url({{ concert.image.url }}); background-size: cover; background-position: center;">
+                                                        <div class ="center-white-bg"style="background-color: rgba(256, 256, 256, 0.93);width:100%; height:340px; border-radius: 10%;">
+                                                            <div class ="center">
+                                                                <h6>
+                                                                    {{ concert.artist }}
+                                                                    <br>
+                                                                    {{ concert.venue.venue_name }}, {{ concert.venue.location }}
+                                                                    <br>
+                                                                    {{ concert.date }}
+                                                                    <br>
+                                                                    {{ concert.start_time }} - {{ concert.end_time }}
+                                                                    <br>
+                                                                </h6>
+                                                                <br>
+                                                                <a href="{% url 'view' concert.concertID %}"><button class="btn btn-outline-dark">View</button></a>
+                                                                <button class="btn btn-danger" onclick = "removebookmark({{ concert.concertID}});hideparent(this);" >Remove Bookmark</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>                          
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        </div>
                     {% endif %} 
                 </div>
 
                 <div class="tab-pane fade" id="past" role="tabpanel" aria-labelledby="past-tab">
                     <!-- past concerts for venues -->
                     {% if user.is_venue %}
-                        {% if user.pretty_mode %}       <!-- Pretty Mode -->
-                            <div class="row">
-                                {% if user.venue.concert %}
-                                    {% for concert in user.venue.concert.all %}
-                                        {% if not concert.is_future %}
-                                            <div class="col-12 col-md-6 col-lg-4 mt">
-                                                <div class="tile-container">
-                                                    <div class="tile">
-                                                        <div class="tile-front tilefront" style="background-image: url({{ concert.image.url }});">
-                                                            <div class="bottom-left">
-                                                                <p>
+                        <div class="row">
+                            {% if user.venue.concert %}
+                                {% for concert in user.venue.concert.all %}
+                                    {% if not concert.is_future %}
+                                        <div class="col-12 col-md-6 col-lg-4 mt">
+                                            <div class="tile-container">
+                                                <div class="tile">
+                                                    <div class="tile-front" style="background-image: url({{ concert.image.url }}); background-size: cover; background-position: center;">
+                                                        <div class="bottom-left">
+                                                            <p>
+                                                                {{ concert.artist }}
+                                                                <br>
+                                                                {{ concert.venue.venue_name }}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="tile-back" style=" background-image: url({{ concert.image.url }}); background-size: cover; background-position: center;">
+                                                        <div class ="center-white-bg"style="background-color: rgba(256, 256, 256, 0.93);width:100%; height:340px; border-radius: 10%;">
+                                                            <div class ="center">
+                                                                <h6>
                                                                     {{ concert.artist }}
                                                                     <br>
-                                                                    {{ concert.venue.venue_name }}
-                                                                </p>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="tile-back" style=" background-image: url({{ concert.image.url }}); background-size: cover; background-position: center;">
-                                                            <div class ="center-white-bg tileback">
-                                                                <div class ="center">
-                                                                    <h6>
-                                                                        {{ concert.artist }}
-                                                                        <br>
-                                                                        {{ concert.venue.venue_name }}, {{ concert.venue.location }}
-                                                                        <br>
-                                                                        {{ concert.date }}
-                                                                        <br>
-                                                                        {{ concert.start_time }} - {{ concert.end_time }}
-                                                                        <br>
-                                                                    </h6>
+                                                                    {{ concert.venue.venue_name }}, {{ concert.venue.location }}
                                                                     <br>
-                                                                    <div class="row">
-                                                                        <a href="{% url 'view' concert.concertID %}" style="padding-right: 3px">
-                                                                            <button class="btn btn-outline-dark">View</button>
-                                                                        </a>
-                                                                        <a href="{% url 'edit' concert.concertID %}" style="padding-right: 3px">
-                                                                            <button class="button btn button-blue button-bordered btn-primary">Edit</button>
-                                                                        </a>
-                                                                        <form action="{% url 'delete' concert.concertID %}" method="post">
-                                                                            {% csrf_token %}
-                                                                            <button class="btn-danger btn" type="submit" onclick="deleteconcert()">Delete</button>
-                                                                        </form>
-                                                                    </div>
+                                                                    {{ concert.date }}
+                                                                    <br>
+                                                                    {{ concert.start_time }} - {{ concert.end_time }}
+                                                                    <br>
+                                                                </h6>
+                                                                <br>
+
+                                                                <div class="row">
+                                                                    <a href="{% url 'view' concert.concertID %}" style="padding-right: 3px">
+                                                                        <button class="btn btn-outline-dark">View</button>
+                                                                    </a>
+                                                                    <a href="{% url 'edit' concert.concertID %}" style="padding-right: 3px">
+                                                                        <button class="button btn button-blue button-bordered btn-primary">Edit</button>
+                                                                    </a>
+                                                                    <form action="{% url 'delete' concert.concertID%}" method="post">
+                                                                        {% csrf_token %}
+                                                                        <button class = "btn-danger btn "type="submit" >Delete</button>
+                                                                    </form>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    </div>                          
                                                 </div>
                                             </div>
-                                        {% endif %}
-                                    {% endfor %}
-                                {% endif %}  
-                            </div>
-                        {% else %}                      <!-- Compact Mode -->
-                            <div>
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Artist</th>
-                                            <th scope="col">Location</th>
-                                            <th scope="col">Date</th>
-                                            <th scope="col">Time</th>
-                                            <th scope="col" colspan="2">Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {% if user.venue.concert %}
-                                            {% for concert in user.venue.concert.all %}
-                                                {% if not concert.is_future %}
-                                                    <tr>
-                                                        <td>{{ concert.artist }}</td>
-                                                        <td>{{ concert.venue.location }}</td>
-                                                        <td>{{ concert.date }}</td>
-                                                        <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
-                                                        <td colspan="2">
-                                                            <a href="{% url 'view' concert.concertID %}">
-                                                                <button class="btn btn-outline-dark">View</button>
-                                                            </a>&nbsp
-                                                            <a href="{% url 'edit' concert.concertID%}">
-                                                                <button class="button btn button-blue button-bordered btn-primary">Edit</button>
-                                                            </a>&nbsp
-                                                            <form action="{% url 'delete' concert.concertID%}" method="post" style="display: inline;">
-                                                                {% csrf_token %}
-                                                                <button class="btn-danger btn" type="submit" onclick="deleteconcert()">Delete</button>
-                                                            </form>
-                                                        </td>
-                                                    </tr>
-                                                {% endif %}
-                                            {% endfor %}
-                                        {% endif %}
-                                    </tbody>
-                                </table>
-                            </div>
-                        {% endif %} 
+                                        </div>
+                                    {% endif %}   
+                                {% endfor %}
+                            {% endif %}  
+                        </div>
                     {% else %}
-                        <!-- past concerts for Giggoers-->
-                        {% if user.pretty_mode %}       <!-- Pretty Mode -->
-                            <div class="row" id = "pastevents">
-                                {% if user.giggoer.bookmarks %}
-                                    {% for concert in user.giggoer.bookmarks.all %}
-                                        {% if not concert.is_future %}
-                                            <div class="col-12 col-md-6 col-lg-4 mt">
-                                                <div class="tile-container">
-                                                    <div class="tile">
-                                                        <div class="tile-front tilefront" style="background-image: url({{ concert.image.url }});">
-                                                            <div class="bottom-left">
-                                                                <p>
-                                                                    {{ concert.artist }}
-                                                                    <br>
-                                                                    {{ concert.venue.venue_name }}
-                                                                </p>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="tile-back" style=" background-image: url({{ concert.image.url }}); background-size: cover; background-position: center;">
-                                                            <div class ="center-white-bg tileback">
-                                                                <div class ="center">
-                                                                    <h6>
-                                                                        {{ concert.artist }}
-                                                                        <br>
-                                                                        {{ concert.venue.venue_name }}, {{ concert.venue.location }}
-                                                                        <br>
-                                                                        {{ concert.date }}
-                                                                        <br>
-                                                                        {{ concert.start_time }} - {{ concert.end_time }}
-                                                                        <br>
-                                                                    </h6>
-                                                                    <br>
-                                                                    <a href="{% url 'view' concert.concertID %}"><button class="btn btn-outline-dark">View</button></a>
-                                                                    {% if user.is_authenticated %}
-                                                                        <button class="btn btn-danger" onclick = "removebookmark({{ concert.concertID}});hideparent(this, true);" >Remove Bookmark</button>
-                                                                    {% endif %}
-                                                                </div>
-                                                            </div>
+                        <!-- past concerts for Giggoers--->
+                        <div class="row" id = "pastevents">
+                            {% if user.giggoer.bookmarks %}
+                                {% for concert in user.giggoer.bookmarks.all %}
+                                    {% if not concert.is_future %}
+                                        <div class="col-12 col-md-6 col-lg-4 mt">
+                                            <div class="tile-container">
+                                                <div class="tile">
+                                                    <div class="tile-front" style="background-image: url({{ concert.image.url }}); background-size: cover; background-position: center;">
+                                                        <div class="bottom-left">
+                                                            <p>
+                                                                {{ concert.artist }}
+                                                                <br>
+                                                                {{ concert.venue.venue_name }}
+                                                            </p>
                                                         </div>
                                                     </div>
+
+                                                    <div class="tile-back" style=" background-image: url({{ concert.image.url }}); background-size: cover; background-position: center;">
+                                                        <div class ="center-white-bg"style="background-color: rgba(256, 256, 256, 0.93);width:100%; height:340px; border-radius: 10%;">
+                                                            <div class ="center">
+                                                                <h6>
+                                                                    {{ concert.artist }}
+                                                                    <br>
+                                                                    {{ concert.venue.venue_name }}, {{ concert.venue.location }}
+                                                                    <br>
+                                                                    {{ concert.date }}
+                                                                    <br>
+                                                                    {{ concert.start_time }} - {{ concert.end_time }}
+                                                                    <br>
+                                                                </h6>
+                                                                <br>
+                                                                <a href="{% url 'view' concert.concertID %}"><button class="btn btn-outline-dark">View</button></a>
+                                                                {% if user.is_authenticated %}
+                                                                    <button class="btn btn-danger" onclick = "removebookmark({{ concert.concertID}});hideparent(this);" >Remove Bookmark</button>
+                                                                {% endif %}
+                                                            </div>
+                                                        </div>
+                                                    </div>                          
                                                 </div>
                                             </div>
-                                        {% endif %}
-                                    {% endfor %}
-                                {% endif %}  
-                            </div>
-                        {% else %}                      <!-- Compact Mode -->
-                            <div>
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Artist</th>
-                                            <th scope="col" colspan="2">Location</th>
-                                            <th scope="col">Date</th>
-                                            <th scope="col">Time</th>
-                                            <th scope="col" colspan="2">Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id = "pastevents">
-                                        {% if user.giggoer.bookmarks %}
-                                            {% for concert in user.giggoer.bookmarks.all %}
-                                                {% if not concert.is_future %}
-                                                    <tr>
-                                                        <td>{{ concert.artist }}</td>
-                                                        <td colspan="2">{{ concert.venue.venue_name }}, {{ concert.venue.location }}</td>
-                                                        <td>{{ concert.date }}</td>
-                                                        <td>{{ concert.start_time }} - {{ concert.end_time }}</td>
-                                                        <td colspan="2">
-                                                            <a href="{% url 'view' concert.concertID %}"><button class="btn btn-outline-dark">View</button></a>
-                                                            {% if user.is_authenticated %}
-                                                                <button class="btn btn-danger" onclick = "removebookmark({{ concert.concertID}});hideparent(this, false);" >Remove Bookmark</button>
-                                                            {% endif %}
-                                                        </td>
-                                                    </tr>
-                                                {% endif %}
-                                            {% endfor %}
-                                        {% endif %}
-                                    </tbody>
-                                </table>
-                            </div>
-                        {% endif %} 
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}  
+                        </div>
                     {% endif %} 
                 </div>
             </div>
@@ -522,30 +371,73 @@
                 <div class="col-12 col-md-12 col-lg-12">
                     <form method="GET" action="">
                         <div class="row no-gutters align-items-center">
-                            <div class="col-auto mr">
+                            <div class="col-auto" style="margin-right: 0.3%">
                                 <button class="btn btn-lg btn-outline-dark dropdown-toggle" type="button" data-toggle="dropdown"><i class="fas fa-filter"></i></button>
-                                <ul class="dropdown-menu" role="menu">
-                                    <span class="dropdown-item-text">some filters</span>
-                                    <div class="dropdown-divider"></div>
-                                    <span class="dropdown-item-text">will go</span>
-                                    <div class="dropdown-divider"></div>
-                                    <span class="dropdown-item-text">here maybe</span>
-                                </ul>
-                            </div>
+                               
+										
+											
+
+											<ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
+
+												<li class="dropdown-submenu">
+												<a  class="dropdown-item" tabindex="-1" href="#">Dates</a>
+												<ul class="dropdown-menu">
+													<button class="btn btn-lg" type="submit" data-toggle="tooltip" data-placement="top" title="January" onclick="document.getElementById('search-concert').value='January';"><p>January</p></button>
+													<button class="btn btn-lg" type="submit" data-toggle="tooltip" data-placement="top" title="February" onclick="document.getElementById('search-concert').value='February';"><p>February</p></button>
+													<button class="btn btn-lg" type="submit" data-toggle="tooltip" data-placement="top" title="March" onclick="document.getElementById('search-concert').value='March';"><p>March</p></button>
+													<button class="btn btn-lg" type="submit" data-toggle="tooltip" data-placement="top" title="April" onclick="document.getElementById('search-concert').value='April';"><p>April	</p></button>
+													<button class="btn btn-lg" type="submit" data-toggle="tooltip" data-placement="top" title="May" onclick="document.getElementById('search-concert').value='May';"><p>May</p></button>
+													<button class="btn btn-lg" type="submit" data-toggle="tooltip" data-placement="top" title="June" onclick="document.getElementById('search-concert').value='June';"><p>June		</p></button>
+													<button class="btn btn-lg" type="submit" data-toggle="tooltip" data-placement="top" title="July" onclick="document.getElementById('search-concert').value='July';"><p>July</p></button>
+													<button class="btn btn-lg" type="submit" data-toggle="tooltip" data-placement="top" title="August" onclick="document.getElementById('search-concert').value='August';"><p>August</p></button>
+													<button class="btn btn-lg" type="submit" data-toggle="tooltip" data-placement="top" title="September" onclick="document.getElementById('search-concert').value='September';"><p>September</p></button>
+													<button class="btn btn-lg" type="submit" data-toggle="tooltip" data-placement="top" title="October" onclick="document.getElementById('search-concert').value='October';"><p>October</p></button>
+													<button class="btn btn-lg" type="submit" data-toggle="tooltip" data-placement="top" title="November" onclick="document.getElementById('search-concert').value='November';"><p>November</p></button>
+													<button class="btn btn-lg" type="submit" data-toggle="tooltip" data-placement="top" title="December" onclick="document.getElementById('search-concert').value='December';"><p>December</p></button>
+												</ul>
+												</li>
+												
+												<!--
+												<li class="dropdown-submenu">
+												<a  class="dropdown-item" tabindex="-1" href="#">Popular venues</a>
+												<ul class="dropdown-menu">
+													<button class="btn btn-lg" type="submit" data-toggle="tooltip" data-placement="top" title="SEC" onclick="document.getElementById('search-concert').value='SEC Armadillo';"><p>SEC Armadillo</p></button>
+													<button class="btn btn-lg" type="submit" data-toggle="tooltip" data-placement="top" title="SSE" onclick="document.getElementById('search-concert').value='SSE Hydro';"><p>SSE Hydro</p></button>
+												</ul>
+												</li> 
+												-->
+												
+												<li class="dropdown-submenu">
+												<a  class="dropdown-item" tabindex="-1" href="#">Popular venues</a>
+												<ul class="dropdown-menu">
+													{% for place in popular_venues %}
+														<button class="btn btn-lg" type="submit" data-toggle="tooltip" data-placement="top" title='{{ place }}' onclick="document.getElementById('search-concert').value='{{ place }}';"><p>{{ place }}</p></button>
+													{% endfor %}
+												</ul>
+												</li>
+												
+												<div class="dropdown-divider"></div>
+												<button class="btn btn-lg" type="submit" data-toggle="tooltip" data-placement="top" title="Past" onclick="document.getElementById('search-concert').value='date_past';"><p>Past</p></button>
+												<div class="dropdown-divider"></div>
+												<button class="btn btn-lg" type="submit" data-toggle="tooltip" data-placement="top" title="All" onclick="document.getElementById('search-concert').value='All concerts';"><p>All Concerts</p></button>
+											</ul>
+																					
+									</div>
+
                             <!--end of col-->
-                            <div class="col mr">
+                            <div class="col">
                                 <input class="form-control form-control-lg form-control-borderless" id="search-concert" type="text" name="q" placeholder="Search Events" value="{{ request.GET.q }}">
                             </div>
                             <!--end of col-->
-                            <div class="col-auto mr">
+                            <div class="col-auto" style="margin-right: 0.3%">
                                 <button class="btn btn-lg btn-success" type="submit" data-toggle="tooltip" data-placement="top" title="Search"><i class="fas fa-search"></i></button>
                             </div>
                             <!--end of col-->
-                            <div class="col-auto mr">
-                                <button class="btn btn-lg btn-info" type="submit" data-toggle="tooltip" data-placement="top" title="Search by Location" onclick="document.getElementById('search-concert').value='{{ location.city }}';"><i class="fas fa-location-arrow"></i></button>
+                            <div class="col-auto" style="margin-right: 0.3%">
+                                <button class="btn btn-lg btn-info" type="submit" data-toggle="tooltip" data-placement="top" title="Search by Location" onclick="document.getElementById('search-concert').value='{{ location.city}}';"><i class="fas fa-location-arrow"></i></button>
                             </div>
                             <!-- end of col -->
-                            <div class="col-auto mr">
+                            <div class="col-auto" style="margin-right: 0.3%">
                                 <button class="btn btn-lg btn-danger" type="submit" data-toggle="tooltip" data-placement="top" title="Clear Search" onclick="document.getElementById('search-concert').value='';"><i class="fas fa-times fa-lg"></i></button>
                             </div>
                             <!--end of col-->
@@ -561,7 +453,7 @@
                         <div class="col-12 col-md-6 col-lg-4 mt">
                             <div class="tile-container" id ="hint{{forloop.counter}}">
                                 <div class="tile">
-                                    <div class="tile-front tilefront" style="background-image: url({{ concert.image.url }});">
+                                    <div class="tile-front" style="background-image: url({{ concert.image.url }}); background-size: cover; background-position: center;">
                                         <div class="bottom-left">
                                             <p>
                                                 {{ concert.artist }}
@@ -571,8 +463,8 @@
                                         </div>
                                     </div>
 
-                                    <div class="tile-back" style="background-image: url({{ concert.image.url }}); background-size: cover; background-position: center;">
-                                        <div class ="center-white-bg tileback">
+                                    <div class="tile-back" style=" background-image: url({{ concert.image.url }}); background-size: cover; background-position: center;">
+                                        <div class ="center-white-bg"style="background-color: rgba(256, 256, 256, 0.93);width:100%; height:340px; border-radius: 10%;">
                                             <div class ="center">
                                                 <h6>
                                                     {{ concert.artist }}
@@ -586,22 +478,72 @@
                                                 </h6>
                                                 <br>
                                                 <div class="lonely-view-button">
-                                                	<a href="{% url 'view' concert.concertID %}"><button class="btn btn-outline-dark">View</button></a>
-                                            	</div>
+                                                    <a href="{% url 'view' concert.concertID %}"><button class="btn btn-outline-dark">View</button></a>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div>                          
                                 </div>
                             </div>
                         </div>
                     {% endfor %}
                 </div>
-            {% endif %}
+            {% endif %}     
         {% endif %}
-
-        <button class="btn btn-danger btn-lg" id="go-top" onclick="goTop()"><i class="fas fa-angle-up fa-lg"></i></button>
     </div>
 
-    <script src="{% static 'js/events.js' %}"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('html, body').animate({
+            'scrollTop' : $("#events_title").position().top
+            });
+            $('[data-toggle="tooltip"]').tooltip(); 
+        });
+
+        function removebookmark(concertid) {
+            $.get('/concert/removebookmark/', {concertid: concertid});
+            toastr.error('Bookmark removed!');
+        };
+
+        function hideparent(elem) {
+            $(elem).parent().parent().parent().parent().parent().parent().hide();
+        };
+
+        function bookmark(concertid) {
+            var $requesturl = '{% url "getconcert" 1%}'
+            $requesturl = $requesturl.replace('1',concertid);
+            var $button = '<button class="btn btn-outline-danger" onclick = "removebookmark(' +concertid+ ');hideparent(this);" >Remove Bookmark</button';
+        
+            //Now use AJAX to fetch the data for a the concert
+            $.ajax({
+                url: $requesturl ,
+                type: 'GET',
+                async: false,
+                dataType: 'json',
+
+                success: function(res){
+                    //Depending on the date of the conert, append to appropiate table
+                    var $concerturl ='<a href="{% url "view" 1 %}">'
+                    $concerturl = $concerturl.replace('1',concertid);
+                    if (res[0].isfuture == "True") {
+                        $.each(res, function(i, item) {
+                            $('<div class="col-12 col-md-6 col-lg-4 mt">').append('<div class="tile-container"><div class="tile"><div class="tile-front" style="background-image: url( '+item.image+'); background-size: cover; background-position: center;"><div class="bottom-left"><p>'+item.artist+'<br>'+item.venuename+'</p></div></div><div class="tile-back" style=" background-image: url('+item.image+'); background-size: cover; background-position: center;"><div class ="center-white-bg"style="background-color: rgba(256, 256, 256, 0.93);width:100%; height:340px; border-radius: 10%;"> <div class ="center"><h6>'+item.artist+'<br>'+item.venuename+', '+item.location+'<br>'+item.date+'<br>'+item.starttime+' - '+item.endtime+'<br></h6>   <br> ' + $concerturl + ' <button class="btn btn-outline-dark">View</button></a>  <button class="btn btn-outline-danger" onclick = "removebookmark('+ concertid+');hideparent(this);" >Remove Bookmark</button></div></div></div></div></div>'
+                            ).appendTo('#futureevents');
+                        });
+                    } else {
+                        $.each(res, function(i, item) {
+                            $('<div class="col-12 col-md-6 col-lg-4 mt">').append('<div class="tile-container"><div class="tile"><div class="tile-front" style="background-image: url( '+item.image+'); background-size: cover; background-position: center;"><div class="bottom-left"><p>'+item.artist+'<br>'+item.venuename+'</p></div></div><div class="tile-back" style=" background-image: url('+item.image+'); background-size: cover; background-position: center;"><div class ="center-white-bg"style="background-color: rgba(256, 256, 256, 0.93);width:100%; height:340px; border-radius: 10%;"> <div class ="center"><h6>'+item.artist+'<br>'+item.venuename+', '+item.location+'<br>'+item.date+'<br>'+item.starttime+' - '+item.endtime+'<br></h6>   <br> ' + $concerturl + ' <button class="btn btn-outline-dark">View</button></a>  <button class="btn btn-outline-danger" onclick = "removebookmark('+ concertid+');hideparent(this);" >Remove Bookmark</button></div></div></div></div></div>'
+                            ).appendTo('#pastevents');
+                        });
+                    }
+                }
+            });
+            $.get('/concert/bookmark/', {concertid: concertid}); 
+            toastr.success('Concert bookmarked!');
+        };
+    </script>
     
 {% endblock %}
+
+
