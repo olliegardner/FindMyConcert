@@ -443,7 +443,7 @@ def postComment(request):
     return HttpResponse(json.dumps(payload), content_type='application/json')
 
 
-'''@requires_csrf_token
+@requires_csrf_token
 def postUserComment(request):
     #This view is used so that a comment can be posted using AJAX
 
@@ -474,7 +474,7 @@ def postUserComment(request):
 
         payload = {'success': "True", 'username':user.username, 'image':image}
 
-    return HttpResponse(json.dumps(payload), content_type='application/json')'''
+    return HttpResponse(json.dumps(payload), content_type='application/json')
 
 @login_required
 @giggoer_required

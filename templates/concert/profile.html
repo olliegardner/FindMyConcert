@@ -239,28 +239,46 @@
                     </div>
 
                     <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
-                    <br>
-                    <h2> Discussion</h2>
-                    <div class="col-md-6 col-md-offset-2 col-sm-12 col-lg-12">
-                        <!-- Comment input area start -->
-                       
-                            <textarea id = "commentbox" class="form-control" placeholder="write a comment..." rows="3"></textarea>
-                            <br>
+                        <br>
+                        <h2>Discussion</h2>
 
+                        <div class="col-md-6 col-md-offset-2 col-sm-12 col-lg-12">
+                            <!-- Comment input area start -->
+                            {% if user.is_authenticated %}
+                                <ul class="comments" id="allusercomments">
+                                    {% for profilecomment in user.profilecomment.all %}
+                                        <p> test </p>
+                                        <li class="media">
+                                            <a href="{% url 'profile' profilecomment.user.username %}" class="pull-left">
+                                                {% if profilecomment.profile.is_venue and comment.user.venue.image != "" %}
+                                                    <img src="{{ comment.user.venue.image.url }}" alt="Avatar" class="avatar">
+                                                {% elif not comment.user.is_venue and comment.user.giggoer.image != "" %}
+                                                    <img src="{{comment.user.giggoer.image.url }}" alt="Avatar" class="avatar">
+                                                {% else %}
+                                                    <i class="far fa-user fa-lg"></i>
+                                                {% endif %}
+                                            </a> <!-- Handle profile pic and wrap in link to profile -->
+
+
+                                            <div class="media-body"> <!-- Comment body starts here -->
+                                                <a href="{% url 'profile' comment.user.username %}"><strong class="text-success">&nbsp;&nbsp;{{comment.user.username}}</strong></a>
+                                                <p>&nbsp;{{ comment.text }}</p>
+                                            </div>
+                                        </li>
+                                    {% endfor %}       
+                                </ul>
+
+                            <textarea id = "commentbox" class="form-control" placeholder="Post a comment on this users profile..." rows="3"></textarea>
+                            <br>
+ 
                             <form method="post" class="left" id ="post-form">
                                 <meta name="csrf-token" content="{{ csrf_token }}">
-                                <button type="button" class="btn btn-info" id = "postcomment" data ="{{concert.concertID}}" data-url = "{% url 'postcomment' %}" >Post</button>
-                            </form>
-                                
-                           
-                        
-
-
-                            
+                                <button type="button" class="btn btn-info" id = "postusercomment" data ="{{user.username}}" data-url = "{% url 'postusercomment' %}" >Post</button>
+                            </form>    
                         </div>
-
                     </div>
 
+                
                     {% if selecteduser.username == user.username %}
                         <div class="tab-pane fade" id="v-pills-edit" role="tabpanel" aria-labelledby="v-pills-edit-tab">
                             <h3>Edit Profile</h3>
@@ -276,6 +294,11 @@
                     {% endif %}
                 </div>
              </div>
+        
+            {% else %}
+                <p class = "lead">Please sign in to see this user's discussion feed</p>
+        {% endif %}
+                         
         </div>
     </div>
 
