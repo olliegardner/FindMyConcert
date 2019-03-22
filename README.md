@@ -115,7 +115,12 @@ One issue is that these matrices are not automatically generated, so new users a
 ```
 python update_ratings.py
 ```
+### Compact Mode
 
+![Screenshot of compact mode](https://imgur.com/a/SmD7UVB)
+### Dark Mode
+
+![Screenshot of dark mode](https://imgur.com/a/FQDFIxB)
 ### External Sources
 * django 1.11.17 | https://www.djangoproject.com | backend as specified by project specification
 * django-crispy-forms | https://django-crispy-forms.readthedocs.io/en/latest/ | beautify forms in accordance to bootstrap
