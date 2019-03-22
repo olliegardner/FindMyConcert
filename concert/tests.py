@@ -4,8 +4,6 @@ from concert.models import User, GigGoer, Venue, Concert
 from django.core.files import File
 import os
 
-# test bookmarks, sign out, sign in, registration, test change email, test change image, edit user forms
-
 # all test cases for both the concert and venue app are contained within this file
 
 # all unit tests for giggoer users
@@ -179,25 +177,22 @@ class CommentTests(TestCase):
 
 
 class RatingTests(TestCase):
-    print("yo")
+    # add/remove ratings, average rating
 
 
 # all unit tests for concerts
 class ConcertTests(TestCase):
-
     def setUp(self):
         user = User.objects.create(username="venue1",  email="venue1@venue1.com", password="strongpass123", is_venue=True)
         user.save()
 
         venue = Venue.objects.create(user=user)
-        imgpath = os.path.join(os.getcwd(), 'static', 'images', 'default-pic' + ".png")
-        venue.image.save('default-pic', File(open(imgpath, 'rb')))
         venue.save()
 
-        concert = Concert.objects.create(artist="artist1", date="2020-10-10", start_time="20:00", end_time="22:00", url="http://www.exmaple.com", description="This is a description", spotify_URI="spotify", venue=venue)
+        giggoer = GigGoer.objects.create(user=user)
+        giggoer.save()
 
-        imgpath = os.path.join(os.getcwd(), 'static', 'images', "note.png")
-        concert.image.save('note', File(open(imgpath, 'rb')))
+        concert = Concert.objects.create(artist="artist1", date="2020-10-10", start_time="20:00", end_time="22:00", url="http://www.exmaple.com", description="This is a description", spotify_URI="spotify", venue=venue)
         concert.save()
 
     # tests if concert is created successfully
@@ -216,10 +211,25 @@ class ConcertTests(TestCase):
             concert = None
         self.assertEqual(concert, None)
 
+    # tests if a concert can be edited
     def test_edit_concert(self):
-        
+        concert = Concert.objects.get(concertID=1)
+        concert.description = "This is another description"
+        concert.save()
+        self.assertEqual(concert.description, "This is another description")
 
+    # tests if a concert can be bookmarked
     def test_bookmark_concert(self):
+        user = User.objects.get(username="venue1")
+        giggoer = GigGoer.objects.get(user=user)
+        concert = Concert.objects.get(concertID=1)
+        giggoer.bookmarks.add(concert)
+        self.assertIn(concert, giggoer.bookmarks.all())
 
+    # tests if a bookmarked concert can be removed
     def test_remove_bookmark_concert(self):
-
+        user = User.objects.get(username="venue1")
+        giggoer = GigGoer.objects.get(user=user)
+        concert = Concert.objects.get(concertID=1)
+        giggoer.bookmarks.remove(concert)
+        self.assertFalse(concert in giggoer.bookmarks.all())
