@@ -115,3 +115,4 @@ Now if you navigate to http://127.0.0.1:8000/ you should be greeted by a view wh
 * jQuery | https://jquery.com | javascript library for html document traversal and manipulation
 * Font Awesome | https://fontawesome.com | public domain icons
 * popper.js | https://popper.js.org | used to manage poppers on different pages
+* requests |

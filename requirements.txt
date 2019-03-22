@@ -5,3 +5,4 @@ pandas
 django-bootstrap-datepicker-plus
 scipy
 numpy
+requests
