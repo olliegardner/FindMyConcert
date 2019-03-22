@@ -11,6 +11,8 @@
         <link rel="stylesheet" type="text/css" href="{% static 'css/events.css' %}">
     {% endif %}
 
+    <link rel="stylesheet" type="text/css" href="{% static 'css/dropdown-submenu.css' %}">
+
     <div class="container">
         <br>
         <h1 class="display-4" id = "events_title">Events</h1>
@@ -64,45 +66,48 @@
                                 <div class="row no-gutters align-items-center">
                                     <div class="col-auto mr">
 									
-									<input type="submit" class="defaultsink" name="COMMAND" value="{{ request.GET.q }}" />
+									   <input type="submit" class="defaultsink" name="COMMAND" value="{{ request.GET.q }}" />
 									
                                         <button class="btn btn-lg btn-outline-dark dropdown-toggle" type="button" data-toggle="dropdown"><i class="fas fa-filter"></i></button>
 
                                         <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
                                             <li class="dropdown-submenu">
-                                            <a  class="dropdown-item" tabindex="-1" href="#">Dates</a>
-                                            <ul class="dropdown-menu">
-                                                <li><button class="dropdown-item" type="submit" onclick="document.getElementById('search-concert').value='January';">January</button></li>
-                                                <li><button class="dropdown-item" type="submit" onclick="document.getElementById('search-concert').value='February';">February</button></li>
-                                                <li><button class="dropdown-item" type="submit" onclick="document.getElementById('search-concert').value='March';">March</button></li>
-                                                <li><button class="dropdown-item" type="submit" onclick="document.getElementById('search-concert').value='April';">April</button></li>
-                                                <li><button class="dropdown-item" type="submit" onclick="document.getElementById('search-concert').value='May';">May</button></li>
-                                                <li><button class="dropdown-item" type="submit" onclick="document.getElementById('search-concert').value='June';">June</button></li>
-                                                <li><button class="dropdown-item" type="submit" onclick="document.getElementById('search-concert').value='July';">July</button></li>
-                                                <li><button class="dropdown-item" type="submit" onclick="document.getElementById('search-concert').value='August';">August</button></li>
-                                                <li><button class="dropdown-item" type="submit" onclick="document.getElementById('search-concert').value='September';">September</button></li>
-                                                <li><button class="dropdown-item" type="submit" onclick="document.getElementById('search-concert').value='October';">October</button></li>
-                                                <li><button class="dropdown-item" type="submit" onclick="document.getElementById('search-concert').value='November';">November</button></li>
-                                                <li><button class="dropdown-item" type="submit" onclick="document.getElementById('search-concert').value='December';">December</button></li>
-                                            </ul>
-                                            </li>
-                                           
-                                           
-                                            <li class="dropdown-submenu">
-                                            <a  class="dropdown-item" tabindex="-1" href="#">Popular venues</a>
-                                            <ul class="dropdown-menu">
-                                                {% for place in popular_venues %}
-                                                    <li><button class="dropdown-item" type="submit" onclick="document.getElementById('search-concert').value='{{ place }}';">{{ place }}</button></li>
-                                                {% endfor %}
-                                            </ul>
+                                                <a class="dropdown-item" tabindex="-1" href="#">Month</a>
+                                                <ul class="dropdown-menu">
+                                                    <li><button class="dropdown-item" type="submit" onclick="document.getElementById('search-concert').value='January';">January</button></li>
+                                                    <li><button class="dropdown-item" type="submit" onclick="document.getElementById('search-concert').value='February';">February</button></li>
+                                                    <li><button class="dropdown-item" type="submit" onclick="document.getElementById('search-concert').value='March';">March</button></li>
+                                                    <li><button class="dropdown-item" type="submit" onclick="document.getElementById('search-concert').value='April';">April</button></li>
+                                                    <li><button class="dropdown-item" type="submit" onclick="document.getElementById('search-concert').value='May';">May</button></li>
+                                                    <li><button class="dropdown-item" type="submit" onclick="document.getElementById('search-concert').value='June';">June</button></li>
+                                                    <li><button class="dropdown-item" type="submit" onclick="document.getElementById('search-concert').value='July';">July</button></li>
+                                                    <li><button class="dropdown-item" type="submit" onclick="document.getElementById('search-concert').value='August';">August</button></li>
+                                                    <li><button class="dropdown-item" type="submit" onclick="document.getElementById('search-concert').value='September';">September</button></li>
+                                                    <li><button class="dropdown-item" type="submit" onclick="document.getElementById('search-concert').value='October';">October</button></li>
+                                                    <li><button class="dropdown-item" type="submit" onclick="document.getElementById('search-concert').value='November';">November</button></li>
+                                                    <li><button class="dropdown-item" type="submit" onclick="document.getElementById('search-concert').value='December';">December</button></li>
+                                                </ul>
                                             </li>
                                            
                                             <div class="dropdown-divider"></div>
-                                            <button class="dropdown-item" type="submit" onclick="document.getElementById('search-concert').value='date_past';">Past Concerts</button>
-                                            <button class="dropdown-item" type="submit" onclick="document.getElementById('search-concert').value='All concerts';">All Concerts</button>
-                                        </ul>      
+                                           
+                                            <li class="dropdown-submenu">
+                                                <a class="dropdown-item" tabindex="-1" href="#">Popular</a>
+                                                <ul class="dropdown-menu">
+                                                    {% for place in popular_venues %}
+                                                        <li><button class="dropdown-item" type="submit" onclick="document.getElementById('search-concert').value='{{ place }}';">{{ place }}</button></li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </li>
+                                           
+                                            <div class="dropdown-divider"></div>
+                                            <li><button class="dropdown-item" type="submit" onclick="document.getElementById('search-concert').value='date_past';">Past Concerts</button></li>
+                                            <div class="dropdown-divider"></div>
+                                            <li><button class="dropdown-item" type="submit" onclick="document.getElementById('search-concert').value='All concerts';">All Concerts</button></li>
+                                        </ul>
                                     </div>
                                     <!--end of col-->
+
                                     <div class="col mr">
                                         <input class="form-control form-control-lg form-control-borderless" id="search-concert" type="text" name="q" placeholder="Search Events" value="{{ request.GET.q }}">
                                     </div>
@@ -630,39 +635,44 @@
                         <div class="row no-gutters align-items-center">
                             <div class="col-auto mr">
                                 <button class="btn btn-lg btn-outline-dark dropdown-toggle" type="button" data-toggle="dropdown"><i class="fas fa-filter"></i></button>
+								
+								<input type="submit" class="defaultsink" name="COMMAND" value="{{ request.GET.q }}" />
 
                                 <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
                                     <li class="dropdown-submenu">
-                                    <a  class="dropdown-item" tabindex="-1" href="#">Dates</a>
-                                    <ul class="dropdown-menu">
-                                        <li><button class="dropdown-item" type="submit" onclick="document.getElementById('search-concert').value='January';">January</button></li>
-                                        <li><button class="dropdown-item" type="submit" onclick="document.getElementById('search-concert').value='February';">February</button></li>
-                                        <li><button class="dropdown-item" type="submit" onclick="document.getElementById('search-concert').value='March';">March</button></li>
-                                        <li><button class="dropdown-item" type="submit" onclick="document.getElementById('search-concert').value='April';">April</button></li>
-                                        <li><button class="dropdown-item" type="submit" onclick="document.getElementById('search-concert').value='May';">May</button></li>
-                                        <li><button class="dropdown-item" type="submit" onclick="document.getElementById('search-concert').value='June';">June</button></li>
-                                        <li><button class="dropdown-item" type="submit" onclick="document.getElementById('search-concert').value='July';">July</button></li>
-                                        <li><button class="dropdown-item" type="submit" onclick="document.getElementById('search-concert').value='August';">August</button></li>
-                                        <li><button class="dropdown-item" type="submit" onclick="document.getElementById('search-concert').value='September';">September</button></li>
-                                        <li><button class="dropdown-item" type="submit" onclick="document.getElementById('search-concert').value='October';">October</button></li>
-                                        <li><button class="dropdown-item" type="submit" onclick="document.getElementById('search-concert').value='November';">November</button></li>
-                                        <li><button class="dropdown-item" type="submit" onclick="document.getElementById('search-concert').value='December';">December</button></li>
-                                    </ul>
-                                    </li>
-                                   
-                                    <li class="dropdown-submenu">
-                                    <a  class="dropdown-item" tabindex="-1" href="#">Popular venues</a>
-                                    <ul class="dropdown-menu">
-                                        {% for place in popular_venues %}
-                                            <li><button class="dropdown-item" type="submit" onclick="document.getElementById('search-concert').value='{{ place }}';">{{ place }}</button></li>
-                                        {% endfor %}
-                                    </ul>
+                                        <a class="dropdown-item" tabindex="-1" href="#">Month</a>
+                                        <ul class="dropdown-menu">
+                                            <li><button class="dropdown-item" type="submit" onclick="document.getElementById('search-concert').value='January';">January</button></li>
+                                            <li><button class="dropdown-item" type="submit" onclick="document.getElementById('search-concert').value='February';">February</button></li>
+                                            <li><button class="dropdown-item" type="submit" onclick="document.getElementById('search-concert').value='March';">March</button></li>
+                                            <li><button class="dropdown-item" type="submit" onclick="document.getElementById('search-concert').value='April';">April</button></li>
+                                            <li><button class="dropdown-item" type="submit" onclick="document.getElementById('search-concert').value='May';">May</button></li>
+                                            <li><button class="dropdown-item" type="submit" onclick="document.getElementById('search-concert').value='June';">June</button></li>
+                                            <li><button class="dropdown-item" type="submit" onclick="document.getElementById('search-concert').value='July';">July</button></li>
+                                            <li><button class="dropdown-item" type="submit" onclick="document.getElementById('search-concert').value='August';">August</button></li>
+                                            <li><button class="dropdown-item" type="submit" onclick="document.getElementById('search-concert').value='September';">September</button></li>
+                                            <li><button class="dropdown-item" type="submit" onclick="document.getElementById('search-concert').value='October';">October</button></li>
+                                            <li><button class="dropdown-item" type="submit" onclick="document.getElementById('search-concert').value='November';">November</button></li>
+                                            <li><button class="dropdown-item" type="submit" onclick="document.getElementById('search-concert').value='December';">December</button></li>
+                                        </ul>
                                     </li>
                                    
                                     <div class="dropdown-divider"></div>
-                                    <button class="dropdown-item" type="submit" onclick="document.getElementById('search-concert').value='date_past';">Past Concerts</button>
-                                    <button class="dropdown-item" type="submit" onclick="document.getElementById('search-concert').value='All concerts';">All Concerts</button>
-                                </ul>      
+                                   
+                                    <li class="dropdown-submenu">
+                                        <a class="dropdown-item" tabindex="-1" href="#">Popular</a>
+                                        <ul class="dropdown-menu">
+                                            {% for place in popular_venues %}
+                                                <li><button class="dropdown-item" type="submit" onclick="document.getElementById('search-concert').value='{{ place }}';">{{ place }}</button></li>
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+                                   
+                                    <div class="dropdown-divider"></div>
+                                    <li><button class="dropdown-item" type="submit" onclick="document.getElementById('search-concert').value='date_past';">Past Concerts</button></li>
+                                    <div class="dropdown-divider"></div>
+                                    <li><button class="dropdown-item" type="submit" onclick="document.getElementById('search-concert').value='All concerts';">All Concerts</button></li>
+                                </ul> 
                             </div>
                             <!--end of col-->
                             <div class="col mr">
