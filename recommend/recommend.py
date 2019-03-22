@@ -4,7 +4,8 @@ from concert.models import Concert
 """
 This was built by following instruction provided by Nick Becker
 Source: https://beckernick.github.io/matrix-factorization-recommender/
-        https://www.netflixprize.com/assets/GrandPrize2009_BPC_BellKor.pdf
+        http://www.cs.carleton.edu/cs_comps/0607/recommend/recommender/svd.html
+        
 
 """
 import os
@@ -30,11 +31,16 @@ class recommendationEngine:
         return ratings_matrix
 
     def check_user(self, user, ratings_matrix):
+
+        #If user is already in matrix, drop their old ratings
         if user.username in ratings_matrix.index.values:
             ratings_matrix = ratings_matrix.drop(index=user.username)
         
+        #Now add in the user and their newwest ratings
         ratings_matrix = ratings_matrix.reindex(ratings_matrix.index.values.tolist()+[user.username])
         ratings = []
+
+        #Loop through all the user's ratings and add mathcing ones to the ratings_matrix
         for artist in ratings_matrix.columns.values:
             for rating in user.rating.all():
                 if rating.concert.artist == artist:

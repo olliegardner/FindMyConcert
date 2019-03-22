@@ -98,6 +98,18 @@ Now if you navigate to http://127.0.0.1:8000/ you should be greeted by a view wh
 * Allows venues to add concerts which they are hosting
 ![Screenshot of add concert page](https://i.imgur.com/6tz2Vza.png)
 
+### The maths behind the discover page
+
+The Discover Page:
+
+The discover page recommends you artists which you have not yet bookmarked. It recommends these artists by correlating your ratings with other users who have rated concerts in a similar fashion as you.
+
+The recommender engine uses a mathematical operation called singular value matrix decomposition (henceforth SVD). All user ratings are stored in a  matrix where each row represents a unique user and each column represents a unique artist. Missing ratings (all occurrences where a user has not rated a user) are called latent factors. Most ratings in the matrix are latent factors, so the matrix is a sparse matrix.
+
+![Singular Value Decomposition](http://www.cs.carleton.edu/cs_comps/0607/recommend/recommender/images/svd2.png)
+
+In SVD the ratings matrix (x̂) is decomposed into three lower dimensional matrices. U is the matrix which represents the relationship between users and latent factors. S is a diagonal matrix which (essentially) represents the weights of each ratings. The last matrix VT is a right singular matrix, this represents the relationship between artists and the latent factors. We decompose the ratings matrix with a rank K = 5 and then multiply U, S and VT  back together to get the rank K approximation of the ratings matrix. 
+
 ### External Sources
 * django 1.11.17 | https://www.djangoproject.com | backend as specified by project specification
 * django-crispy-forms | https://django-crispy-forms.readthedocs.io/en/latest/ | beautify forms in accordance to bootstrap
