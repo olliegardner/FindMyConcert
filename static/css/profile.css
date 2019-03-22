@@ -3,3 +3,43 @@
 	max-height: 325px;
 	overflow-y: scroll;
 }
+
+
+/* overrides css in tiles.css so that they are smaller */
+.tile-container, .tile-front, .tile-back {
+    width: 100%;
+    height: 200px;
+    border-radius: 10%;
+}
+
+.center {
+    position: absolute;
+    top: 40%;
+    left: 35%;
+}
+
+.card-width {
+	width: 18rem;
+}
+
+.front-tile {
+	background-size: cover;
+	background-position: center;"
+}
+
+.back-tile {
+	background-size: cover;
+	background-position: center;"
+}
+
+.first-bg {
+	background-color: rgba(0, 0, 0, 0.83);
+	width:100%; height:200px;
+	border-radius: 10%;"
+}
+
+.second-bg {
+	background-color: rgba(256, 256, 256, 0.93);
+	width:100%; height:200px;
+	border-radius: 10%;"
+}
