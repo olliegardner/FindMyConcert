@@ -63,9 +63,10 @@
                             <form method="GET" action="">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col-auto mr">
+									
+									<input type="submit" class="defaultsink" name="COMMAND" value="{{ request.GET.q }}" />
+									
                                         <button class="btn btn-lg btn-outline-dark dropdown-toggle" type="button" data-toggle="dropdown"><i class="fas fa-filter"></i></button>
-										
-										<input type="submit" class="defaultsink" name="COMMAND" value="{{ request.GET.q }}" />
 
                                         <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
                                             <li class="dropdown-submenu">
