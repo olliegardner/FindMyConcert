@@ -119,7 +119,7 @@ def events(request):
                 Q(date__month=query)).distinct()
             #Find all concerts with date before today
         elif query == "date_past":
-            #Returns all concerts
+            #Returns past concerts
             concert_list = concert_list_all.filter(
                 Q(date__lt=datetime.today())).distinct()
         else:
