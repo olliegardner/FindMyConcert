@@ -108,7 +108,7 @@ The recommender engine uses a mathematical operation called singular value matri
 
 In SVD the ratings matrix (x̂) is decomposed into three lower dimensional matrices. U is the matrix which represents the relationship between users and latent factors. S is a diagonal matrix which (essentially) represents the weights of each rating. The last matrix VT is a right singular matrix, this represents the relationship between artists and the latent factors. We decompose the ratings matrix with a rank K = 5 and then multiply U, S and VT  back together to get the rank K approximation of the ratings matrix. 
 
-Now all the latent factors are filled in with a value whcih should approximately represent the rating each user would have given the artist in question. Now a row which represents a user can be extracted, transposed and sorted to find teh aritists which the user might enjoy.
+Now all the latent factors are filled in with a value which should approximately represent the rating each user would have given the artist in question. Now a row which represents a user can be extracted, transposed and sorted to find teh aritists which the user might enjoy.
 
 One issue is that these matrices are not automatically generated, so new users and artists require that a special script is run to ensure that the matrix includes all the new data.
 

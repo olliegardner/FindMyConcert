@@ -4,7 +4,8 @@
 {% block title %} {{ block.super }} {% endblock %}
 
 {% block body_block %}
-
+	
+    <!-- CSS has been left inline to take advantage of DJANGO templatetags! -->
     {% if user.is_authenticated and user.dark_mode %}
         <link rel="stylesheet" type="text/css" href="{% static 'css/eventsDark.css' %}">
     {% else %}
