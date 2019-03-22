@@ -1,6 +1,6 @@
 from django.test import TestCase
 from concert.forms import GigGoerSignUpForm, VenueSignUpForm, LoginForm, EditGigGoerForm, EditVenueForm
-from concert.models import User, GigGoer, Venue, Concert, Rating, Comment
+from concert.models import User, GigGoer, Venue, Concert, Rating, Comment, ProfileComment
 from django.core.files import File
 from django.utils import timezone
 import os
@@ -212,7 +212,43 @@ class CommentTests(TestCase):
         comment.text = "This is a different comment"
         self.assertEqual(comment.text, "This is a different comment")
 
-# profile comment
+
+# all unit tests for profile comments
+class ProfileCommentTests(TestCase):
+    def setUp(self):
+        user = User.objects.create(username="venue1",  email="venue1@venue1.com", password="strongpass123", is_venue=True)
+        user.save()
+
+        venue = Venue.objects.create(user=user)
+        venue.save()
+
+        profile_comment = ProfileComment.objects.create(user=user, text="This is a profile comment", profile=user, time=timezone.now())
+        profile_comment.save()
+
+    # tests if a user can add a profile comment
+    def test_add_profile_comment(self):
+        profile_comment = ProfileComment.objects.get(commentID=1)
+        self.assertEqual(profile_comment.text, "This is a profile comment")
+
+    # test is a profile comment can be removed
+    def test_remove_profile_comment(self):
+        user = User.objects.get(username="venue1")
+        profile_comment = ProfileComment.objects.get(commentID=1)
+        profile_comment.user.delete()
+
+        try:
+            profile_comment = ProfileComment.objects.get(concertID=1)
+        except:
+            profile_comment = None
+        self.assertEqual(profile_comment, None)
+
+    # test is a profile comment can be edited
+    def test_edit_comment(self):
+        user = User.objects.get(username="venue1")
+        profile_comment = ProfileComment.objects.get(commentID=1)
+        profile_comment.text = "This is a different profile comment"
+        self.assertEqual(profile_comment.text, "This is a different profile comment")
+
 
 # all unit tests for ratings
 class RatingTests(TestCase):
