@@ -53,10 +53,6 @@ hr {
     border-top: 1px solid #444;
 }
 
-.btn.btn-default.dropdown-toggle {
-    color: #AAA !important;
-}
-
 .avatar {
   vertical-align: middle;
   width: 35px;
@@ -126,6 +122,14 @@ hr {
 
 .btn:hover {
     color: #CCC;
+}
+
+.btn {
+    color: #AAA;
+}
+
+.btn.btn-default.dropdown-toggle {
+    color: #AAA !important;
 }
 
 @media (max-width:991px) {
