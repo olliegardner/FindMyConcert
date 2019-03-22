@@ -41,7 +41,7 @@ hr {
 }
 
 .dropdown-item:hover {
-    color: #AAA;
+    color: #EEE;
     background-color: #383838;
 }
 
@@ -51,10 +51,6 @@ hr {
 
 .dropdown-divider {
     border-top: 1px solid #444;
-}
-
-.btn.btn-default.dropdown-toggle {
-    color: #AAA !important;
 }
 
 .avatar {
@@ -126,6 +122,34 @@ hr {
 
 .btn:hover {
     color: #CCC;
+}
+
+.btn {
+    color: #AAA;
+}
+
+.btn-success {
+    color: #EEE;
+}
+
+.btn-info {
+    color: #EEE;
+}
+
+.btn-outline-info {
+    color: #EEE;
+}
+
+.btn-danger {
+    color: #EEE;
+}
+
+.btn-primary {
+    color: #EEE;
+}
+
+.btn.btn-default.dropdown-toggle {
+    color: #AAA !important;
 }
 
 @media (max-width:991px) {

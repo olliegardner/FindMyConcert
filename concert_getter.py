@@ -15,6 +15,8 @@ import requests
 import sys
 import random
 
+from random import randint
+
 imgpath = os.path.join(os.getcwd(), 'static', 'images', "default-pic.png")
 
 def get_create_venue(username, venue_name, location, website, description, phone_number, capacity):
@@ -68,6 +70,19 @@ if len(sys.argv) >= 2:
 
     url = random_concert['uri']
     description = random_concert['displayName']
+<<<<<<< HEAD
+    """
+    venue_name = random_concert['venue']['displayName']
+    location = random_concert['location']['city']
+ 
+    venue = get_create_venue(venue_name.lower().replace(' ', '_'), venue_name, location, url, description, 123456789, 69)
+    """
+    all_venues = Venue.objects.all()
+    length_venue = len(all_venues)
+    venue = all_venues[randint(0, length_venue)]
+    venue_name = venue.venue_name
+    print(artist,d,start_time,end_time,artist.lower(),venue_name)
+=======
 
     """
     venue_name = random_concert['venue']['displayName']
@@ -75,9 +90,12 @@ if len(sys.argv) >= 2:
     """
     #venue = get_create_venue(venue_name.lower().replace(' ', '_'), venue_name, location, url, description, 123456789, 69)
     venue = Venue.objects.get()
+>>>>>>> 7cdd9cd03c86e81601e714dfef5c16c988e7c499
 
-    #image = ('default', File(open(imgpath, 'rb')))
 
+<<<<<<< HEAD
+       
+=======
 
 
 
@@ -89,6 +107,7 @@ if len(sys.argv) >= 2:
     #except KeyError:
         #print('No results')
         #exit(1)        
+>>>>>>> 7cdd9cd03c86e81601e714dfef5c16c988e7c499
 
 else:
     print('Format: python concert_getter.py [artist]')
