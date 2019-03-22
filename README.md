@@ -110,6 +110,12 @@ In SVD the ratings matrix (x̂) is decomposed into three lower dimensional matri
 
 Now all the latent factors are filled in with a value whcih should approximately represent the rating each user would have given the artist in question. Now a row which represents a user can be extracted, transposed and sorted to find teh aritists which the user might enjoy.
 
+One issue is that these matrices are not automatically generated, so new users and artists require that a special script is run to ensure that the matrix includes all the new data.
+
+```
+python update_ratings.py
+```
+
 ### External Sources
 * django 1.11.17 | https://www.djangoproject.com | backend as specified by project specification
 * django-crispy-forms | https://django-crispy-forms.readthedocs.io/en/latest/ | beautify forms in accordance to bootstrap
