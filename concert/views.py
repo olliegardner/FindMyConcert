@@ -119,7 +119,7 @@ def events(request):
                 Q(date__month=query)).distinct()
             #Find all concerts with date before today
         elif query == "date_past":
-            #Returns all concerts
+            #Returns past concerts
             concert_list = concert_list_all.filter(
                 Q(date__lt=datetime.today())).distinct()
         else:
@@ -364,14 +364,14 @@ def profile(request, username):
                     print(form.errors) #Print the errors
             else:
                 form = EditVenueForm(initial={
-                                        'email': user.email,
-                                        'pretty_mode': user.pretty_mode,
-                                        'venue_name': user.venue.venue_name,
-                                        'location': user.venue.location,
-                                        'website': user.venue.website,
-                                        'description': user.venue.description,
-                                        'phone_number': user.venue.phone_number,
-                                        'capacity': user.venue.capacity
+                                        'email': request.user.email,
+                                        'pretty_mode': request.user.pretty_mode,
+                                        'venue_name': request.user.venue.venue_name,
+                                        'location': request.user.venue.location,
+                                        'website': request.user.venue.website,
+                                        'description': request.user.venue.description,
+                                        'phone_number': request.user.venue.phone_number,
+                                        'capacity': request.user.venue.capacity
                                     })
 
         else:
@@ -400,7 +400,7 @@ def profile(request, username):
                     user.save()  
                     return render(request, 'concert/profile.html', {'selecteduser': user, 'form': EditGigGoerForm, 'loginform': loginForm})
             else:
-                form = EditGigGoerForm(initial={'email': user.email})
+                form = EditGigGoerForm(initial={'email': request.user.email})
 
         return render(request, 'concert/profile.html', {'form': form, 'selecteduser': user, 'loginform': loginForm})
         #Subllime highlights the line above as a bug

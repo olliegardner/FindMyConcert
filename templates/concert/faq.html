@@ -113,9 +113,9 @@
 
                         <img class="img-fluid" style ="background-color:white;" src="http://www.cs.carleton.edu/cs_comps/0607/recommend/recommender/images/svd2.png">
 
-                        <p>In SVD the ratings matrix (x̂) is decomposed into three lower dimensional matrices. U is the matrix which represents the relationship between users and latent factors. S is a diagonal matrix which (essentially) represents the weights of each rating. The last matrix VT is a right singular matrix, this represents the relationship between artists and the latent factors. We decompose the ratings matrix with a rank K = 5 and then multiply U, S and VT  back together to get the rank K approximation of the ratings matrix. 
+                        <p>In SVD the ratings matrix (x̂) is decomposed into three lower dimensional matrices. U is the matrix which represents the relationship between users and latent factors. S is a diagonal matrix which (essentially) represents the weights of each rating. The last matrix V-transpose is a right singular matrix, this represents the relationship between artists and the latent factors. We decompose the ratings matrix with a rank K = 5 and then multiply U, S and V-transpose  back together to get the rank K approximation of the ratings matrix.  
 
-                        Now all the latent factors are filled in with a value whcih should approximately represent the rating each user would have given the artist in question. Now a row which represents a user can be extracted, transposed and sorted to find teh aritists which the user might enjoy.</p>
+                        Now all the latent factors are filled in with a value which should approximately represent the rating each user would have given the artist in question. Now a row which represents a user can be extracted, transposed and sorted to find the artists which the user might enjoy.</p>
                     </div>
                 </div>
             </div>
