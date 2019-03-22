@@ -3,6 +3,10 @@ body, html {
     margin: 0;
 }
 
+hr {
+    border-top: 1px solid rgba(0,0,0,.1)
+}
+
 .comments {
   height:360px;
   overflow-y: scroll;
