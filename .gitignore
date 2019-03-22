@@ -5,4 +5,4 @@ media/profile_images/*
 media/venue_images/*
 media/concert_images/*
 concert/migrations/*
-venue/migrqtions/*
+venue/migrations/*

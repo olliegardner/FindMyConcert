@@ -1,6 +1,6 @@
 from django.test import TestCase
 from concert.forms import GigGoerSignUpForm, VenueSignUpForm, LoginForm, EditGigGoerForm, EditVenueForm
-from concert.models import User, GigGoer, Venue, Concert
+from concert.models import User, GigGoer, Venue, Concert, Rating, Comment
 from django.core.files import File
 import os
 
@@ -175,9 +175,46 @@ class VenueTests(TestCase):
 class CommentTests(TestCase):
     print("hi")
 
-
+# all unit tests for ratings
 class RatingTests(TestCase):
     # add/remove ratings, average rating
+    def setUp(self):
+        user = User.objects.create(username="venue1",  email="venue1@venue1.com", password="strongpass123", is_venue=True)
+        user.save()
+
+        venue = Venue.objects.create(user=user)
+        venue.save()
+
+        concert = Concert.objects.create(artist="artist1", date="2020-10-10", start_time="20:00", end_time="22:00", url="http://www.exmaple.com", description="This is a description", spotify_URI="spotify", venue=venue)
+        concert.save()
+
+        rating1 = Rating.objects.create(user=user, concert=concert, score=1)
+        rating2 = Rating.objects.create(user=user, concert=concert, score=5)
+
+    # tests if a rating can be added to a concert
+    def test_add_rating(self):
+        rating = Rating.objects.get(ratingID=1)
+        self.assertEqual(rating.score, 1)
+
+    # tests if a rating can be removed from a concert
+    def test_remove_rating(self):
+        user = User.objects.get(username="venue1")
+        concert = Concert.objects.get(concertID=1)
+        rating = Rating.objects.get(ratingID=1)
+        rating.concert.delete()
+
+        try:
+            concert = Concert.objects.get(concertID=1)
+        except:
+            concert = None
+        self.assertEqual(concert, None)
+
+    # tests if a rating average is calculated correctly
+    def test_average_rating(self):
+        rating1 = Rating.objects.get(ratingID=1)
+        rating2 = Rating.objects.get(ratingID=2)
+        average = (rating1.score + rating2.score) / 2
+        self.assertEqual(average, 3)
 
 
 # all unit tests for concerts
