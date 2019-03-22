@@ -127,4 +127,4 @@ Now all the latent factors are filled in with a value whcih should approximately
 * jQuery | https://jquery.com | javascript library for html document traversal and manipulation
 * Font Awesome | https://fontawesome.com | public domain icons
 * popper.js | https://popper.js.org | used to manage poppers on different pages
-* requests |
+* urllib |
