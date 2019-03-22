@@ -117,10 +117,20 @@ python update_ratings.py
 ```
 ### Compact Mode
 
-![Screenshot of compact mode](https://imgur.com/a/SmD7UVB)
+- The compact/pretty mode button switches between the two modes
+- The webapp is set to pretty mode by default
+- The preferred mode is saved in the user model (so only logged in users can switch modes)
+- This mode shows concerts in a more concise way, as demonstrated below.
+
+![Screenshot of compact mode](https://i.imgur.com/BI0nRuI.png)
 ### Dark Mode
 
-![Screenshot of dark mode](https://imgur.com/a/FQDFIxB)
+- The button to switch between light and dark mode is in the user dropdown
+- The webapp is set to light mode by default
+- Again, the preferred mode is saved in the user model
+- This mode changes the CSS across the webapp to a dark theme
+
+![Screenshot of dark mode](https://i.imgur.com/gZSEf1k.jpg)
 ### External Sources
 * django 1.11.17 | https://www.djangoproject.com | backend as specified by project specification
 * django-crispy-forms | https://django-crispy-forms.readthedocs.io/en/latest/ | beautify forms in accordance to bootstrap
