@@ -2,6 +2,7 @@ from django.test import TestCase
 from concert.forms import GigGoerSignUpForm, VenueSignUpForm, LoginForm, EditGigGoerForm, EditVenueForm
 from concert.models import User, GigGoer, Venue, Concert, Rating, Comment
 from django.core.files import File
+from django.utils import timezone
 import os
 
 # all test cases for both the concert and venue app are contained within this file
@@ -172,12 +173,49 @@ class VenueTests(TestCase):
         self.assertTrue(form.is_valid())
 
 
+# all unit tests for comments
 class CommentTests(TestCase):
-    print("hi")
+    def setUp(self):
+        user = User.objects.create(username="venue1",  email="venue1@venue1.com", password="strongpass123", is_venue=True)
+        user.save()
+
+        venue = Venue.objects.create(user=user)
+        venue.save()
+
+        concert = Concert.objects.create(artist="artist1", date="2020-10-10", start_time="20:00", end_time="22:00", url="http://www.exmaple.com", description="This is a description", spotify_URI="spotify", venue=venue)
+        concert.save()
+
+        comment = Comment.objects.create(user=user, text="This is a comment", concert=concert, time=timezone.now())
+        comment.save()
+
+    # tests if a user can add a comment
+    def test_add_comment(self):
+        comment = Comment.objects.get(commentID=1)
+        self.assertEqual(comment.text, "This is a comment")
+
+    # test is a comment can be removed
+    def test_remove_comment(self):
+        user = User.objects.get(username="venue1")
+        comment = Comment.objects.get(commentID=1)
+        comment.user.delete()
+
+        try:
+            comment = Comment.objects.get(concertID=1)
+        except:
+            comment = None
+        self.assertEqual(comment, None)
+
+    # test is a comment can be edited
+    def test_edit_comment(self):
+        user = User.objects.get(username="venue1")
+        comment = Comment.objects.get(commentID=1)
+        comment.text = "This is a different comment"
+        self.assertEqual(comment.text, "This is a different comment")
+
+# profile comment
 
 # all unit tests for ratings
 class RatingTests(TestCase):
-    # add/remove ratings, average rating
     def setUp(self):
         user = User.objects.create(username="venue1",  email="venue1@venue1.com", password="strongpass123", is_venue=True)
         user.save()
@@ -189,7 +227,9 @@ class RatingTests(TestCase):
         concert.save()
 
         rating1 = Rating.objects.create(user=user, concert=concert, score=1)
+        rating1.save()
         rating2 = Rating.objects.create(user=user, concert=concert, score=5)
+        rating2.save()
 
     # tests if a rating can be added to a concert
     def test_add_rating(self):
