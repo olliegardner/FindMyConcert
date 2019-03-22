@@ -33,6 +33,7 @@ def addConcert(request):
             concert.image        = form.cleaned_data['image']
             concert.url          = form.cleaned_data['url']
             concert.description  = form.cleaned_data['description']
+            concert.spotify_URI  = form.cleaned_data['spotify_URI']
             concert.venue        = request.user.venue
             concert.save() # Save the new concert
 
