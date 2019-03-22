@@ -43,6 +43,7 @@ Now if you navigate to http://127.0.0.1:8000/ you should be greeted by a view wh
 * Responsive UI (mobile mode)
 * Cross browser support
 * Comments, ratings and tiles are added dynamically using AJAX without the need of reloading the page
+* Light/dark mode
 
 #### Events
 * Search available concerts (also by location using ip-api)
@@ -58,7 +59,6 @@ Now if you navigate to http://127.0.0.1:8000/ you should be greeted by a view wh
 * To access this page you must be logged in as a GigGoer
 * See artist and concerts recommendations based on your previous ratings
 * Add/remove bookmark and view concert
-* TODO: explain how discover works
 ![Screenshot of discover page](https://i.imgur.com/sOpUc1F.jpg)
 
 #### About

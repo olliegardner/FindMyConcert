@@ -1,8 +1,10 @@
 from django.test import TestCase
 from concert.forms import GigGoerSignUpForm, VenueSignUpForm, LoginForm, EditGigGoerForm, EditVenueForm
-from concert.models import User, GigGoer, Venue
+from concert.models import User, GigGoer, Venue, Concert
 from django.core.files import File
 import os
+
+# test bookmarks, sign out, sign in, registration, test change email, test change image, edit user forms
 
 # all test cases for both the concert and venue app are contained within this file
 
@@ -16,8 +18,6 @@ class GigGoerTests(TestCase):
         imgpath = os.path.join(os.getcwd(), 'static', 'images', 'default-pic' + ".png")
         giggoer.image.save('default-pic', File(open(imgpath, 'rb')))
         giggoer.save()
-
-        # test bookmarks, sign out, sign in, registration, test change email, test change image, edit user forms
 
     # tests if the register form works for giggoer users
     def test_register_giggoer(self):
@@ -174,7 +174,6 @@ class VenueTests(TestCase):
         self.assertTrue(form.is_valid())
 
 
-
 class CommentTests(TestCase):
     print("hi")
 
@@ -183,5 +182,44 @@ class RatingTests(TestCase):
     print("yo")
 
 
-class ConcertTests(TestCase): # put in venues app
-    print("krnfe")
+# all unit tests for concerts
+class ConcertTests(TestCase):
+
+    def setUp(self):
+        user = User.objects.create(username="venue1",  email="venue1@venue1.com", password="strongpass123", is_venue=True)
+        user.save()
+
+        venue = Venue.objects.create(user=user)
+        imgpath = os.path.join(os.getcwd(), 'static', 'images', 'default-pic' + ".png")
+        venue.image.save('default-pic', File(open(imgpath, 'rb')))
+        venue.save()
+
+        concert = Concert.objects.create(artist="artist1", date="2020-10-10", start_time="20:00", end_time="22:00", url="http://www.exmaple.com", description="This is a description", spotify_URI="spotify", venue=venue)
+
+        imgpath = os.path.join(os.getcwd(), 'static', 'images', "note.png")
+        concert.image.save('note', File(open(imgpath, 'rb')))
+        concert.save()
+
+    # tests if concert is created successfully
+    def test_add_concert(self):
+        concert = Concert.objects.get(concertID=1)
+        self.assertEqual(concert.artist, "artist1")
+
+    # tests if concert is successfully deleted
+    def test_remove_concert(self):
+        concert = Concert.objects.get(concertID=1)
+        concert.delete()
+
+        try:
+            concert = Concert.objects.get(concertID=1)
+        except:
+            concert = None
+        self.assertEqual(concert, None)
+
+    def test_edit_concert(self):
+        
+
+    def test_bookmark_concert(self):
+
+    def test_remove_bookmark_concert(self):
+
