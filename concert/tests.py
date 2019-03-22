@@ -4,9 +4,7 @@ from concert.models import User, GigGoer, Venue
 from django.core.files import File
 import os
 
-'''
-tests are located in here and also venue/tests.py
-'''
+# all test cases for both the concert and venue app are contained within this file
 
 # all unit tests for giggoer users
 class GigGoerTests(TestCase):
@@ -21,10 +19,8 @@ class GigGoerTests(TestCase):
 
         # test bookmarks, sign out, sign in, registration, test change email, test change image, edit user forms
 
+    # tests if the register form works for giggoer users
     def test_register_giggoer(self):
-        # TODO register with image and not image and test if image is default one if not uploaded
-
-        # tests if the register form works for giggoer users
         form_data = {
             'username': 'giggoer2',
             'email': 'giggoer2@giggoer2.com',
@@ -34,8 +30,8 @@ class GigGoerTests(TestCase):
         form = GigGoerSignUpForm(data=form_data)
         self.assertTrue(form.is_valid())
 
+    # tests if the register form does not let users register a giggoer account that already exists
     def test_register_giggoer_duplicate(self):
-        # tests if the register form does not let users register a giggoer account that already exists
         form_data = {
             'username': 'giggoer1',
             'email': 'giggoer1@giggoer1.com',
@@ -46,8 +42,8 @@ class GigGoerTests(TestCase):
         # return false as this giggoer already exists
         self.assertFalse(form.is_valid())
 
+    # tests if the register form does not let users register a giggoer account with different passwords
     def test_register_giggoer_invalid_password(self):
-        # tests if the register form does not let users register a giggoer account with different passwords
         form_data = {
             'username': 'giggoer3',
             'email': 'giggoer3@giggoer3.com',
@@ -58,9 +54,8 @@ class GigGoerTests(TestCase):
         # return false as user's passwords must match
         self.assertFalse(form.is_valid())
 
-
+    # tests if the sign in form works when signing in as a giggoer user
     def test_giggoer_sign_in(self):
-        # tests if the sign in form works when signing in as a giggoer user
         form_data = {
             'username': 'giggoer1',
             'password': 'strongpass123'
@@ -68,18 +63,18 @@ class GigGoerTests(TestCase):
         form = LoginForm(data=form_data)
         self.assertTrue(form.is_valid())
 
+    # tests if the user object is a giggoer
     def test_user_is_giggoer(self):
-        # tests if the user object is a giggoer
         giggoer1 = User.objects.get(username="giggoer1")
         self.assertEqual(giggoer1.is_venue, False)
 
+    # tests if once a user is created, the default image is assigned
     def test_default_giggoer_image(self):
-        # tests if once a user is created, the default image is assigned
         giggoer1 = User.objects.get(username="giggoer1").giggoer
         self.assertIn('default-pic', giggoer1.image.url)
 
+    # tests if a giggoer can successfully edit their profile
     def test_edit_giggoer(self):
-        # tests if a giggoer can successfully edit their profile
         imgpath = os.path.join(os.getcwd(), 'static', 'images', 'concert' + ".jpg")
         form_data = {
             'email': 'newemail@giggoer1.com',
@@ -101,8 +96,8 @@ class VenueTests(TestCase):
         venue.image.save('default-pic', File(open(imgpath, 'rb')))
         venue.save()
 
+    # tests if the register form works for venue users
     def test_register_venue(self):
-        # tests if the register form works for venue users
         form_data = {
             'username': 'venue2',
             'email': 'venue2@venue2.com',
@@ -118,8 +113,8 @@ class VenueTests(TestCase):
         form = VenueSignUpForm(data=form_data)
         self.assertTrue(form.is_valid())
 
+    # tests if the register form does not let users register a venue account that already exists
     def test_register_venue_duplicate(self):
-        # tests if the register form does not let users register a venue account that already exists
         form_data = {
             'username': 'venue1',
             'email': 'venue1@venue1.com',
@@ -130,8 +125,8 @@ class VenueTests(TestCase):
         # return false as this venue already exists
         self.assertFalse(form.is_valid())
 
+    # tests if the register form does not let users register a venue account with different passwords
     def test_register_venue_invalid_password(self):
-        # tests if the register form does not let users register a venue account with different passwords
         form_data = {
             'username': 'venue3',
             'email': 'venue3@venue3.com',
@@ -142,8 +137,8 @@ class VenueTests(TestCase):
         # return false as user's passwords must match
         self.assertFalse(form.is_valid())
 
+    # tests if the sign in form works when signing in as a venue user
     def test_venue_sign_in(self):
-        # tests if the sign in form works when signing in as a venue user
         form_data = {
             'username': 'venue1',
             'password': 'strongpass123'
@@ -151,18 +146,18 @@ class VenueTests(TestCase):
         form = LoginForm(data=form_data)
         self.assertTrue(form.is_valid())
 
+    # tests if the user object is a venue
     def test_user_is_venue(self):
-        # tests if the user object is a venue
         venue1 = User.objects.get(username="venue1")
         self.assertEqual(venue1.is_venue, True)
 
+    # tests if once a user is created, the default image is assigned
     def test_default_venue_image(self):
-        # tests if once a user is created, the default image is assigned
         venue1 = User.objects.get(username="venue1").venue
         self.assertIn('default-pic', venue1.image.url)
 
+    # tests if a venue can successfully edit their profile
     def test_edit_venue(self):
-        # tests if a venue can successfully edit their profile
         imgpath = os.path.join(os.getcwd(), 'static', 'images', 'concert' + ".jpg")
         form_data = {
             'email': 'newemail@venue1.com',
