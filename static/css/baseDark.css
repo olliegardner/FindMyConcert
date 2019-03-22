@@ -230,6 +230,17 @@ nav .navbar-nav li a{
     float: right;
 }
 
+.defaultsink {
+	color: #181818;
+    width: 0px;
+    height: 0px;
+    margin: 0px;
+    padding: 0px;
+    outline: none;
+    border: 0px;
+	background: transparent;
+}
+
 /*
     Max width before this PARTICULAR table gets nasty. This query will take effect for any screen smaller than 760px and also iPads specifically.
     */
