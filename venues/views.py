@@ -106,6 +106,7 @@ def editConcert(request, id):
             if (form.cleaned_data.get('spotify_URI') != ""):
                 concert.spotify_URI = form.cleaned_data['spotify_URI']
             concert.save()
+            return(events(request))
         else:
             print(form.errors)
             return HttpResponseRedirect(reverse(events)) 
