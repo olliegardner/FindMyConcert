@@ -11,6 +11,7 @@ class ConcertForm(forms.ModelForm):
     image       = forms.ImageField()
     url         = forms.URLField()
     description = forms.CharField(max_length=1000)
+    spotify_URI = forms.CharField(max_length=100, required = False)
 
     class Meta(forms.ModelForm):
         model = Concert
@@ -31,6 +32,7 @@ class EditConcertForm(forms.ModelForm):
     image       = forms.ImageField(required = False)
     url         = forms.URLField(required = False)
     description = forms.CharField(max_length=1000, required = False)
+    spotify_URI = forms.CharField(max_length=100, required = False)
     
     class Meta:
         model = Concert
