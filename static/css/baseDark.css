@@ -41,7 +41,7 @@ hr {
 }
 
 .dropdown-item:hover {
-    color: #AAA;
+    color: #EEE;
     background-color: #383838;
 }
 
@@ -126,6 +126,26 @@ hr {
 
 .btn {
     color: #AAA;
+}
+
+.btn-success {
+    color: #EEE;
+}
+
+.btn-info {
+    color: #EEE;
+}
+
+.btn-outline-info {
+    color: #EEE;
+}
+
+.btn-danger {
+    color: #EEE;
+}
+
+.btn-primary {
+    color: #EEE;
 }
 
 .btn.btn-default.dropdown-toggle {
