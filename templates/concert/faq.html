@@ -107,7 +107,15 @@
                     <div class="panel-body">
                          <h5><span class="label label-primary">Answer</span></h5>
 
-                        <p>It doesn't yet</p>
+                        <p>The discover page recommends you artists which you have not yet bookmarked. It recommends these artists by correlating your ratings with other users who have rated concerts in a similar fashion as you.
+
+                        The recommender engine uses a mathematical operation called singular value matrix decomposition (henceforth SVD). All user ratings are stored in a  matrix where each row represents a unique user and each column represents a unique artist. Missing ratings (all occurrences where a user has not rated a user) are called latent factors. Most ratings in the matrix are latent factors, so the matrix is a sparse matrix.</p>
+
+                        <img class="img-fluid" style ="background-color:white;" src="http://www.cs.carleton.edu/cs_comps/0607/recommend/recommender/images/svd2.png">
+
+                        <p>In SVD the ratings matrix (x̂) is decomposed into three lower dimensional matrices. U is the matrix which represents the relationship between users and latent factors. S is a diagonal matrix which (essentially) represents the weights of each rating. The last matrix VT is a right singular matrix, this represents the relationship between artists and the latent factors. We decompose the ratings matrix with a rank K = 5 and then multiply U, S and VT  back together to get the rank K approximation of the ratings matrix. 
+
+                        Now all the latent factors are filled in with a value whcih should approximately represent the rating each user would have given the artist in question. Now a row which represents a user can be extracted, transposed and sorted to find teh aritists which the user might enjoy.</p>
                     </div>
                 </div>
             </div>
