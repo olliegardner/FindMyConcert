@@ -66,8 +66,11 @@ if len(sys.argv) >= 2:
         start_time = "19:00:00"
         end_time = "22:00:00"
 
+
+
     url = random_concert['uri']
     description = random_concert['displayName']
+<<<<<<< HEAD
     """
     venue_name = random_concert['venue']['displayName']
     location = random_concert['location']['city']
@@ -79,9 +82,32 @@ if len(sys.argv) >= 2:
     venue = all_venues[randint(0, length_venue)]
     venue_name = venue.venue_name
     print(artist,d,start_time,end_time,artist.lower(),venue_name)
+=======
+
+    """
+    venue_name = random_concert['venue']['displayName']
+    location = random_concert['location']['city']
+    """
+    #venue = get_create_venue(venue_name.lower().replace(' ', '_'), venue_name, location, url, description, 123456789, 69)
+    venue = Venue.objects.get()
+>>>>>>> 7cdd9cd03c86e81601e714dfef5c16c988e7c499
 
 
+<<<<<<< HEAD
        
+=======
+
+
+
+    concert = Concert.objects.create(artist=artist, date=d, start_time=start_time, end_time=end_time, url=url, description=description, spotify_URI='hgvhvhvh', venue=venue)
+    concert.image.save('default', File(open(imgpath, 'rb')))
+    concert.save()
+    print("Concert created!")
+    
+    #except KeyError:
+        #print('No results')
+        #exit(1)        
+>>>>>>> 7cdd9cd03c86e81601e714dfef5c16c988e7c499
 
 else:
     print('Format: python concert_getter.py [artist]')
