@@ -23,7 +23,6 @@ class GigGoerSignUpForm(UserCreationForm):
     def save(self): #Override the save method so that we can create a user object at the same time
         user = super().save(commit=False)
         user.is_venue = False
-        print(self.cleaned_data.get('email'))
         user.email = self.cleaned_data.get('email')
         user.save()
 
