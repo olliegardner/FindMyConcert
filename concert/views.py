@@ -82,8 +82,6 @@ def index(request):
 def events(request):
     loginForm = user_login(request)
 
-    #concert_list = Concert.objects.all()
-
     #As default, we only want to show concerts in the future
     concert_list = Concert.objects.all().exclude(
         Q(date__lt=datetime.today())).distinct()
@@ -119,7 +117,9 @@ def events(request):
             query = months[query]
             concert_list = concert_list.filter(
                 Q(date__month=query)).distinct()
+            #Find all concerts with date before today
         elif query == "date_past":
+            #Returns all concerts
             concert_list = concert_list_all.filter(
                 Q(date__lt=datetime.today())).distinct()
         else:
@@ -132,19 +132,6 @@ def events(request):
                 Q(venue__venue_name__icontains=query) |
                 Q(venue__location__icontains=query)
                 ).distinct()
-
-    '''
-    if query:
-        concert_list = concert_list.filter(
-            Q(artist__icontains=query) |
-            Q(date__icontains=query) |
-            Q(start_time__icontains=query) |
-            Q(end_time__icontains=query) |
-            Q(venue__venue_name__icontains=query) |
-            Q(venue__location__icontains=query)
-            ).distinct()
-    context_dict = {'concerts': concert_list, 'location': location_json, 'loginform': loginForm}
-    '''
 
     context_dict = {'concerts': concert_list, 'location': location_json, 'loginform': loginForm, 'popular_venues' : most_popular}
 
