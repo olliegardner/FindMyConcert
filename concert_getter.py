@@ -1,7 +1,15 @@
+import os
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'FindMyConcert.settings')
+
+import django
+django.setup()
+
+from concert.models import Concert
+
 import requests
 import sys
 import random
-from datetime import date
+from datetime import date, datetime
 
 if len(sys.argv) >= 2:
 	api_key = 'XKMdS7NjLNYNen3B'
@@ -20,7 +28,11 @@ if len(sys.argv) >= 2:
 	random_concert = random.choice(concerts) # chooses random concert from list
 
 	artist = random_concert['performance'][0]['displayName']
-	date = random_concert['start']['date']
+
+	d = random_concert['start']['date']
+	new_date = datetime.strptime(d, '%Y-%m-%d') # converts string back to datetime object
+	new_date = new_date.strftime('%d/%m/%Y') # converts date to right format for adding to concert object
+
 	start_time = random_concert['start']['time']
 
 	url = random_concert['uri']
@@ -30,7 +42,10 @@ if len(sys.argv) >= 2:
 
 	# date, start_time, end_time, image, url, description, spotify_URI, venue
 
-	print(artist, date, start_time, description, venue)
+	print(artist, new_date, start_time, description, venue)
+
+	#concert = Concert.objects.get(artist=artist)
+
 
 else:
 	print('Format: python concert_getter.py [artist]')
