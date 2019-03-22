@@ -22,7 +22,7 @@ python manage.py migrate
 
 (Optional) Now you can run the population script. Please note that db.sqlite3 has to be deleted each time you run this script as the database does not allow duplicate entries.
 ```
-python populate.py
+python population_script.py
 ```
 
 Now run the server!
