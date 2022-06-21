@@ -6,7 +6,7 @@ django-bootstrap-datepicker-plus==3.0.5
 django-bootstrap4==0.0.8
 django-crispy-forms==1.7.2
 idna==2.8
-numpy==1.16.2
+numpy==1.22.0
 pandas==0.24.2
 Pillow==5.4.1
 pycparser==2.19
